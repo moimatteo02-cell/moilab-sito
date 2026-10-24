@@ -1,0 +1,10 @@
+# Sito statico: nessuna build, si pubblica la cartella così com'è
+[build]
+  publish = "."
+  command = ""
+
+# Dati serviti senza estensione (copie statiche delle vecchie API di ChatGPT Sites)
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Content-Type = "application/json; charset=utf-8"
