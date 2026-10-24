@@ -1,0 +1,20 @@
+.mlg .mlg-hero{min-height:560px;padding:84px 12px 70px}@media(max-width:900px){.mlg .mlg-hero{min-height:510px;padding:72px 12px 58px}}.mlg .mlg-hero-copy{max-width:100%}.mlg .mlg-kicker{font-size:clamp(11px,1.4vw,15px)}.mlg .mlg-title{font-size:clamp(42px,9.8vw,112px);white-space:normal;overflow-wrap:anywhere;line-height:1.04}.mlg .mlg-type-line{white-space:normal}.mlg .mlg-subtitle{font-size:clamp(32px,5.7vw,62px);line-height:1.16}.mlg .mlg-intro{font-size:clamp(20px,3.2vw,31px);max-width:880px;line-height:1.4}.mlg .mlg-menu nav{max-height:calc(100svh - 130px);overflow:auto;width:min(360px,calc(100vw - 40px))}.moi-menu-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:10px 16px;margin:0;color:#aaa}.moi-language-label{display:grid;gap:10px;padding:16px;border-top:1px solid #ffffff25;margin-top:8px}.moi-language-label select,[data-moi-language]{font:inherit;padding:12px;border:1px solid #888;border-radius:8px;background:#171717;color:white;max-width:100%}.mlg .mlg-header{position:relative;z-index:20}.moi-category-icon{width:42px;height:42px;flex-shrink:0}.moi-sticker-entry{gap:18px}.moi-sticker-entry>span{flex:1}.moi-sticker-entry:hover .moi-category-icon{transform:rotate(-8deg)}.moi-category-icon{transition:transform .2s}.moi-room-stage{overflow:hidden}
+@media(max-width:620px){.mlg .mlg-hero{min-height:0;padding:48px 8px 38px}.mlg .mlg-title{font-size:clamp(36px,9.8vw,61px)}.mlg .mlg-subtitle{font-size:clamp(28px,7vw,40px)}.mlg .mlg-intro{font-size:clamp(18px,4.7vw,24px)}.mlg .mlg-kicker{font-size:10px;letter-spacing:.22em}.moi-sticker-entry{gap:12px}.moi-category-icon{width:36px;height:36px}}
+@media(prefers-reduced-motion:reduce){.moi-category-icon{transition:none}}
+.mlg .mlg-caption p{white-space:normal;overflow-wrap:anywhere}.mlg .mlg-caption>div{min-width:0}
+
+/* The caret never participates in layout, so its removal cannot move the page. */
+.mlg .mlg-type-line{position:relative}.mlg .mlg-type-caret{position:absolute;bottom:.1em;margin-left:4px}.mlg .mlg-type-text{display:inline}
+
+/* Homepage rhythm: responsive space around the existing introduction. */
+.mlg .mlg-hero{min-height:600px;padding:100px 12px 88px}
+.mlg .mlg-hero .mlg-rule{margin-top:28px;margin-bottom:30px}
+.mlg .mlg-hero .mlg-intro{margin-top:24px}
+@media(max-width:900px){
+ .mlg .mlg-hero{min-height:550px;padding:84px 12px 72px}
+}
+@media(max-width:620px){
+ .mlg .mlg-hero{min-height:0;padding:66px 8px 64px}
+ .mlg .mlg-hero .mlg-rule{margin-top:24px;margin-bottom:26px}
+ .mlg .mlg-hero .mlg-intro{margin-top:22px}
+}

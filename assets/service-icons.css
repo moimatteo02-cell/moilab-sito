@@ -1,0 +1,29 @@
+/* One light rhythm shared by the vector outlines and the photograph. */
+:root{--moi-light-period:5.6s}
+.moi-light-icon{overflow:visible;isolation:isolate}
+.moi-icon-white{opacity:1;transition:opacity .45s ease}
+.moi-icon-warm,.moi-icon-travel{opacity:0;transition:opacity .45s ease;pointer-events:none}
+.moi-icon-warm{filter:drop-shadow(0 0 3px #e9b96b55)}
+.moi-icon-travel{filter:drop-shadow(0 0 3px #fff0cc) drop-shadow(0 0 8px #d6a057b0)}
+.moi-icon-trace{stroke-width:6.2;stroke-dasharray:18 82;stroke-dashoffset:100;animation:none}
+.moi-light-active .moi-icon-white,.moi-feature.is-visible .moi-icon-white{opacity:.8}
+.moi-light-active .moi-icon-warm,.moi-feature.is-visible .moi-icon-warm{opacity:.6}
+.moi-light-active .moi-icon-travel,.moi-feature.is-visible .moi-icon-travel{opacity:1}
+.moi-light-active .moi-icon-trace,.moi-feature.is-visible .moi-icon-trace{animation:moi-contour-light var(--moi-light-period) linear infinite;animation-delay:var(--moi-light-delay,0s)}
+@keyframes moi-contour-light{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+/* The sweep stays subtle on the image; the brightest light is on the icon. */
+.moi-feature .moi-feature-light{background:linear-gradient(105deg,transparent 28%,#e5b96b00 36%,#ecc78630 49%,#fff0d226 52%,transparent 65%);mask-image:linear-gradient(to bottom,#000 35%,transparent 80%);-webkit-mask-image:linear-gradient(to bottom,#000 35%,transparent 80%);animation:none;opacity:0}
+.moi-feature.is-visible .moi-feature-light{animation:moi-uniform-light var(--moi-light-period) linear infinite;animation-delay:var(--moi-light-delay,0s)}
+@keyframes moi-uniform-light{0%{transform:translateX(-75%);opacity:0}12%{opacity:.8}88%{opacity:.8}100%{transform:translateX(75%);opacity:0}}
+#moi-lab-hub .mlg-service-reveal .mlg-photo-stage:after{transition:opacity .4s;transform:none;opacity:0}
+#moi-lab-hub .mlg-service-reveal:hover .mlg-photo-stage:after{opacity:0;transform:none}
+#moi-lab-hub .mlg-service-reveal.moi-light-active .mlg-photo-stage:after{opacity:.65;animation:moi-uniform-light var(--moi-light-period) linear infinite;animation-delay:var(--moi-light-delay,0s)}
+#moi-lab-hub .mlg-service-reveal:hover .mlg-photo{filter:brightness(1.1)}
+#moi-lab-hub .mlg-service-reveal.moi-light-active .mlg-photo{filter:brightness(1.1)}
+.moi-feature-icon .moi-light-icon{width:48px;height:48px;color:#fff}
+@media(max-width:620px){#moi-lab-hub .mlg-service-icon.moi-light-icon{width:27px;height:27px;margin-bottom:8px}.moi-feature-icon .moi-light-icon{width:39px;height:39px}}
+@media(prefers-reduced-motion:reduce){
+ .moi-light-icon *,.moi-feature .moi-feature-light,#moi-lab-hub .mlg-service-reveal .mlg-photo-stage:after{animation:none!important;transition:none!important}
+ .moi-icon-travel{display:none}
+ .moi-feature.is-visible .moi-feature-light{opacity:.35;transform:none}
+}

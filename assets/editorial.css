@@ -1,0 +1,63 @@
+@font-face{font-family:Moi Calligraphy;src:url('/assets/fonts/moi-calligraphy.woff') format('woff');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:Moi Editorial;src:url('/assets/fonts/moi-editorial-italic.woff') format('woff');font-style:italic;font-weight:400;font-display:swap}
+#moi-lab-hub .mlg-title.moi-vision-title{font-size:clamp(42px,7.8vw,98px);line-height:1.13;white-space:normal}
+#moi-lab-hub .moi-calligraphy{font-family:'Moi Calligraphy',cursive;font-weight:400;letter-spacing:0;font-size:1.35em}
+#moi-lab-hub .moi-copy-line{display:block}
+#moi-lab-hub .moi-copy-rule{margin-top:38px;max-width:530px}
+#moi-lab-hub .mlg-manifesto-copy{min-width:0}
+@media(max-width:620px){#moi-lab-hub .mlg-title.moi-vision-title{font-size:clamp(36px,10.4vw,64px)}#moi-lab-hub .mlg-subtitle .moi-copy-line{font-size:.84em;line-height:1.2}}
+#moi-lab-hub{--editorial-serif:'Moi Editorial',Georgia,serif;--moi-gold:#c8aa77}
+#moi-lab-hub .mlg-hero{min-height:0;padding:110px 12px 90px;display:block}
+#moi-lab-hub .mlg-hero-copy{width:100%;max-width:none;display:flex;flex-direction:column;gap:110px}
+#moi-lab-hub .mlg-opening{position:relative;max-width:900px}
+#moi-lab-hub .mlg-kicker{font-size:13px;letter-spacing:.32em;margin:0 0 30px;color:#b9b9b9}
+#moi-lab-hub .mlg-title{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:clamp(78px,11vw,138px);line-height:1.04;font-weight:650;letter-spacing:-.055em;margin:0;min-height:0;overflow-wrap:normal}
+#moi-lab-hub .mlg-title>span{display:block}
+#moi-lab-hub .mlg-title .mlg-title-art{font-family:'Moi Calligraphy',cursive;font-style:normal;font-size:1.48em;font-weight:400;letter-spacing:0;line-height:1.02;padding:0 .06em 0 0;margin-left:-.015em}
+#moi-lab-hub .mlg-title .mlg-title-quiet{font-size:.47em;font-weight:300;letter-spacing:-.045em;line-height:1.3;margin:24px 0 0 12%;color:#b4b4b4}
+#moi-lab-hub .mlg-title em,#moi-lab-hub .mlg-subtitle em{font-family:var(--editorial-serif);font-size:1.2em;font-weight:400;font-style:italic}
+#moi-lab-hub .mlg-scroll-cue{display:flex;align-items:center;gap:24px;max-width:100%;margin-top:66px;padding:12px 0;border:0;font-size:10px;letter-spacing:.22em;color:#aaa}
+#moi-lab-hub .mlg-scroll-cue>span:first-child{flex-shrink:0}
+#moi-lab-hub .mlg-scroll-cue .moi-gold-line{flex:1}
+#moi-lab-hub .mlg-manifesto{display:grid;grid-template-columns:1fr 2fr;gap:40px;border-top:1px solid #ffffff20;padding-top:38px;scroll-margin-top:44px}
+#moi-lab-hub .mlg-section-label>span{font-size:10px;letter-spacing:.2em;color:#999}
+#moi-lab-hub .mlg-section-label h2{font-size:14px;font-weight:400;letter-spacing:.16em;margin:22px 0 0}
+#moi-lab-hub .mlg-subtitle{font-size:clamp(54px,6.5vw,84px);line-height:1.08;letter-spacing:-.055em;font-weight:300;color:#eee;margin:0}
+#moi-lab-hub .mlg-hero .mlg-intro{font-size:clamp(19px,2.1vw,25px);line-height:1.55;letter-spacing:-.015em;font-weight:300;max-width:530px;margin:30px 0 0;color:#aaa}
+#moi-lab-hub .mlg-discover{display:inline-flex;flex-direction:column;align-items:stretch;gap:14px;font-size:18px;margin-top:34px;padding:0;border:0;min-width:230px}
+#moi-lab-hub .mlg-monolith{position:absolute;pointer-events:none;z-index:0;right:-14%;top:3%;width:53%;height:71%;transform:skewY(-23deg);border-left:1px solid #ffffff26;border-top:1px solid #ffffff12;background:linear-gradient(120deg,#35353577,#111 24%,#080808);box-shadow:inset 2px 2px 4px #ffffff0c;mask-image:linear-gradient(#000 55%,transparent)}
+#moi-lab-hub .mlg-monolith svg{position:absolute;right:17%;top:8%;width:65%;height:auto;transform:skewY(23deg);fill:none;stroke:#050505;stroke-width:.45;filter:drop-shadow(1px 1px 0 #ffffff28)}
+/* Original two-column service proportions, with tightly spaced rows. */
+#moi-lab-hub .mlg-grid{min-height:0;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;align-items:start;gap:16px;scroll-margin-top:28px;overflow-anchor:none}
+#moi-lab-hub .mlg-card{min-height:0;aspect-ratio:1.5;height:auto}
+#moi-lab-hub .mlg-caption{padding:25px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0}
+#moi-lab-hub .mlg-caption h2{font-size:21px;font-weight:500;letter-spacing:.16em;line-height:1.25}
+#moi-lab-hub .mlg-caption p{font-family:inherit;font-style:normal;font-size:18px;line-height:1.3;letter-spacing:-.025em}
+#moi-lab-hub .mlg-footer{padding-top:22px;margin-top:36px}
+@media(min-width:1100px){#moi-lab-hub .mlg-card{aspect-ratio:1.65}}
+@media(max-width:900px){#moi-lab-hub .mlg-hero{padding:80px 12px 70px}#moi-lab-hub .mlg-hero-copy{gap:86px}}
+@media(max-width:620px){
+ #moi-lab-hub .mlg-hero{padding:65px 12px 52px}
+ #moi-lab-hub .mlg-hero-copy{gap:44px}
+ #moi-lab-hub .mlg-kicker{font-size:11px;margin-bottom:24px}
+ #moi-lab-hub .mlg-title{font-size:clamp(42px,13.9vw,84px)}
+ #moi-lab-hub .mlg-title .mlg-title-art{font-size:1.45em;line-height:1.07}
+ #moi-lab-hub .mlg-title .mlg-title-quiet{font-size:.49em;margin:16px 0 0 11%}
+ #moi-lab-hub .mlg-scroll-cue{margin-top:34px;gap:12px;font-size:8px;letter-spacing:.16em}
+ #moi-lab-hub .mlg-manifesto{grid-template-columns:1fr;gap:24px;padding-top:24px}
+ #moi-lab-hub .mlg-section-label{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+ #moi-lab-hub .mlg-section-label>span{font-size:9px}
+ #moi-lab-hub .mlg-section-label h2{font-size:10px;margin:0}
+ #moi-lab-hub .mlg-subtitle{font-size:clamp(40px,11.3vw,64px)}
+ #moi-lab-hub .mlg-hero .mlg-intro{font-size:clamp(15px,4.1vw,21px);line-height:1.5;margin-top:24px;max-width:100%}
+ #moi-lab-hub .mlg-discover{font-size:15px;margin-top:26px;min-width:185px;gap:12px}
+ #moi-lab-hub .mlg-monolith{top:2%;right:-10%;width:63%;height:55%}
+ #moi-lab-hub .mlg-monolith svg{top:10%;right:20%}
+ #moi-lab-hub .mlg-grid{gap:8px}
+ #moi-lab-hub .mlg-card{aspect-ratio:1.38;min-height:140px}
+ #moi-lab-hub .mlg-caption{padding:14px 12px}
+ #moi-lab-hub .mlg-caption h2{font-size:clamp(10px,2.9vw,17px);letter-spacing:.13em;margin-bottom:3px}
+ #moi-lab-hub .mlg-caption p{font-size:clamp(10px,2.8vw,15px)}
+ #moi-lab-hub .mlg-service-icon{width:23px;height:23px;margin-bottom:10px}
+ #moi-lab-hub .mlg-number{font-size:5px}
+}
