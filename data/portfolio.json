@@ -1,0 +1,422 @@
+{
+ "apparel": {
+  "progetti": [
+   {
+    "titolo": "Divise per lo staff",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-01.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Felpe di squadra",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-02.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "T-shirt per un evento",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-03.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Polo aziendali",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-04.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Capsule streetwear",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-05.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Abbigliamento da lavoro",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-06.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Cappellini ricamati",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-07.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Merch per un locale",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/apparel/esempio-08.webp"
+    ],
+    "esempio": true
+   }
+  ]
+ },
+ "custom": {
+  "progetti": [
+   {
+    "titolo": "Tazze personalizzate",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-01.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Gadget per una fiera",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-02.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Sticker per un brand",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-03.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Borracce con logo",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-04.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Packaging su misura",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-05.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Kit di benvenuto",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-06.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Etichette per prodotti",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-07.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Regali aziendali",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/custom/esempio-08.webp"
+    ],
+    "esempio": true
+   }
+  ]
+ },
+ "automotive": {
+  "progetti": [
+   {
+    "titolo": "Wrapping furgone",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-01.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Grafiche su auto",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-02.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Livrea per una flotta",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-03.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Adesivi per vetrine auto",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-04.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Decorazione camper",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-05.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Kit adesivi moto",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-06.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Scritte su mezzi da lavoro",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-07.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Personalizzazione racing",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/automotive/esempio-08.webp"
+    ],
+    "esempio": true
+   }
+  ]
+ },
+ "signage": {
+  "progetti": [
+   {
+    "titolo": "Insegna per un negozio",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-01.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Pannelli per uno stand",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-02.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Vetrofanie",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-03.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Targhe per uffici",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-04.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Segnaletica interna",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-05.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Totem pubblicitario",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-06.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Insegna luminosa",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-07.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Cartellonistica cantiere",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/signage/esempio-08.webp"
+    ],
+    "esempio": true
+   }
+  ]
+ },
+ "design": {
+  "progetti": [
+   {
+    "titolo": "Logo e identità",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-01.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Menu per un ristorante",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-02.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Biglietti da visita",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-03.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Brand book",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-04.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Grafiche social",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-05.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Etichette vino",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-06.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Locandine evento",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-07.webp"
+    ],
+    "esempio": true
+   },
+   {
+    "titolo": "Restyling di un marchio",
+    "cliente": "",
+    "anno": "",
+    "descrizione": "Progetto di esempio: sostituiscilo con un tuo lavoro reale.",
+    "immagini": [
+     "/portfolio/design/esempio-08.webp"
+    ],
+    "esempio": true
+   }
+  ]
+ }
+}

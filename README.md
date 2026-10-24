@@ -22,3 +22,15 @@ Da ricostruire con un backend (es. Supabase o funzioni Netlify). Le richieste vi
 ## Regole di lavoro (Claude + ChatGPT)
 - Un solo agente per volta sulla stessa pagina: lavora, salva (commit), poi passa la mano.
 - Ogni modifica con un messaggio di commit chiaro.
+
+## Galleria "I nostri lavori" (anello 3D)
+Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
+- Codice: `assets/portfolio-ring.js` + `assets/portfolio-ring.css`
+- Foto: `portfolio/<servizio>/` (meglio .webp o .jpg, verticali 3:4, max ~1600 px di lato lungo)
+- Elenco lavori: `data/portfolio.json`, per ogni servizio una lista `progetti`:
+
+      { "titolo": "Divise staff Hotel X", "cliente": "Hotel X", "anno": "2026",
+        "descrizione": "…", "immagini": ["/portfolio/apparel/hotel-x-1.webp", "/portfolio/apparel/hotel-x-2.webp"] }
+
+  La prima immagine è quella che appare sull'anello; le altre si vedono aprendo il lavoro.
+  `"attivo": false` nasconde un lavoro senza cancellarlo. I file `esempio-XX.webp` e i progetti con `"esempio": true` sono segnaposto da sostituire.
