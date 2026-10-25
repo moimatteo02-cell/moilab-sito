@@ -343,5 +343,5 @@
 @media (max-width:520px){#moi-apparel-catalog .ac-products{grid-template-columns:repeat(2,minmax(0,1fr))}#moi-apparel-catalog .br-sp-media{min-height:240px}}
 .br-pc-price{display:grid;gap:1px}
 /* anteprima retro del capo (foto senza modello) */
-#moi-apparel-catalog .ac-preview .ac-back-flat{object-fit:contain;padding:9%;box-sizing:border-box;background:#eceae5;mix-blend-mode:normal}
+#moi-apparel-catalog .ac-preview .ac-back-flat{object-fit:contain;padding:9%;box-sizing:border-box;mix-blend-mode:multiply}
 .br-sp-model img{object-position:center top}
