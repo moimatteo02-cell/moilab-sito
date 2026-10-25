@@ -88,7 +88,8 @@ for e in elenco:
     bimbo = any(re.search(r'anni|mesi|kids|bambin', norm(t)) for t in taglie)
     fam = sorted({f for c in p.get('colori', []) if (f := famiglia(c.get('hex')))})
     mat = materiale(p.get('descrizione') or p.get('descrizione_breve'))
-    e.update(gen=sku in GEN, s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
+    hx = [h for c in p.get('colori', []) if re.fullmatch(r'#[0-9a-fA-F]{6}(/#[0-9a-fA-F]{6})?', (h := (c.get('hex') or '').strip()))][:5]
+    e.update(gen=sku in GEN, hx=hx, s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
              kw=norm(' '.join([e['nome'], e['tipo'], e['sku'], e['categoria'], e.get('sottocategoria') or '', p.get('marca') or '',
                                ' '.join(c['nome'] for c in p.get('colori', []))])))
     cnt_set.update(sett); cnt_es.update(es); cnt_cf.update(fam); cnt_mat.update([mat] if mat else [])

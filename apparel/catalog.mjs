@@ -1,6 +1,6 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
 import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
-import {createBrowser} from './browse.mjs?v=20261025-30';
+import {createBrowser} from './browse.mjs?v=20261025-40';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -11,7 +11,7 @@ if(mount){
  const primary=['Magliette','Felpe','Polo','Camicie','Cappotti e giacche','Gilet','Pantaloni','Cappellini e accessori'];
  const image=(src,alt,extra='')=>`<img src="${e(safeURL(src))}" alt="${e(alt)}" loading="${extra.includes('data-main-photo')?'eager':'lazy'}" decoding="async" ${extra}>`;
  // Catalogo statico (dati in /data/apparel/, generati da data/apparel di ChatGPT Sites): sostituisce l'API /api/apparel
- const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-20';let _meta,_list;
+ const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-40';let _meta,_list;
  async function load(f){const r=await fetch(DATA+f+DV);if(!r.ok)throw Error('Catalogo temporaneamente non disponibile.');return r.json();}
  async function api(params={}){
   if(params.sku)return load('prodotti/'+encodeURIComponent(params.sku)+'.json');
@@ -36,7 +36,7 @@ if(mount){
  function previewAttrs(p){return `data-preview-card data-preview-video="${e(p.video?safeURL(p.video):'')}"`;}
  function cardPhoto(p){return `<div class="ac-picture ac-preview">${image(p.immagine_modello_fronte||p.immagine_principale,p.nome,'class="ac-model-photo"')}${p.immagine_modello_retro?image(p.immagine_modello_retro,p.nome+' · modello di spalle','class="ac-back-photo"'):''}${p.linea_premium?'<span class="ac-badge">PREMIUM</span>':''}</div>`;}
 
- function special(){return `<article class="ac-special"><button class="ac-special-photo" ${previewAttrs(meta.special)} data-sku="${e(meta.special.sku)}" aria-label="Scopri Atomic 150">${cardPhoto({...meta.special,nome:'Atomic 150'})}</button><div><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p>T-shirt base · con o senza personalizzazione</p><p>Senza personalizzazione: ${meta.special.prezzo==null?'prezzo da confermare':euro(meta.special.prezzo)}</p><strong>Con personalizzazione: ${euro(meta.special.prezzo_personalizzato)}</strong></div><button class="ac-cta" data-sku="${e(meta.special.sku)}">Scopri il capo →</button></article>`;}
+ function special(){const sp=meta.special,ph=sp.immagine_prodotto&&sp.immagine_prodotto!==sp.immagine_principale;return `<article class="ac-special br-special"><button class="br-sp-media${ph?' has-two':''}" data-sku="${e(sp.sku)}" aria-label="Scopri Atomic 150"><span class="br-sp-ph br-sp-model">${image(sp.immagine_principale,'Atomic 150 indossata')}</span>${ph?`<span class="br-sp-ph br-sp-flat">${image(sp.immagine_prodotto,'Atomic 150')}</span>`:''}</button><div class="br-sp-copy"><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p class="br-sp-type">T-shirt base · con o senza personalizzazione</p><div class="br-sp-prices"><span class="br-pc-label">Col tuo logo</span><strong>${euro(sp.prezzo_personalizzato)}</strong><span class="br-sp-neutral">Capo neutro ${sp.prezzo==null?'prezzo da confermare':'da '+euro(sp.prezzo)}</span></div><button class="ac-cta" data-sku="${e(sp.sku)}">Scopri il capo →</button></div></article>`;}
 
  async function listing(scroll=false){
   product=null;++request;await browser.back();

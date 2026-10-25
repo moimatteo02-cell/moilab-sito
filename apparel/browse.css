@@ -253,3 +253,92 @@
  .br-tile-ico .ic{width:24px;height:24px}
 }
 .br-opt span.br-ico{flex:0 0 auto;min-width:0}
+
+/* ===== Revisione 25/10 sera: tutta la larghezza, testata unica, card prezzo "col tuo logo" ===== */
+#moi-showroom-apparel{--ap-g:clamp(16px,2.6vw,48px);--ap-h:104px}
+#moi-showroom-apparel .moi-room-shell{width:calc(100% - 2 * var(--ap-g));max-width:none}
+#moi-showroom-apparel .moi-room-header{position:relative;z-index:3}
+/* in home: logo, "torna ai servizi" e testata diventano un unico blocco */
+#moi-showroom-apparel:has(.br-hero) .moi-room-header{border-bottom-color:transparent}
+#moi-showroom-apparel:has(.br-hero) .ac{margin-top:0;padding-top:0;border-top:0}
+#moi-apparel-catalog .br-hero{margin:calc(-1 * var(--ap-h)) calc(-1 * var(--ap-g)) 0;padding:var(--ap-h) var(--ap-g) 0;border:0;border-bottom:1px solid #1818181a;border-radius:0;gap:clamp(24px,4vw,80px);
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);min-height:min(620px,calc(100vh - 40px));
+  background:radial-gradient(60% 90% at 0% 0%,#efe6d6 0%,transparent 60%),radial-gradient(55% 80% at 100% 100%,#ebe7df 0%,transparent 62%),#fbfaf7}
+#moi-apparel-catalog .br-hero-copy{padding:clamp(28px,5vh,64px) 0}
+#moi-apparel-catalog .br-hero h2{font-size:clamp(34px,4.2vw,76px)!important}
+#moi-apparel-catalog .br-lead{max-width:620px;font-size:16px}
+#moi-apparel-catalog .br-search-big{max-width:760px}
+#moi-apparel-catalog .br-hero-side{padding:clamp(24px,4vh,56px) 0}
+#moi-apparel-catalog .br-tiles{gap:12px}
+#moi-apparel-catalog .br-tile{min-height:clamp(118px,13vh,160px)}
+
+/* card dei percorsi: piu' colonne sugli schermi grandi */
+.br-cards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.br-cards-sect{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.br-layout{grid-template-columns:280px minmax(0,1fr);gap:32px}
+
+/* griglia prodotti: riempie tutta la larghezza */
+#moi-apparel-catalog .ac-products{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:34px 18px}
+
+/* card prodotto */
+#moi-apparel-catalog .br-pc{gap:0}
+.br-pc .ac-picture{margin-bottom:12px}
+.br-pc-body{display:grid;gap:3px;width:100%;min-width:0}
+.br-pc-name{font-size:17px;font-weight:500;line-height:1.25;letter-spacing:-.01em;color:#151515;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br-pc-type{font-size:13px;color:#7d7b75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br-pc-dots{display:flex;align-items:center;gap:5px;margin:6px 0 4px}
+.br-pc-dots i{width:13px;height:13px;border-radius:50%;box-shadow:inset 0 0 0 1px #0000002e;flex:none}
+.br-pc-dots small{margin-left:2px;font-size:12px;color:#7d7b75}
+.br-pc-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin-top:2px}
+.br-pc-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7d7b75}
+#moi-apparel-catalog .br-pc-price strong{margin:0;font-size:22px;font-weight:500;letter-spacing:-.02em;color:#151515}
+.br-pc-price strong small{font-size:13px;font-weight:400;color:#55544f}
+#moi-apparel-catalog .br-pc-ask{font-size:15px!important}
+.br-pc-vol{font-size:12.5px;color:#8a7552;font-weight:500}
+
+/* Atomic 150: banner largo che usa tutta l'immagine */
+#moi-apparel-catalog .br-special{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:stretch;gap:0;padding:0;margin:30px 0;overflow:hidden;border:1px solid #c4b59d;border-radius:12px;background:#fff}
+#moi-apparel-catalog .br-sp-media{display:grid;grid-template-columns:1fr;gap:0;min-height:clamp(300px,34vw,520px);padding:0;background:#eceae5;cursor:pointer}
+#moi-apparel-catalog .br-sp-media.has-two{grid-template-columns:1.15fr .85fr}
+.br-sp-ph{position:relative;display:block;overflow:hidden;min-height:0}
+.br-sp-ph img{position:absolute;inset:0;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.br-sp-model img{object-fit:cover;object-position:center 25%}
+.br-sp-flat{background:#f4f3ef}
+.br-sp-flat img{object-fit:contain;padding:8%;box-sizing:border-box;mix-blend-mode:multiply}
+.br-sp-media:hover img{transform:scale(1.03)}
+.br-sp-copy{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:clamp(24px,4vw,64px)}
+#moi-apparel-catalog .br-sp-copy h3{font-size:clamp(30px,3.4vw,54px);letter-spacing:-.04em;line-height:1}
+.br-sp-type{margin:0!important;color:#66655f}
+.br-sp-prices{display:grid;gap:4px;margin:14px 0 18px}
+#moi-apparel-catalog .br-sp-prices strong{font-size:clamp(30px,2.6vw,42px);font-weight:500;letter-spacing:-.03em}
+.br-sp-neutral{font-size:14px;color:#66655f}
+#moi-apparel-catalog .br-sp-copy .ac-cta{margin:0;align-self:flex-start}
+
+@media (max-width:960px){
+ #moi-apparel-catalog .br-hero{grid-template-columns:minmax(0,1fr);gap:0;min-height:0}
+ #moi-apparel-catalog .br-hero-copy{padding:28px 0 18px}
+ #moi-apparel-catalog .br-hero-side{padding:0 0 26px}
+ .br-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .br-cards-sect{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .br-layout{grid-template-columns:1fr}
+ #moi-apparel-catalog .br-special{grid-template-columns:1fr}
+ #moi-apparel-catalog .br-sp-media{min-height:300px}
+ #moi-apparel-catalog .br-sp-copy .ac-cta{align-self:stretch;text-align:center}
+}
+@media (max-width:760px){#moi-showroom-apparel{--ap-h:82px}}
+@media (max-width:520px){
+ #moi-apparel-catalog .ac-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 10px}
+ .br-pc-name{font-size:15px}
+ .br-pc-type{font-size:12px}
+ #moi-apparel-catalog .br-pc-price strong{font-size:19px}
+ .br-pc-label{font-size:10px}
+ .br-pc-vol{font-size:11.5px}
+ .br-cards-sect{grid-template-columns:1fr}
+ #moi-apparel-catalog .br-sp-media{min-height:240px}
+}
+#moi-showroom-apparel .ac{border-top:0;padding-top:24px}
+#moi-apparel-catalog .ac-products{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+#moi-apparel-catalog .br-sp-copy .ac-cta{background:#181818;color:#f6f5f2!important;padding:16px 26px;border-radius:30px}
+#moi-apparel-catalog .br-sp-media{min-height:clamp(300px,30vw,480px)}
+@media (max-width:520px){#moi-apparel-catalog .ac-products{grid-template-columns:repeat(2,minmax(0,1fr))}#moi-apparel-catalog .br-sp-media{min-height:240px}}
+.br-pc-price{display:grid;gap:1px}
