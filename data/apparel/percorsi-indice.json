@@ -1,0 +1,426 @@
+{
+ "settori": [
+  {
+   "id": "sanita",
+   "nome": "Sanità e benessere",
+   "descrizione": "Casacche, camici e capi per studi medici, estetica e laboratori",
+   "ordine": 1,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-9097-modello-78-1.jpg",
+   "conteggio": 13
+  },
+  {
+   "id": "ristorazione",
+   "nome": "Ristorazione e hotel",
+   "descrizione": "Giacche da cuoco, grembiuli, divise di sala e cucina",
+   "ordine": 2,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-8403-modello-01-1.jpg",
+   "conteggio": 37
+  },
+  {
+   "id": "edilizia",
+   "nome": "Edilizia e industria",
+   "descrizione": "Abbigliamento da lavoro, alta visibilità e protezione",
+   "ordine": 3,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-8411-modello-2331-1.jpg",
+   "conteggio": 90
+  },
+  {
+   "id": "lavoro",
+   "nome": "Abbigliamento da lavoro",
+   "descrizione": "Capi resistenti per officine, magazzini, artigiani e servizi",
+   "ordine": 4,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-8411-modello-2331-1.jpg",
+   "conteggio": 96
+  },
+  {
+   "id": "sport",
+   "nome": "Sport e teamwear",
+   "descrizione": "Capi tecnici per squadre, palestre, corsa ed eventi sportivi",
+   "ordine": 5,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-6657-modello-0112-1-1.jpg",
+   "conteggio": 110
+  },
+  {
+   "id": "eventi",
+   "nome": "Scuole, eventi e associazioni",
+   "descrizione": "Basic economici per staff, gite, eventi e merchandising",
+   "ordine": 6,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-6656-modello-63-1.jpg",
+   "conteggio": 79
+  },
+  {
+   "id": "casual",
+   "nome": "Casual e brand",
+   "descrizione": "Capi da tutti i giorni per linee di abbigliamento e merchandising",
+   "ordine": 7,
+   "immagine": "https://emmecustoms.store/wp-content/uploads/2026/10/roly-6517-modello-73-1.jpg",
+   "conteggio": 104
+  }
+ ],
+ "esigenze": [
+  {
+   "id": "traspirante",
+   "nome": "Traspirante",
+   "conteggio": 91
+  },
+  {
+   "id": "elasticizzato",
+   "nome": "Elasticizzato",
+   "conteggio": 97
+  },
+  {
+   "id": "alta-visibilita",
+   "nome": "Alta visibilità",
+   "conteggio": 26
+  },
+  {
+   "id": "antivento",
+   "nome": "Antivento",
+   "conteggio": 38
+  },
+  {
+   "id": "idrorepellente",
+   "nome": "Idrorepellente",
+   "conteggio": 30
+  },
+  {
+   "id": "protezione-uv",
+   "nome": "Protezione UV",
+   "conteggio": 9
+  },
+  {
+   "id": "antibatterico",
+   "nome": "Antibatterico",
+   "conteggio": 9
+  },
+  {
+   "id": "ignifugo",
+   "nome": "Protezione calore e fiamma",
+   "conteggio": 5
+  },
+  {
+   "id": "antistatico",
+   "nome": "Antistatico",
+   "conteggio": 12
+  },
+  {
+   "id": "sostenibile",
+   "nome": "Sostenibile",
+   "conteggio": 22
+  },
+  {
+   "id": "etichetta-removibile",
+   "nome": "Etichetta removibile (per il tuo marchio)",
+   "conteggio": 269
+  }
+ ],
+ "colori": [
+  {
+   "nome": "Blu",
+   "conteggio": 301
+  },
+  {
+   "nome": "Nero",
+   "conteggio": 294
+  },
+  {
+   "nome": "Rosso",
+   "conteggio": 207
+  },
+  {
+   "nome": "Grigio",
+   "conteggio": 203
+  },
+  {
+   "nome": "Bianco",
+   "conteggio": 185
+  },
+  {
+   "nome": "Verde",
+   "conteggio": 127
+  },
+  {
+   "nome": "Giallo",
+   "conteggio": 116
+  },
+  {
+   "nome": "Arancione",
+   "conteggio": 92
+  },
+  {
+   "nome": "Rosa",
+   "conteggio": 81
+  },
+  {
+   "nome": "Azzurro",
+   "conteggio": 81
+  },
+  {
+   "nome": "Viola",
+   "conteggio": 16
+  },
+  {
+   "nome": "Beige",
+   "conteggio": 8
+  },
+  {
+   "nome": "Marrone",
+   "conteggio": 2
+  }
+ ],
+ "materiali": [
+  {
+   "nome": "Poliestere",
+   "conteggio": 220
+  },
+  {
+   "nome": "Cotone",
+   "conteggio": 130
+  },
+  {
+   "nome": "Poliammide",
+   "conteggio": 5
+  },
+  {
+   "nome": "Viscosa",
+   "conteggio": 5
+  },
+  {
+   "nome": "Modal",
+   "conteggio": 2
+  },
+  {
+   "nome": "Acrilico",
+   "conteggio": 1
+  }
+ ],
+ "sinonimi": {
+  "sanita": [
+   "dentista",
+   "odontoiatra",
+   "medico",
+   "dottore",
+   "infermiere",
+   "infermiera",
+   "ospedale",
+   "clinica",
+   "studio medico",
+   "farmacia",
+   "farmacista",
+   "veterinario",
+   "fisioterapista",
+   "estetista",
+   "estetica",
+   "centro estetico",
+   "parrucchiere",
+   "barbiere",
+   "spa",
+   "laboratorio",
+   "casacca",
+   "casacche",
+   "camice",
+   "camici",
+   "sanitario"
+  ],
+  "ristorazione": [
+   "chef",
+   "cuoco",
+   "cuoca",
+   "cucina",
+   "ristorante",
+   "pizzeria",
+   "pizzaiolo",
+   "cameriere",
+   "cameriera",
+   "sala",
+   "bar",
+   "barista",
+   "pub",
+   "hotel",
+   "albergo",
+   "reception",
+   "pasticceria",
+   "pasticcere",
+   "panetteria",
+   "macelleria",
+   "gelateria",
+   "horeca",
+   "grembiule",
+   "grembiuli",
+   "giacca cuoco"
+  ],
+  "edilizia": [
+   "muratore",
+   "edile",
+   "edilizia",
+   "cantiere",
+   "impresa edile",
+   "elettricista",
+   "idraulico",
+   "saldatore",
+   "carpentiere",
+   "operaio",
+   "industria",
+   "fabbrica",
+   "alta visibilita",
+   "catarifrangente",
+   "ignifugo",
+   "antistatico"
+  ],
+  "lavoro": [
+   "meccanico",
+   "officina",
+   "magazziniere",
+   "magazzino",
+   "logistica",
+   "corriere",
+   "giardiniere",
+   "artigiano",
+   "falegname",
+   "imbianchino",
+   "pulizie",
+   "da lavoro",
+   "workwear",
+   "tuta da lavoro"
+  ],
+  "sport": [
+   "palestra",
+   "fitness",
+   "personal trainer",
+   "calcio",
+   "calcetto",
+   "squadra",
+   "running",
+   "corsa",
+   "ciclismo",
+   "padel",
+   "tennis",
+   "basket",
+   "volley",
+   "pallavolo",
+   "teamwear",
+   "sportivo",
+   "tecnica"
+  ],
+  "eventi": [
+   "scuola",
+   "gita",
+   "evento",
+   "eventi",
+   "staff",
+   "volontari",
+   "associazione",
+   "parrocchia",
+   "festa",
+   "matrimonio",
+   "addio al celibato",
+   "addio al nubilato",
+   "promozionale",
+   "gadget"
+  ],
+  "casual": [
+   "brand",
+   "linea",
+   "streetwear",
+   "merch",
+   "merchandising",
+   "casual",
+   "tempo libero"
+  ]
+ },
+ "tipi": {
+  "Magliette": [
+   "maglietta",
+   "magliette",
+   "t-shirt",
+   "tshirt",
+   "t shirt",
+   "maglia",
+   "canotta",
+   "canottiera"
+  ],
+  "Felpe": [
+   "felpa",
+   "felpe",
+   "hoodie",
+   "cappuccio",
+   "sweatshirt",
+   "pile"
+  ],
+  "Polo": [
+   "polo"
+  ],
+  "Camicie": [
+   "camicia",
+   "camicie"
+  ],
+  "Cappotti e giacche": [
+   "giacca",
+   "giacche",
+   "giubbotto",
+   "giubbino",
+   "giaccone",
+   "softshell",
+   "parka",
+   "impermeabile",
+   "k-way",
+   "piumino"
+  ],
+  "Gilet": [
+   "gilet",
+   "smanicato"
+  ],
+  "Pantaloni": [
+   "pantalone",
+   "pantaloni",
+   "jeans",
+   "bermuda",
+   "pantaloncini",
+   "shorts",
+   "leggings",
+   "gonna"
+  ],
+  "Cappellini e accessori": [
+   "cappellino",
+   "cappellini",
+   "berretto",
+   "cappello",
+   "bandana",
+   "accessori"
+  ],
+  "Calzature": [
+   "scarpa",
+   "scarpe",
+   "scarponi",
+   "calzature",
+   "antinfortunistica",
+   "zoccoli",
+   "ciabatte"
+  ],
+  "Tute da lavoro e camici": [
+   "tuta",
+   "tute",
+   "camice",
+   "camici",
+   "casacca",
+   "grembiule"
+  ],
+  "Tute e divise": [
+   "divisa",
+   "divise",
+   "uniforme",
+   "tuta sportiva"
+  ],
+  "Body per neonati": [
+   "body",
+   "neonato",
+   "neonati",
+   "bebe"
+  ],
+  "Costumi da bagno": [
+   "costume",
+   "costumi",
+   "bagno"
+  ]
+ }
+}

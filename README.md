@@ -34,3 +34,18 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 
   La prima immagine è quella che appare sull'anello; le altre si vedono aprendo il lavoro.
   `"attivo": false` nasconde un lavoro senza cancellarlo. I file `esempio-XX.webp` e i progetti con `"esempio": true` sono segnaposto da sostituire.
+
+## Catalogo APPAREL: ricerca, percorsi e filtri
+- Codice: `apparel/browse.mjs` (testata con ricerca, percorsi Per categoria / Per settore / Per esigenza, lista con filtri) + `apparel/browse.css`.
+  La scheda prodotto resta in `apparel/catalog.mjs`.
+- Dati: `data/apparel/elenco.json` (400 modelli con campi filtro), `data/apparel/percorsi-indice.json` (card e conteggi).
+- **Configurazione modificabile**: `data/apparel/percorsi.json`
+  - `settori`: nome, descrizione, immagine (vuota = foto automatica), ordine, `visibile`,
+    `regole` (solo dati ufficiali Gorfactory: collezioni, icone tecniche, categorie, sottocategorie),
+    `includi` / `escludi` (SKU scelti a mano). Un settore senza prodotti non viene mostrato.
+  - `esigenze`: caratteristiche tecniche, ricavate dalle icone delle schede Gorfactory.
+  - `sinonimi`: parole/professioni che la ricerca collega a un settore (es. dentista → sanità).
+  - `tipi`: sinonimi dei tipi di capo (es. hoodie → Felpe).
+- Dopo ogni modifica: `python3 tools/build_percorsi.py` (da eseguire anche dopo ogni ricalcolo prezzi).
+- Controllo: `data/apparel/mappatura-settori.csv` spiega perché ogni prodotto è in un settore.
+- Fonte attributi: `data/apparel/fonte/gorfactory-attributi.json` (collezioni, tag, genere, icone tecniche).

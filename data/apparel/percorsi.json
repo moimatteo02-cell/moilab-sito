@@ -1,0 +1,58 @@
+{
+ "_info": "Configurazione dei percorsi del catalogo APPAREL. Modificabile a mano: dopo ogni modifica eseguire tools/build_percorsi.py. 'regole' usa solo dati ufficiali Gorfactory (collezioni, icone tecniche, categorie, sottocategorie). 'includi'/'escludi' = elenchi di SKU scelti a mano. 'visibile': false nasconde la card. Un percorso senza prodotti non viene mostrato.",
+ "settori": [
+  {"id": "sanita", "nome": "Sanità e benessere", "descrizione": "Casacche, camici e capi per studi medici, estetica e laboratori", "immagine": "", "ordine": 1, "visibile": true,
+   "regole": {"collezioni": ["SAN_EST"], "icone": ["Sanidad", "Estetica", "Laboratorio"], "sottocategorie": ["Camici per il settore sanitario", "Pantaloni per il settore sanitario e della bellezz", "Cappelli per il settore sanitario"]}, "includi": [], "escludi": []},
+  {"id": "ristorazione", "nome": "Ristorazione e hotel", "descrizione": "Giacche da cuoco, grembiuli, divise di sala e cucina", "immagine": "", "ordine": 2, "visibile": true,
+   "regole": {"collezioni": ["HORECA", "FOOD"], "icone": ["Alimentacion"], "sottocategorie": ["Giacche HORECA", "Pantaloni HORECA", "Grembiuli", "Camici e grembiuli (settore alimentare)", "Cappelli per il settore alimentare", "Giacche per l'industria alimentare"]}, "includi": [], "escludi": []},
+  {"id": "edilizia", "nome": "Edilizia e industria", "descrizione": "Abbigliamento da lavoro, alta visibilità e protezione", "immagine": "", "ordine": 3, "visibile": true,
+   "regole": {"collezioni": ["INDUSTRY", "HIGHVIZ"], "icone": ["Alta Visibilidad", "TProteccioncontraelcaloryllama", "TPropiedadeselectroestaticas", "ESD"], "categorie_gorfactory": ["industry_services", "highviz", "all_industrialtr", "foot_wrk"]}, "includi": [], "escludi": []},
+  {"id": "lavoro", "nome": "Abbigliamento da lavoro", "descrizione": "Capi resistenti per officine, magazzini, artigiani e servizi", "immagine": "", "ordine": 4, "visibile": true,
+   "regole": {"collezioni": ["WORKWEAR"], "categorie_gorfactory": ["industry_services"]}, "includi": [], "escludi": []},
+  {"id": "sport", "nome": "Sport e teamwear", "descrizione": "Capi tecnici per squadre, palestre, corsa ed eventi sportivi", "immagine": "", "ordine": 5, "visibile": true,
+   "regole": {"collezioni": ["SPORTS", "LEISURE_SPORTS", "CAM_SP", "WINT_SP"]}, "includi": [], "escludi": []},
+  {"id": "eventi", "nome": "Scuole, eventi e associazioni", "descrizione": "Basic economici per staff, gite, eventi e merchandising", "immagine": "", "ordine": 6, "visibile": true,
+   "regole": {"collezioni": ["SCHOOL"]}, "includi": [], "escludi": []},
+  {"id": "casual", "nome": "Casual e brand", "descrizione": "Capi da tutti i giorni per linee di abbigliamento e merchandising", "immagine": "", "ordine": 7, "visibile": true,
+   "regole": {"collezioni": ["CASUAL_W", "CASUAL_S", "PD", "SUD_CHA", "ABRIGOS"]}, "includi": [], "escludi": []},
+  {"id": "corporate", "nome": "Ufficio e corporate", "descrizione": "Da compilare: scegli tu i capi adatti (camicie, polo, softshell…)", "immagine": "", "ordine": 8, "visibile": true,
+   "regole": {}, "includi": [], "escludi": []}
+ ],
+ "esigenze": [
+  {"id": "traspirante", "nome": "Traspirante", "icone": ["TejidoTecnicoTranspirable", "20190227131320_ROLY_traspirable_18", "Control Dry"]},
+  {"id": "elasticizzato", "nome": "Elasticizzato", "icone": ["TejidoStretch"]},
+  {"id": "alta-visibilita", "nome": "Alta visibilità", "icone": ["Alta Visibilidad", "Visibilidad Nocturna"], "collezioni": ["HIGHVIZ"]},
+  {"id": "antivento", "nome": "Antivento", "icone": ["Modelo a prueba de viento"]},
+  {"id": "idrorepellente", "nome": "Idrorepellente", "icone": ["Repelentealagua"]},
+  {"id": "protezione-uv", "nome": "Protezione UV", "icone": ["UVGeneral"]},
+  {"id": "antibatterico", "nome": "Antibatterico", "icone": ["ANTIBACTERIAL"]},
+  {"id": "ignifugo", "nome": "Protezione calore e fiamma", "icone": ["TProteccioncontraelcaloryllama", "TProteccionduranteelsoldeoyproceosafines", "TProteccioncontralosriesgostermicosdeunarcoelectrico"]},
+  {"id": "antistatico", "nome": "Antistatico", "icone": ["ESD", "TPropiedadeselectroestaticas"]},
+  {"id": "sostenibile", "nome": "Sostenibile", "icone": ["AlgodonOrganico", "RECYCLED_PET", "20240510111546_100_OCS", "20240513084039_85 OCS Blended", "20240513083951_50 OCS Blended", "20240521170748_60 OCS Blended", "20240513083536_50 GRS Certified", "20240513083740_75 GRS Certified", "20240521171537_96 GRS Certified", "20240521170508_20 GRS Certified"], "collezioni": ["ROLYECO"]},
+  {"id": "etichetta-removibile", "nome": "Etichetta removibile (per il tuo marchio)", "icone": ["EtiquetaRemovible"]}
+ ],
+ "sinonimi": {
+  "sanita": ["dentista", "odontoiatra", "medico", "dottore", "infermiere", "infermiera", "ospedale", "clinica", "studio medico", "farmacia", "farmacista", "veterinario", "fisioterapista", "estetista", "estetica", "centro estetico", "parrucchiere", "barbiere", "spa", "laboratorio", "casacca", "casacche", "camice", "camici", "sanitario"],
+  "ristorazione": ["chef", "cuoco", "cuoca", "cucina", "ristorante", "pizzeria", "pizzaiolo", "cameriere", "cameriera", "sala", "bar", "barista", "pub", "hotel", "albergo", "reception", "pasticceria", "pasticcere", "panetteria", "macelleria", "gelateria", "horeca", "grembiule", "grembiuli", "giacca cuoco"],
+  "edilizia": ["muratore", "edile", "edilizia", "cantiere", "impresa edile", "elettricista", "idraulico", "saldatore", "carpentiere", "operaio", "industria", "fabbrica", "alta visibilità", "catarifrangente", "ignifugo", "antistatico"],
+  "lavoro": ["meccanico", "officina", "magazziniere", "magazzino", "logistica", "corriere", "giardiniere", "artigiano", "falegname", "imbianchino", "pulizie", "da lavoro", "workwear", "tuta da lavoro"],
+  "sport": ["palestra", "fitness", "personal trainer", "calcio", "calcetto", "squadra", "running", "corsa", "ciclismo", "padel", "tennis", "basket", "volley", "pallavolo", "teamwear", "sportivo", "tecnica"],
+  "eventi": ["scuola", "gita", "evento", "eventi", "staff", "volontari", "associazione", "parrocchia", "festa", "matrimonio", "addio al celibato", "addio al nubilato", "promozionale", "gadget"],
+  "casual": ["brand", "linea", "streetwear", "merch", "merchandising", "casual", "tempo libero"]
+ },
+ "tipi": {
+  "Magliette": ["maglietta", "magliette", "t-shirt", "tshirt", "t shirt", "maglia", "canotta", "canottiera"],
+  "Felpe": ["felpa", "felpe", "hoodie", "cappuccio", "sweatshirt", "pile"],
+  "Polo": ["polo"],
+  "Camicie": ["camicia", "camicie"],
+  "Cappotti e giacche": ["giacca", "giacche", "giubbotto", "giubbino", "giaccone", "softshell", "parka", "impermeabile", "k-way", "piumino"],
+  "Gilet": ["gilet", "smanicato"],
+  "Pantaloni": ["pantalone", "pantaloni", "jeans", "bermuda", "pantaloncini", "shorts", "leggings", "gonna"],
+  "Cappellini e accessori": ["cappellino", "cappellini", "berretto", "cappello", "bandana", "accessori"],
+  "Calzature": ["scarpa", "scarpe", "scarponi", "calzature", "antinfortunistica", "zoccoli", "ciabatte"],
+  "Tute da lavoro e camici": ["tuta", "tute", "camice", "camici", "casacca", "grembiule"],
+  "Tute e divise": ["divisa", "divise", "uniforme", "tuta sportiva"],
+  "Body per neonati": ["body", "neonato", "neonati", "bebè"],
+  "Costumi da bagno": ["costume", "costumi", "bagno"]
+ }
+}
