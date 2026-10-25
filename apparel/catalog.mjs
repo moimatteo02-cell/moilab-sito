@@ -1,4 +1,5 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
+import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -49,7 +50,7 @@ if(mount){
  }
  async function detail(sku){
   const id=++request;mount.setAttribute('aria-busy','true');
-  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colore_base||product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();if(!lockable())scrollCatalog();else mount.querySelector('h2')?.focus({preventScroll:true});}
+  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colore_base||product.colori[0]?.nome||'';size='';personalized=false;qty=1;const ready=await prepareProduct(product);if(id!==request){ready.video?.removeAttribute('src');return;}readyVideo=ready.video;showProduct();if(!lockable())scrollCatalog();else mount.querySelector('h2')?.focus({preventScroll:true});}
   catch(err){if(id===request)paint(`<p role="alert">${e(err.message)}</p><button data-retry>Ritorna ai prodotti</button>`);}
   finally{if(id===request)mount.removeAttribute('aria-busy');}
  }
@@ -130,13 +131,13 @@ if(mount){
  function buildGallery(){
   const p=product,c=p.colori.find(x=>x.nome===color),model=p.galleria||[p.immagine_principale].filter(Boolean),own=(c&&(c.foto&&c.foto.length?c.foto:[c.immagine]).filter(Boolean))||[];
   const seen=new Set(),imgs=u=>u.filter(x=>x&&!seen.has(x)&&seen.add(x)).map(src=>({type:'image',src}));
-  const m=imgs(model);mediaItems=[...m.slice(0,1),...(p.video?[{type:'video',src:p.video}]:[]),...m.slice(1),...imgs(own)];
+  const m=imgs(model);mediaItems=[...(p.video?[{type:'video',src:p.video}]:[]),...m,...imgs(own)];
   colorStart=mediaItems.findIndex(x=>x.type==='image'&&own.includes(x.src));
   const rail=mount.querySelector('[data-rail]');if(!rail)return;
   rail.innerHTML=mediaItems.map((it,i)=>it.type==='video'?'<button data-video aria-label="Video del capo"><span class="ac-pdp-play">▶</span><small>Video</small></button>':`<button data-photo="${e(it.src)}" aria-label="Foto ${i+1} di ${e(p.nome)}">${image(it.src,'Foto '+(i+1))}</button>`).join('');
   rail.querySelectorAll('img').forEach(i=>{i.loading='eager';});bindFallbacks();
  }
- let colorStart=-1;
+ let colorStart=-1,readyVideo=null;
  // Prezzo al pezzo per la selezione corrente; con stampa applica lo scaglione di quantita'
  function pick(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x)return {v:x,from:false};if(!size&&vs.length){const m=vs.reduce((a,b)=>(a[k]??1e9)<=(b[k]??1e9)?a:b);return {v:m,from:new Set(vs.map(v=>v[k])).size>1};}return null;}
  function unit(){const r=pick(personalized?'prezzo_personalizzato':'prezzo');if(!r)return null;const x=r.v;let n=personalized?x.prezzo_personalizzato:x.prezzo;if(n==null)return null;if(personalized&&x.prezzo!=null)n=qty>=50?Math.min(n,x.prezzo+5):qty>=10?Math.min(n,x.prezzo+7):n;return {n:Math.round(n*100)/100,from:r.from};}
@@ -151,7 +152,7 @@ if(mount){
   const prev=mediaIndex;mediaIndex=(index+mediaItems.length)%mediaItems.length;if(dir==null)dir=mediaIndex>=prev?1:-1;
   const stage=mount.querySelector('[data-media-stage]'),item=mediaItems[mediaIndex];
   stage.querySelector('video')?.pause();stage.classList.remove('ac-no-image');
-  const old=stage.firstElementChild;stage.innerHTML=item.type==='video'?`<video autoplay muted loop playsinline preload="auto" poster="${e(safeURL(product.immagine_principale))}" aria-label="Video di ${e(product.nome)}" src="${e(safeURL(item.src))}"></video>`:image(item.src,product.nome,'data-main-photo');
+  const old=stage.firstElementChild;if(item.type==='video'&&readyVideo&&readyVideo.src===new URL(item.src,location.href).href){stage.innerHTML='';readyVideo.setAttribute('aria-label','Video di '+product.nome);readyVideo.autoplay=true;stage.append(readyVideo);}else stage.innerHTML=item.type==='video'?`<video autoplay muted loop playsinline preload="auto" poster="${e(safeURL(product.immagine_principale))}" aria-label="Video di ${e(product.nome)}" src="${e(safeURL(item.src))}"></video>`:image(item.src,product.nome,'data-main-photo');
   mount.querySelector('[data-gallery-position]').textContent=`${mediaIndex+1} / ${mediaItems.length}`;
   mount.querySelectorAll('.ac-thumbs button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===mediaIndex)));
   const rail=mount.querySelector('.ac-thumbs'),act=rail?.children[mediaIndex];if(rail&&act){const vertical=getComputedStyle(rail).flexDirection==='column';rail.scrollTo({top:vertical?act.offsetTop-rail.clientHeight/2+act.offsetHeight/2:0,left:vertical?0:act.offsetLeft-rail.clientWidth/2+act.offsetWidth/2,behavior:'smooth'});}

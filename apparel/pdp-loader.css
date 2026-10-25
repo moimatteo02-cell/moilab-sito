@@ -1,0 +1,15 @@
+/* Caricamento scheda prodotto: M di MOI LAB su bianco */
+.pdp-loader{position:fixed;inset:0;z-index:2147483300;display:grid;place-items:center;background:#fff;color:#151515;opacity:0;transition:opacity .4s ease;pointer-events:auto}
+.pdp-loader.is-on{opacity:1}
+.pdp-loader.is-off{opacity:0;pointer-events:none}
+.pdp-loader-inner{display:grid;justify-items:center;text-align:center;width:min(260px,70vw)}
+.pdp-loader svg{width:120px;height:124px;overflow:visible;fill:none;stroke-linejoin:miter;stroke-linecap:square}
+.pdp-loader-base{stroke:#e7e4dd;stroke-width:.55}
+.pdp-loader-gold{stroke:#b8955a;stroke-width:.55;stroke-dasharray:100;stroke-dashoffset:100}
+.pdp-loader-spark{fill:#d9b878;filter:drop-shadow(0 0 1.2px #d9b878) drop-shadow(0 0 3px #b8955a88)}
+.pdp-loader-brand{margin:22px 0 6px;padding-left:.5em;font:300 14px/1.4 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.5em;color:#151515}
+.pdp-loader-name{margin:0 0 22px;font:italic 400 20px/1.3 'Moi Editorial',Georgia,serif;color:#8a7552}
+.pdp-loader-bar{width:100%;height:2px;background:#eeebe5;overflow:hidden;border-radius:2px}
+.pdp-loader-bar i{display:block;height:100%;background:#151515;transform:scaleX(0);transform-origin:left center}
+.pdp-loader-pct{margin-top:10px;font:400 10px/1 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.18em;color:#8d8b84;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.pdp-loader{transition:none}}
