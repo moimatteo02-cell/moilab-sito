@@ -1,5 +1,5 @@
 {
- "_info": "Configurazione dei percorsi del catalogo APPAREL. Modificabile a mano: dopo ogni modifica eseguire tools/build_percorsi.py. 'regole' usa solo dati ufficiali Gorfactory (collezioni, icone tecniche, categorie, sottocategorie). 'includi'/'escludi' = elenchi di SKU scelti a mano. 'visibile': false nasconde la card. Un percorso senza prodotti non viene mostrato. Gli elenchi 'includi' derivano dalla classificazione visiva delle foto (data/apparel/fonte/classificazione-visiva.txt, B = basic adatti a tutti i settori): per cambiarla modifica quel file e rigenera, oppure modifica 'includi'/'escludi'.",
+ "_info": "Configurazione dei percorsi del catalogo APPAREL. Modificabile a mano: dopo ogni modifica eseguire tools/build_percorsi.py. 'regole' usa solo dati ufficiali Gorfactory (collezioni, icone tecniche, categorie, sottocategorie). 'includi'/'escludi' = elenchi di SKU scelti a mano. 'visibile': false nasconde la card. Un percorso senza prodotti non viene mostrato. Gli elenchi 'includi' derivano dalla classificazione visiva delle foto (data/apparel/fonte/classificazione-visiva.txt, B = basic adatti a tutti i settori): per cambiarla modifica quel file e rigenera, oppure modifica 'includi'/'escludi'. 'foto_sku' = codice del capo la cui foto appare sulla card del settore.",
  "settori": [
   {
    "id": "sanita",
@@ -97,7 +97,8 @@
     "ZL8393",
     "ZS8306"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CA9084"
   },
   {
    "id": "ristorazione",
@@ -235,7 +236,8 @@
     "ZL8393",
     "ZS8306"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CQ4500"
   },
   {
    "id": "edilizia",
@@ -460,7 +462,8 @@
     "ZL8396",
     "ZL8397"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "HV9302"
   },
   {
    "id": "lavoro",
@@ -720,7 +723,8 @@
     "ZS8310",
     "ZS8335"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CQ1107"
   },
   {
    "id": "sport",
@@ -961,7 +965,8 @@
     "ZS8330",
     "ZS8335"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CJ0457"
   },
   {
    "id": "eventi",
@@ -1156,7 +1161,8 @@
     "ZS8304",
     "ZS8324"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CA6534"
   },
   {
    "id": "casual",
@@ -1390,7 +1396,8 @@
     "ZS8330",
     "ZS8335"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "SU6702"
   },
   {
    "id": "corporate",
@@ -1509,7 +1516,8 @@
     "SU1117",
     "SU1119"
    ],
-   "escludi": []
+   "escludi": [],
+   "foto_sku": "CM5507"
   }
  ],
  "esigenze": [

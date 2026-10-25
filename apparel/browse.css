@@ -150,3 +150,106 @@
  .br-tabs button{white-space:normal;line-height:1.25;font-size:12px;padding:10px 8px;border-radius:12px}
  .br-quick{overflow:visible}
 }
+
+/* ===== Revisione 25/10: icone ovunque + testata chiara nei colori della pagina ===== */
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+.br-ico{display:inline-grid;place-items:center;flex:none}
+.br-ico .ic{width:18px;height:18px}
+
+/* testata chiara */
+.br-hero{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:0;gap:28px;padding:0;border:1px solid #1818181a;border-radius:10px;
+  background:radial-gradient(70% 90% at 0% 0%,#efe6d6 0%,transparent 55%),radial-gradient(60% 80% at 100% 100%,#ece9e2 0%,transparent 60%),#fbfaf7;color:#151515}
+.br-hero::after{display:none}
+.br-hero-copy{padding:48px clamp(22px,4vw,56px)}
+.br-eyebrow{display:flex;align-items:center;gap:10px;color:#8d8b84}
+.br-dot{width:7px;height:7px;border-radius:50%;background:#c8aa77;box-shadow:0 0 0 4px #c8aa7726}
+.br-hero h2{color:#131313;margin-bottom:16px!important}
+.br-hero h2 em{color:#8a7552}
+.br-lead{margin:0 0 26px;max-width:520px;font-size:15px;font-weight:300;line-height:1.65;color:#66655f}
+.br-search-big{background:#fff;border-color:#18181833;color:#151515;box-shadow:0 18px 40px -28px #0004;backdrop-filter:none;-webkit-backdrop-filter:none}
+.br-search-big input::placeholder{color:#8d8b84}
+.br-search-big>button{background:#151515;color:#fff!important}
+.br-quick button{display:inline-flex;align-items:center;gap:8px;border-color:#18181826;background:#fff;color:#151515}
+.br-quick button:hover{background:#151515;color:#fff;border-color:#151515}
+.br-hero-img{display:none}
+.br-hero-side{padding:30px clamp(20px,3vw,40px) 30px 0;display:flex;flex-direction:column;justify-content:center}
+.br-side-label{margin:0 0 12px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#8d8b84}
+.br-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.br-tile{display:grid;justify-items:center;align-content:center;gap:8px;aspect-ratio:1;padding:10px 6px;border:1px solid #18181814;border-radius:10px;background:#ffffffcc;color:#151515;cursor:pointer;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s,background .2s,box-shadow .25s}
+.br-tile:hover{transform:translateY(-3px);border-color:#151515;background:#fff;box-shadow:0 16px 30px -22px #0006}
+.br-tile-ico{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#f1ece2;color:#151515;transition:background .2s,color .2s}
+.br-tile:hover .br-tile-ico{background:#151515;color:#f3efe7}
+.br-tile-ico .ic{width:24px;height:24px}
+.br-tile-name{font-size:12px;font-weight:500;text-align:center;line-height:1.2}
+.br-tile small{font-size:10px;color:#8d8b84}
+
+/* schede percorsi con icona */
+.br-tabs button{display:inline-flex;align-items:center;gap:8px}
+.br-tabs button .ic{width:16px;height:16px}
+
+/* card categoria/settore: badge con icona sopra la foto */
+.br-card-img{position:relative}
+.br-badge{position:absolute;left:12px;top:12px;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#ffffffe6;color:#151515;box-shadow:0 6px 16px -8px #0005;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.br-badge .ic{width:20px;height:20px}
+.br-card-txt strong{display:flex;align-items:center;gap:8px}
+.br-card-txt strong .br-ico{color:#8a7552}
+.br-card .br-count{color:#151515;font-weight:500}
+.br-cards-sect .br-card-img{aspect-ratio:4/3;background:#ecebe6}
+.br-cards-sect .br-card-img img{object-position:center 18%}
+.br-chips button{display:inline-flex;align-items:center;gap:8px}
+.br-chips .br-ico{color:#8a7552}
+
+/* esigenze come etichette */
+.br-needs{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.br-needs button{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 16px;border-radius:12px}
+.br-need-ico{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#f1ece2;color:#151515;transition:background .2s,color .2s}
+.br-need-ico .ic{width:22px;height:22px}
+.br-needs button:hover .br-need-ico{background:#151515;color:#f3efe7}
+.br-need-txt{display:grid;gap:3px;min-width:0}
+.br-need-go{color:#8d8b84;transition:transform .2s}
+.br-needs button:hover .br-need-go{transform:translateX(3px);color:#151515}
+
+/* filtri laterali con icone */
+.br-opt .br-ico{color:#8a7552}
+.br-opt .br-ico .ic{width:16px;height:16px}
+
+@media (max-width:960px){
+ .br-hero{grid-template-columns:minmax(0,1fr);gap:0}
+ .br-hero-copy{padding:32px 20px 18px}
+ .br-hero-side{padding:0 20px 26px}
+ .br-tiles{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+ .br-tile{aspect-ratio:auto;padding:12px 4px}
+ .br-tile-ico{width:40px;height:40px}
+ .br-tile-name{font-size:11px}
+ .br-tabs button .br-ico{display:none}
+ .br-needs{grid-template-columns:1fr}
+}
+/* priorita' sugli stili generici del catalogo (.ac button) */
+#moi-apparel-catalog .br-all{background:#151515;color:#fff}
+#moi-apparel-catalog .br-tile{border:1px solid #18181814;background:#ffffffcc}
+#moi-apparel-catalog .br-tile:hover{border-color:#151515;background:#fff}
+#moi-apparel-catalog .br-needs button{border:1px solid #1818181f;background:#fff}
+#moi-apparel-catalog .br-needs button:hover{border-color:#151515}
+#moi-apparel-catalog .br-quick button{border:1px solid #18181826;background:#fff}
+#moi-apparel-catalog .br-quick button:hover{background:#151515;color:#fff;border-color:#151515}
+#moi-apparel-catalog .br-chips button{border:1px solid #1818182b;background:#fff}
+#moi-apparel-catalog .br-active button{border:1px solid #151515;background:#fff}
+#moi-apparel-catalog .br-active .br-clear{border-color:transparent;background:none}
+#moi-apparel-catalog .br-open-f{border:1px solid #151515;background:#fff}
+.br-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+.br-tile{aspect-ratio:auto;min-height:118px}
+.br-tile-ico{width:54px;height:54px}
+.br-tile-ico .ic{width:28px;height:28px;stroke-width:1.35}
+.br-badge .ic{width:22px;height:22px}
+.br-need-ico .ic{width:24px;height:24px}
+@media (max-width:960px){
+ .br-quick{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-20px;padding-right:20px}
+ .br-quick::-webkit-scrollbar{display:none}
+ .br-quick button{flex:none}
+ .br-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .br-tile{min-height:96px}
+ .br-tile-ico{width:44px;height:44px}
+ .br-tile-ico .ic{width:24px;height:24px}
+}
+.br-opt span.br-ico{flex:0 0 auto;min-width:0}

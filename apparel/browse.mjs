@@ -2,7 +2,8 @@
 // Dati: /data/apparel/elenco.json (400 modelli, con campi filtro) + /data/apparel/percorsi-indice.json.
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
-const V = '?v=20261025-24';
+import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
+const V = '?v=20261025-30';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -111,25 +112,30 @@ export function createBrowser(mount, h) {
   function renderHome() {
     view = 'home';
     const cats = meta.categories, prim = cats.filter(c => c.modelli >= 15), rest = cats.filter(c => c.modelli < 15);
-    const tabs = [['categoria', 'Per categoria'], ['settore', 'Per settore o professione'], ['esigenza', 'Per esigenza']];
+    const ci = n => icon(CAT_ICON, n), si = id => icon(SET_ICON, id), ei = id => icon(ES_ICON, id, 'tag');
+    const tabs = [['categoria', 'Per categoria', ICONS.grid], ['settore', 'Per settore o professione', ICONS.briefcase], ['esigenza', 'Per esigenza', ICONS.tag]];
     const body = {
-      categoria: `<div class="br-cards">${prim.map(c => `<button class="br-card" data-br-cat="${e(c.nome)}"><span class="br-card-img">${image(c.image, c.nome)}</span><span class="br-card-txt"><strong>${e(c.nome)}</strong><small>${c.modelli} modelli${c.prezzo_da != null ? ' · da ' + euro(c.prezzo_da) : ''}</small></span></button>`).join('')}</div>
-        ${rest.length ? `<div class="br-chips"><span>Anche:</span>${rest.map(c => `<button data-br-cat="${e(c.nome)}">${e(c.nome)} <small>${c.modelli}</small></button>`).join('')}</div>` : ''}`,
-      settore: `<div class="br-cards br-cards-sect">${idx.settori.map(s => `<button class="br-card" data-br-set="${e(s.id)}"><span class="br-card-img">${s.immagine ? image(s.immagine, s.nome) : ''}</span><span class="br-card-txt"><strong>${e(s.nome)}</strong><small>${e(s.descrizione)}</small><small>${s.conteggio} modelli</small></span></button>`).join('')}</div>
+      categoria: `<div class="br-cards">${prim.map(c => `<button class="br-card" data-br-cat="${e(c.nome)}"><span class="br-card-img">${image(c.image, c.nome)}<span class="br-badge">${ci(c.nome)}</span></span><span class="br-card-txt"><strong><span class="br-ico">${ci(c.nome)}</span>${e(c.nome)}</strong><small>${c.modelli} modelli${c.prezzo_da != null ? ' · da ' + euro(c.prezzo_da) : ''}</small></span></button>`).join('')}</div>
+        ${rest.length ? `<div class="br-chips"><span>Anche:</span>${rest.map(c => `<button data-br-cat="${e(c.nome)}"><span class="br-ico">${ci(c.nome)}</span>${e(c.nome)} <small>${c.modelli}</small></button>`).join('')}</div>` : ''}`,
+      settore: `<div class="br-cards br-cards-sect">${idx.settori.map(s => `<button class="br-card" data-br-set="${e(s.id)}"><span class="br-card-img">${s.immagine ? image(s.immagine, s.nome) : ''}<span class="br-badge">${si(s.id)}</span></span><span class="br-card-txt"><strong><span class="br-ico">${si(s.id)}</span>${e(s.nome)}</strong><small>${e(s.descrizione)}</small><small class="br-count">${s.conteggio} modelli</small></span></button>`).join('')}</div>
         <p class="br-hint">Cerchi per professione? Prova «dentista», «chef», «muratore», «palestra»: la ricerca capisce il settore.</p>`,
-      esigenza: `<div class="br-needs">${idx.esigenze.map(x => `<button data-br-es="${e(x.id)}"><strong>${e(x.nome)}</strong><small>${x.conteggio} modelli</small></button>`).join('')}</div>
+      esigenza: `<div class="br-needs">${idx.esigenze.map(x => `<button data-br-es="${e(x.id)}"><span class="br-need-ico">${ei(x.id)}</span><span class="br-need-txt"><strong>${e(x.nome)}</strong><small>${x.conteggio} modelli</small></span><span class="br-need-go" aria-hidden="true">→</span></button>`).join('')}</div>
         <p class="br-hint">Le caratteristiche vengono dalle schede tecniche del produttore.</p>`,
     };
     paint(`<section class="br-hero">
         <div class="br-hero-copy">
-          <p class="br-eyebrow">MOI LAB / APPAREL</p>
+          <p class="br-eyebrow"><span class="br-dot"></span>MOI LAB / APPAREL</p>
           <h2 tabindex="-1">Abbigliamento personalizzato.<br><em>Per ogni lavoro, squadra e brand.</em></h2>
+          <p class="br-lead">${list.length} modelli da personalizzare con il tuo logo. Cerca per capo, per settore o per professione.</p>
           ${searchBox(true)}
-          <div class="br-quick">${['Magliette', 'Polo', 'Felpe'].filter(c => cats.some(x => x.nome === c)).map(c => `<button data-br-cat="${e(c)}">${e(c)}</button>`).join('')}${idx.settori.slice(0, 3).map(s => `<button data-br-set="${e(s.id)}">${e(s.nome)}</button>`).join('')}</div>
+          <div class="br-quick">${idx.settori.slice(0, 4).map(s => `<button data-br-set="${e(s.id)}"><span class="br-ico">${si(s.id)}</span>${e(s.nome)}</button>`).join('')}</div>
         </div>
-        <div class="br-hero-img" aria-hidden="true"><img src="/assets/moi-lab-abbigliamento.webp" alt="" decoding="async"></div>
+        <div class="br-hero-side" aria-label="Scegli il capo">
+          <p class="br-side-label">Scegli il capo</p>
+          <div class="br-tiles">${prim.map(c => `<button class="br-tile" data-br-cat="${e(c.nome)}"><span class="br-tile-ico">${ci(c.nome)}</span><span class="br-tile-name">${e(c.nome)}</span><small>${c.modelli}</small></button>`).join('')}</div>
+        </div>
       </section>
-      <div class="br-tabs" role="tablist" aria-label="Come vuoi cercare">${tabs.map(([k, l]) => `<button role="tab" data-br-tab="${k}" aria-selected="${tab === k}" id="br-tab-${k}" aria-controls="br-panel">${l}</button>`).join('')}</div>
+      <div class="br-tabs" role="tablist" aria-label="Come vuoi cercare">${tabs.map(([k, l, ic]) => `<button role="tab" data-br-tab="${k}" aria-selected="${tab === k}" id="br-tab-${k}" aria-controls="br-panel"><span class="br-ico">${ic}</span><span>${l}</span></button>`).join('')}</div>
       <div class="br-panel" id="br-panel" role="tabpanel" aria-labelledby="br-tab-${tab}">${body[tab]}</div>
       ${special()}
       <button class="br-all" data-br-all>Esplora tutti i ${list.length} modelli <span aria-hidden="true">→</span></button>
@@ -150,7 +156,7 @@ export function createBrowser(mount, h) {
     const items = opts.map(([v, l]) => ({ v, l, n: c.get(v) || 0, on: sel.includes(v) })).filter(o => o.n || o.on);
     if (!items.length) return '';
     return `<details class="br-f" ${open || items.some(o => o.on) ? 'open' : ''}><summary>${label}${sel.filter(Boolean).length ? ` <b>${sel.filter(Boolean).length}</b>` : ''}</summary><div class="br-f-opts${render ? ' br-f-' + render : ''}">${items.map(o =>
-      `<label class="br-opt${o.n ? '' : ' is-zero'}"><input type="${key === 'sub' ? 'radio' : 'checkbox'}" name="br-${key}" data-br-f="${key}" value="${e(o.v)}" ${o.on ? 'checked' : ''}>${render === 'swatch' ? `<i style="background:${SWATCH[o.v] || '#ccc'}"></i>` : ''}<span>${e(o.l)}</span><small>${o.n}</small></label>`).join('')}</div></details>`;
+      `<label class="br-opt${o.n ? '' : ' is-zero'}"><input type="${key === 'sub' ? 'radio' : 'checkbox'}" name="br-${key}" data-br-f="${key}" value="${e(o.v)}" ${o.on ? 'checked' : ''}>${render === 'swatch' ? `<i style="background:${SWATCH[o.v] || '#ccc'}"></i>` : ''}${key === 'cat' ? `<span class="br-ico">${icon(CAT_ICON, o.v)}</span>` : key === 'set' ? `<span class="br-ico">${icon(SET_ICON, o.v)}</span>` : key === 'es' ? `<span class="br-ico">${icon(ES_ICON, o.v, 'tag')}</span>` : ''}<span>${e(o.l)}</span><small>${o.n}</small></label>`).join('')}</div></details>`;
   }
   function filtersHTML() {
     const cats = meta.categories.map(c => [c.nome, c.nome]);

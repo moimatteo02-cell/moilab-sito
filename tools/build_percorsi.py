@@ -99,7 +99,7 @@ def card_img(ids_key, val):
     for e in elenco:
         if val in e.get(ids_key, []) and e.get('immagine_modello_fronte'): return e['immagine_modello_fronte']
 indice = {
-    'settori': [{**{k: s[k] for k in ('id', 'nome', 'descrizione', 'ordine')}, 'immagine': s.get('immagine') or card_img('s', s['id']), 'conteggio': cnt_set[s['id']]}
+    'settori': [{**{k: s[k] for k in ('id', 'nome', 'descrizione', 'ordine')}, 'immagine': s.get('immagine') or next((e.get('immagine_modello_fronte') or e.get('immagine_principale') for e in elenco if e['sku'] == s.get('foto_sku')), None) or card_img('s', s['id']), 'conteggio': cnt_set[s['id']]}
                 for s in sorted(cfg['settori'], key=lambda s: s.get('ordine', 99)) if s.get('visibile', True) and cnt_set[s['id']]],
     'esigenze': [{'id': x['id'], 'nome': x['nome'], 'conteggio': cnt_es[x['id']]} for x in cfg['esigenze'] if cnt_es[x['id']]],
     'colori': [{'nome': k, 'conteggio': v} for k, v in sorted(cnt_cf.items(), key=lambda kv: -kv[1])],
