@@ -89,7 +89,14 @@ for e in elenco:
     fam = sorted({f for c in p.get('colori', []) if (f := famiglia(c.get('hex')))})
     mat = materiale(p.get('descrizione') or p.get('descrizione_breve'))
     hx = [h for c in p.get('colori', []) if re.fullmatch(r'#[0-9a-fA-F]{6}(/#[0-9a-fA-F]{6})?', (h := (c.get('hex') or '').strip()))][:5]
-    e.update(gen=sku in GEN, hx=hx, s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
+    # foto di schiena del capo (colore base) per l'anteprima al passaggio del mouse, se manca quella del modello
+    retro = None
+    if not e.get('immagine_modello_retro'):
+        cb = next((c for c in p.get('colori', []) if c.get('nome') == p.get('colore_base')), (p.get('colori') or [{}])[0])
+        urls = [u for c in p.get('colori', []) for u in (c.get('foto') or [])] + (p.get('galleria') or []) + (p.get('immagini') or [])
+        code = str(cb.get('codice') or '')
+        retro = next((u for u in urls if code and re.search(rf'-{re.escape(code)}-2\.(jpe?g|png|webp)$', u)), None)
+    e.update(gen=sku in GEN, hx=hx, retro_capo=retro, s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
              kw=norm(' '.join([e['nome'], e['tipo'], e['sku'], e['categoria'], e.get('sottocategoria') or '', p.get('marca') or '',
                                ' '.join(c['nome'] for c in p.get('colori', []))])))
     cnt_set.update(sett); cnt_es.update(es); cnt_cf.update(fam); cnt_mat.update([mat] if mat else [])

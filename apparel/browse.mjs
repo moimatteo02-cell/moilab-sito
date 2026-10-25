@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261025-40';
+const V = '?v=20261025-41';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -185,10 +185,10 @@ export function createBrowser(mount, h) {
   const fill = h => { const [a, b] = String(h).split('/'); return b ? `linear-gradient(135deg,${a} 50%,${b} 50%)` : a; };
   const card = p => {
     const dots = (p.hx || []).slice(0, 4), more = Math.max(0, (p.colori || 0) - dots.length);
-    const pp = p.prezzo_personalizzato_da, vol = pp != null && p.prezzo_da != null ? Math.min(pp, p.prezzo_da + 5) : null;
+    const pp = p.prezzo_personalizzato_da;
     const from = p.prezzo_fino_a != null && p.prezzo_da != null && p.prezzo_fino_a > p.prezzo_da;
     const price = pp != null
-      ? `<span class="br-pc-price"><span class="br-pc-label">Col tuo logo</span><strong>${from ? '<small>da</small> ' : ''}${euro(pp)}</strong></span>${vol != null && vol < pp ? `<span class="br-pc-vol">da ${euro(vol)} con 50+ pezzi</span>` : ''}`
+      ? `<span class="br-pc-price"><span class="br-pc-label">Col tuo logo</span><strong>${from ? '<small>da</small> ' : ''}${euro(pp)}</strong></span>`
       : '<span class="br-pc-price"><strong class="br-pc-ask">Prezzo su richiesta</strong></span>';
     return `<button class="ac-product br-pc" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="br-pc-body"><span class="br-pc-name">${e(p.nome)}</span><span class="br-pc-type">${e(p.tipo)}</span>${p.colori ? `<span class="br-pc-dots" aria-label="${p.colori} ${p.colori === 1 ? 'colore' : 'colori'}">${dots.map(h => `<i style="background:${fill(h)}"></i>`).join('')}${more ? `<small>+${more}</small>` : ''}</span>` : ''}${price}</span></button>`;
   };
@@ -220,7 +220,7 @@ export function createBrowser(mount, h) {
           ${S.cat.length === 1 && S.cat[0] === 'Magliette' && !S.q && nF === 1 ? special() : ''}
           ${all.length ? `<div class="ac-products">${shown.map(card).join('')}</div>` : emptyHTML()}
           ${all.length > shown.length ? `<div class="ac-pagination"><button data-br-more>Mostra altri ${Math.min(PER_PAGE, all.length - shown.length)} <small>(${shown.length} di ${all.length})</small></button></div>` : ''}
-          <p class="ac-note">«Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. Il prezzo scende con la quantità (10+ e 50+ pezzi dello stesso modello). Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
+          <p class="ac-note">«Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
         </div>
       </div>`);
     document.documentElement.classList.toggle('br-lock', drawer);
