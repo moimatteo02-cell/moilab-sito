@@ -2,7 +2,7 @@
 // Dati: /data/apparel/elenco.json (400 modelli, con campi filtro) + /data/apparel/percorsi-indice.json.
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
-const V = '?v=20261025-20';
+const V = '?v=20261025-24';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -27,17 +27,19 @@ export function createBrowser(mount, h) {
     const sect = Object.entries(idx.sinonimi).filter(([, ws]) => ws.some(w => n.includes(w) || (w.length > 4 && w.includes(n)))).map(([k]) => k);
     idx.settori.forEach(s => { if (norm(s.nome).includes(n) && !sect.includes(s.id)) sect.push(s.id); });
     const cats = Object.entries(idx.tipi).filter(([, ws]) => ws.some(w => n.split(' ').includes(w) || n.includes(w))).map(([k]) => k);
-    return { n, sect, cats };
+    const both = sect.length > 0 && cats.length > 0 && list.some(p => sect.some(x => p.s.includes(x)) && cats.includes(p.categoria));
+    return { n, sect, cats, both };
   }
   function score(p, I) {
     if (!I.n) return 1;
     const toks = I.n.split(' ').filter(t => t.length > 1);
     let s = p.kw.includes(I.n) ? 12 : 0;
     toks.forEach(t => { if (p.kw.includes(t)) s += 3; });
-    if (I.sect.some(x => p.s.includes(x))) s += 6;
+    if (I.sect.some(x => p.s.includes(x))) s += p.gen ? 2 : 7;   // prima i capi specifici del settore, poi i basic
+    if (I.sect.some(x => p.s.includes(x) && (idx.sinonimi[x] || []).some(w => w.length > 3 && norm(p.tipo + ' ' + p.nome).includes(w)))) s += 5;   // capi tipici del mestiere
     if (I.cats.includes(p.categoria)) s += 6;
-    // se la ricerca e' "professione + capo" (es. "polo cuoco") servono entrambe
-    if (I.sect.length && I.cats.length && !(I.sect.some(x => p.s.includes(x)) && I.cats.includes(p.categoria))) s = Math.min(s, 2);
+    // se la ricerca e' "capo + professione" (es. "felpa palestra") servono entrambe
+    if (I.both && !(I.sect.some(x => p.s.includes(x)) && I.cats.includes(p.categoria))) return 0;
     return s;
   }
 
@@ -55,7 +57,7 @@ export function createBrowser(mount, h) {
     const I = interpret(st.q);
     let r = list.map((p, i) => ({ p, i, sc: score(p, I) })).filter(x => x.sc > 0 && passes(x.p, st, skip));
     const by = { prezzo: (a, b) => (a.p.prezzo_da ?? 1e9) - (b.p.prezzo_da ?? 1e9), '-prezzo': (a, b) => (b.p.prezzo_da ?? -1) - (a.p.prezzo_da ?? -1), nome: (a, b) => a.p.nome.localeCompare(b.p.nome, 'it') };
-    r.sort(by[st.sort] || ((a, b) => (I.n ? b.sc - a.sc : 0) || a.i - b.i));
+    r.sort(by[st.sort] || ((a, b) => (I.n ? b.sc - a.sc : 0) || (st.set.length ? (a.p.gen ? 1 : 0) - (b.p.gen ? 1 : 0) : 0) || a.i - b.i));
     return r.map(x => x.p);
   }
   function facet(key, vals) {       // conteggi coerenti: tutti gli altri filtri applicati, non il proprio

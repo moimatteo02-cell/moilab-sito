@@ -69,6 +69,13 @@ def match(rule, a, p):
     return why
 
 righe, cnt_set, cnt_es, cnt_cf, cnt_mat = [], Counter(), Counter(), Counter(), Counter()
+# capi 'basic' (B nella classificazione visiva): adatti a tutti i settori, mostrati dopo quelli specifici
+GEN = set()
+_cv = os.path.join(D, 'fonte', 'classificazione-visiva.txt')
+if os.path.exists(_cv):
+    for _l in open(_cv, encoding='utf-8'):
+        _p = _l.split()
+        if len(_p) >= 2 and not _l.startswith('#') and 'B' in _p[1].split(','): GEN.add(_p[0])
 for e in elenco:
     sku = e['sku']; p = prod[sku]; a = attr.get(sku, {})
     sett = []
@@ -81,7 +88,7 @@ for e in elenco:
     bimbo = any(re.search(r'anni|mesi|kids|bambin', norm(t)) for t in taglie)
     fam = sorted({f for c in p.get('colori', []) if (f := famiglia(c.get('hex')))})
     mat = materiale(p.get('descrizione') or p.get('descrizione_breve'))
-    e.update(s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
+    e.update(gen=sku in GEN, s=sett, x=es, g=GENERE.get(a.get('g')), b=bimbo, tg=taglie, cf=fam, m=mat, marca=p.get('marca', e.get('marca')),
              kw=norm(' '.join([e['nome'], e['tipo'], e['sku'], e['categoria'], e.get('sottocategoria') or '', p.get('marca') or '',
                                ' '.join(c['nome'] for c in p.get('colori', []))])))
     cnt_set.update(sett); cnt_es.update(es); cnt_cf.update(fam); cnt_mat.update([mat] if mat else [])
