@@ -9,7 +9,7 @@ if(mount){
  const primary=['Magliette','Felpe','Polo','Camicie','Cappotti e giacche','Gilet','Pantaloni','Cappellini e accessori'];
  const image=(src,alt,extra='')=>`<img src="${e(safeURL(src))}" alt="${e(alt)}" loading="${extra.includes('data-main-photo')?'eager':'lazy'}" decoding="async" ${extra}>`;
  // Catalogo statico (dati in /data/apparel/, generati da data/apparel di ChatGPT Sites): sostituisce l'API /api/apparel
- const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-3';let _meta,_list;
+ const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-8';let _meta,_list;
  async function load(f){const r=await fetch(DATA+f+DV);if(!r.ok)throw Error('Catalogo temporaneamente non disponibile.');return r.json();}
  async function api(params={}){
   if(params.sku)return load('prodotti/'+encodeURIComponent(params.sku)+'.json');
@@ -49,7 +49,7 @@ if(mount){
  }
  async function detail(sku){
   const id=++request;mount.setAttribute('aria-busy','true');
-  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();scrollCatalog();}
+  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colore_base||product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();scrollCatalog();}
   catch(err){if(id===request)paint(`<p role="alert">${e(err.message)}</p><button data-retry>Ritorna ai prodotti</button>`);}
   finally{if(id===request)mount.removeAttribute('aria-busy');}
  }
@@ -64,7 +64,7 @@ if(mount){
  function customPrice(){return product.varianti.find(v=>v.colore===color&&(v.taglia===size||v.taglia==='tutte'))?.prezzo_personalizzato;}
  function quote(){const u=unit();return 'https://wa.me/393278815148?text='+encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per ${product.nome} (${product.sku}), colore ${color||'da definire'}, taglia ${size||'da definire'}, quantità ${qty}. ${personalized?'Con personalizzazione (una stampa fino a 40 cm inclusa)':'Capo senza personalizzazione'}. Prezzo indicato: ${u?(u.from?'da ':'')+euro(u.n)+' al pezzo':'da confermare'}.`);}
  function showProduct(){
-  const p=product,c=p.colori.find(c=>c.nome===color),photos=[...new Set([p.immagine_principale,...p.immagini,c?.immagine].filter(Boolean))];
+  const p=product;
   const short=String(p.descrizione_breve||p.descrizione||'').split('\n')[0];
   const ico={
    print:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M7 14h10v7H7z"/></svg>',
@@ -74,7 +74,7 @@ if(mount){
    chat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>',
    heart:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-9a4.6 4.6 0 0 1 9-3 4.6 4.6 0 0 1 9 3c-2 4.6-9 9-9 9z"/></svg>',
    up:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>',down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'};
-  const swatch=c=>{const hex=/^#[0-9a-f]{3,8}$/i.test(c.hex||'')?c.hex:null;return `<button type="button" data-color="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}"><span class="ac-pdp-swatch">${c.immagine?image(c.immagine,''):`<i style="background:${hex||'#e7e5df'}"></i>`}</span><small>${e(c.nome)}</small></button>`;};
+  const swatch=c=>{const tile=(c.foto&&c.foto[0])||c.immagine;return `<button type="button" data-color="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}"><span class="ac-pdp-swatch">${tile?image(tile,''):`<i style="background:${colorFill(c.hex)}"></i>`}</span><span class="ac-pdp-chip">${dot(c.hex)}<span>${e(c.nome)}</span></span></button>`;};
   paint(`<nav class="ac-pdp-crumbs" aria-label="Percorso"><button type="button" data-home>Catalogo</button><span>/</span><button type="button" data-list>${e(category||p.categoria||'Tutti i capi')}</button>${p.sottocategoria?`<span>/</span><span>${e(p.sottocategoria)}</span>`:''}</nav>
   <div class="ac-pdp">
    <div class="ac-pdp-info">
@@ -100,7 +100,7 @@ if(mount){
    <div class="ac-pdp-gallery">
     <div class="ac-pdp-rail">
      <button type="button" class="ac-pdp-arrow" data-gallery-step="-1" aria-label="Contenuto precedente">${ico.up}</button>
-     <div class="ac-thumbs">${p.video?'<button data-video aria-label="Video del capo"><span class="ac-pdp-play">▶</span><small>Video</small></button>':''}${photos.map((src,i)=>`<button data-photo="${e(src)}" aria-label="Foto ${i+1} di ${e(p.nome)}">${image(src,'Dettaglio '+(i+1))}</button>`).join('')}</div>
+     <div class="ac-thumbs" data-rail></div>
      <button type="button" class="ac-pdp-arrow" data-gallery-step="1" aria-label="Contenuto successivo">${ico.down}</button>
     </div>
     <div class="ac-pdp-stage"><div class="ac-picture ac-main" data-media-stage></div><span class="ac-pdp-pos" data-gallery-position aria-live="polite"></span></div>
@@ -120,9 +120,24 @@ if(mount){
     </ul>
    </aside>
   </div>`);
-  mount.querySelectorAll('.ac-thumbs img,.ac-pdp-colors img').forEach(i=>{i.loading='eager';});
-  mediaItems=[...(p.video?[{type:'video',src:p.video}]:[]),...photos.map(src=>({type:'image',src}))];showMedia(0);
+  mount.querySelectorAll('.ac-pdp-colors img').forEach(i=>{i.loading='eager';});
+  buildGallery();showMedia(0);
  }
+ // Colori: "#FFFFFF/#00A0D1" -> pallino diviso nei colori del capo
+ function hexes(h){return String(h||'').split('/').map(x=>x.trim()).filter(x=>/^#[0-9a-f]{6}$/i.test(x)||/^#[0-9a-f]{3}$/i.test(x));}
+ function colorFill(h){const l=hexes(h);if(!l.length)return '#e7e5df';if(l.length===1)return l[0];const st=100/l.length;return `linear-gradient(135deg,${l.map((c,i)=>`${c} ${i*st}% ${(i+1)*st}%`).join(',')})`;}
+ function dot(h){return hexes(h).length?`<i class="ac-pdp-dot" style="background:${colorFill(h)}"></i>`:'';}
+ // Galleria: prima la modella (e i suoi dettagli), poi il video, poi il capo nel colore scelto
+ function buildGallery(){
+  const p=product,c=p.colori.find(x=>x.nome===color),model=p.galleria||[p.immagine_principale].filter(Boolean),own=(c&&(c.foto&&c.foto.length?c.foto:[c.immagine]).filter(Boolean))||[];
+  const seen=new Set(),imgs=u=>u.filter(x=>x&&!seen.has(x)&&seen.add(x)).map(src=>({type:'image',src}));
+  const m=imgs(model);mediaItems=[...m.slice(0,1),...(p.video?[{type:'video',src:p.video}]:[]),...m.slice(1),...imgs(own)];
+  colorStart=mediaItems.findIndex(x=>x.type==='image'&&own.includes(x.src));
+  const rail=mount.querySelector('[data-rail]');if(!rail)return;
+  rail.innerHTML=mediaItems.map((it,i)=>it.type==='video'?'<button data-video aria-label="Video del capo"><span class="ac-pdp-play">▶</span><small>Video</small></button>':`<button data-photo="${e(it.src)}" aria-label="Foto ${i+1} di ${e(p.nome)}">${image(it.src,'Foto '+(i+1))}</button>`).join('');
+  rail.querySelectorAll('img').forEach(i=>{i.loading='eager';});bindFallbacks();
+ }
+ let colorStart=-1;
  // Prezzo al pezzo per la selezione corrente; con stampa applica lo scaglione di quantita'
  function pick(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x)return {v:x,from:false};if(!size&&vs.length){const m=vs.reduce((a,b)=>(a[k]??1e9)<=(b[k]??1e9)?a:b);return {v:m,from:new Set(vs.map(v=>v[k])).size>1};}return null;}
  function unit(){const r=pick(personalized?'prezzo_personalizzato':'prezzo');if(!r)return null;const x=r.v;let n=personalized?x.prezzo_personalizzato:x.prezzo;if(n==null)return null;if(personalized&&x.prezzo!=null)n=qty>=50?Math.min(n,x.prezzo+5):qty>=10?Math.min(n,x.prezzo+7):n;return {n:Math.round(n*100)/100,from:r.from};}
@@ -168,10 +183,10 @@ if(mount){
   else if(b.hasAttribute('data-page')){page+=Number(b.dataset.page);listing(true);}
   else if(b.hasAttribute('data-sku'))detail(b.dataset.sku);
   else if(b.hasAttribute('data-list')||b.hasAttribute('data-retry'))listing(true);
-  else if(b.hasAttribute('data-video'))showMedia(0);
+  else if(b.hasAttribute('data-video'))showMedia(Math.max(0,mediaItems.findIndex(x=>x.type==='video')));
   else if(b.hasAttribute('data-gallery-step'))showMedia(mediaIndex+Number(b.dataset.galleryStep));
   else if(b.hasAttribute('data-photo'))showMedia(mediaItems.findIndex(x=>x.src===b.dataset.photo));
-  else if(b.hasAttribute('data-color')){color=b.dataset.color;updateSelection();const c=product.colori.find(c=>c.nome===color);if(c?.immagine){let i=mediaItems.findIndex(x=>x.src===c.immagine);if(i>=0)showMedia(i);}}
+  else if(b.hasAttribute('data-color')){color=b.dataset.color;updateSelection();if(mount.querySelector('[data-rail]')){buildGallery();showMedia(colorStart>=0?colorStart:0);}else{const c=product.colori.find(c=>c.nome===color);if(c?.immagine){let i=mediaItems.findIndex(x=>x.src===c.immagine);if(i>=0)showMedia(i);}}}
   else if(b.hasAttribute('data-size')){size=b.dataset.size;updateSelection();}
   else if(b.hasAttribute('data-personalization')){personalized=b.dataset.personalization==='yes';updateSelection();}
   else if(b.hasAttribute('data-qty-step')){qty=Math.max(1,Math.min(9999,qty+Number(b.dataset.qtyStep)));updateSelection();}

@@ -137,3 +137,46 @@
 }
 .ac-pdp-stage .ac-main{aspect-ratio:auto!important;height:100%!important;width:100%!important}
 .ac-pdp-stage .ac-main img,.ac-pdp-stage .ac-main video{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:contain;object-position:center}
+
+/* ===== Scheda prodotto a tutta larghezza + etichette colore (25/10/2026) ===== */
+.moi-room{container-type:inline-size}
+.ac-pdp,.ac-pdp-crumbs{--pdp-w:min(1840px,calc(100cqw - 48px));width:var(--pdp-w);max-width:none;margin-left:calc(50% - var(--pdp-w) / 2)}
+.ac-pdp{grid-template-columns:minmax(280px,360px) minmax(0,1fr) minmax(320px,400px)}
+.ac-pdp-gallery{grid-template-columns:116px minmax(0,1fr);height:min(920px,calc(100vh - 24px))}
+.ac-pdp-info{padding:36px 34px}
+.ac-pdp-panel{padding:30px 30px}
+.ac-pdp-info h2{font-size:clamp(28px,2.4vw,40px)!important}
+/* etichetta colore sotto la tessera */
+.ac-pdp-colors{grid-template-columns:repeat(3,minmax(0,1fr));max-height:420px}
+.ac-pdp-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:100%;margin:0 auto;padding:4px 9px 4px 5px;border:1px solid #18181822;border-radius:999px;background:#fff;font-size:11px;line-height:1.2;color:#55544f;transition:background .2s,color .2s,border-color .2s}
+.ac-pdp-chip>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac-pdp-dot{flex:none;width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px #0000002e}
+.ac-pdp-colors button:hover .ac-pdp-chip{border-color:#151515}
+.ac-pdp-colors button[aria-pressed=true] .ac-pdp-chip{background:#151515;border-color:#151515;color:#fff}
+.ac-pdp-colors button[aria-pressed=true] .ac-pdp-dot{box-shadow:0 0 0 1.5px #fff}
+.ac-pdp-colors small{display:none}
+@media (max-width:1100px){
+ .ac-pdp,.ac-pdp-crumbs{--pdp-w:calc(100cqw - 32px)}
+ .ac-pdp{grid-template-columns:minmax(0,1fr) minmax(300px,360px)}
+}
+@media (max-width:720px){
+ .ac-pdp,.ac-pdp-crumbs{--pdp-w:100cqw}
+ .ac-pdp-crumbs{padding:0 16px;box-sizing:border-box}
+ .ac-pdp-gallery{grid-template-columns:64px minmax(0,1fr);height:auto}
+ .ac-pdp-colors{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+/* correzioni: tessere colore uniformi + telefono a una colonna */
+.ac-pdp-colors{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ac .ac-pdp-colors button{min-width:0;width:100%;justify-items:center}
+.ac-pdp-swatch{width:100%;position:relative}
+.ac-pdp-swatch img{position:absolute;inset:0}
+.ac-pdp-chip{min-width:0}
+.ac-pdp-chip>span{min-width:0}
+@media (max-width:720px){
+ .ac-pdp{grid-template-columns:1fr}
+ .ac-pdp-stage{aspect-ratio:4/5;min-height:0}
+ .ac-pdp-gallery{height:auto;position:relative}
+ .ac-pdp-info{grid-column:auto;grid-row:auto}
+}
+.ac-pdp-chip{border-radius:14px;padding:4px 8px 4px 5px;text-align:left}
+.ac-pdp-chip>span{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
