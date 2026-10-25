@@ -26,7 +26,7 @@ if(mount){
  function bindFallbacks(){mount.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(!img.classList.contains('ac-back-photo'))img.parentElement?.classList.add('ac-no-image');},{once:true}));}
  async function ownerLink(){try{const r=await fetch('/api/sticker/session',{credentials:'same-origin'});if(r.ok&&(await r.json()).isAdmin)mount.querySelector('.ac-owner')?.removeAttribute('hidden');}catch{}}
  let disposePreviews=()=>{};
- function paint(body){disposePreviews();mount.innerHTML=frame(body);bindFallbacks();ownerLink();disposePreviews=bindPreviews(mount);}
+ function paint(body){room?.classList.remove('ac-detail-mode');disposePreviews();mount.innerHTML=frame(body);bindFallbacks();ownerLink();disposePreviews=bindPreviews(mount);}
  function home(){
   category='';sub='';q='';page=1;product=null;
   paint(`<h2 tabindex="-1">Scegli il capo.<br><em>Al resto pensiamo noi.</em></h2><p class="ac-lead">400 modelli. Colori, taglie e possibilità da esplorare.</p><p class="ac-note">Scegli il capo senza personalizzazione oppure con una stampa fino a 40 cm inclusa. Entrambi i prezzi sono finali.</p><div class="ac-categories">${meta.categories.filter(c=>primary.includes(c.nome)).map(c=>`<button class="ac-category" data-category="${e(c.nome)}"><div class="ac-picture">${image(c.image,c.nome)}</div><div><h3>${e(c.nome)} <span>↗</span></h3><p>${c.modelli} modelli · da ${euro(c.prezzo_da)}</p></div></button>`).join('')}</div><p class="ac-overline">Anche:</p><div class="ac-filters">${meta.categories.filter(c=>!primary.includes(c.nome)).map(c=>`<button data-category="${e(c.nome)}">${e(c.nome)} · ${c.modelli}</button>`).join('')}</div><button class="ac-all" data-all>Esplora tutti i 400 modelli →</button><p class="ac-note">Disponibilità, quantità e tempi vengono confermati nel preventivo. Foto e video del catalogo sono forniti da Emme Customs.</p>`);
@@ -49,7 +49,7 @@ if(mount){
  }
  async function detail(sku){
   const id=++request;mount.setAttribute('aria-busy','true');
-  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colore_base||product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();scrollCatalog();}
+  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colore_base||product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();if(!lockable())scrollCatalog();else mount.querySelector('h2')?.focus({preventScroll:true});}
   catch(err){if(id===request)paint(`<p role="alert">${e(err.message)}</p><button data-retry>Ritorna ai prodotti</button>`);}
   finally{if(id===request)mount.removeAttribute('aria-busy');}
  }
@@ -99,11 +99,9 @@ if(mount){
    </div>
    <div class="ac-pdp-gallery">
     <div class="ac-pdp-rail">
-     <button type="button" class="ac-pdp-arrow" data-gallery-step="-1" aria-label="Contenuto precedente">${ico.up}</button>
      <div class="ac-thumbs" data-rail></div>
-     <button type="button" class="ac-pdp-arrow" data-gallery-step="1" aria-label="Contenuto successivo">${ico.down}</button>
     </div>
-    <div class="ac-pdp-stage"><div class="ac-picture ac-main" data-media-stage></div><span class="ac-pdp-pos" data-gallery-position aria-live="polite"></span></div>
+    <div class="ac-pdp-stage" title="Trascina, usa la rotellina o clicca per cambiare foto"><div class="ac-picture ac-main" data-media-stage></div><span class="ac-pdp-pos" data-gallery-position aria-live="polite"></span></div>
    </div>
    <aside class="ac-pdp-panel" aria-label="Scegli e richiedi il preventivo">
     <div class="ac-pdp-row"><span>${e(p.sku)}</span><span class="ac-pdp-stock"><i></i>Su ordinazione</span></div>
@@ -122,6 +120,7 @@ if(mount){
   </div>`);
   mount.querySelectorAll('.ac-pdp-colors img').forEach(i=>{i.loading='eager';});
   buildGallery();showMedia(0);
+  room?.classList.add('ac-detail-mode');if(room)room.scrollTop=0;
  }
  // Colori: "#FFFFFF/#00A0D1" -> pallino diviso nei colori del capo
  function hexes(h){return String(h||'').split('/').map(x=>x.trim()).filter(x=>/^#[0-9a-f]{6}$/i.test(x)||/^#[0-9a-f]{3}$/i.test(x));}
@@ -147,15 +146,17 @@ if(mount){
  function isFav(){return favs().includes(product.sku);}
  function toggleFav(){let f=favs();f=f.includes(product.sku)?f.filter(x=>x!==product.sku):[...f,product.sku];try{localStorage.setItem('moi-preferiti',JSON.stringify(f))}catch{}const b=mount.querySelector('[data-fav]');if(b){b.setAttribute('aria-pressed',String(isFav()));b.querySelector('[data-fav-label]').textContent=isFav()?'Salvato nei preferiti':'Salva nei preferiti';}}
  let mediaItems=[],mediaIndex=0;
- function showMedia(index){
-  mediaIndex=(index+mediaItems.length)%mediaItems.length;
+ function lockable(){return matchMedia('(min-width:1024px) and (min-height:640px)').matches;}
+ function showMedia(index,dir){
+  const prev=mediaIndex;mediaIndex=(index+mediaItems.length)%mediaItems.length;if(dir==null)dir=mediaIndex>=prev?1:-1;
   const stage=mount.querySelector('[data-media-stage]'),item=mediaItems[mediaIndex];
   stage.querySelector('video')?.pause();stage.classList.remove('ac-no-image');
-  stage.innerHTML=item.type==='video'?`<video autoplay muted loop playsinline preload="auto" poster="${e(safeURL(product.immagine_principale))}" aria-label="Video di ${e(product.nome)}" src="${e(safeURL(item.src))}"></video>`:image(item.src,product.nome,'data-main-photo');
+  const old=stage.firstElementChild;stage.innerHTML=item.type==='video'?`<video autoplay muted loop playsinline preload="auto" poster="${e(safeURL(product.immagine_principale))}" aria-label="Video di ${e(product.nome)}" src="${e(safeURL(item.src))}"></video>`:image(item.src,product.nome,'data-main-photo');
   mount.querySelector('[data-gallery-position]').textContent=`${mediaIndex+1} / ${mediaItems.length}`;
   mount.querySelectorAll('.ac-thumbs button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===mediaIndex)));
   const rail=mount.querySelector('.ac-thumbs'),act=rail?.children[mediaIndex];if(rail&&act){const vertical=getComputedStyle(rail).flexDirection==='column';rail.scrollTo({top:vertical?act.offsetTop-rail.clientHeight/2+act.offsetHeight/2:0,left:vertical?0:act.offsetLeft-rail.clientWidth/2+act.offsetWidth/2,behavior:'smooth'});}
   const video=stage.querySelector('video');if(video){video.muted=true;video.play().catch(()=>{stage.innerHTML=image(product.immagine_principale,product.nome,'data-main-photo');bindFallbacks();});video.addEventListener('error',()=>{stage.innerHTML=image(product.immagine_principale,product.nome,'data-main-photo');bindFallbacks();},{once:true});}bindFallbacks();
+  const fresh=stage.firstElementChild;if(fresh&&old&&old!==fresh&&!matchMedia('(prefers-reduced-motion: reduce)').matches){fresh.animate([{opacity:0,transform:`translateY(${dir*7}%) scale(1.015)`},{opacity:1,transform:'none'}],{duration:520,easing:'cubic-bezier(.2,.8,.2,1)'});}
  }
  function updateSelection(){
   mount.querySelectorAll('[data-color]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===color)));
@@ -166,14 +167,16 @@ if(mount){
   mount.querySelectorAll('[data-personalization]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.personalization==='yes')===personalized)));
   mount.querySelector('[data-quote]').href=quote();
  }
- let swipeStart=null;
- mount.addEventListener('pointerdown',ev=>{
-  if(ev.target.closest('[data-media-stage]'))swipeStart={x:ev.clientX,y:ev.clientY};
- },{passive:true});
- mount.addEventListener('pointerup',ev=>{
-  if(swipeStart&&ev.target.closest('[data-media-stage]')){const dx=ev.clientX-swipeStart.x,dy=ev.clientY-swipeStart.y;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.5)showMedia(mediaIndex+(dx<0?1:-1));}swipeStart=null;
- },{passive:true});
- mount.addEventListener('pointercancel',()=>{swipeStart=null;},{passive:true});
+ // Foto: trascina (su/giu' o destra/sinistra), rotellina o clic per cambiare
+ let drag=null,wheelAcc=0,wheelLock=0;
+ mount.addEventListener('pointerdown',ev=>{const st=ev.target.closest('[data-media-stage]');if(!st||(ev.pointerType==='mouse'&&ev.button!==0))return;drag={x:ev.clientX,y:ev.clientY,moved:false,el:st.firstElementChild,id:ev.pointerId,st};},{passive:true});
+ mount.addEventListener('pointermove',ev=>{if(!drag)return;const dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;if(!drag.moved&&Math.hypot(dx,dy)>6){drag.moved=true;drag.st.setPointerCapture?.(drag.id);drag.st.classList.add('is-dragging');}if(drag.moved&&drag.el){const v=Math.abs(dy)>=Math.abs(dx);drag.v=v;const d=v?dy:dx;drag.el.style.transition='none';drag.el.style.transform=v?`translateY(${d*.6}px)`:`translateX(${d*.6}px)`;drag.el.style.opacity=String(Math.max(.35,1-Math.abs(d)/600));}},{passive:true});
+ const endDrag=ev=>{if(!drag)return;const d0=drag;drag=null;d0.st.classList.remove('is-dragging');const dx=ev.clientX-d0.x,dy=ev.clientY-d0.y,d=d0.v?dy:dx;
+  if(d0.el){d0.el.style.transition='transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s';d0.el.style.transform='';d0.el.style.opacity='';}
+  if(!d0.moved){if(ev.type==='pointerup'&&mediaItems.length>1)showMedia(mediaIndex+1,1);return;}
+  if(Math.abs(d)>60)showMedia(mediaIndex+(d<0?1:-1),d<0?1:-1);};
+ mount.addEventListener('pointerup',endDrag,{passive:true});mount.addEventListener('pointercancel',endDrag,{passive:true});
+ mount.addEventListener('wheel',ev=>{const st=ev.target.closest('.ac-pdp-stage');if(!st||mediaItems.length<2)return;ev.preventDefault();const now=performance.now();if(now<wheelLock)return;wheelAcc+=Math.abs(ev.deltaY)>Math.abs(ev.deltaX)?ev.deltaY:ev.deltaX;if(Math.abs(wheelAcc)>40){const dir=wheelAcc>0?1:-1;wheelAcc=0;wheelLock=now+420;showMedia(mediaIndex+dir,dir);}},{passive:false});
  mount.addEventListener('click',ev=>{
   const b=ev.target.closest('button');if(!b)return;
   if(b.hasAttribute('data-home')){++request;home();scrollCatalog();}

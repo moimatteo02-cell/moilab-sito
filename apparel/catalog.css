@@ -180,3 +180,49 @@
 }
 .ac-pdp-chip{border-radius:14px;padding:4px 8px 4px 5px;text-align:left}
 .ac-pdp-chip>span{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+
+/* ===== Abbigliamento: niente intestazione iniziale, si parte dal catalogo (25/10/2026) ===== */
+#moi-showroom-apparel .moi-room-meta,#moi-showroom-apparel .moi-room-content{display:none!important}
+#moi-showroom-apparel .ac{margin-top:8px}
+#moi-showroom-apparel .mp-teaser{margin-top:40px}
+
+/* foto: si cambia trascinando, con la rotellina o con un clic */
+.ac-pdp-stage{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.ac-pdp-stage .is-dragging,.ac-pdp-stage:active{cursor:grabbing}
+.ac-pdp-stage .ac-main>*{will-change:transform,opacity}
+.ac-pdp-stage img{-webkit-user-drag:none;pointer-events:none}
+.ac-pdp-arrow{display:none!important}
+.ac-pdp-rail{padding:12px 10px}
+
+/* ===== Scheda prodotto "bloccata": tutto in una schermata, niente scorrimento pagina ===== */
+@media (min-width:1024px) and (min-height:640px){
+ .moi-room.ac-detail-mode{overflow:hidden!important}
+ .ac-detail-mode .ac{position:fixed;inset:0;z-index:20;margin:0!important;padding:10px 20px 16px;box-sizing:border-box;background:#f6f5f2;display:flex;flex-direction:column;overflow:hidden}
+ .ac-detail-mode .ac-heading{display:none}
+ .ac-detail-mode .ac-pdp-crumbs{width:auto;margin:0 0 10px;flex:none}
+ .ac-detail-mode .ac-pdp{width:auto;margin:0;flex:1;min-height:0;grid-template-columns:minmax(280px,340px) minmax(0,1fr) minmax(320px,390px);grid-template-rows:minmax(0,1fr)}
+ .ac-detail-mode .ac-pdp-info{grid-column:auto;grid-row:auto;border-top:0;border-right:1px solid #1818181a;overflow-y:auto;scrollbar-width:thin;padding:26px 28px}
+ .ac-detail-mode .ac-pdp-gallery{position:relative;height:auto;min-height:0;grid-row:auto}
+ .ac-detail-mode .ac-pdp-panel{overflow-y:auto;scrollbar-width:thin;padding:22px 26px;gap:16px;min-height:0}
+ .ac-detail-mode .ac-pdp-panel fieldset:first-of-type{flex:1 1 auto;min-height:150px;display:flex;flex-direction:column}
+ .ac-detail-mode .ac-pdp-colors{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;align-content:start}
+ .ac-detail-mode .ac-pdp-panel legend{margin-bottom:10px}
+ .ac-detail-mode .ac-pdp-sizes button,.ac-detail-mode .ac-pdp-toggle button{min-height:38px}
+ .ac-detail-mode .ac-pdp-stepper{height:40px}
+ .ac-detail-mode .ac-pdp-cta,.ac-detail-mode .ac-pdp-fav{min-height:48px}
+ .ac-detail-mode .ac-pdp-fav{margin-top:-6px}
+ .ac-detail-mode .ac-pdp-trust{gap:10px;padding-top:14px}
+ .ac-detail-mode .ac-pdp-trust span{display:none}
+ .ac-detail-mode .ac-pdp-info .ac-pdp-features{gap:12px}
+}
+/* schermi bassi: il pannello resta compatto */
+@media (min-width:1024px) and (min-height:640px) and (max-height:860px){
+ .ac-detail-mode .ac-pdp-trust{display:none}
+ .ac-detail-mode .ac-pdp-info .ac-pdp-short{display:none}
+}
+@media (min-width:1024px) and (min-height:640px){
+ .ac-detail-mode .ac-pdp-gallery{align-self:stretch;height:auto;grid-template-rows:minmax(0,1fr);overflow:hidden}
+ .ac-detail-mode .ac-pdp-rail{height:auto;min-height:0;overflow:hidden}
+ .ac-detail-mode .ac-pdp .ac-thumbs{min-height:0;height:100%}
+ .ac-detail-mode .ac-pdp-stage{height:auto;min-height:0;overflow:hidden}
+}
