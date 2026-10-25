@@ -1,3 +1,4 @@
+import {bindPreviews} from './preview.mjs?v=20261024-2';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -7,31 +8,33 @@ if(mount){
  let meta,started=false,category='',sub='',q='',page=1,product=null,color='',size='',personalized=false,request=0;
  const primary=['Magliette','Felpe','Polo','Camicie','Cappotti e giacche','Gilet','Pantaloni','Cappellini e accessori'];
  const image=(src,alt,extra='')=>`<img src="${e(safeURL(src))}" alt="${e(alt)}" loading="${extra.includes('data-main-photo')?'eager':'lazy'}" decoding="async" ${extra}>`;
- // Catalogo statico (dati in /data/apparel/): sostituisce l'API di ChatGPT Sites
- const PER_PAGE=24,DATA='/data/apparel/';let _meta,_list;
- async function load(f){const r=await fetch(DATA+f);if(!r.ok)throw Error('Catalogo temporaneamente non disponibile.');return r.json();}
+ // Catalogo statico (dati in /data/apparel/, generati da data/apparel di ChatGPT Sites): sostituisce l'API /api/apparel
+ const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-1';let _meta,_list;
+ async function load(f){const r=await fetch(DATA+f+DV);if(!r.ok)throw Error('Catalogo temporaneamente non disponibile.');return r.json();}
  async function api(params={}){
   if(params.sku)return load('prodotti/'+encodeURIComponent(params.sku)+'.json');
   _list??=await load('elenco.json');
-  const norm=t=>String(t??'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const qq=norm(params.q).trim();
-  const items=_list.filter(p=>(!params.category||p.categoria===params.category)&&(!params.sub||p.sottocategoria===params.sub)&&(!qq||[p.nome,p.tipo,p.sku,p.marca].some(v=>norm(v).includes(qq))));
-  const pages=Math.ceil(items.length/PER_PAGE),pg=Math.max(1,Number(params.page)||1);
-  const res={products:items.slice((pg-1)*PER_PAGE,pg*PER_PAGE),total:items.length,page:pg,pages};
+  const qq=String(params.q??'').trim().toLocaleLowerCase('it');
+  const items=_list.filter(p=>(!params.category||p.categoria===params.category)&&(!params.sub||p.sottocategoria===params.sub)&&(!qq||[p.nome,p.tipo,p.sku,p.categoria].join(' ').toLocaleLowerCase('it').includes(qq)));
+  const pg=Math.max(1,Math.min(100,Math.floor(Number(params.page)||1)));
+  const res={products:items.slice((pg-1)*PER_PAGE,pg*PER_PAGE),total:items.length,page:pg,pages:Math.ceil(items.length/PER_PAGE)};
   if(!Object.keys(params).length){_meta??=await load('meta.json');return {..._meta,...res};}
   return res;
  }
  const frame=body=>`<div class="ac-heading"><span>MOI LAB / IL CATALOGO</span><a class="ac-owner" href="/admin/abbigliamento" hidden>Il mio listino riservato ↗</a></div>${body}`;
  function scrollCatalog(){mount.scrollIntoView({behavior:'instant',block:'start'});mount.querySelector('h2')?.focus({preventScroll:true});}
- function bindFallbacks(){mount.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;img.parentElement.classList.add('ac-no-image');},{once:true}));}
+ function bindFallbacks(){mount.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(!img.classList.contains('ac-back-photo'))img.parentElement.classList.add('ac-no-image');},{once:true}));}
  async function ownerLink(){try{const r=await fetch('/api/sticker/session',{credentials:'same-origin'});if(r.ok&&(await r.json()).isAdmin)mount.querySelector('.ac-owner')?.removeAttribute('hidden');}catch{}}
- function paint(body){mount.innerHTML=frame(body);bindFallbacks();ownerLink();}
+ let disposePreviews=()=>{};
+ function paint(body){disposePreviews();mount.innerHTML=frame(body);bindFallbacks();ownerLink();disposePreviews=bindPreviews(mount);}
  function home(){
   category='';sub='';q='';page=1;product=null;
   paint(`<h2 tabindex="-1">Scegli il capo.<br><em>Al resto pensiamo noi.</em></h2><p class="ac-lead">400 modelli. Colori, taglie e possibilità da esplorare.</p><p class="ac-note">Scegli il capo senza personalizzazione oppure con una stampa fino a 40 cm inclusa. Entrambi i prezzi sono finali.</p><div class="ac-categories">${meta.categories.filter(c=>primary.includes(c.nome)).map(c=>`<button class="ac-category" data-category="${e(c.nome)}"><div class="ac-picture">${image(c.image,c.nome)}</div><div><h3>${e(c.nome)} <span>↗</span></h3><p>${c.modelli} modelli · da ${euro(c.prezzo_da)}</p></div></button>`).join('')}</div><p class="ac-overline">Anche:</p><div class="ac-filters">${meta.categories.filter(c=>!primary.includes(c.nome)).map(c=>`<button data-category="${e(c.nome)}">${e(c.nome)} · ${c.modelli}</button>`).join('')}</div><button class="ac-all" data-all>Esplora tutti i 400 modelli →</button><p class="ac-note">Disponibilità, quantità e tempi vengono confermati nel preventivo. Foto e video del catalogo sono forniti da Emme Customs.</p>`);
  }
- function cardPhoto(p){return `<div class="ac-picture ac-preview">${image(p.immagine_principale,p.nome,'class="ac-model-photo"')}${p.immagine_prodotto&&p.immagine_prodotto!==p.immagine_principale?image(p.immagine_prodotto,p.nome+' · prodotto','class="ac-product-photo"'):''}</div>`;}
- function special(){return `<article class="ac-special"><button class="ac-special-photo" data-sku="${e(meta.special.sku)}" aria-label="Scopri Atomic 150">${cardPhoto({...meta.special,nome:'Atomic 150'})}</button><div><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p>T-shirt base · con o senza personalizzazione</p><p>Senza personalizzazione: ${meta.special.prezzo==null?'prezzo da confermare':euro(meta.special.prezzo)}</p><strong>Con personalizzazione: ${euro(meta.special.prezzo_personalizzato)}</strong></div><button class="ac-cta" data-sku="${e(meta.special.sku)}">Scopri il capo →</button></article>`;}
+ function previewAttrs(p){return `data-preview-card data-preview-video="${e(p.video?safeURL(p.video):'')}"`;}
+ function cardPhoto(p){return `<div class="ac-picture ac-preview">${image(p.immagine_modello_fronte||p.immagine_principale,p.nome,'class="ac-model-photo"')}${p.immagine_modello_retro?image(p.immagine_modello_retro,p.nome+' · modello di spalle','class="ac-back-photo"'):''}${p.linea_premium?'<span class="ac-badge">PREMIUM</span>':''}</div>`;}
+
+ function special(){return `<article class="ac-special"><button class="ac-special-photo" ${previewAttrs(meta.special)} data-sku="${e(meta.special.sku)}" aria-label="Scopri Atomic 150">${cardPhoto({...meta.special,nome:'Atomic 150'})}</button><div><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p>T-shirt base · con o senza personalizzazione</p><p>Senza personalizzazione: ${meta.special.prezzo==null?'prezzo da confermare':euro(meta.special.prezzo)}</p><strong>Con personalizzazione: ${euro(meta.special.prezzo_personalizzato)}</strong></div><button class="ac-cta" data-sku="${e(meta.special.sku)}">Scopri il capo →</button></article>`;}
 
  async function listing(scroll=false){
   product=null;const id=++request;
@@ -39,7 +42,7 @@ if(mount){
   try{
    const data=await api({category,sub,q,page:String(page)});if(id!==request)return;
    const c=meta.categories.find(c=>c.nome===category);
-   paint(`<button class="ac-back" data-home>← Tutte le categorie</button><h2 tabindex="-1">${e(category||'Tutti i capi.')}</h2><form class="ac-search"><label for="ac-search">Cerca un modello o un codice</label><div><input id="ac-search" name="q" value="${e(q)}" placeholder="Nome, tipo o SKU"><button>Cerca</button></div></form>${c?`<div class="ac-filters"><button data-sub="" aria-pressed="${!sub}">Tutti</button>${c.sottocategorie.map(s=>`<button data-sub="${e(s.nome)}" aria-pressed="${sub===s.nome}">${e(s.nome)}</button>`).join('')}</div>`:''}${category==='Magliette'&&!sub&&!q&&page===1?special():''}<p class="ac-count" role="status">${data.total} modelli · pagina ${data.page} di ${Math.max(1,data.pages)}</p><p class="ac-note">Passa il cursore per vedere il prodotto. Su mobile: primo tocco per l’anteprima, secondo tocco per aprire.</p><div class="ac-products">${data.products.map(p=>`<button class="ac-product" data-sku="${e(p.sku)}"><div class="ac-picture ac-preview">${image(p.immagine_principale,p.nome,'class="ac-model-photo"')}${p.immagine_prodotto&&p.immagine_prodotto!==p.immagine_principale?image(p.immagine_prodotto,p.nome+' · prodotto','class="ac-product-photo"'):''}${p.linea_premium?'<span class="ac-badge">PREMIUM</span>':''}</div><span class="ac-product-name">${e(p.nome)} <b>↗</b></span><span class="ac-type">${e(p.tipo)}</span><span class="ac-colors">${p.colori} colori</span><span class="ac-card-price">Senza personalizzazione<strong>da ${euro(p.prezzo_da)}</strong></span><span class="ac-card-price">Con personalizzazione<strong>da ${euro(p.prezzo_personalizzato_da)}</strong></span></button>`).join('')}</div>${!data.total?'<p>Nessun capo trovato. Prova un altro nome o rimuovi il filtro.</p>':''}<div class="ac-pagination">${page>1?'<button data-page="-1">← Precedenti</button>':''}${page<data.pages?'<button data-page="1">Altri modelli →</button>':''}</div><p class="ac-note">Con personalizzazione: una stampa fino a 40 cm inclusa. Prezzi finali; disponibilità e tempi da confermare.</p>`);
+   paint(`<button class="ac-back" data-home>← Tutte le categorie</button><h2 tabindex="-1">${e(category||'Tutti i capi.')}</h2><form class="ac-search"><label for="ac-search">Cerca un modello o un codice</label><div><input id="ac-search" name="q" value="${e(q)}" placeholder="Nome, tipo o SKU"><button>Cerca</button></div></form>${c?`<div class="ac-filters"><button data-sub="" aria-pressed="${!sub}">Tutti</button>${c.sottocategorie.map(s=>`<button data-sub="${e(s.nome)}" aria-pressed="${sub===s.nome}">${e(s.nome)}</button>`).join('')}</div>`:''}${category==='Magliette'&&!sub&&!q&&page===1?special():''}<p class="ac-count" role="status">${data.total} modelli · pagina ${data.page} di ${Math.max(1,data.pages)}</p><p class="ac-note">Passa il cursore per vedere il modello di spalle, dove disponibile. Restando sulla scheda parte il video appena pronto. Su mobile: primo tocco per l’anteprima, secondo per aprire.</p><div class="ac-products">${data.products.map(p=>`<button class="ac-product" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="ac-product-name">${e(p.nome)} <b>↗</b></span><span class="ac-type">${e(p.tipo)}</span><span class="ac-colors">${p.colori} colori</span><span class="ac-card-price">Senza personalizzazione<strong>da ${euro(p.prezzo_da)}</strong></span><span class="ac-card-price">Con personalizzazione<strong>da ${euro(p.prezzo_personalizzato_da)}</strong></span></button>`).join('')}</div>${!data.total?'<p>Nessun capo trovato. Prova un altro nome o rimuovi il filtro.</p>':''}<div class="ac-pagination">${page>1?'<button data-page="-1">← Precedenti</button>':''}${page<data.pages?'<button data-page="1">Altri modelli →</button>':''}</div><p class="ac-note">Con personalizzazione: una stampa fino a 40 cm inclusa. Prezzi finali; disponibilità e tempi da confermare.</p>`);
    if(scroll)scrollCatalog();
   }catch(err){if(id===request)paint(`<p role="alert">${e(err.message)}</p><button data-retry>Riprova</button>`);}
   finally{if(id===request)mount.removeAttribute('aria-busy');}
@@ -77,17 +80,14 @@ if(mount){
   mount.querySelectorAll('[data-personalization]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.personalization==='yes')===personalized)));
   mount.querySelector('[data-quote]').href=quote();
  }
- let touchCard=null,touchStart=null,swipeStart=null;
+ let swipeStart=null;
  mount.addEventListener('pointerdown',ev=>{
-  if(ev.pointerType==='touch'){const card=ev.target.closest('[data-sku]');touchStart=card?{card,x:ev.clientX,y:ev.clientY}:null;}
   if(ev.target.closest('[data-media-stage]'))swipeStart={x:ev.clientX,y:ev.clientY};
  },{passive:true});
  mount.addEventListener('pointerup',ev=>{
-  if(touchStart&&Math.hypot(ev.clientX-touchStart.x,ev.clientY-touchStart.y)<12)touchCard=touchStart.card;
-  touchStart=null;
   if(swipeStart&&ev.target.closest('[data-media-stage]')){const dx=ev.clientX-swipeStart.x,dy=ev.clientY-swipeStart.y;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.5)showMedia(mediaIndex+(dx<0?1:-1));}swipeStart=null;
  },{passive:true});
- mount.addEventListener('pointercancel',()=>{touchStart=null;touchCard=null;swipeStart=null;},{passive:true});
+ mount.addEventListener('pointercancel',()=>{swipeStart=null;},{passive:true});
  mount.addEventListener('click',ev=>{
   const b=ev.target.closest('button');if(!b)return;
   if(b.hasAttribute('data-home')){++request;home();scrollCatalog();}
@@ -95,7 +95,7 @@ if(mount){
   else if(b.hasAttribute('data-all')){category='';sub='';q='';page=1;listing(true);}
   else if(b.hasAttribute('data-sub')){sub=b.dataset.sub;page=1;listing();}
   else if(b.hasAttribute('data-page')){page+=Number(b.dataset.page);listing(true);}
-  else if(b.hasAttribute('data-sku')){if(touchCard===b&&b.querySelector('.ac-product-photo')&&!b.classList.contains('ac-peek')){mount.querySelectorAll('.ac-peek').forEach(x=>x.classList.remove('ac-peek'));b.classList.add('ac-peek');touchCard=null;return;}touchCard=null;detail(b.dataset.sku);}
+  else if(b.hasAttribute('data-sku'))detail(b.dataset.sku);
   else if(b.hasAttribute('data-list')||b.hasAttribute('data-retry'))listing(true);
   else if(b.hasAttribute('data-video'))showMedia(0);
   else if(b.hasAttribute('data-gallery-step'))showMedia(mediaIndex+Number(b.dataset.galleryStep));
