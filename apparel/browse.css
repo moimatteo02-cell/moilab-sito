@@ -345,3 +345,38 @@
 /* anteprima retro del capo (foto senza modello) */
 #moi-apparel-catalog .ac-preview .ac-back-flat{object-fit:contain;padding:9%;box-sizing:border-box;mix-blend-mode:multiply}
 .br-sp-model img{object-position:center top}
+
+/* ===== Revisione 25/10 (3): testata senza ripetizioni, doppio prezzo, video stabile su telefono ===== */
+#moi-apparel-catalog .br-hero{grid-template-columns:minmax(0,1fr);min-height:0}
+#moi-apparel-catalog .br-hero-copy{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:end;gap:clamp(24px,5vw,96px);padding:clamp(36px,7vh,88px) 0 clamp(36px,6vh,72px)}
+#moi-apparel-catalog .br-hero h2{margin-bottom:0!important}
+#moi-apparel-catalog .br-lead{margin:0 0 20px}
+#moi-apparel-catalog .br-search-big{max-width:none}
+.br-hero-side,.br-quick{display:none!important}
+
+/* card: due prezzi, uno sotto l'altro */
+.br-pc-prices{display:grid;gap:3px;margin-top:4px}
+.br-pc-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0}
+.br-pc-row .br-pc-label{flex:none}
+#moi-apparel-catalog .br-pc-row strong{margin:0;font-size:20px;font-weight:500;letter-spacing:-.02em;color:#151515;white-space:nowrap}
+.br-pc-row b{font-size:14px;font-weight:500;color:#55544f;white-space:nowrap}
+.br-pc-row small{font-size:11px;font-weight:400;color:#7d7b75}
+.br-pc-row.is-logo .br-pc-label{color:#8a7552;font-weight:600}
+.br-card-prices{color:#55544f!important}
+.br-card-prices b{font-weight:600;color:#151515}
+
+@media (max-width:960px){
+ #moi-apparel-catalog .br-hero-copy{grid-template-columns:minmax(0,1fr);gap:18px;padding:26px 0 30px}
+}
+@media (max-width:520px){
+ #moi-apparel-catalog .br-pc-row strong{font-size:16px}
+ .br-pc-row b{font-size:13px}
+ .br-pc-row .br-pc-label{font-size:9px;letter-spacing:.04em}
+}
+/* video della scheda: la cornice resta sempre 4:5, il video la riempie (niente salti di forma) */
+@media (max-width:720px){
+ .ac-pdp-stage{position:relative;aspect-ratio:4/5;height:auto!important}
+ .ac-pdp-stage .ac-main{position:absolute!important;inset:0;height:auto!important;width:auto!important}
+ .ac-pdp-stage .ac-main video{object-fit:cover!important}
+}
+#moi-apparel-catalog .ac-preview-video{object-fit:cover}

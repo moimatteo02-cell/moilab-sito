@@ -101,6 +101,21 @@ for e in elenco:
                                ' '.join(c['nome'] for c in p.get('colori', []))])))
     cnt_set.update(sett); cnt_es.update(es); cnt_cf.update(fam); cnt_mat.update([mat] if mat else [])
 
+# ordine per pertinenza dentro ogni settore: principali (scelti guardando le foto) -> altri specifici -> basic
+_pf = os.path.join(D, 'fonte', 'pertinenza-settori.json')
+if os.path.exists(_pf):
+    pert = json.load(open(_pf, encoding='utf-8')); pos = {e['sku']: i for i, e in enumerate(elenco)}
+    for e in elenco: e['rk'] = {}; e['p1'] = []
+    for sid, c in pert.items():
+        if sid.startswith('_'): continue
+        cats = c.get('ordine_categorie', []); princ = set(c.get('principali', []))
+        key = lambda e: (cats.index(e['categoria']) if e['categoria'] in cats else 99, pos[e['sku']])
+        membri = [e for e in elenco if sid in e['s']]
+        tiers = [[e for e in membri if e['sku'] in princ], [e for e in membri if e['sku'] not in princ and not e['gen']], [e for e in membri if e['sku'] not in princ and e['gen']]]
+        n = 0
+        for t, grp in enumerate(tiers):
+            for e in sorted(grp, key=key): e['rk'][sid] = n; n += 1
+            if t == 0: [e.setdefault('p1', []).append(sid) for e in grp]
 json.dump(elenco, open(os.path.join(D, 'elenco.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
 
 def card_img(ids_key, val):

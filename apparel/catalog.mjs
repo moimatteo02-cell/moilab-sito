@@ -1,6 +1,6 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
 import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
-import {createBrowser} from './browse.mjs?v=20261025-41';
+import {createBrowser} from './browse.mjs?v=20261025-50';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -11,7 +11,7 @@ if(mount){
  const primary=['Magliette','Felpe','Polo','Camicie','Cappotti e giacche','Gilet','Pantaloni','Cappellini e accessori'];
  const image=(src,alt,extra='')=>`<img src="${e(safeURL(src))}" alt="${e(alt)}" loading="${extra.includes('data-main-photo')?'eager':'lazy'}" decoding="async" ${extra}>`;
  // Catalogo statico (dati in /data/apparel/, generati da data/apparel di ChatGPT Sites): sostituisce l'API /api/apparel
- const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-41';let _meta,_list;
+ const PER_PAGE=24,DATA='/data/apparel/',DV='?v=20261025-50';let _meta,_list;
  async function load(f){const r=await fetch(DATA+f+DV);if(!r.ok)throw Error('Catalogo temporaneamente non disponibile.');return r.json();}
  async function api(params={}){
   if(params.sku)return load('prodotti/'+encodeURIComponent(params.sku)+'.json');

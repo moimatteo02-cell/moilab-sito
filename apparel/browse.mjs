@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261025-41';
+const V = '?v=20261025-50';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -38,6 +38,7 @@ export function createBrowser(mount, h) {
     toks.forEach(t => { if (p.kw.includes(t)) s += 3; });
     if (I.sect.some(x => p.s.includes(x))) s += p.gen ? 2 : 7;   // prima i capi specifici del settore, poi i basic
     if (I.sect.some(x => p.s.includes(x) && (idx.sinonimi[x] || []).some(w => w.length > 3 && norm(p.tipo + ' ' + p.nome).includes(w)))) s += 5;   // capi tipici del mestiere
+    if (I.sect.some(x => (p.p1 || []).includes(x))) s += 6;   // capo tipico del settore (scelto guardando le foto)
     if (I.cats.includes(p.categoria)) s += 6;
     // se la ricerca e' "capo + professione" (es. "felpa palestra") servono entrambe
     if (I.both && !(I.sect.some(x => p.s.includes(x)) && I.cats.includes(p.categoria))) return 0;
@@ -54,11 +55,12 @@ export function createBrowser(mount, h) {
     (skip === 'tg' || !st.tg.length || st.tg.some(x => p.tg.includes(x))) &&
     (skip === 'cf' || !st.cf.length || st.cf.some(x => p.cf.includes(x))) &&
     (skip === 'm' || !st.m.length || st.m.includes(p.m));
+  const rank = (p, sets) => Math.min(...sets.map(x => p.rk?.[x] ?? 9999));   // pertinenza nel settore (capi tipici prima, basic in fondo)
   function results(st = S, skip) {
     const I = interpret(st.q);
     let r = list.map((p, i) => ({ p, i, sc: score(p, I) })).filter(x => x.sc > 0 && passes(x.p, st, skip));
     const by = { prezzo: (a, b) => (a.p.prezzo_da ?? 1e9) - (b.p.prezzo_da ?? 1e9), '-prezzo': (a, b) => (b.p.prezzo_da ?? -1) - (a.p.prezzo_da ?? -1), nome: (a, b) => a.p.nome.localeCompare(b.p.nome, 'it') };
-    r.sort(by[st.sort] || ((a, b) => (I.n ? b.sc - a.sc : 0) || (st.set.length ? (a.p.gen ? 1 : 0) - (b.p.gen ? 1 : 0) : 0) || a.i - b.i));
+    r.sort(by[st.sort] || ((a, b) => (I.n ? b.sc - a.sc : 0) || (st.set.length ? rank(a.p, st.set) - rank(b.p, st.set) : 0) || a.i - b.i));
     return r.map(x => x.p);
   }
   function facet(key, vals) {       // conteggi coerenti: tutti gli altri filtri applicati, non il proprio
@@ -103,7 +105,7 @@ export function createBrowser(mount, h) {
     idx.esigenze.filter(x => norm(x.nome).includes(n)).forEach(x => out.push({ t: 'es', v: x.id, label: x.nome, n: x.conteggio }));
     const prods = list.filter(p => norm(p.nome).startsWith(n) || norm(p.sku).startsWith(n) || norm(p.nome).includes(n)).slice(0, 5);
     const rows = [...out.slice(0, 6).map(o => `<button type="button" role="option" data-br-pick="${o.t}" data-v="${e(o.v)}"><span>${e(o.label)}</span><small>${o.n} modelli</small></button>`),
-      ...prods.map(p => `<button type="button" role="option" data-sku="${e(p.sku)}"><span>${e(p.nome)} <em>${e(p.tipo)}</em></span><small>${p.prezzo_da != null ? 'da ' + euro(p.prezzo_da) : ''}</small></button>`)];
+      ...prods.map(p => `<button type="button" role="option" data-sku="${e(p.sku)}"><span>${e(p.nome)} <em>${e(p.tipo)}</em></span><small>${p.prezzo_personalizzato_da != null ? 'col logo da ' + euro(p.prezzo_personalizzato_da) : ''}${p.prezzo_da != null ? ' · senza da ' + euro(p.prezzo_da) : ''}</small></button>`)];
     box.innerHTML = rows.length ? rows.join('') + `<button type="button" class="br-sugg-all" data-br-submit>Vedi tutti i risultati per «${e(input.value.trim())}»</button>` : `<p class="br-sugg-none">Nessun suggerimento. Premi Invio per cercare ovunque.</p>`;
     box.hidden = false; input.setAttribute('aria-expanded', 'true');
   }
@@ -112,10 +114,12 @@ export function createBrowser(mount, h) {
   function renderHome() {
     view = 'home';
     const cats = meta.categories, prim = cats.filter(c => c.modelli >= 15), rest = cats.filter(c => c.modelli < 15);
+    const catPrice = c => { const ps = list.filter(p => p.categoria === c.nome), m = k => { const v = ps.map(p => p[k]).filter(x => x != null); return v.length ? Math.min(...v) : null; };
+      const lg = m('prezzo_personalizzato_da'), nt = m('prezzo_da'); return lg == null && nt == null ? '' : `<small class="br-card-prices">${lg != null ? `Col tuo logo da <b>${euro(lg)}</b>` : ''}${lg != null && nt != null ? ' · ' : ''}${nt != null ? `senza da ${euro(nt)}` : ''}</small>`; };
     const ci = n => icon(CAT_ICON, n), si = id => icon(SET_ICON, id), ei = id => icon(ES_ICON, id, 'tag');
     const tabs = [['categoria', 'Per categoria', ICONS.grid], ['settore', 'Per settore o professione', ICONS.briefcase], ['esigenza', 'Per esigenza', ICONS.tag]];
     const body = {
-      categoria: `<div class="br-cards">${prim.map(c => `<button class="br-card" data-br-cat="${e(c.nome)}"><span class="br-card-img">${image(c.image, c.nome)}<span class="br-badge">${ci(c.nome)}</span></span><span class="br-card-txt"><strong><span class="br-ico">${ci(c.nome)}</span>${e(c.nome)}</strong><small>${c.modelli} modelli${c.prezzo_da != null ? ' · da ' + euro(c.prezzo_da) : ''}</small></span></button>`).join('')}</div>
+      categoria: `<div class="br-cards">${prim.map(c => `<button class="br-card" data-br-cat="${e(c.nome)}"><span class="br-card-img">${image(c.image, c.nome)}<span class="br-badge">${ci(c.nome)}</span></span><span class="br-card-txt"><strong><span class="br-ico">${ci(c.nome)}</span>${e(c.nome)}</strong><small>${c.modelli} modelli</small>${catPrice(c)}</span></button>`).join('')}</div>
         ${rest.length ? `<div class="br-chips"><span>Anche:</span>${rest.map(c => `<button data-br-cat="${e(c.nome)}"><span class="br-ico">${ci(c.nome)}</span>${e(c.nome)} <small>${c.modelli}</small></button>`).join('')}</div>` : ''}`,
       settore: `<div class="br-cards br-cards-sect">${idx.settori.map(s => `<button class="br-card" data-br-set="${e(s.id)}"><span class="br-card-img">${s.immagine ? image(s.immagine, s.nome) : ''}<span class="br-badge">${si(s.id)}</span></span><span class="br-card-txt"><strong><span class="br-ico">${si(s.id)}</span>${e(s.nome)}</strong><small>${e(s.descrizione)}</small><small class="br-count">${s.conteggio} modelli</small></span></button>`).join('')}</div>
         <p class="br-hint">Cerchi per professione? Prova «dentista», «chef», «muratore», «palestra»: la ricerca capisce il settore.</p>`,
@@ -124,15 +128,10 @@ export function createBrowser(mount, h) {
     };
     paint(`<section class="br-hero">
         <div class="br-hero-copy">
-          <p class="br-eyebrow"><span class="br-dot"></span>MOI LAB / APPAREL</p>
-          <h2 tabindex="-1">Abbigliamento personalizzato.<br><em>Per ogni lavoro, squadra e brand.</em></h2>
-          <p class="br-lead">${list.length} modelli da personalizzare con il tuo logo. Cerca per capo, per settore o per professione.</p>
-          ${searchBox(true)}
-          <div class="br-quick">${idx.settori.slice(0, 4).map(s => `<button data-br-set="${e(s.id)}"><span class="br-ico">${si(s.id)}</span>${e(s.nome)}</button>`).join('')}</div>
-        </div>
-        <div class="br-hero-side" aria-label="Scegli il capo">
-          <p class="br-side-label">Scegli il capo</p>
-          <div class="br-tiles">${prim.map(c => `<button class="br-tile" data-br-cat="${e(c.nome)}"><span class="br-tile-ico">${ci(c.nome)}</span><span class="br-tile-name">${e(c.nome)}</span><small>${c.modelli}</small></button>`).join('')}</div>
+          <div class="br-hero-t"><p class="br-eyebrow"><span class="br-dot"></span>MOI LAB / APPAREL</p>
+          <h2 tabindex="-1">Abbigliamento personalizzato.<br><em>Per ogni lavoro, squadra e brand.</em></h2></div>
+          <div class="br-hero-s"><p class="br-lead">${list.length} modelli da personalizzare con il tuo logo. Cerca per capo, per settore o per professione, oppure scegli un percorso qui sotto.</p>
+          ${searchBox(true)}</div>
         </div>
       </section>
       <div class="br-tabs" role="tablist" aria-label="Come vuoi cercare">${tabs.map(([k, l, ic]) => `<button role="tab" data-br-tab="${k}" aria-selected="${tab === k}" id="br-tab-${k}" aria-controls="br-panel"><span class="br-ico">${ic}</span><span>${l}</span></button>`).join('')}</div>
@@ -185,11 +184,11 @@ export function createBrowser(mount, h) {
   const fill = h => { const [a, b] = String(h).split('/'); return b ? `linear-gradient(135deg,${a} 50%,${b} 50%)` : a; };
   const card = p => {
     const dots = (p.hx || []).slice(0, 4), more = Math.max(0, (p.colori || 0) - dots.length);
-    const pp = p.prezzo_personalizzato_da;
-    const from = p.prezzo_fino_a != null && p.prezzo_da != null && p.prezzo_fino_a > p.prezzo_da;
-    const price = pp != null
-      ? `<span class="br-pc-price"><span class="br-pc-label">Col tuo logo</span><strong>${from ? '<small>da</small> ' : ''}${euro(pp)}</strong></span>`
-      : '<span class="br-pc-price"><strong class="br-pc-ask">Prezzo su richiesta</strong></span>';
+    const pp = p.prezzo_personalizzato_da, pn = p.prezzo_da;
+    const from = p.prezzo_fino_a != null && pn != null && p.prezzo_fino_a > pn ? '<small>da</small> ' : '';
+    const price = pp != null || pn != null
+      ? `<span class="br-pc-prices"><span class="br-pc-row is-logo"><span class="br-pc-label">Col tuo logo</span><strong>${pp != null ? from + euro(pp) : 'su richiesta'}</strong></span><span class="br-pc-row"><span class="br-pc-label">Senza logo</span><b>${pn != null ? from + euro(pn) : 'su richiesta'}</b></span></span>`
+      : '<span class="br-pc-prices"><strong class="br-pc-ask">Prezzo su richiesta</strong></span>';
     return `<button class="ac-product br-pc" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="br-pc-body"><span class="br-pc-name">${e(p.nome)}</span><span class="br-pc-type">${e(p.tipo)}</span>${p.colori ? `<span class="br-pc-dots" aria-label="${p.colori} ${p.colori === 1 ? 'colore' : 'colori'}">${dots.map(h => `<i style="background:${fill(h)}"></i>`).join('')}${more ? `<small>+${more}</small>` : ''}</span>` : ''}${price}</span></button>`;
   };
   function emptyHTML() {
@@ -220,7 +219,7 @@ export function createBrowser(mount, h) {
           ${S.cat.length === 1 && S.cat[0] === 'Magliette' && !S.q && nF === 1 ? special() : ''}
           ${all.length ? `<div class="ac-products">${shown.map(card).join('')}</div>` : emptyHTML()}
           ${all.length > shown.length ? `<div class="ac-pagination"><button data-br-more>Mostra altri ${Math.min(PER_PAGE, all.length - shown.length)} <small>(${shown.length} di ${all.length})</small></button></div>` : ''}
-          <p class="ac-note">«Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
+          <p class="ac-note">«Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. «Senza logo»: il capo neutro. Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
         </div>
       </div>`);
     document.documentElement.classList.toggle('br-lock', drawer);
