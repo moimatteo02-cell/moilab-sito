@@ -5,7 +5,7 @@ if(mount){
  const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n);
  const e=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const safeURL=v=>{try{const u=new URL(v,location.origin);return u.protocol==='https:'||u.origin===location.origin?u.href:'';}catch{return '';}};
- let meta,started=false,category='',sub='',q='',page=1,product=null,color='',size='',personalized=false,request=0;
+ let meta,started=false,category='',sub='',q='',page=1,product=null,color='',size='',personalized=false,request=0,qty=1;
  const primary=['Magliette','Felpe','Polo','Camicie','Cappotti e giacche','Gilet','Pantaloni','Cappellini e accessori'];
  const image=(src,alt,extra='')=>`<img src="${e(safeURL(src))}" alt="${e(alt)}" loading="${extra.includes('data-main-photo')?'eager':'lazy'}" decoding="async" ${extra}>`;
  // Catalogo statico (dati in /data/apparel/, generati da data/apparel di ChatGPT Sites): sostituisce l'API /api/apparel
@@ -49,7 +49,7 @@ if(mount){
  }
  async function detail(sku){
   const id=++request;mount.setAttribute('aria-busy','true');
-  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colori[0]?.nome||'';size='';personalized=false;showProduct();scrollCatalog();}
+  try{const data=await api({sku});if(id!==request)return;product=data.product;color=product.colori[0]?.nome||'';size='';personalized=false;qty=1;showProduct();scrollCatalog();}
   catch(err){if(id===request)paint(`<p role="alert">${e(err.message)}</p><button data-retry>Ritorna ai prodotti</button>`);}
   finally{if(id===request)mount.removeAttribute('aria-busy');}
  }
@@ -62,12 +62,75 @@ if(mount){
   return `<p class="ac-qty-title">Con personalizzazione, prezzo al pezzo</p><dl>${rows.map(([q,n])=>`<div><dt>${q}</dt><dd>${from}${euro(n)}</dd></div>`).join('')}</dl><p class="ac-qty-note">Più capi ordini, meno paghi la stampa.</p>`;}
  function price(){return product.varianti.find(v=>v.colore===color&&(v.taglia===size||v.taglia==='tutte'))?.prezzo;}
  function customPrice(){return product.varianti.find(v=>v.colore===color&&(v.taglia===size||v.taglia==='tutte'))?.prezzo_personalizzato;}
- function quote(){const amount=personalized?customPrice():price();return 'https://wa.me/393278815148?text='+encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per ${product.nome} (${product.sku}), colore ${color||'da definire'}, taglia ${size||'da definire'}. Prezzo indicato: ${amount!=null?euro(amount):'da confermare'}, ${personalized?'con personalizzazione (una stampa fino a 40 cm inclusa)':'capo senza personalizzazione'}. Quantità: da definire.`);}
+ function quote(){const u=unit();return 'https://wa.me/393278815148?text='+encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per ${product.nome} (${product.sku}), colore ${color||'da definire'}, taglia ${size||'da definire'}, quantità ${qty}. ${personalized?'Con personalizzazione (una stampa fino a 40 cm inclusa)':'Capo senza personalizzazione'}. Prezzo indicato: ${u?(u.from?'da ':'')+euro(u.n)+' al pezzo':'da confermare'}.`);}
  function showProduct(){
   const p=product,c=p.colori.find(c=>c.nome===color),photos=[...new Set([p.immagine_principale,...p.immagini,c?.immagine].filter(Boolean))];
-  paint(`<button class="ac-back" data-list>← ${e(category||'Tutti i capi')}</button><div class="ac-detail"><div class="ac-gallery"><div class="ac-picture ac-main" data-media-stage></div><div class="ac-thumbs">${p.video?'<button data-video aria-label="Video del capo">Video</button>':''}${photos.map((src,i)=>`<button data-photo="${e(src)}" aria-label="Foto ${i+1} di ${e(p.nome)}">${image(src,'Dettaglio '+(i+1))}</button>`).join('')}</div><div class="ac-gallery-nav"><button data-gallery-step="-1" aria-label="Contenuto precedente">←</button><span data-gallery-position aria-live="polite"></span><button data-gallery-step="1" aria-label="Contenuto successivo">→</button></div></div><div class="ac-info"><p class="ac-overline">${e(p.marca)} / ${e(p.sku)} ${p.linea_premium?' / PREMIUM':''}</p><h2 tabindex="-1">${e(p.nome)}</h2><p class="ac-lead">${e(p.tipo)}</p><div class="ac-dual-prices" aria-live="polite"><div><span>Senza personalizzazione</span><strong data-price>${priceLabel('prezzo')}</strong></div><div><span>Con personalizzazione</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong></div></div><div class="ac-qty" data-qty>${qtyTable()}</div><p class="ac-note">Prezzi finali, nessuna IVA da aggiungere. Con personalizzazione: una stampa fino a 40 cm inclusa.</p><fieldset><legend>Come desideri il capo?</legend><div class="ac-sizes"><button type="button" data-personalization="no" aria-pressed="true">Senza personalizzazione</button><button type="button" data-personalization="yes" aria-pressed="false">Con personalizzazione</button></div></fieldset><fieldset><legend>Colore: <span data-color-label>${e(color)}</span></legend><div class="ac-swatches">${p.colori.map(c=>{const hex=/^#[0-9a-f]{3,8}$/i.test(c.hex||'')?c.hex:null;return `<button type="button" data-color="${e(c.nome)}" aria-label="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}">${hex?`<i style="background:${hex}"></i>`:''}<span>${e(c.nome)}</span></button>`;}).join('')}</div></fieldset><fieldset><legend>Taglia: <span data-size-label>da scegliere</span></legend><div class="ac-sizes">${p.taglie.map(s=>`<button type="button" data-size="${e(s)}" aria-pressed="false">${e(s)}</button>`).join('')}</div></fieldset><a class="ac-cta" data-quote href="${e(quote())}" target="_blank" rel="noopener noreferrer">Richiedi preventivo su WhatsApp ↗</a><p class="ac-note">Quantità, disponibilità e tempi da concordare. Le taglie elencate non costituiscono disponibilità in tempo reale.</p><details open><summary>Il capo, nel dettaglio</summary><p class="ac-description">${e(p.descrizione)}</p></details></div></div>`);
+  const short=String(p.descrizione_breve||p.descrizione||'').split('\n')[0];
+  const ico={
+   print:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M7 14h10v7H7z"/></svg>',
+   tag:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>',
+   stack:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>',
+   clock:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+   chat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>',
+   heart:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-9a4.6 4.6 0 0 1 9-3 4.6 4.6 0 0 1 9 3c-2 4.6-9 9-9 9z"/></svg>',
+   up:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>',down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'};
+  const swatch=c=>{const hex=/^#[0-9a-f]{3,8}$/i.test(c.hex||'')?c.hex:null;return `<button type="button" data-color="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}"><span class="ac-pdp-swatch">${c.immagine?image(c.immagine,''):`<i style="background:${hex||'#e7e5df'}"></i>`}</span><small>${e(c.nome)}</small></button>`;};
+  paint(`<nav class="ac-pdp-crumbs" aria-label="Percorso"><button type="button" data-home>Catalogo</button><span>/</span><button type="button" data-list>${e(category||p.categoria||'Tutti i capi')}</button>${p.sottocategoria?`<span>/</span><span>${e(p.sottocategoria)}</span>`:''}</nav>
+  <div class="ac-pdp">
+   <div class="ac-pdp-info">
+    <p class="ac-overline">${e(p.marca)} / ${e(p.sku)}${p.linea_premium?' / PREMIUM':''}</p>
+    <h2 tabindex="-1">${e(p.nome)}</h2>
+    <p class="ac-pdp-type">${e(p.tipo)}</p>
+    <p class="ac-pdp-price"><strong data-unit-price>${unitLabel()}</strong><span data-unit-mode>${personalized?'con personalizzazione':'senza personalizzazione'}, al pezzo</span></p>
+    <div class="ac-dual-prices" aria-live="polite"><div><span>Senza personalizzazione</span><strong data-price>${priceLabel('prezzo')}</strong></div><div><span>Con personalizzazione</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong></div></div>
+    <p class="ac-pdp-short">${e(short)}</p>
+    <ul class="ac-pdp-features">
+     <li>${ico.print}<div><strong>Stampa inclusa</strong><span>Una stampa fino a 40 cm nel prezzo personalizzato</span></div></li>
+     <li>${ico.tag}<div><strong>Prezzi finali</strong><span>Nessuna IVA da aggiungere</span></div></li>
+     <li>${ico.stack}<div><strong>Più ne ordini, meno paghi</strong><span>Stampa scontata da 10 e da 50 pezzi</span></div></li>
+     <li>${ico.clock}<div><strong>Su ordinazione</strong><span>Tempi e disponibilità confermati nel preventivo</span></div></li>
+    </ul>
+    <div class="ac-pdp-acc">
+     <details><summary>Descrizione e materiali</summary><p class="ac-description">${e(p.descrizione)}</p></details>
+     <details><summary>Prezzi a quantità</summary><div class="ac-qty" data-qty>${qtyTable()}</div></details>
+     <details data-size-guide><summary>Taglie disponibili</summary><p>${p.taglie.map(e).join(' · ')}</p><p class="ac-note">Le taglie elencate non indicano la disponibilità in tempo reale: la confermiamo nel preventivo.</p></details>
+     <details><summary>Come funziona l'ordine</summary><p>Scegli colore, taglia e quantità e richiedi il preventivo: ti rispondiamo su WhatsApp con prezzo definitivo, tempi e bozza della stampa.</p></details>
+    </div>
+   </div>
+   <div class="ac-pdp-gallery">
+    <div class="ac-pdp-rail">
+     <button type="button" class="ac-pdp-arrow" data-gallery-step="-1" aria-label="Contenuto precedente">${ico.up}</button>
+     <div class="ac-thumbs">${p.video?'<button data-video aria-label="Video del capo"><span class="ac-pdp-play">▶</span><small>Video</small></button>':''}${photos.map((src,i)=>`<button data-photo="${e(src)}" aria-label="Foto ${i+1} di ${e(p.nome)}">${image(src,'Dettaglio '+(i+1))}</button>`).join('')}</div>
+     <button type="button" class="ac-pdp-arrow" data-gallery-step="1" aria-label="Contenuto successivo">${ico.down}</button>
+    </div>
+    <div class="ac-pdp-stage"><div class="ac-picture ac-main" data-media-stage></div><span class="ac-pdp-pos" data-gallery-position aria-live="polite"></span></div>
+   </div>
+   <aside class="ac-pdp-panel" aria-label="Scegli e richiedi il preventivo">
+    <div class="ac-pdp-row"><span>${e(p.sku)}</span><span class="ac-pdp-stock"><i></i>Su ordinazione</span></div>
+    <fieldset><legend>Colore <span data-color-label>${e(color)}</span></legend><div class="ac-pdp-colors">${p.colori.map(swatch).join('')}</div></fieldset>
+    <fieldset><legend>Taglia <button type="button" class="ac-pdp-link" data-open-sizes>Guida alle taglie</button></legend><div class="ac-pdp-sizes">${p.taglie.map(s=>`<button type="button" data-size="${e(s)}" aria-pressed="false">${e(s)}</button>`).join('')}</div><p class="ac-pdp-hint" data-size-label>Seleziona una taglia</p></fieldset>
+    <fieldset><legend>Come lo vuoi?</legend><div class="ac-pdp-toggle"><button type="button" data-personalization="no" aria-pressed="${!personalized}">Senza stampa</button><button type="button" data-personalization="yes" aria-pressed="${personalized}">Con stampa</button></div></fieldset>
+    <fieldset><legend>Quantità</legend><div class="ac-pdp-qtyrow"><div class="ac-pdp-stepper"><button type="button" data-qty-step="-1" aria-label="Diminuisci quantità">−</button><input data-qty-input type="number" inputmode="numeric" min="1" max="9999" value="${qty}" aria-label="Quantità"><button type="button" data-qty-step="1" aria-label="Aumenta quantità">+</button></div><p class="ac-pdp-total" data-total aria-live="polite">${totalLabel()}</p></div></fieldset>
+    <a class="ac-pdp-cta" data-quote href="${e(quote())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>
+    <button type="button" class="ac-pdp-fav" data-fav aria-pressed="${isFav()}">${ico.heart}<span data-fav-label>${isFav()?'Salvato nei preferiti':'Salva nei preferiti'}</span></button>
+    <ul class="ac-pdp-trust">
+     <li>${ico.print}<div><strong>Stampa fino a 40 cm inclusa</strong><span>Nel prezzo con personalizzazione</span></div></li>
+     <li>${ico.tag}<div><strong>Prezzo finale</strong><span>Nessuna IVA da aggiungere</span></div></li>
+     <li>${ico.chat}<div><strong>Risposta su WhatsApp</strong><span>Preventivo con bozza della stampa</span></div></li>
+    </ul>
+   </aside>
+  </div>`);
+  mount.querySelectorAll('.ac-thumbs img,.ac-pdp-colors img').forEach(i=>{i.loading='eager';});
   mediaItems=[...(p.video?[{type:'video',src:p.video}]:[]),...photos.map(src=>({type:'image',src}))];showMedia(0);
  }
+ // Prezzo al pezzo per la selezione corrente; con stampa applica lo scaglione di quantita'
+ function pick(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x)return {v:x,from:false};if(!size&&vs.length){const m=vs.reduce((a,b)=>(a[k]??1e9)<=(b[k]??1e9)?a:b);return {v:m,from:new Set(vs.map(v=>v[k])).size>1};}return null;}
+ function unit(){const r=pick(personalized?'prezzo_personalizzato':'prezzo');if(!r)return null;const x=r.v;let n=personalized?x.prezzo_personalizzato:x.prezzo;if(n==null)return null;if(personalized&&x.prezzo!=null)n=qty>=50?Math.min(n,x.prezzo+5):qty>=10?Math.min(n,x.prezzo+7):n;return {n:Math.round(n*100)/100,from:r.from};}
+ function unitLabel(){const u=unit();return u?(u.from?'da ':'')+euro(u.n):'Prezzo da confermare';}
+ function totalLabel(){const u=unit();return u?`${qty} × ${euro(u.n)} = <strong>${u.from?'da ':''}${euro(Math.round(u.n*qty*100)/100)}</strong>`:'';}
+ function favs(){try{return JSON.parse(localStorage.getItem('moi-preferiti')||'[]')}catch{return []}}
+ function isFav(){return favs().includes(product.sku);}
+ function toggleFav(){let f=favs();f=f.includes(product.sku)?f.filter(x=>x!==product.sku):[...f,product.sku];try{localStorage.setItem('moi-preferiti',JSON.stringify(f))}catch{}const b=mount.querySelector('[data-fav]');if(b){b.setAttribute('aria-pressed',String(isFav()));b.querySelector('[data-fav-label]').textContent=isFav()?'Salvato nei preferiti':'Salva nei preferiti';}}
  let mediaItems=[],mediaIndex=0;
  function showMedia(index){
   mediaIndex=(index+mediaItems.length)%mediaItems.length;
@@ -76,12 +139,13 @@ if(mount){
   stage.innerHTML=item.type==='video'?`<video autoplay muted loop playsinline preload="auto" poster="${e(safeURL(product.immagine_principale))}" aria-label="Video di ${e(product.nome)}" src="${e(safeURL(item.src))}"></video>`:image(item.src,product.nome,'data-main-photo');
   mount.querySelector('[data-gallery-position]').textContent=`${mediaIndex+1} / ${mediaItems.length}`;
   mount.querySelectorAll('.ac-thumbs button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===mediaIndex)));
+  const rail=mount.querySelector('.ac-thumbs'),act=rail?.children[mediaIndex];if(rail&&act){const vertical=getComputedStyle(rail).flexDirection==='column';rail.scrollTo({top:vertical?act.offsetTop-rail.clientHeight/2+act.offsetHeight/2:0,left:vertical?0:act.offsetLeft-rail.clientWidth/2+act.offsetWidth/2,behavior:'smooth'});}
   const video=stage.querySelector('video');if(video){video.muted=true;video.play().catch(()=>{stage.innerHTML=image(product.immagine_principale,product.nome,'data-main-photo');bindFallbacks();});video.addEventListener('error',()=>{stage.innerHTML=image(product.immagine_principale,product.nome,'data-main-photo');bindFallbacks();},{once:true});}bindFallbacks();
  }
  function updateSelection(){
   mount.querySelectorAll('[data-color]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.color===color)));
   mount.querySelectorAll('[data-size]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===size)));
-  mount.querySelector('[data-color-label]').textContent=color;mount.querySelector('[data-size-label]').textContent=size||'da scegliere';
+  mount.querySelector('[data-color-label]').textContent=color;mount.querySelector('[data-size-label]').textContent=size?'Taglia '+size:'Seleziona una taglia';const up=mount.querySelector('[data-unit-price]');if(up){up.textContent=unitLabel();mount.querySelector('[data-unit-mode]').textContent=(personalized?'con personalizzazione':'senza personalizzazione')+', al pezzo';mount.querySelector('[data-total]').innerHTML=totalLabel();const qi=mount.querySelector('[data-qty-input]');if(qi&&+qi.value!==qty)qi.value=qty;}
   mount.querySelector('[data-price]').textContent=priceLabel('prezzo');
   mount.querySelector('[data-custom-price]').textContent=priceLabel('prezzo_personalizzato');const qt=mount.querySelector('[data-qty]');if(qt)qt.innerHTML=qtyTable();
   mount.querySelectorAll('[data-personalization]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.personalization==='yes')===personalized)));
@@ -110,7 +174,11 @@ if(mount){
   else if(b.hasAttribute('data-color')){color=b.dataset.color;updateSelection();const c=product.colori.find(c=>c.nome===color);if(c?.immagine){let i=mediaItems.findIndex(x=>x.src===c.immagine);if(i>=0)showMedia(i);}}
   else if(b.hasAttribute('data-size')){size=b.dataset.size;updateSelection();}
   else if(b.hasAttribute('data-personalization')){personalized=b.dataset.personalization==='yes';updateSelection();}
+  else if(b.hasAttribute('data-qty-step')){qty=Math.max(1,Math.min(9999,qty+Number(b.dataset.qtyStep)));updateSelection();}
+  else if(b.hasAttribute('data-fav'))toggleFav();
+  else if(b.hasAttribute('data-open-sizes')){const d=mount.querySelector('[data-size-guide]');if(d){d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'});}}
  });
+ mount.addEventListener('input',ev=>{if(ev.target.matches('[data-qty-input]')){const n=Math.floor(Number(ev.target.value));if(n>=1){qty=Math.min(9999,n);updateSelection();}}});
  mount.addEventListener('submit',ev=>{ev.preventDefault();q=new FormData(ev.target).get('q')||'';page=1;if(/^(atomic(?:\s*150)?|ca6424)$/i.test(q.trim()))detail(meta.special.sku);else listing();});
  async function start(){if(started)return;started=true;mount.innerHTML='<p role="status">Prepariamo il tuo catalogo…</p>';try{meta=await api();home();}catch{started=false;mount.innerHTML='<p role="alert">Catalogo non disponibile.</p><button data-init>Riprova</button>';}}
  mount.addEventListener('click',e=>{if(e.target.closest('[data-init]'))start();});
