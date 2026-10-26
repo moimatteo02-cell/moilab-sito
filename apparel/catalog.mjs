@@ -1,6 +1,6 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
 import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
-import {createBrowser} from './browse.mjs?v=20261026-1';
+import {createBrowser} from './browse.mjs?v=20261026-2';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');

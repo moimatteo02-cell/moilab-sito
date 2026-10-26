@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261026-1';
+const V = '?v=20261026-2';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -110,6 +110,15 @@ export function createBrowser(mount, h) {
     box.hidden = false; input.setAttribute('aria-expanded', 'true');
   }
 
+  /* numero che sale (Count Up), una volta per visita */
+  let counted = false;
+  function countUp(el) {
+    if (!el || counted || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    counted = true; const to = +el.dataset.to, t0 = performance.now(), dur = 1600;
+    const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 4))); if (p < 1) requestAnimationFrame(step); };
+    el.textContent = '0'; requestAnimationFrame(step);
+  }
+
   /* ---------- HOME: testata + tre percorsi ---------- */
   function renderHome() {
     view = 'home';
@@ -130,7 +139,7 @@ export function createBrowser(mount, h) {
         <div class="br-hero-copy">
           <div class="br-hero-t"><p class="br-eyebrow"><span class="br-dot"></span>MOI LAB / APPAREL</p>
           <h2 tabindex="-1">Abbigliamento personalizzato.<br><em>Per ogni lavoro, squadra e brand.</em></h2></div>
-          <div class="br-hero-s"><p class="br-lead">${list.length} modelli da personalizzare con il tuo logo. Cerca per capo, per settore o per professione, oppure scegli un percorso qui sotto.</p>
+          <div class="br-hero-s"><p class="br-lead"><span class="br-count-up" data-to="${list.length}">${list.length}</span> modelli da personalizzare con il tuo logo. Cerca per capo, per settore o per professione, oppure scegli un percorso qui sotto.</p>
           ${searchBox(true)}</div>
         </div>
       </section>
@@ -139,6 +148,7 @@ export function createBrowser(mount, h) {
       ${special()}
       <button class="br-all" data-br-all>Esplora tutti i ${list.length} modelli <span aria-hidden="true">→</span></button>
       <p class="ac-note">Prezzi finali, nessuna IVA da aggiungere. Disponibilità, quantità e tempi confermati nel preventivo.</p>`);
+      countUp(mount.querySelector('.br-count-up'));
   }
 
   /* ---------- LISTA: filtri + griglia ---------- */

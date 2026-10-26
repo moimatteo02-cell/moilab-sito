@@ -49,3 +49,8 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Dopo ogni modifica: `python3 tools/build_percorsi.py` (da eseguire anche dopo ogni ricalcolo prezzi).
 - Controllo: `data/apparel/mappatura-settori.csv` spiega perché ogni prodotto è in un settore.
 - Fonte attributi: `data/apparel/fonte/gorfactory-attributi.json` (collezioni, tag, genere, icone tecniche).
+
+## Animazioni (26/10/2026)
+- `assets/moi-motion.js` + `assets/moi-motion.css`: animazioni ispirate a React Bits (licenza MIT + Commons Clause), riscritte in JavaScript semplice. Ogni effetto è legato a un servizio: menu a tendina, titolo home parola per parola, riflesso oro, luce sulle card, grana; comparsa allo scorrimento nei servizi; pulsanti magnetici; cuore preferiti; adesivo che si stacca (Custom); configuratore a passi e riflesso (Automotive); neon (Signage); titolo che reagisce al mouse (Design); testo che si decodifica, card a pixel, scintille e "tieni premuto" (Digital).
+- `assets/sticker-peel.js`: porting WebGL di Sticker Peel, caricato solo quando si apre Custom.
+- Con "riduci animazioni" attivo nel sistema restano solo gli stati finali.
