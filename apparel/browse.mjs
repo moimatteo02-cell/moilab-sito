@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261026-2';
+const V = '?v=20261026-3';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -15,7 +15,8 @@ const empty = () => ({ q: '', cat: [], sub: '', set: [], es: [], g: [], tg: [], 
 
 export function createBrowser(mount, h) {
   const { e, euro, image, previewAttrs, cardPhoto, special, paint, onProduct } = h;
-  let list = null, idx = null, meta = null, S = empty(), view = 'home', tab = 'categoria', drawer = false;
+  let list = null, idx = null, meta = null, S = empty(), view = 'home', tab = 'categoria', drawer = false, staggerFrom = -1;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ready = Promise.all([
     fetch('/data/apparel/elenco.json' + V).then(r => r.json()),
     fetch('/data/apparel/percorsi-indice.json' + V).then(r => r.json()),
@@ -233,12 +234,15 @@ export function createBrowser(mount, h) {
         </div>
       </div>`);
     document.documentElement.classList.toggle('br-lock', drawer);
+    // card che entrano in sequenza dopo un filtro, una ricerca o "Mostra altri"
+    if (staggerFrom >= 0 && !calm) [...mount.querySelectorAll('.ac-products > .ac-product')].slice(staggerFrom).forEach((c, i) => { c.style.setProperty('--k', Math.min(i, 12)); c.classList.add('mm-card-in'); });
+    staggerFrom = -1;
     if (focusResults) mount.querySelector('.br-main h2')?.focus({ preventScroll: true });
   }
 
   /* ---------- eventi ---------- */
   function go(patch, opts = {}) {
-    S = { ...S, ...patch, n: patch.n ?? PER_PAGE }; drawer = opts.keepDrawer ? drawer : false;
+    S = { ...S, ...patch, n: patch.n ?? PER_PAGE }; drawer = opts.keepDrawer ? drawer : false; staggerFrom = 0;
     push(); renderList(true); if (!opts.keepDrawer) mount.scrollIntoView({ behavior: 'instant', block: 'start' });
   }
   const toggle = (arr, v) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
@@ -251,7 +255,7 @@ export function createBrowser(mount, h) {
     if ('brEs' in d) return go({ ...empty(), es: [d.brEs] });
     if ('brAll' in d) return go(empty());
     if ('brHome' in d) { S = empty(); push(); renderHome(); mount.scrollIntoView({ behavior: 'instant', block: 'start' }); return; }
-    if ('brMore' in d) { S = { ...S, n: S.n + PER_PAGE }; push(true); const y = mount.closest('.moi-room')?.scrollTop; renderList(); const r = mount.closest('.moi-room'); if (r && y != null) r.scrollTop = y; return; }
+    if ('brMore' in d) { staggerFrom = S.n; S = { ...S, n: S.n + PER_PAGE }; push(true); const y = mount.closest('.moi-room')?.scrollTop; renderList(); const r = mount.closest('.moi-room'); if (r && y != null) r.scrollTop = y; return; }
     if ('brClear' in d) return go({ ...empty(), q: '', sort: S.sort }, { keepDrawer: drawer });
     if ('brRm' in d) { const k = d.brRm, v = d.v; return go(k === 'q' ? { q: '' } : k === 'sub' ? { sub: '' } : { [k]: S[k].filter(x => x !== v), ...(k === 'cat' ? { sub: '' } : {}) }); }
     if ('brDrawer' in d) { drawer = d.brDrawer === '1'; renderList(); if (drawer) mount.querySelector('.br-side-x')?.focus(); return; }

@@ -1,6 +1,6 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
 import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
-import {createBrowser} from './browse.mjs?v=20261026-2';
+import {createBrowser} from './browse.mjs?v=20261026-3';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -28,7 +28,10 @@ if(mount){
  function bindFallbacks(){mount.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;if(!img.classList.contains('ac-back-photo'))img.parentElement?.classList.add('ac-no-image');},{once:true}));}
  async function ownerLink(){try{const r=await fetch('/api/sticker/session',{credentials:'same-origin'});if(r.ok&&(await r.json()).isAdmin)mount.querySelector('.ac-owner')?.removeAttribute('hidden');}catch{}}
  let disposePreviews=()=>{};
- function paint(body){room?.classList.remove('ac-detail-mode');try{readyVideo?.pause();}catch{}disposePreviews();mount.innerHTML=frame(body);bindFallbacks();ownerLink();disposePreviews=bindPreviews(mount);}
+ // foto che caricano bene: luce che scorre finché la foto non è pronta, poi dissolvenza (solo se non è già in memoria)
+ const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function softImages(){if(calm)return;mount.querySelectorAll('.ac-products .ac-model-photo, .br-card-img img').forEach(img=>{if(img.complete&&img.naturalWidth)return;const box=img.parentElement;box.classList.add('mm-loading');img.classList.add('mm-img');const done=()=>{box.classList.remove('mm-loading');img.classList.add('mm-img-in');setTimeout(()=>img.classList.remove('mm-img','mm-img-in'),750);};img.addEventListener('load',done,{once:true});img.addEventListener('error',()=>{box.classList.remove('mm-loading');img.classList.remove('mm-img');},{once:true});});}
+ function paint(body){room?.classList.remove('ac-detail-mode');try{readyVideo?.pause();}catch{}disposePreviews();mount.innerHTML=frame(body);bindFallbacks();softImages();ownerLink();disposePreviews=bindPreviews(mount);}
  let browser=null;
  function home(){
   category='';sub='';q='';page=1;product=null;browser.home();

@@ -161,6 +161,47 @@
     });
   });
 
+  /* ============ 19 · Il prima/dopo si mostra da solo — AUTOMOTIVE ============ */
+  onRoom('moi-showroom-automotive', room => {
+    if (reduce) return;
+    const arm = (tries = 0) => {
+      const frame = $('.ma-compare-frame', room), input = frame && $('input[type=range]', frame);
+      if (!input) { if (tries < 20) setTimeout(() => arm(tries + 1), 300); return; }
+      if (frame.dataset.mmHint) return; frame.dataset.mmHint = '1';
+      let stop = false, raf = 0;
+      const halt = () => { stop = true; cancelAnimationFrame(raf); };
+      ['pointerdown', 'keydown', 'touchstart'].forEach(t => frame.addEventListener(t, halt, { passive: true }));
+      const set = v => { input.value = v; input.dispatchEvent(new Event('input', { bubbles: true })); };
+      const run = () => {
+        frame.classList.add('mm-cmp-hint');
+        const keys = [[0, 50], [700, 78], [1500, 24], [2200, 50]], t0 = performance.now(), ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        const step = t => { if (stop) return; const e = Math.max(1, t - t0), i = keys.findIndex(k => k[0] > e); if (i === -1) { set(50); return; } const [ta, va] = keys[i - 1], [tb, vb] = keys[i]; set(Math.round(va + (vb - va) * ease((e - ta) / (tb - ta)))); raf = requestAnimationFrame(step); };
+        raf = requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); setTimeout(() => { if (!stop) run(); }, 900); } }, { threshold: .6 });
+      io.observe(frame);
+    };
+    arm();
+  });
+
+  /* ============ 20 · Il racconto della home si accende scorrendo (Scroll Reveal) ============ */
+  const story = $$('#moi-lab-hub .mlg-subtitle');
+  if (story.length && !reduce) {
+    const groups = story.map(el => {
+      const wrap = node => { [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) { const f = doc.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(w => { if (!w) return; if (/^\s+$/.test(w)) f.append(w); else { const sp = doc.createElement('span'); sp.className = 'mm-sw' + (n.parentElement.closest('em,.moi-calligraphy') ? ' mm-sw-gold' : ''); sp.textContent = w; f.append(sp); } }); n.replaceWith(f); }
+        else if (n.nodeType === 1) wrap(n);
+      }); };
+      wrap(el); el.classList.add('mm-story');
+      return [el, $$('.mm-sw', el)];
+    });
+    let sr = 0;
+    const paint = () => { sr = 0; const vh = innerHeight; groups.forEach(([el, ws]) => { const r = el.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (vh * .85 - r.top) / (vh * .45))), n = Math.round(p * ws.length); ws.forEach((w, i) => w.classList.toggle('on', i < n)); }); };
+    addEventListener('scroll', () => { if (!sr) sr = requestAnimationFrame(paint); }, { passive: true });
+    addEventListener('resize', () => { if (!sr) sr = requestAnimationFrame(paint); });
+    paint();
+  }
+
   /* ============ 13 · Insegna che si accende (neon) — SIGNAGE ============ */
   onRoom('moi-showroom-signage', room => {
     const t = $('.moi-room-title', room); if (!t || reduce) return;

@@ -53,7 +53,7 @@ html.moi-motion #moi-lab-hub .mlg-opening .mlg-title.mm-split .moi-copy-line{ani
 #moi-lab-hub .mlg-card.mm-spot-on .mm-spot{opacity:1}
 
 /* 7 · grana pellicola */
-#moi-lab-hub .mm-grain{position:fixed;inset:-60%;z-index:1;pointer-events:none;opacity:.055;mix-blend-mode:screen;background-size:220px 220px;animation:mm-grain 1s steps(6) infinite}
+#moi-lab-hub .mm-grain{position:fixed;inset:-60%;z-index:1;pointer-events:none;opacity:.028;mix-blend-mode:screen;background-size:220px 220px;animation:mm-grain 1s steps(6) infinite}
 @keyframes mm-grain{0%{transform:translate(0,0)}17%{transform:translate(-7%,4%)}33%{transform:translate(5%,-9%)}50%{transform:translate(-10%,8%)}67%{transform:translate(9%,3%)}83%{transform:translate(-4%,-6%)}100%{transform:translate(0,0)}}
 
 /* 9 · cuore dei preferiti */
@@ -172,3 +172,23 @@ html.moi-motion #moi-lab-hub .mlg-opening .mlg-title.mm-split .moi-copy-line{ani
 .mm-sm-host nav select{height:42px;padding:0 12px;border:1px solid #ffffff30;border-radius:999px;background:#ffffff0d;color:#f3f0ea;font:14px "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:0;text-transform:none}
 .mm-sm-host nav select option{color:#151515}
 .mm-sm-host,.mm-sm-host *{box-sizing:border-box}
+
+/* 19 · prima/dopo che si mostra da solo */
+.ma-compare-frame.mm-cmp-hint .ma-compare-divider>span{animation:mm-cmp-pulse 1.4s ease-out 1}
+@keyframes mm-cmp-pulse{0%{box-shadow:0 0 0 0 #ffffffaa,0 3px 14px #0004}100%{box-shadow:0 0 0 18px #ffffff00,0 3px 14px #0004}}
+
+/* 20 · racconto della home che si accende */
+#moi-lab-hub .mm-story .mm-sw{color:#4a4844;transition:color .25s linear}
+#moi-lab-hub .mm-story .mm-sw.on{color:#f3f0ea}
+#moi-lab-hub .mm-story .mm-sw.mm-sw-gold.on{color:#d6bd8e}
+
+/* 21 · foto del catalogo che caricano bene */
+.ac-picture.mm-loading::before,.br-card-img.mm-loading::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(100deg,transparent 30%,#ffffff99 50%,transparent 70%);background-size:220% 100%;animation:mm-shimmer 1.25s linear infinite}
+@keyframes mm-shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+img.mm-img{opacity:0;transform:scale(1.03);filter:blur(6px);transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1),filter .55s ease}
+img.mm-img.mm-img-in{opacity:1;transform:none;filter:none}
+
+/* 22 · card che entrano in sequenza dopo un filtro */
+.ac-products .mm-card-in{animation:mm-card-in .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k,0) * 40ms)}
+@keyframes mm-card-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ac-picture.mm-loading::before,.br-card-img.mm-loading::before{animation:none}img.mm-img{opacity:1;transform:none;filter:none;transition:none}.ac-products .mm-card-in{animation:none}}
