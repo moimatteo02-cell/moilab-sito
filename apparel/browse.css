@@ -380,3 +380,13 @@
  .ac-pdp-stage .ac-main video{object-fit:cover!important}
 }
 #moi-apparel-catalog .ac-preview-video{object-fit:cover}
+
+/* ===== 26/10: prezzi trasparenti — senza logo e col logo, stessa importanza ===== */
+.br-pc-row .br-pc-label,.br-pc-row.is-logo .br-pc-label{color:#55544f;font-weight:500}
+#moi-apparel-catalog .br-pc-row strong{font-size:18px;font-weight:500;color:#151515}
+.br-pc-prices{gap:4px;padding-top:8px;margin-top:6px;border-top:1px solid #1818181a}
+.br-card-prices b{font-weight:600;color:#151515}
+.br-sp-prices{gap:8px}
+.br-sp-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;max-width:360px;padding:6px 0;border-bottom:1px solid #1818181a}
+#moi-apparel-catalog .br-sp-row strong{font-size:clamp(24px,2.2vw,34px);font-weight:500;letter-spacing:-.03em}
+@media (max-width:520px){#moi-apparel-catalog .br-pc-row strong{font-size:15px}}

@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261025-50';
+const V = '?v=20261026-1';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -105,7 +105,7 @@ export function createBrowser(mount, h) {
     idx.esigenze.filter(x => norm(x.nome).includes(n)).forEach(x => out.push({ t: 'es', v: x.id, label: x.nome, n: x.conteggio }));
     const prods = list.filter(p => norm(p.nome).startsWith(n) || norm(p.sku).startsWith(n) || norm(p.nome).includes(n)).slice(0, 5);
     const rows = [...out.slice(0, 6).map(o => `<button type="button" role="option" data-br-pick="${o.t}" data-v="${e(o.v)}"><span>${e(o.label)}</span><small>${o.n} modelli</small></button>`),
-      ...prods.map(p => `<button type="button" role="option" data-sku="${e(p.sku)}"><span>${e(p.nome)} <em>${e(p.tipo)}</em></span><small>${p.prezzo_personalizzato_da != null ? 'col logo da ' + euro(p.prezzo_personalizzato_da) : ''}${p.prezzo_da != null ? ' · senza da ' + euro(p.prezzo_da) : ''}</small></button>`)];
+      ...prods.map(p => `<button type="button" role="option" data-sku="${e(p.sku)}"><span>${e(p.nome)} <em>${e(p.tipo)}</em></span><small>${p.prezzo_da != null ? 'senza logo da ' + euro(p.prezzo_da) : ''}${p.prezzo_personalizzato_da != null ? ' · col logo da ' + euro(p.prezzo_personalizzato_da) : ''}</small></button>`)];
     box.innerHTML = rows.length ? rows.join('') + `<button type="button" class="br-sugg-all" data-br-submit>Vedi tutti i risultati per «${e(input.value.trim())}»</button>` : `<p class="br-sugg-none">Nessun suggerimento. Premi Invio per cercare ovunque.</p>`;
     box.hidden = false; input.setAttribute('aria-expanded', 'true');
   }
@@ -115,7 +115,7 @@ export function createBrowser(mount, h) {
     view = 'home';
     const cats = meta.categories, prim = cats.filter(c => c.modelli >= 15), rest = cats.filter(c => c.modelli < 15);
     const catPrice = c => { const ps = list.filter(p => p.categoria === c.nome), m = k => { const v = ps.map(p => p[k]).filter(x => x != null); return v.length ? Math.min(...v) : null; };
-      const lg = m('prezzo_personalizzato_da'), nt = m('prezzo_da'); return lg == null && nt == null ? '' : `<small class="br-card-prices">${lg != null ? `Col tuo logo da <b>${euro(lg)}</b>` : ''}${lg != null && nt != null ? ' · ' : ''}${nt != null ? `senza da ${euro(nt)}` : ''}</small>`; };
+      const lg = m('prezzo_personalizzato_da'), nt = m('prezzo_da'); return lg == null && nt == null ? '' : `<small class="br-card-prices">${nt != null ? `Senza logo da <b>${euro(nt)}</b>` : ''}${lg != null && nt != null ? ' · ' : ''}${lg != null ? `col tuo logo da <b>${euro(lg)}</b>` : ''}</small>`; };
     const ci = n => icon(CAT_ICON, n), si = id => icon(SET_ICON, id), ei = id => icon(ES_ICON, id, 'tag');
     const tabs = [['categoria', 'Per categoria', ICONS.grid], ['settore', 'Per settore o professione', ICONS.briefcase], ['esigenza', 'Per esigenza', ICONS.tag]];
     const body = {
@@ -187,7 +187,7 @@ export function createBrowser(mount, h) {
     const pp = p.prezzo_personalizzato_da, pn = p.prezzo_da;
     const from = p.prezzo_fino_a != null && pn != null && p.prezzo_fino_a > pn ? '<small>da</small> ' : '';
     const price = pp != null || pn != null
-      ? `<span class="br-pc-prices"><span class="br-pc-row is-logo"><span class="br-pc-label">Col tuo logo</span><strong>${pp != null ? from + euro(pp) : 'su richiesta'}</strong></span><span class="br-pc-row"><span class="br-pc-label">Senza logo</span><b>${pn != null ? from + euro(pn) : 'su richiesta'}</b></span></span>`
+      ? `<span class="br-pc-prices"><span class="br-pc-row"><span class="br-pc-label">Senza logo</span><strong>${pn != null ? from + euro(pn) : 'su richiesta'}</strong></span><span class="br-pc-row"><span class="br-pc-label">Col tuo logo</span><strong>${pp != null ? from + euro(pp) : 'su richiesta'}</strong></span></span>`
       : '<span class="br-pc-prices"><strong class="br-pc-ask">Prezzo su richiesta</strong></span>';
     return `<button class="ac-product br-pc" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="br-pc-body"><span class="br-pc-name">${e(p.nome)}</span><span class="br-pc-type">${e(p.tipo)}</span>${p.colori ? `<span class="br-pc-dots" aria-label="${p.colori} ${p.colori === 1 ? 'colore' : 'colori'}">${dots.map(h => `<i style="background:${fill(h)}"></i>`).join('')}${more ? `<small>+${more}</small>` : ''}</span>` : ''}${price}</span></button>`;
   };
@@ -219,7 +219,7 @@ export function createBrowser(mount, h) {
           ${S.cat.length === 1 && S.cat[0] === 'Magliette' && !S.q && nF === 1 ? special() : ''}
           ${all.length ? `<div class="ac-products">${shown.map(card).join('')}</div>` : emptyHTML()}
           ${all.length > shown.length ? `<div class="ac-pagination"><button data-br-more>Mostra altri ${Math.min(PER_PAGE, all.length - shown.length)} <small>(${shown.length} di ${all.length})</small></button></div>` : ''}
-          <p class="ac-note">«Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. «Senza logo»: il capo neutro. Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
+          <p class="ac-note">«Senza logo»: il capo neutro. «Col tuo logo»: una stampa fino a 40 cm inclusa, prezzo per 1–9 pezzi. Capo neutro e dettagli nella scheda di ogni prodotto. Prezzi finali; disponibilità e tempi da confermare.</p>
         </div>
       </div>`);
     document.documentElement.classList.toggle('br-lock', drawer);
