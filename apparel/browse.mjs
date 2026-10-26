@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261026-3';
+const V = '?v=20261026-4';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -146,6 +146,7 @@ export function createBrowser(mount, h) {
       </section>
       <div class="br-tabs" role="tablist" aria-label="Come vuoi cercare">${tabs.map(([k, l, ic]) => `<button role="tab" data-br-tab="${k}" aria-selected="${tab === k}" id="br-tab-${k}" aria-controls="br-panel"><span class="br-ico">${ic}</span><span>${l}</span></button>`).join('')}</div>
       <div class="br-panel" id="br-panel" role="tabpanel" aria-labelledby="br-tab-${tab}">${body[tab]}</div>
+      ${window.MOI_LOGO_TRY_HTML ? window.MOI_LOGO_TRY_HTML() : ''}
       ${special()}
       <button class="br-all" data-br-all>Esplora tutti i ${list.length} modelli <span aria-hidden="true">→</span></button>
       <p class="ac-note">Prezzi finali, nessuna IVA da aggiungere. Disponibilità, quantità e tempi confermati nel preventivo.</p>`);
@@ -200,7 +201,7 @@ export function createBrowser(mount, h) {
     const price = pp != null || pn != null
       ? `<span class="br-pc-prices"><span class="br-pc-row"><span class="br-pc-label">Senza logo</span><strong>${pn != null ? from + euro(pn) : 'su richiesta'}</strong></span><span class="br-pc-row"><span class="br-pc-label">Col tuo logo</span><strong>${pp != null ? from + euro(pp) : 'su richiesta'}</strong></span></span>`
       : '<span class="br-pc-prices"><strong class="br-pc-ask">Prezzo su richiesta</strong></span>';
-    return `<button class="ac-product br-pc" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="br-pc-body"><span class="br-pc-name">${e(p.nome)}</span><span class="br-pc-type">${e(p.tipo)}</span>${p.colori ? `<span class="br-pc-dots" aria-label="${p.colori} ${p.colori === 1 ? 'colore' : 'colori'}">${dots.map(h => `<i style="background:${fill(h)}"></i>`).join('')}${more ? `<small>+${more}</small>` : ''}</span>` : ''}${price}</span></button>`;
+    return `<button class="ac-product br-pc" ${previewAttrs(p)} data-sku="${e(p.sku)}">${cardPhoto(p)}<span class="br-pc-body"><span class="br-pc-name">${e(p.nome)}</span><span class="br-pc-type">${e(p.tipo)}</span>${p.colori ? `<span class="br-pc-dots" aria-label="${p.colori} ${p.colori === 1 ? 'colore' : 'colori'}">${dots.map(h => `<i data-hx="${e(h)}" style="background:${fill(h)}"></i>`).join('')}${more ? `<small>+${more}</small>` : ''}</span>` : ''}${price}</span></button>`;
   };
   function emptyHTML() {
     const last = chips() ? 'Prova a togliere l’ultimo filtro o' : 'Prova';
