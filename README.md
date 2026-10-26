@@ -20,6 +20,8 @@ Sito vetrina di MOI LAB, migrato da ChatGPT Sites (ottobre 2026). Sito statico: 
 Da ricostruire con un backend (es. Supabase o funzioni Netlify). Le richieste via WhatsApp funzionano.
 
 ## Regole di lavoro (Claude + ChatGPT)
+- Istruzioni complete per gli agenti: `AGENTS.md` (Codex/ChatGPT) e `CLAUDE.md` (Claude Code, importa `AGENTS.md`).
+- Librerie di animazioni e componenti UI: `docs/animation-libraries.md`.
 - Un solo agente per volta sulla stessa pagina: lavora, salva (commit), poi passa la mano.
 - Ogni modifica con un messaggio di commit chiaro.
 
