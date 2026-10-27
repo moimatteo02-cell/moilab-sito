@@ -119,3 +119,12 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Interfaccia: `assets/gadget-catalog.js/.css` + illustrazioni `assets/gadget-icons.js` (disegnate per MOI LAB: niente foto del fornitore). Cerca, categorie, sottocategorie, ordina, «anche 1 pezzo», scheda con colore/quantità/stima/dettagli → carrello del preventivo.
 - Il nome del fornitore e i suoi link NON sono nel repository (repository pubblico): la tabella codice MOI → prodotto/link/prezzo del fornitore è un file privato fuori dal sito.
 - Prezzi: per ora uguali a quelli del fornitore (IVA inclusa). Da rivedere con il ricarico.
+
+## Completamento visuale del catalogo (27/10/2026, in corso)
+- `assets/catalog-navigation.js`: sei macroaree sopra le categorie originali, quattro percorsi per utilizzo e sinonimi. La ricerca trova anche un codice MOI esatto. «Cerca anche negli altri servizi» unisce Custom, Signage e Design senza duplicare i dati e mantiene il servizio corretto nel preventivo. Apparel resta indipendente e invariato.
+- `data/catalogo/media.json`: associazioni esplicite codice → immagini responsive e descrizione. Solo record con `status: verified` sono mostrati come foto. Le illustrazioni precedenti rimangono sugli articoli non ancora lavorati, che NON sono considerati completati.
+- `assets/catalogo/<servizio>/`: mockup originali in WebP, 960 px per la scheda e 480 px per le card. L'avvertenza nella scheda distingue la grafica dimostrativa dal prodotto da confermare nel preventivo. Nessuna fotografia di terzi riutilizzata.
+- `docs/catalogo/inventario.csv`: tutti i 3.121 codici, stato individuale e file previsto. `stato.json` riporta i conteggi effettivi. `prompts.json` conserva i prompt dei mockup integrati; `AVANZAMENTO.md` spiega le verifiche e ciò che resta.
+- Aggiornare il registro: `python3 tools/catalog_media.py audit`. Controlli ricerca e copertura: `node tools/check_catalog.cjs`.
+- Importare un'immagine già esaminata: `python3 tools/catalog_media.py import-image CODICE /percorso/immagine.png --reviewed`, poi compilare il record in `media.json` e rieseguire i controlli. Pillow serve solo a questo strumento, non al sito. Non sovrascrive immagini esistenti.
+- Non copiare mai nel repository il CSV privato di corrispondenza con il fornitore. Non aggiungere automaticamente formati, materiali o certificazioni mancanti nei dati.

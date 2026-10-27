@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "items": {
+    "GC28FAA": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gc28faa-biglietti-da-visita-su-carta-lucida.webp",
+      "small": "/assets/catalogo/design/gc28faa-biglietti-da-visita-su-carta-lucida-480.webp",
+      "alt": "Biglietti da visita su carta lucida — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con finitura lucida, per una presentazione luminosa della tua grafica.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-01"
+    },
+    "GFC7832": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gfc7832-biglietti-da-visita-quadrati.webp",
+      "small": "/assets/catalogo/design/gfc7832-biglietti-da-visita-quadrati-480.webp",
+      "alt": "Biglietti da visita quadrati — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita quadrati, con un formato compatto che dà spazio al tuo marchio.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-01"
+    },
+    "GE9DA2C": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/ge9da2c-biglietti-da-visita-standard.webp",
+      "small": "/assets/catalogo/design/ge9da2c-biglietti-da-visita-standard-480.webp",
+      "alt": "Biglietti da visita standard — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita rettangolari in formato standard, per presentare la tua attività con chiarezza.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-01"
+    },
+    "GF7FF12": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gf7ff12-biglietti-da-visita-carta-kraft.webp",
+      "small": "/assets/catalogo/design/gf7ff12-biglietti-da-visita-carta-kraft-480.webp",
+      "alt": "Biglietti da visita carta Kraft — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta Kraft color avana: una base naturale da personalizzare con la tua grafica.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-01"
+    },
+    "GD82566": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gd82566-biglietti-da-visita-con-angoli-arrotondati.webp",
+      "small": "/assets/catalogo/design/gd82566-biglietti-da-visita-con-angoli-arrotondati-480.webp",
+      "alt": "Biglietti da visita con angoli arrotondati — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con quattro angoli arrotondati, per una presentazione dalle linee morbide.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-02"
+    },
+    "G868CC6": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g868cc6-biglietti-da-visita-carta-opaca.webp",
+      "small": "/assets/catalogo/design/g868cc6-biglietti-da-visita-carta-opaca-480.webp",
+      "alt": "Biglietti da visita carta opaca — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con finitura opaca, per una grafica dall’aspetto sobrio e non riflettente.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-02"
+    },
+    "G8BF630": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g8bf630-biglietti-da-visita-effetto-soft-touch.webp",
+      "small": "/assets/catalogo/design/g8bf630-biglietti-da-visita-effetto-soft-touch-480.webp",
+      "alt": "Biglietti da visita effetto Soft Touch — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con rivestimento Soft Touch, dalla superficie liscia e dall’effetto vellutato.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-02"
+    },
+    "G26787E": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g26787e-biglietti-da-visita-pieghevoli.webp",
+      "small": "/assets/catalogo/design/g26787e-biglietti-da-visita-pieghevoli-480.webp",
+      "alt": "Biglietti da visita pieghevoli — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita pieghevoli: la piega crea spazio aggiuntivo per la tua presentazione.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-03"
+    },
+    "GA9A0EF": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/ga9a0ef-scatole-postali.webp",
+      "small": "/assets/catalogo/custom/ga9a0ef-scatole-postali-480.webp",
+      "alt": "Scatole postali — esempio di personalizzazione MOI",
+      "description": "Scatole postali personalizzabili, con chiusura a incastro per presentare le tue spedizioni.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-03"
+    },
+    "G6AEAF8": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g6aeaf8-astucci-ovali.webp",
+      "small": "/assets/catalogo/custom/g6aeaf8-astucci-ovali-480.webp",
+      "alt": "Astucci ovali — esempio di personalizzazione MOI",
+      "description": "Astucci ovali in cartoncino con alette alle estremità, per confezioni dalla forma arrotondata.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-03"
+    },
+    "G1EDAC9": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g1edac9-adesivi-rotondi-su-foglio.webp",
+      "small": "/assets/catalogo/custom/g1edac9-adesivi-rotondi-su-foglio-480.webp",
+      "alt": "Adesivi rotondi su foglio — esempio di personalizzazione MOI",
+      "description": "Adesivi rotondi disposti su foglio, per applicare la tua grafica su confezioni e materiali promozionali.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-03"
+    },
+    "GAAED0B": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/gaaed0b-roll-up.webp",
+      "small": "/assets/catalogo/signage/gaaed0b-roll-up-480.webp",
+      "alt": "Roll up — esempio di personalizzazione MOI",
+      "description": "Espositore roll up avvolgibile per presentare la tua attività in fiere, eventi e punti vendita.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-04"
+    },
+    "GFE3104": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/gfe3104-striscioni-standard.webp",
+      "small": "/assets/catalogo/signage/gfe3104-striscioni-standard-480.webp",
+      "alt": "Striscioni standard — esempio di personalizzazione MOI",
+      "description": "Striscione personalizzabile per dare visibilità al tuo messaggio con una grafica di grande formato.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-04"
+    },
+    "G58A315": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g58a315-poster-pubblicitari.webp",
+      "small": "/assets/catalogo/signage/g58a315-poster-pubblicitari-480.webp",
+      "alt": "Poster pubblicitari — esempio di personalizzazione MOI",
+      "description": "Poster pubblicitari da personalizzare con la tua grafica, per comunicare promozioni ed eventi.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-04"
+    },
+    "G18186A": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g18186a-cartelli-in-plastica-ondulata.webp",
+      "small": "/assets/catalogo/signage/g18186a-cartelli-in-plastica-ondulata-480.webp",
+      "alt": "Cartelli in plastica ondulata — esempio di personalizzazione MOI",
+      "description": "Cartelli in plastica ondulata personalizzabili, per presentare il tuo messaggio su un supporto rigido.",
+      "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
+      "batch": "20261027-04"
+    }
+  }
+}

@@ -8,6 +8,22 @@ const ROOMS = {
   design: { room: 'moi-showroom-design', k: 'MOI LAB / GRAFICA / STAMPA', h: 'La tua grafica,', em: 'stampata bene.', lead: 'Biglietti da visita, volantini, opuscoli, menu, inviti: la grafica la curiamo noi, se vuoi.', ph: 'Cerca: biglietti, volantini, menu…' }
 };
 const PAGE = 24;
+const NAV = window.MoiCatalogNavigation;
+const VERSION = '20261027-4';
+const catalogCache = new Map();
+let mediaPromise;
+const getMedia = () => mediaPromise ||= fetch(`/data/catalogo/media.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({items:{}}));
+function getCatalog(key) {
+  if (!catalogCache.has(key)) catalogCache.set(key, Promise.all([
+    fetch(`/data/catalogo/${key}.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }), getMedia()
+  ]).then(([d, m]) => d.items.map(x => ({...x, _service:key, _media:m.items[x.id]}))).catch(e => { catalogCache.delete(key); throw e; }));
+  return catalogCache.get(key);
+}
+function picture(x, hero = false) {
+  const m = x._media;
+  if (!m || m.status !== 'verified') return icon(x.ic, hero ? 'gk-ic-big' : '');
+  return `<img class="gk-photo" src="${esc(m.src)}" srcset="${esc(m.small)} 480w, ${esc(m.src)} 960w" sizes="${hero ? '(max-width:640px) 100vw, 520px' : '(max-width:640px) 48vw, (max-width:1100px) 30vw, 240px'}" width="960" height="768" alt="${esc(m.alt)}" loading="${hero ? 'eager' : 'lazy'}" decoding="async">`;
+}
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const euro = n => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: n < 1 ? 3 : 2 });
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -24,31 +40,50 @@ function mount(key, cfg) {
     <div class="gk-tools"><label class="gk-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="gk-sr">Cerca nel catalogo</span><input type="search" placeholder="${esc(cfg.ph)}" autocomplete="off"></label>
       <select class="gk-sort" aria-label="Ordina"><option value="">Consigliati</option><option value="pa">Prezzo: dal più basso</option><option value="pd">Prezzo: dal più alto</option><option value="q">Quantità minima più bassa</option></select>
       <label class="gk-nomin"><input type="checkbox"> Anche 1 pezzo</label></div>
+    <div class="gk-discover"><label>Esplora per esigenza<select class="gk-path"><option value="">Tutti gli utilizzi</option>${NAV.paths.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select></label>
+      <label>Macroarea<select class="gk-family"><option value="">Tutte le macroaree</option></select></label>
+      <label class="gk-global"><input type="checkbox"> Cerca anche negli altri servizi</label>
+      <button class="gk-reset" type="button">Azzera filtri</button></div>
     <div class="gk-cats" role="tablist" aria-label="Categorie"></div><div class="gk-subs" aria-label="Sottocategorie"></div>
     <p class="gk-count" aria-live="polite">Carico il catalogo…</p><div class="gk-grid"></div><div class="gk-more-wrap"><button type="button" class="gk-more" hidden>Mostra altri</button></div>`;
   anchor.after(sec);
-  let data = null, st = { q: '', cat: '', sub: '', sort: '', one: false, shown: PAGE };
+  let data = null, loading = false, generation = 0, st = { q: '', cat: '', sub: '', sort: '', one: false, family:'', path:'', global:false, shown: PAGE };
   const $ = s => sec.querySelector(s);
-  const load = async () => {
-    if (data) return; data = [];
-    try { const r = await fetch(`/data/catalogo/${key}.json?v=20261027-2`); data = (await r.json()).items || []; } catch { $('.gk-count').textContent = 'Catalogo non disponibile: ricarica la pagina.'; return; }
-    data.forEach((x, i) => { x._s = norm(x.n + ' ' + x.cat + ' ' + x.sub); x._i = i; });
-    const cats = [...new Set(data.map(x => x.cat))];
-    sec._tint = Object.fromEntries(cats.map((c, i) => [c, TINTS[i % TINTS.length]]));
-    render();
+  const load = async (reload = false) => {
+    if (!reload && (data || loading)) return;
+    const token = ++generation; loading = true;
+    $('.gk-count').textContent = 'Carico il catalogo…';
+    sec.setAttribute('aria-busy','true');
+    try {
+      const catalogs = await Promise.all((st.global ? Object.keys(ROOMS) : [key]).map(getCatalog));
+      if (token !== generation) return;
+      data = catalogs.flat();
+      data.forEach((x, i) => { x._i = i; });
+      const cats = [...new Set(data.map(x => x.cat))];
+      sec._tint = Object.fromEntries(cats.map((c, i) => [c, TINTS[i % TINTS.length]]));
+      const families = [...new Set(data.map(NAV.family))];
+      $('.gk-family').innerHTML = '<option value="">Tutte le macroaree</option>' + families.map(f => `<option value="${esc(f)}">${esc(f)}</option>`).join('');
+      $('.gk-family').value = st.family;
+      render();
+    } catch {
+      if (token !== generation) return;
+      data = null; $('.gk-grid').innerHTML = ''; $('.gk-more').hidden = true;
+      $('.gk-count').innerHTML = 'Catalogo non disponibile. <button type="button" class="gk-retry">Riprova</button>';
+      $('.gk-retry').addEventListener('click', () => load(true));
+    } finally { if (token === generation) { loading = false; sec.removeAttribute('aria-busy'); } }
   };
   const filtered = () => {
-    const words = norm(st.q).split(/\s+/).filter(Boolean);
-    let l = data.filter(x => (!st.cat || x.cat === st.cat) && (!st.sub || x.sub === st.sub) && (!st.one || x.q === 1) && words.every(w => x._s.includes(w)));
+    let l = data.filter(x => (!st.cat || x.cat === st.cat) && (!st.sub || x.sub === st.sub) && (!st.one || x.q === 1) && (!st.family || NAV.family(x) === st.family) && NAV.inPath(x, st.path) && NAV.matches(x, st.q));
     if (!st.sort) l = l.slice().sort((a, b) => (a.o ?? 0) - (b.o ?? 0)); else if (st.sort === 'pa') l = l.slice().sort((a, b) => a.p - b.p); else if (st.sort === 'pd') l = l.slice().sort((a, b) => b.p - a.p); else if (st.sort === 'q') l = l.slice().sort((a, b) => a.q - b.q || a.p - b.p);
     return l;
   };
-  const card = x => `<button type="button" class="gk-card" data-id="${x.id}"><span class="gk-pic" style="--gk-t:${sec._tint[x.cat]};--gk-c:${x.col && x.col.length ? colorHex(x.col[0]) : 'transparent'}"><span class="gk-blob"></span>${icon(x.ic)}${x.col && x.col.length > 1 ? `<span class="gk-dots">${x.col.slice(0, 5).map(c => `<i style="background:${colorHex(c)}"></i>`).join('')}${x.col.length > 5 ? `<b>+${x.col.length - 5}</b>` : ''}</span>` : ''}</span>
-    <span class="gk-sub">${esc(x.sub)}</span><span class="gk-n">${esc(x.n)}</span><span class="gk-p">da <b>${euro(x.p)}</b> al pezzo</span><span class="gk-q">${x.q > 1 ? `Minimo ${x.q} pezzi` : 'Anche 1 pezzo'}</span></button>`;
+  const card = x => `<button type="button" class="gk-card" data-id="${x.id}"><span class="gk-pic" style="--gk-t:${sec._tint[x.cat]};--gk-c:${x.col && x.col.length ? colorHex(x.col[0]) : 'transparent'}"><span class="gk-blob"></span>${picture(x)}${x.col && x.col.length > 1 ? `<span class="gk-dots">${x.col.slice(0, 5).map(c => `<i style="background:${colorHex(c)}"></i>`).join('')}${x.col.length > 5 ? `<b>+${x.col.length - 5}</b>` : ''}</span>` : ''}</span>
+    <span class="gk-sub">${st.global ? esc(ROOMS[x._service].k.split(' / ')[1]) + ' · ' : ''}${esc(x.sub)}</span><span class="gk-n">${esc(x.n)}</span><span class="gk-p">da <b>${euro(x.p)}</b> al pezzo</span><span class="gk-q">${x.q > 1 ? `Minimo ${x.q} pezzi` : 'Anche 1 pezzo'}</span></button>`;
   function render() {
-    if (!data || !data.length) return;
-    const all = data.filter(x => !st.one || x.q === 1);
+    if (!data) return;
+    const all = data.filter(x => (!st.one || x.q === 1) && (!st.family || NAV.family(x) === st.family) && NAV.inPath(x,st.path));
     const cats = {}; all.forEach(x => { cats[x.cat] = (cats[x.cat] || 0) + 1; });
+    if (st.cat && !cats[st.cat]) { st.cat = ''; st.sub = ''; }
     $('.gk-cats').innerHTML = `<button type="button" role="tab" aria-selected="${!st.cat}" data-cat="">Tutto <small>${all.length}</small></button>` + Object.entries(cats).map(([c, n]) => `<button type="button" role="tab" aria-selected="${st.cat === c}" data-cat="${esc(c)}">${esc(c)} <small>${n}</small></button>`).join('');
     const subs = {}; if (st.cat) all.filter(x => x.cat === st.cat).forEach(x => { subs[x.sub] = (subs[x.sub] || 0) + 1; });
     const subList = Object.entries(subs);
@@ -58,6 +93,15 @@ function mount(key, cfg) {
     $('.gk-grid').innerHTML = l.slice(0, st.shown).map(card).join('');
     const more = $('.gk-more'), rest = l.length - st.shown; more.hidden = rest <= 0; more.textContent = `Mostra altri ${Math.min(PAGE, rest)} · ne restano ${rest.toLocaleString('it-IT')}`;
   }
+  const resetNavigation = () => { st.cat = ''; st.sub = ''; st.shown = PAGE; };
+  $('.gk-family').addEventListener('change', e => { st.family = e.target.value; resetNavigation(); render(); });
+  $('.gk-path').addEventListener('change', e => { st.path = e.target.value; resetNavigation(); render(); });
+  $('.gk-global input').addEventListener('change', e => { st.global = e.target.checked; st.family = ''; resetNavigation(); load(true); });
+  $('.gk-reset').addEventListener('click', () => {
+    st.q = ''; st.family = ''; st.path = ''; st.one = false; st.sort = ''; resetNavigation();
+    $('.gk-search input').value = ''; $('.gk-family').value = ''; $('.gk-path').value = '';
+    $('.gk-nomin input').checked = false; $('.gk-sort').value = ''; render();
+  });
   let t = 0;
   $('.gk-search input').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { st.q = e.target.value; st.shown = PAGE; render(); }, 180); });
   $('.gk-sort').addEventListener('change', e => { st.sort = e.target.value; st.shown = PAGE; render(); });
@@ -86,8 +130,10 @@ function sheet(x, tint, opener) {
   let qty = x.q, color = x.col && x.col.length ? x.col[0] : '';
   const p = sh.querySelector('.gk-panel');
   p.innerHTML = `<button type="button" class="gk-x" data-x aria-label="Chiudi">×</button>
-    <div class="gk-hero" style="--gk-t:${tint};--gk-c:${color ? colorHex(color) : 'transparent'}"><span class="gk-blob"></span>${icon(x.ic, 'gk-ic-big')}</div>
+    <div class="gk-hero" style="--gk-t:${tint};--gk-c:${color ? colorHex(color) : 'transparent'}"><span class="gk-blob"></span>${picture(x, true)}</div>
     <div class="gk-body"><p class="gk-crumb">${esc(x.cat)} · ${esc(x.sub)}</p><h3 id="gk-t">${esc(x.n)}</h3>
+    ${x._media?.description ? `<p class="gk-description">${esc(x._media.description)}</p>` : ''}
+    ${x._media?.status === 'verified' ? '<p class="gk-disclaimer">Esempio di personalizzazione MOI · mockup illustrativo. Grafica, colori e opzioni vengono confermati nel preventivo.</p>' : ''}
     <p class="gk-price">da <b>${euro(x.p)}</b> al pezzo <small>IVA inclusa · più ne prendi, meno costa</small></p>
     ${x.col && x.col.length ? `<div class="gk-f"><p>Colore <b data-cn>${esc(color)}</b></p><div class="gk-colors">${x.col.map((c, i) => `<button type="button" aria-pressed="${i === 0}" data-c="${esc(c)}" title="${esc(c)}" style="--c:${colorHex(c)}"><span class="gk-sr">${esc(c)}</span></button>`).join('')}</div></div>` : ''}
     <div class="gk-f"><p>Quantità <small>${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</small></p>
@@ -103,15 +149,22 @@ function sheet(x, tint, opener) {
   inp.addEventListener('input', upd);
   p.querySelector('.gk-qs').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; inp.value = b.dataset.q; upd(); });
   p.querySelector('.gk-colors')?.addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; color = b.dataset.c; p.querySelectorAll('[data-c]').forEach(z => z.setAttribute('aria-pressed', String(z === b))); p.querySelector('[data-cn]').textContent = color; p.querySelector('.gk-hero').style.setProperty('--gk-c', colorHex(color)); });
+  p.onkeydown = e => {
+    if (e.key !== 'Tab') return;
+    const focusable = [...p.querySelectorAll('button,input,textarea,select,a[href]')].filter(el => !el.disabled && el.getClientRects().length);
+    const first = focusable[0], last = focusable[focusable.length-1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
   p.querySelector('.gk-add').addEventListener('click', e => {
     if (!window.MoiCart) return; upd();
     const note = p.querySelector('textarea').value.trim(), svc = sh._svc;
     window.MoiCart.fly(e.currentTarget);
-    window.MoiCart.add({ service: svc, title: x.n, qty, price: x.p, priceFrom: true, key: ['gk', x.id, color].join('|'),
+    window.MoiCart.add({ service: svc, image: x._media?.src || '', title: x.n, qty, price: x.p, priceFrom: true, key: ['gk', x.id, color].join('|'),
       details: [['Codice', x.id], ['Categoria', x.cat + ' · ' + x.sub], color ? ['Colore', color] : null, ['Prezzo indicativo', 'da ' + euro(x.p) + ' al pezzo'], note ? ['Dettagli', note] : null].filter(Boolean) });
     setTimeout(closeSheet, 450);
   });
-  sh._svc = opener.closest('.gk')?.id.replace('gk-', '') || 'custom';
+  sh._svc = x._service || opener.closest('.gk')?.id.replace('gk-', '') || 'custom';
   upd(); sh.classList.add('is-open'); document.documentElement.classList.add('gk-lock');
   setTimeout(() => p.querySelector('.gk-x').focus({ preventScroll: true }), 60);
 }
