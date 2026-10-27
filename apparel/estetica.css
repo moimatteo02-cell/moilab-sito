@@ -350,3 +350,7 @@ html.es-bar-on .mm-favchip{translate:0 -70px}
  .br-sp-ph img{translate:none}
  .mm-lt-pic.es-tee{transform:none}
 }
+/* Atomic 150: se una foto manca davvero, niente riquadro grigio */
+#moi-apparel-catalog .br-sp-media.has-two:has(.br-sp-ph[hidden]){grid-template-columns:1fr}
+#moi-apparel-catalog .br-sp-media:not(:has(.br-sp-ph:not([hidden]))){display:none}
+#moi-apparel-catalog .br-sp-ph[hidden]{display:none}
