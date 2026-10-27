@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/front.css?v=20261021-4"><link rel="stylesheet" href="assets/demo.css">
 <link rel="stylesheet" href="assets/reference.css"><link rel="stylesheet" href="assets/door.css">
 <link rel="stylesheet" href="/assets/sticker-entry.css"><link rel="stylesheet" href="/assets/refinements.css?v=20261021-4">
-<link rel="stylesheet" href="/automotive/automotive.css?v=20261021-1"><link rel="stylesheet" href="/digital/digital.css"><link rel="stylesheet" href="/assets/editorial.css?v=20261022-1"><link rel="stylesheet" href="/assets/service-reveal.css?v=20261021-5"><link rel="stylesheet" href="/assets/service-icons.css?v=20261021-1"><script>
+<link rel="stylesheet" href="/automotive/automotive.css?v=20261021-1"><link rel="stylesheet" href="/digital/digital.css"><link rel="stylesheet" href="/digital/nuovo.css?v=20261027-2"><link rel="stylesheet" href="/assets/editorial.css?v=20261022-1"><link rel="stylesheet" href="/assets/service-reveal.css?v=20261021-5"><link rel="stylesheet" href="/assets/service-icons.css?v=20261021-1"><script>
 (()=>{const h=document.documentElement;h.classList.add('moi-loading');window.MOI_ASSETS_READY=new Promise(resolve=>{window.MOI_ASSETS_RESOLVE=resolve});window.MOI_RELEASE=()=>{h.classList.remove('moi-loading');const l=document.getElementById('moi-loader');if(l){l.setAttribute('aria-hidden','true');l.inert=true}const r=document.getElementById('moi-lab-hub');if(r)r.inert=h.classList.contains('moi-scroll-lock');window.dispatchEvent(new Event('moi:revealed'))};window.MOI_LOAD_FAILSAFE=setTimeout(window.MOI_RELEASE,10000)})();
 </script>
 <link rel="preload" href="/assets/fonts/moi-calligraphy.woff" as="font" type="font/woff" crossorigin>
@@ -137,31 +137,101 @@
 <section id="moi-showroom-digital" class="moi-room" data-moi-category="digital" data-moi-owner="moi-lab-hub" aria-label="Showroom DIGITAL">
  <div class="moi-room-shell">
   <header class="moi-room-header"><a class="moi-room-brand moi-back" href="#servizi" aria-label="MOI LAB — torna ai servizi"><img src="/digital/moi-pixel.svg" alt="MOI LAB"></a><a class="moi-back" href="#servizi"><span aria-hidden="true">←</span> Torna ai servizi</a></header>
-  <div class="md-hero moi-room-content">
-   <div class="md-copy moi-room-copy"><p class="md-eyebrow">MOI LAB / DIGITAL</p><h1 class="moi-room-title" tabindex="-1">Le tue idee.<br>Nuove possibilità.</h1><p class="moi-room-subtitle">Siti, applicazioni e automazioni<br>per la tua attività.</p><p class="moi-room-intro" hidden>Esplora i nostri software e trova nuove possibilità per la tua attività.</p><div class="md-hero-actions"><button type="button" class="md-primary" data-digital-explore>Esplora i software ↗</button><button type="button" class="md-primary md-project-cta" data-digital-project>Parliamo del tuo progetto <span aria-hidden="true">↗</span></button></div><a class="md-admin-link" href="/area-privata" data-admin-link data-admin-scope="software" hidden>Gestisci i software ↗</a></div>
-   <section class="md-objectives" aria-labelledby="md-objectives-title">
-   <header class="md-objectives-heading"><h2 id="md-objectives-title">Obiettivi</h2><span class="md-objectives-rule" aria-hidden="true"></span><span class="md-objectives-pixels" aria-hidden="true"></span></header>
-   <div class="md-objectives-grid">
-    <button type="button" data-digital-objective="clients" aria-haspopup="dialog"><span>Trovare<br>nuovi clienti</span></button>
-    <button type="button" data-digital-objective="cart" aria-haspopup="dialog"><span>Vendere<br>online</span></button>
-    <button type="button" data-digital-objective="calendar" aria-haspopup="dialog"><span>Organizzare<br>il lavoro</span></button>
-    <button type="button" data-digital-objective="clock" aria-haspopup="dialog"><span>Risparmiare<br>tempo</span></button>
-    <button type="button" data-digital-objective="growth" aria-haspopup="dialog"><span>Migliorare<br>un servizio</span></button>
-   </div>
-  </section>
+  <div class="dx" id="dx">
+   <!-- 1 · APERTURA scura: pixel che reagiscono + titolo interattivo + terminale che costruisce -->
+   <section class="dx-hero" aria-labelledby="dx-h1">
+    <canvas class="dx-px" aria-hidden="true"></canvas>
+    <div class="dx-hero-in">
+     <div class="dx-hero-copy">
+      <p class="dx-k dx-mono"><span class="dx-dot"></span>MOI LAB / DIGITAL</p>
+      <h1 class="moi-room-title dx-sr" id="dx-h1" tabindex="-1">Le tue idee. Nuove possibilità.</h1>
+      <p class="dx-title" aria-hidden="true"><span class="dx-play" data-fx="code">Le tue idee.</span><br><em class="dx-play dx-serif" data-fx="pixel">Nuove possibilità.</em></p>
+      <p class="moi-room-subtitle dx-sub">Siti, applicazioni e automazioni per la tua attività. Su misura, oppure <button type="button" class="dx-ink" data-dx-go="software">già pronti da provare</button>.</p>
+      <p class="moi-room-intro" hidden>Siti, applicazioni e automazioni per la tua attività.</p>
+      <div class="dx-cta"><button type="button" class="dx-btn dx-btn-light" data-digital-project>Parliamo del tuo progetto <span aria-hidden="true">→</span></button><button type="button" class="dx-btn dx-btn-ghost" data-digital-explore data-dx-go="software">Esplora i software</button></div>
+      <a class="dx-admin" href="/area-privata" data-admin-link data-admin-scope="software" hidden>Gestisci i software ↗</a>
+      <p class="dx-tip dx-mono">↳ tocca le parole del titolo</p>
+     </div>
+     <div class="dx-term" aria-label="Esempio di come costruiamo">
+      <div class="dx-term-bar"><i></i><i></i><i></i><span class="dx-mono">moi-lab — costruisci</span></div>
+      <div class="dx-term-tabs" role="tablist" aria-label="Cosa costruiamo"><button role="tab" aria-selected="true" data-build="web">Sito</button><button role="tab" aria-selected="false" data-build="app">App</button><button role="tab" aria-selected="false" data-build="shop">E-commerce</button><button role="tab" aria-selected="false" data-build="auto">Automazione</button></div>
+      <pre class="dx-mono" aria-hidden="true"></pre>
+      <div class="dx-prev" aria-hidden="true"></div>
+     </div>
+    </div>
+    <button type="button" class="dx-scroll dx-mono" data-dx-go="obiettivi">scorri <span aria-hidden="true">↓</span></button>
+   </section>
+
+   <!-- 2 · OBIETTIVI (filo conduttore della pagina originale) -->
+   <section class="dx-sec dx-obj" id="dx-obiettivi" aria-labelledby="dx-obj-t">
+    <p class="dx-k dx-mono">01 · Obiettivi</p>
+    <h2 id="dx-obj-t" class="dx-h2"><span class="dx-play" data-fx="wave">Cosa vuoi</span> <em class="dx-serif dx-play" data-fx="pixel">ottenere?</em></h2>
+    <p class="dx-lead">Tocca un obiettivo: ti diciamo cosa costruiremmo.</p>
+    <div class="dx-obj-grid">
+     <button type="button" data-digital-objective="clients" data-dx-ans="Un sito veloce e curato, pensato per Google, con WhatsApp e Google Maps collegati: chi ti cerca ti trova e ti contatta in un tocco."><span>Trovare<br>nuovi clienti</span></button>
+     <button type="button" data-digital-objective="cart" data-dx-ans="Un negozio online con i tuoi prodotti, varianti, pagamenti e spedizioni o ritiro: lo aggiorni da solo, dal telefono."><span>Vendere<br>online</span></button>
+     <button type="button" data-digital-objective="calendar" data-dx-ans="Un'app su misura per prenotazioni, turni, ordini o preventivi: tutto in un posto, anche per il tuo team."><span>Organizzare<br>il lavoro</span></button>
+     <button type="button" data-digital-objective="clock" data-dx-ans="Automazioni che collegano email, fogli, documenti e messaggi: i passaggi ripetitivi li fa il computer, tu ti occupi del resto."><span>Risparmiare<br>tempo</span></button>
+     <button type="button" data-digital-objective="growth" data-dx-ans="Un configuratore o un assistente AI che risponde ai clienti e raccoglie richieste già complete, giorno e notte."><span>Migliorare<br>un servizio</span></button>
+    </div>
+    <div class="dx-ans" aria-live="polite" hidden></div>
+   </section>
+
+   <!-- 3 · COSA COSTRUIAMO: carte che si girano -->
+   <section class="dx-sec dx-svc" aria-labelledby="dx-svc-t">
+    <p class="dx-k dx-mono">02 · Cosa possiamo creare</p>
+    <h2 id="dx-svc-t" class="dx-h2"><span class="dx-play" data-fx="code">Su misura,</span> <em class="dx-serif dx-play" data-fx="wave">non da catalogo.</em></h2>
+    <p class="dx-lead">Tocca una carta per girarla.</p>
+    <div class="dx-cards">
+     <div class="dx-card" data-svc="Sito web" data-icon="web"><button type="button" class="dx-card-in" aria-label="Siti web: mostra i dettagli"><span class="dx-card-f"><b class="dx-mono">/01</b><strong>Siti web</strong><small>Per farti trovare e farti scegliere.</small><i>Gira →</i></span><span class="dx-card-b"><strong>Siti web</strong><ul><li>Veloce sul telefono</li><li>WhatsApp e Maps collegati</li><li>Pensato per Google</li><li>Testi e foto li cambi tu</li></ul></span></button><button type="button" class="dx-card-cta">Raccontaci il progetto →</button></div>
+     <div class="dx-card" data-svc="Applicazione" data-icon="blocks"><button type="button" class="dx-card-in" aria-label="Applicazioni: mostra i dettagli"><span class="dx-card-f"><b class="dx-mono">/02</b><strong>Applicazioni</strong><small>Costruite intorno a come lavori.</small><i>Gira →</i></span><span class="dx-card-b"><strong>Applicazioni</strong><ul><li>Agenda e prenotazioni</li><li>Clienti, ordini, preventivi</li><li>Area riservata</li><li>Dashboard e statistiche</li></ul></span></button><button type="button" class="dx-card-cta">Raccontaci il progetto →</button></div>
+     <div class="dx-card" data-svc="E-commerce" data-icon="shop"><button type="button" class="dx-card-in" aria-label="E-commerce: mostra i dettagli"><span class="dx-card-f"><b class="dx-mono">/03</b><strong>E-commerce</strong><small>Vendere online, senza complicazioni.</small><i>Gira →</i></span><span class="dx-card-b"><strong>E-commerce</strong><ul><li>Catalogo e varianti</li><li>Pagamenti online</li><li>Spedizioni o ritiro</li><li>Promozioni e ordini</li></ul></span></button><button type="button" class="dx-card-cta">Raccontaci il progetto →</button></div>
+     <div class="dx-card" data-svc="Automazione" data-icon="nodes"><button type="button" class="dx-card-in" aria-label="Automazioni: mostra i dettagli"><span class="dx-card-f"><b class="dx-mono">/04</b><strong>Automazioni e AI</strong><small>Il lavoro ripetitivo lo fa il computer.</small><i>Gira →</i></span><span class="dx-card-b"><strong>Automazioni e AI</strong><ul><li>Messaggi e promemoria</li><li>Dati sincronizzati</li><li>Documenti e preventivi</li><li>Assistenti AI</li></ul></span></button><button type="button" class="dx-card-cta">Raccontaci il progetto →</button></div>
+    </div>
+   </section>
+
+   <!-- 4 · COME NASCE: il sito si costruisce scorrendo -->
+   <section class="dx-build" aria-labelledby="dx-build-t">
+    <div class="dx-build-pin">
+     <div class="dx-build-copy"><p class="dx-k dx-mono">03 · Metodo</p><h2 id="dx-build-t" class="dx-h2"><span class="dx-play" data-fx="code">Guarda come nasce</span> <em class="dx-serif dx-play" data-fx="pixel">il tuo progetto.</em></h2>
+      <ol class="dx-steps"><li><b class="dx-mono">01</b>Ci racconti l'idea<small>Obiettivi, clienti, come lavori.</small></li><li><b class="dx-mono">02</b>Struttura<small>Pagine e percorsi, nero su bianco.</small></li><li><b class="dx-mono">03</b>Design<small>Il tuo stile, i tuoi colori.</small></li><li><b class="dx-mono">04</b>Contenuti e funzioni<small>Testi, foto, prenotazioni, pagamenti.</small></li><li><b class="dx-mono">05</b>Online, e restiamo con te<small>Pubblichiamo e seguiamo il progetto.</small></li></ol></div>
+     <div class="dx-site" aria-hidden="true"><div class="dx-site-bar"><i></i><i></i><i></i><span class="dx-mono">la-tua-attivita.it</span></div><div class="dx-site-body"><div class="b1"></div><div class="b2"><span>La tua attività.<em>Online.</em></span></div><div class="b3"><span>Prenota →</span></div><div class="b4"><i></i><i></i><i></i></div></div><span class="dx-live dx-mono">● online</span></div>
+    </div>
+   </section>
+
+   <!-- 5 · SOFTWARE PRONTI -->
+   <section class="dx-sec dx-sw" id="dx-software" aria-labelledby="dx-sw-t">
+    <p class="dx-k dx-mono">04 · Software</p>
+    <h2 id="dx-sw-t" class="dx-h2"><span class="dx-play" data-fx="wave">Già pronti,</span> <em class="dx-serif dx-play" data-fx="code">da provare.</em></h2>
+    <p class="dx-lead">Strumenti che abbiamo costruito: li usi subito o li adattiamo alla tua attività.</p>
+    <div class="dx-sw-grid" id="moi-digital-software-new"></div>
+   </section>
+
+   <!-- 6 · DOMANDE -->
+   <section class="dx-sec dx-faq" aria-labelledby="dx-faq-t">
+    <p class="dx-k dx-mono">05 · Domande</p>
+    <h2 id="dx-faq-t" class="dx-h2"><span class="dx-play" data-fx="wave">Le cose che</span> <em class="dx-serif dx-play" data-fx="pixel">ci chiedono.</em></h2>
+    <details><summary>Quanto costa?</summary><p>Dipende da cosa ti serve: prima di iniziare ti facciamo un preventivo chiaro e scritto, senza impegno.</p></details>
+    <details><summary>Quanto tempo serve?</summary><p>Te lo diciamo nel preventivo, in base al progetto.</p></details>
+    <details><summary>Poi posso modificarlo da solo?</summary><p>Sì: dove serve ti lasciamo un pannello semplice per aggiornare testi, foto e prodotti.</p></details>
+    <details><summary>Avete già software pronti?</summary><p>Sì, li trovi nella sezione «Già pronti, da provare»: puoi usarli o farli adattare alla tua attività.</p></details>
+   </section>
+
+   <!-- 7 · CHIUSURA scura -->
+   <section class="dx-end" aria-labelledby="dx-end-t">
+    <canvas class="dx-px" aria-hidden="true"></canvas>
+    <p class="dx-k dx-mono">Pronto a partire?</p>
+    <h2 id="dx-end-t" class="dx-end-t"><span class="dx-play" data-fx="pixel">Raccontaci</span> <em class="dx-serif dx-play" data-fx="code">la tua idea.</em></h2>
+    <p>Ti rispondiamo su WhatsApp con le prime idee e un preventivo.</p>
+    <button type="button" class="dx-btn dx-btn-light" data-digital-project>Parliamo del tuo progetto <span aria-hidden="true">→</span></button>
+   </section>
   </div>
-  <section class="md-services"><h2>Cosa possiamo creare per te?</h2><div class="md-services-grid">
-   <button type="button" data-digital-service="Siti web" data-digital-icon="web"><span>Siti web</span><i aria-hidden="true">→</i></button>
-   <button type="button" data-digital-service="Applicazioni" data-digital-icon="blocks"><span>Applicazioni</span><i aria-hidden="true">→</i></button>
-   <button type="button" data-digital-service="E-commerce" data-digital-icon="shop"><span>E-commerce</span><i aria-hidden="true">→</i></button>
-   <button type="button" data-digital-service="Automazioni" data-digital-icon="nodes"><span>Automazioni</span><i aria-hidden="true">→</i></button>
-  </div><div class="md-service-detail" data-digital-detail hidden></div></section>
-  <section class="md-software-library" aria-labelledby="md-library-title"><header><p class="md-eyebrow">MOI LAB / SOFTWARE</p><h2 id="md-library-title">Strumenti digitali in evidenza</h2></header><div class="md-workspace" id="moi-digital-software"><p role="status">Caricamento dei software…</p></div></section>
   <nav class="moi-room-nav" aria-label="I mondi MOI LAB"><span>ESPLORA UN ALTRO MONDO</span><a href="#moi-showroom-apparel" data-moi-category="apparel">APPAREL</a><a href="#moi-showroom-custom" data-moi-category="custom">CUSTOM</a><a href="#moi-showroom-automotive" data-moi-category="automotive">AUTOMOTIVE</a><a href="#moi-showroom-signage" data-moi-category="signage">SIGNAGE</a><a href="#moi-showroom-design" data-moi-category="design">DESIGN</a><a href="#moi-showroom-digital" data-moi-category="digital" aria-current="page">DIGITAL</a></nav>
  </div>
 </section>
 <div id="demo-toast" class="demo-toast" role="status"></div>
 <script type="module" src="/assets/enhancements.mjs?v=20261021-2"></script><script src="assets/front.js?v=20261021-5"></script><script src="/digital/transition.js"></script><script src="assets/door.js"></script><script src="/assets/service-reveal.js?v=20261021-5"></script>
+<script type="module" src="/digital/nuovo.mjs?v=20261027-1"></script>
 <script type="module" src="/assets/portfolio-ring.js?v=20261027-2"></script>
 <script defer src="/assets/moi-motion.js?v=20261026-2"></script>
 <script defer src="/assets/moi-motion-extra.js?v=20261026-1"></script>
