@@ -94,3 +94,4 @@ html.qc-open{overflow:hidden}
 .qc-fields{padding:18px 0 6px;border-top:1px solid #ffffff14;margin-top:14px}
 @media (max-width:640px){.qc-toast{left:12px;right:12px;max-width:none;transform:translateY(-20px)}.qc-toast.is-on{transform:none}.qc-toast span{flex:1}}
 .qc-code{margin:6px 0 0;font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;color:#c8aa77}
+.qc-row{flex-wrap:wrap}.qc-stepper{flex:none}.qc-rm-host{margin-left:auto}

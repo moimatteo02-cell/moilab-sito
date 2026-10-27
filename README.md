@@ -105,3 +105,7 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - «Torna ai servizi» in alto è nascosto (resta nel codice per la tendina): in ogni servizio c'è la freccia Indietro (Hold Button) in basso a sinistra.
 - «Ti aiuto a scegliere» è un pulsante compatto sopra la freccia (solo ✦ su telefono): tocco = apre, tieni premuto = lo nascondi fino alla prossima visita di Abbigliamento.
 - `assets/coach.js`: le prime 2 volte un dito fantasma mostra tocco e pressione lunga di questi pulsanti; si chiude toccando lo schermo.
+
+## Scorri per richiedere + tieni premuto per togliere
+- `assets/slide-commit.js/.css`: porting vanilla di Slide Commit (React Bits): nel carrello «Scorri per richiedere il preventivo» → apre WhatsApp (tocco senza trascinare = suggerimento).
+- Nel carrello «Rimuovi» è un Hold Button rosso «Tieni premuto per togliere» (tocco = suggerimento, poi Annulla nel messaggio).

@@ -155,11 +155,25 @@ function paint() {
   body.innerHTML = `<div class="qc-list">${groups.map(s => `<section class="qc-group"><p class="qc-gk"><span>${SERVICES[s].n}</span>${esc(SERVICES[s].label)}</p>${state.items.filter(i => i.service === s).map(i => `
       <article class="qc-item">${i.image ? `<img src="${esc(i.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<span class="qc-ph">${SERVICES[s].n}</span>`}
         <div class="qc-it"><h3>${esc(i.title)}</h3>${i.details.length ? `<p>${i.details.map(([k, v]) => `<span><em>${esc(k)}</em> ${esc(v)}</span>`).join('')}</p>` : ''}
-          <div class="qc-row">${i.qty ? (i.ref ? `<span class="qc-q">${i.qty} pz</span>` : `<span class="qc-stepper"><button type="button" data-step="-1" data-id="${i.id}" aria-label="Meno">−</button><input type="number" min="1" inputmode="numeric" value="${i.qty}" data-qty="${i.id}" aria-label="Quantità"><button type="button" data-step="1" data-id="${i.id}" aria-label="Più">+</button></span>`) : '<span></span>'}<button type="button" class="qc-rm" data-rm="${i.id}">Rimuovi</button></div></div>
+          <div class="qc-row">${i.qty ? (i.ref ? `<span class="qc-q">${i.qty} pz</span>` : `<span class="qc-stepper"><button type="button" data-step="-1" data-id="${i.id}" aria-label="Meno">−</button><input type="number" min="1" inputmode="numeric" value="${i.qty}" data-qty="${i.id}" aria-label="Quantità"><button type="button" data-step="1" data-id="${i.id}" aria-label="Più">+</button></span>`) : '<span></span>'}${window.MoiHold ? `<span class="qc-rm-host" data-rm-host="${i.id}"></span>` : `<button type="button" class="qc-rm" data-rm="${i.id}">Rimuovi</button>`}</div></div>
       </article>`).join('')}</section>`).join('')}${missing.length ? `<div class="qc-more"><p class="qc-gk">Aggiungi anche</p><div>${missing.map(x => `<a href="/#${ROOMS[x]}" data-go>${esc(SERVICES[x].short)}</a>`).join('')}</div></div>` : ''}<div class="qc-fields"><label class="qc-f">Nome e azienda · facoltativo<input name="qc-name" maxlength="120" autocomplete="organization" value="${esc(state.name)}"></label>
       <label class="qc-f">Note per tutto il preventivo · facoltative<textarea name="qc-notes" rows="2" maxlength="1500">${esc(state.notes)}</textarea></label></div></div>
-    <div class="qc-foot">${estimate()}<a class="qc-cta" data-send href="${esc(waURL())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>
-      <p class="qc-note">Si apre WhatsApp con tutto il riepilogo: premi Invia. File e foto li alleghi lì. Nessun pagamento. <button type="button" class="qc-copy" data-copy>Copia il testo</button></p></div>`;
+    <div class="qc-foot">${estimate()}${window.MoiSlide ? '<div class="qc-slide"></div>' : `<a class="qc-cta" data-send href="${esc(waURL())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>`}
+      <p class="qc-note">Scorri fino in fondo: si apre WhatsApp con il codice e il riepilogo, poi premi Invia. File e foto li alleghi lì. Nessun pagamento. <button type="button" class="qc-copy" data-copy>Copia il testo</button></p></div>`;
+  mountWidgets(body);
+}
+function mountWidgets(body) {
+  body.querySelectorAll('[data-rm-host]').forEach(h => {
+    const id = h.dataset.rmHost;
+    h.append(window.MoiHold.create({ label: 'Tieni premuto per togliere', doneLabel: 'Tolto', holdTime: 800, releaseTime: 200, resetAfter: 0, radius: 999, size: 'sm',
+      backgroundColor: '#1d1d1d', fillColor: '#e5484d', textColor: '#a9a59c', fillTextColor: '#ffffff', ariaLabel: 'Tieni premuto per togliere dal carrello',
+      onTap: () => toast('Tieni premuto il pulsante per togliere questa voce.'), onHold: () => setTimeout(() => remove(id), 220) }));
+  });
+  const host = body.querySelector('.qc-slide');
+  if (host && window.MoiSlide) host.append(window.MoiSlide.create({ label: 'Scorri per richiedere il preventivo', doneLabel: 'Apro WhatsApp…', height: 56,
+    trackColor: '#24221e', handleColor: '#f6e7c8', successColor: '#25d366', holdMs: 2200,
+    onTapHint: () => toast('Trascina la maniglia fino in fondo a destra per inviare la richiesta.'),
+    onConfirm: () => { backup(); const url = waURL(); const w = window.open(url, '_blank'); if (w) { try { w.opener = null; } catch {} } else location.href = url; setTimeout(() => { state.sent = true; paint(); }, 1800); } }));
 }
 function open() { if (!panel) return; hideToast(); paint(); panel.classList.add('is-open'); panel.inert = false; document.documentElement.classList.add('qc-open'); setTimeout(() => panel.querySelector('.qc-x')?.focus({ preventScroll: true }), 60); }
 function close() { panel.classList.remove('is-open'); panel.inert = true; document.documentElement.classList.remove('qc-open'); btn?.focus?.({ preventScroll: true }); }
