@@ -21,6 +21,8 @@ const projectsOf = (data, key) => (data?.[key]?.progetti || []).filter(p => p &&
 
 function renderTeaser(el, data) {
   const key = el.dataset.portfolio, name = NAMES[key] || key, list = projectsOf(data, key);
+  const fan = list.length ? Array.from({ length: Math.min(7, Math.max(5, list.length)) }, (_, i) => list[i % list.length]) : [];
+  const mid = (fan.length - 1) / 2;
   el.innerHTML = `
     <div class="mp-teaser-copy">
       <p class="mp-eyebrow">MOI LAB / ${esc(name.toUpperCase())} / LAVORI</p>
@@ -28,54 +30,11 @@ function renderTeaser(el, data) {
       <p class="mp-lead">${list.length ? (list.every(p => p.esempio) ? 'Qui arriveranno i nostri lavori. Intanto prova la galleria: sfoglia, gira, apri.' : `${list.length} ${list.length === 1 ? 'progetto realizzato' : 'progetti realizzati'}. Sfogliali, girali, aprili uno per uno.`) : 'La galleria si sta preparando. Presto qui troverai i nostri lavori.'}</p>
       ${list.length ? `<button class="mp-open" type="button">Entra nella galleria <span aria-hidden="true">→</span></button>` : ''}
     </div>
-    ${list.length ? `<div class="mp-helix" role="group" aria-label="Lavori ${esc(name)} in 3D: trascina per girare, tocca una foto per aprire la galleria">
-      <span class="mp-helix-axis" aria-hidden="true"></span><div class="mp-helix-stage"></div>
-      <span class="mp-fan-hint">Trascina · Tocca per aprire</span>
-    </div>` : ''}`;
-  el.querySelector('.mp-open')?.addEventListener('click', e => openGallery(key, list, e.currentTarget));
-  const hx = el.querySelector('.mp-helix'); if (hx) helix(hx, list, () => openGallery(key, list, el.querySelector('.mp-open')));
-}
-
-/* ---------------- Elica 3D (anteprima) ----------------
-   Le foto salgono a spirale come una vite: girano da sole, si trascinano con inerzia,
-   lo scorrimento della pagina le fa girare un po' più veloci. Le foto dietro sono più scure. */
-function helix(box, list, onOpen) {
-  const stage = box.querySelector('.mp-helix-stage');
-  const COUNT = Math.max(14, list.length), STEP = 360 / 7, TURN = 7 * STEP;     // 7 foto per giro, 2 giri visibili
-  const cards = Array.from({ length: COUNT }, (_, i) => {
-    const p = list[i % list.length], c = document.createElement('button');
-    c.type = 'button'; c.className = 'mp-helix-card'; c.tabIndex = -1; c.setAttribute('aria-hidden', 'true');
-    c.innerHTML = `<img src="${esc(p.immagini[0])}" alt="" loading="lazy" decoding="async" draggable="false">`;
-    stage.append(c); return c;
-  });
-  const scroller = box.closest('.moi-room'), sy = () => scroller ? scroller.scrollTop : scrollY;
-  let a = 0, v = 0, drag = null, vis = false, raf = 0, lastY = sy();
-  const reduce = reduceMQ.matches;
-  box.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, lx: e.clientX, moved: 0 }; v = 0; box.setPointerCapture?.(e.pointerId); });
-  box.addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.lx; drag.lx = e.clientX; drag.moved = Math.max(drag.moved, Math.abs(e.clientX - drag.x)); a += dx * .35; v = dx * .35; kick(); });
-  const up = () => { if (!drag) return; const moved = drag.moved; drag = null; if (moved < 8) onOpen(); };
-  box.addEventListener('pointerup', up); box.addEventListener('pointercancel', () => { drag = null; });
-  box.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(); } });
-  box.tabIndex = 0;
-  const frame = () => {
-    raf = 0; if (!vis) return;
-    const now = sy(), dy = now - lastY; lastY = now;
-    if (!drag) { a += v + (reduce ? 0 : .22) + (reduce ? 0 : Math.max(-6, Math.min(6, dy * .12))); v *= .94; }
-    const W = box.clientWidth, H = box.clientHeight, R = Math.min(240, W * .36), pitch = H * .62;   // altezza di un giro
-    cards.forEach((c, i) => {
-      const t = ((i * STEP - a) % (2 * TURN) + 2 * TURN) % (2 * TURN) - TURN;   // -TURN..TURN: posizione lungo la vite
-      const th = t * Math.PI / 180, z = Math.cos(th), y = -t / 360 * pitch;
-      const edge = Math.max(0, Math.min(1, (H * .62 - Math.abs(y)) / (H * .16)));  // sfuma in alto e in basso
-      c.style.transform = `translate3d(${Math.sin(th) * R}px,${y}px,${z * R}px) rotateY(${t}deg)`;
-      c.style.opacity = (edge * (.35 + .65 * (z + 1) / 2)).toFixed(3);
-      c.style.filter = `brightness(${(.45 + .55 * (z + 1) / 2).toFixed(3)})`;
-      c.style.zIndex = Math.round(100 + z * 100);
-    });
-    if (!reduce || drag) raf = requestAnimationFrame(frame);
-  };
-  const kick = () => { if (!raf && vis) raf = requestAnimationFrame(frame); };
-  new IntersectionObserver(es => { vis = es[0].isIntersecting; if (vis) { lastY = sy(); kick(); } }, { rootMargin: '100px' }).observe(box);
-  addEventListener('resize', kick);
+    <button class="mp-fan" type="button" aria-label="Apri la galleria dei lavori ${esc(name)}" ${list.length ? '' : 'disabled'}>
+      ${fan.map((p, i) => `<span class="mp-fan-card" style="--i:${i - mid};--d:${Math.abs(i - mid)}"><img src="${esc(p.immagini[0])}" alt="" loading="lazy" decoding="async"></span>`).join('')}
+      ${list.length ? '<span class="mp-fan-hint">Trascina · Ruota · Apri</span>' : ''}
+    </button>`;
+  el.querySelectorAll('.mp-open, .mp-fan').forEach(b => b.addEventListener('click', () => openGallery(key, list, b)));
 }
 
 /* ---------------- Galleria a tutto schermo ---------------- */
