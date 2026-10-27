@@ -47,6 +47,9 @@
   };
   addEventListener('hashchange', mode); addEventListener('popstate', mode); mode();
 
+  // pulsante «Iniziamo»: Specular Button di React Bits, dorato
+  const go = $('.mi-go');
+  if (go && window.MoiSpecular) { try { window.MoiSpecular.mount(go, { radius: 14, tint: '#e2c28e', tintOpacity: 0.14, textColor: '#f6e7c8', lineColor: '#f1d9a6', baseColor: '#8a7552', idleIntensity: 0.6, autoAnimate: true, speed: 0.35, glow: 1.2, thickness: 1.4 }); } catch (e) { console.warn('Specular Button non disponibile', e); } }
   // raggi di luce (impostazioni predefinite di React Bits, colore caldo MOI LAB)
   const rays = $('.mi-rays');
   if (rays && window.MoiLightRays) { try { window.MoiLightRays.mount(rays, { raysOrigin: 'top-center', raysColor: '#f3e2bf', followMouse: true, mouseInfluence: 0.1 }); } catch (e) { console.warn('Light Rays non disponibile', e); } }

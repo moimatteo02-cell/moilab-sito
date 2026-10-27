@@ -68,3 +68,6 @@ html.mi-done .mi-intro{display:none!important}
 .mi-svc-head span{font-size:14px;color:#9a958c}
 html.mi-done #moi-lab-hub .mm-vel{display:none!important}
 .mi-bar{display:none!important}.mi-hero{padding-top:40px}
+.mi-go{text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;box-shadow:0 12px 30px -14px #e2c28e66,inset 0 1px 0 #ffffff14}
+.mi-go:not(.specular-button){display:inline-flex;align-items:center;gap:8px;padding:18px 38px;border-radius:14px;border:1px solid #c8aa77;color:#f6e7c8}
+.mi-cta{align-items:center}.mi-cta .mi-btn{height:52px;border-radius:14px}
