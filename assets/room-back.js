@@ -18,7 +18,7 @@ const btn = window.MoiHold.create({
 btn.classList.add('rb-btn');
 wrap.append(btn);
 document.body.append(wrap);
-const sync = () => { const on = !!active(); if (on === !wrap.hidden) return; wrap.hidden = !on; if (on) document.dispatchEvent(new CustomEvent('moi:room-enter', { detail: active().id })); };
+const sync = () => { const on = !!active(); if (on === !wrap.hidden) return; wrap.hidden = !on; };
 rooms.forEach(r => new MutationObserver(sync).observe(r, { attributes: true, attributeFilter: ['class'] })); sync();
 window.MoiRoomBack = { button: btn };
 })();

@@ -12,13 +12,13 @@ let running = null;
 function stopAll() { if (!running) return; running.abort = true; running.cleanup(); running = null; }
 ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, e => { if (running && !e.isTrusted) return; stopAll(); }, { capture: true, passive: true }));
 
-async function play(steps) {
+async function play(steps, onEnd) {
   if (running) return;
   const finger = document.createElement('div'); finger.className = 'cx-finger'; finger.setAttribute('aria-hidden', 'true');
   const bubble = document.createElement('div'); bubble.className = 'cx-bubble'; bubble.setAttribute('role', 'status');
   document.body.append(finger, bubble);
   const touched = [];
-  const run = running = { abort: false, cleanup: () => { finger.remove(); bubble.remove(); touched.forEach(b => { b.style.removeProperty('--hb-p'); b.dataset.phase = 'idle'; }); } };
+  const run = running = { abort: false, cleanup: () => { onEnd?.(); finger.remove(); bubble.remove(); touched.forEach(b => { b.style.removeProperty('--hb-p'); b.dataset.phase = 'idle'; }); } };
   const place = (el, text) => {
     const r = el.getBoundingClientRect();
     bubble.textContent = text; bubble.classList.remove('is-on'); void bubble.offsetWidth;
@@ -35,7 +35,9 @@ async function play(steps) {
     if (!reduce) await moveTo(el); if (run.abort) return;
     // tocco
     finger.classList.add('is-tap'); place(el, s.tap); await wait(380); finger.classList.remove('is-tap');
-    await wait(1700); if (run.abort) return;
+    s.onTap?.();
+    await wait(s.hold ? 1700 : 1500); if (run.abort) return;
+    if (!s.hold) continue;
     // pressione lunga: il pulsante si riempie
     place(el, s.hold); finger.classList.add('is-hold');
     const btn = el.matches('.hold-button') ? el : el.querySelector('.hold-button');
@@ -49,7 +51,7 @@ async function play(steps) {
     await wait(400);
   }
   if (run.abort) return;
-  bubble.classList.remove('is-on'); finger.classList.remove('is-on'); await wait(400);
+  bubble.classList.remove('is-on'); finger.classList.remove('is-on'); await wait(400); onEnd?.();
   if (running === run) { run.cleanup(); running = null; }
 }
 
@@ -58,9 +60,11 @@ document.addEventListener('moi:room-enter', e => {
   setTimeout(() => {
     if (running || !document.querySelector('.moi-room.is-active')) return;
     const steps = [];
-    if (seen('back') < MAX) steps.push({ target: () => document.querySelector('.rb-back:not([hidden]) .hold-button'), tap: 'Tocca: torni indietro di un passo', hold: 'Tieni premuto: torni subito ai servizi', done: () => mark('back') });
-    if (e.detail === 'moi-showroom-apparel' && seen('assist') < MAX) steps.push({ target: () => document.querySelector('.as-fab.is-on .hold-button'), tap: 'Tocca: ti aiuto a scegliere il capo giusto', hold: 'Tieni premuto: lo nascondi', done: () => mark('assist') });
-    if (steps.length) play(steps);
+    if (seen('dock') < MAX && window.MoiDock) {
+      steps.push({ target: () => window.MoiDock.main, tap: 'Tocca qui: indietro, assistente e WhatsApp', onTap: () => window.MoiDock.open(), done: () => mark('dock') });
+      steps.push({ target: () => document.querySelector('.dk.is-open .dk-back .hold-button'), tap: 'Tocca: torni indietro di un passo', hold: 'Tieni premuto: torni subito ai servizi' });
+    }
+    if (steps.length) play(steps, () => window.MoiDock?.close());
   }, 1900);
 });
 window.MoiCoach = { play, stop: stopAll };

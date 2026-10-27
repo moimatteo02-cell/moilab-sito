@@ -59,6 +59,7 @@
     panel.innerHTML = '<p class="as-wait">Un attimo…</p>';
     await load(); render(); $('.as-x', panel)?.focus();
   };
+  window.MoiAssist = { open: () => open(), visible: () => room.classList.contains('is-active') && !room.classList.contains('ac-detail-mode') };
   const close = () => {
     panel.classList.remove('is-in'); shade.classList.remove('is-in'); doc.documentElement.classList.remove('as-open');
     setTimeout(() => { panel.hidden = true; shade.hidden = true; sync(); }, calm ? 0 : 320);

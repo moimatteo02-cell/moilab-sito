@@ -109,3 +109,7 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 ## Scorri per richiedere + tieni premuto per togliere
 - `assets/slide-commit.js/.css`: porting vanilla di Slide Commit (React Bits): nel carrello «Scorri per richiedere il preventivo» → apre WhatsApp (tocco senza trascinare = suggerimento).
 - Nel carrello «Rimuovi» è un Hold Button rosso «Tieni premuto per togliere» (tocco = suggerimento, poi Annulla nel messaggio).
+
+## Pulsantino ✦ dentro i servizi (dock)
+- `assets/dock.js/.css`: dentro un servizio c'è solo il pulsante dorato ✦ (+ il carrello, sempre visibile). Tocco → si aprono Indietro (Hold Button: tocco = indietro, tieni premuto = servizi), Ti aiuto a scegliere (solo Abbigliamento, `window.MoiAssist.open`), WhatsApp. Il WhatsApp fisso e i pulsanti separati sono nascosti nei servizi.
+- Il mini tutorial (coach.js) ora mostra: tocca ✦ → si apre → tieni premuto Indietro.

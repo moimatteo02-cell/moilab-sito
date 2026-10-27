@@ -1,0 +1,33 @@
+/* MOI LAB — pulsantino dorato ✦ dentro i servizi (dock.js) */
+html.dk-ready .rb-back,html.dk-ready .as-pill.as-fab{display:none!important}
+html.dk-on .mm-wa{display:none!important}
+html.dk-on .qc-btn{bottom:20px}
+.dk{position:fixed;left:20px;bottom:20px;z-index:2147482660;display:flex;flex-direction:column;align-items:flex-start;gap:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;transition:bottom .3s}
+.dk[hidden]{display:none}
+.dk-main{position:relative;width:54px;height:54px;border:0;border-radius:50%;background:radial-gradient(120% 120% at 30% 20%,#f6e7c8,#c8aa77 55%,#8a7552);color:#15130f;cursor:pointer;box-shadow:0 14px 34px -12px #000c,0 0 0 1px #ffffff40 inset;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.dk-main::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid #e2c28e66;animation:dk-ring 2.8s ease-out infinite;pointer-events:none}
+@keyframes dk-ring{0%{transform:scale(.9);opacity:.9}70%,100%{transform:scale(1.25);opacity:0}}
+.dk-main:active{transform:scale(.92)}
+.dk-star,.dk-x{position:absolute;inset:0;display:grid;place-items:center;font-size:22px;line-height:1;transition:opacity .25s,transform .35s cubic-bezier(.3,1.4,.5,1)}
+.dk-x{font-size:28px;opacity:0;transform:rotate(-90deg) scale(.6)}
+.dk.is-open .dk-star{opacity:0;transform:rotate(90deg) scale(.6)}
+.dk.is-open .dk-x{opacity:1;transform:none}
+.dk.is-open .dk-main::before{animation:none;opacity:0}
+.dk-items{display:flex;flex-direction:column;align-items:flex-start;gap:10px;pointer-events:none}
+.dk.is-open .dk-items{pointer-events:auto}
+.dk-items>*{opacity:0;transform:translateY(16px) scale(.92);transform-origin:left bottom;transition:opacity .25s,transform .4s cubic-bezier(.3,1.5,.5,1)}
+.dk.is-open .dk-items>*{opacity:1;transform:none}
+.dk.is-open .dk-items>:nth-last-child(1){transition-delay:0s}.dk.is-open .dk-items>:nth-last-child(2){transition-delay:.05s}.dk.is-open .dk-items>:nth-last-child(3){transition-delay:.1s}
+.dk-item{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 18px 0 6px;border:1px solid #ffffff1f;border-radius:999px;background:#151515;color:#f6f2ea;font:500 14px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 14px 34px -14px #000c}
+.dk-item[hidden]{display:none}
+.dk-ic{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#262420;color:#e7d3ac}
+.dk-wa .dk-ic{background:#25d366;color:#fff}
+.dk-spark{font-size:15px}
+.dk-back{display:flex;align-items:center;gap:10px}
+.dk-back .hold-button{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;height:48px;padding:0 20px 0 14px;border:1px solid #ffffff1f;box-shadow:0 14px 34px -14px #000c}
+.dk-back .rb-t{display:inline!important}
+.dk-hint{padding:6px 10px;border-radius:999px;background:#151515d9;color:#c8aa77;font-size:11.5px;letter-spacing:.02em;white-space:nowrap}
+html.es-bar-on .dk{bottom:92px}
+html.qc-open .dk,html.mm-sm-open .dk,html.owm-open .dk,html.as-open .dk,html.br-lock .dk{opacity:0;pointer-events:none}
+@media (max-width:640px){.dk{left:14px;bottom:14px}.dk-main{width:50px;height:50px}html.dk-on .qc-btn{bottom:14px}}
+@media (prefers-reduced-motion:reduce){.dk-main::before{animation:none}.dk-items>*,.dk-star,.dk-x{transition:none}}
