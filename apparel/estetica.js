@@ -256,9 +256,10 @@
     const r = img.getBoundingClientRect(); if (!r.width) return;
     killFly(); fly = doc.createElement('img'); fly.className = 'es-fly'; fly.src = img.currentSrc || img.src; fly.alt = '';
     Object.assign(fly.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-    doc.body.append(fly);
+    doc.body.append(fly); const flyEl = fly; setTimeout(() => { if (flyEl === fly) killFly(); else flyEl.remove(); }, 1800);
     fly.animate([{ transform: 'none' }, { transform: 'scale(1.04)' }], { duration: 260, fill: 'forwards', easing: 'ease-out' });
     const t0 = performance.now(), me = fly;
+    const onScroll = () => { if (me === fly) killFly(); removeEventListener('scroll', onScroll, true); }; setTimeout(() => addEventListener('scroll', onScroll, true), 900);
     const wait = () => {
       if (me !== fly) return;
       const st = $('.ac-pdp [data-media-stage]', mount);
@@ -301,6 +302,48 @@
       const txt = el.getAttribute('aria-label') || el.textContent; window.MOI_ROLL(el, txt, txt.replace(/\d/g, '0'));
     });
   });
+
+  /* ---------- quantità: tieni premuto per contare veloce + scelte rapide ---------- */
+  const qInput = () => $('[data-qty-input]', mount);
+  const setQty = v => { const i = qInput(); if (!i) return; i.value = String(Math.max(1, Math.min(9999, v))); i.dispatchEvent(new Event('input', { bubbles: true })); };
+  let hold = null, swallow = false;
+  const stopHold = () => {
+    if (!hold) return; clearTimeout(hold.t); hold.b.classList.remove('es-holding'); hold.box?.classList.remove('es-qrun');
+    if (hold.chip) { const c = hold.chip; c.animate([{ opacity: 1 }, { opacity: 0, transform: 'translate(-50%,-44px)' }], { duration: 500, fill: 'forwards' }).onfinish = () => c.remove(); }
+    swallow = hold.ran; hold = null;
+  };
+  doc.addEventListener('pointerdown', e => {
+    const b = e.target.closest('#moi-apparel-catalog [data-qty-step]'); if (!b || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    stopHold(); swallow = false;
+    const dir = +b.dataset.qtyStep, start = +(qInput()?.value || 1), t0 = performance.now(), box = b.parentElement;
+    hold = { b, ran: false, box, t: 0, chip: null };
+    const tick = () => {
+      if (!hold || hold.b !== b) return;
+      const el = performance.now() - t0, cur = +(qInput()?.value || 1);
+      const step = el > 3800 ? 50 : el > 2400 ? 10 : el > 1300 ? 5 : 1;
+      let next = dir > 0 ? (step > 1 ? Math.floor(cur / step) * step + step : cur + 1) : (step > 1 ? Math.ceil(cur / step) * step - step : cur - 1);
+      next = Math.max(1, Math.min(9999, next));
+      if (next !== cur) {
+        hold.ran = true; setQty(next); b.classList.add('es-holding'); box.classList.add('es-qrun', 'es-qbox');
+        if (!hold.chip) { hold.chip = doc.createElement('span'); hold.chip.className = 'es-qchip es-qchip-live'; hold.chip.setAttribute('aria-hidden', 'true'); hold.chip.style.left = (b.offsetLeft + b.offsetWidth / 2) + 'px'; box.append(hold.chip); }
+        const d = next - start; hold.chip.textContent = (d >= 0 ? '+' : '−') + Math.abs(d);
+        if (navigator.vibrate && step > 1 && next % (step * 2) === 0) try { navigator.vibrate(4); } catch {}
+      }
+      hold.t = setTimeout(tick, el > 3800 ? 70 : el > 2400 ? 80 : el > 1300 ? 90 : 110);
+    };
+    hold.t = setTimeout(tick, 420);
+  }, true);
+  ['pointerup', 'pointercancel'].forEach(t => addEventListener(t, stopHold, true));
+  addEventListener('blur', e => { if (e.target === window) stopHold(); });
+  doc.addEventListener('pointerout', e => { if (hold && e.target.closest?.('[data-qty-step]') === hold.b && !hold.b.contains(e.relatedTarget)) stopHold(); }, true);
+  doc.addEventListener('click', e => { if (swallow && e.target.closest('#moi-apparel-catalog [data-qty-step]')) { e.stopImmediatePropagation(); e.preventDefault(); swallow = false; } }, true);
+  doc.addEventListener('contextmenu', e => { if (e.target.closest('#moi-apparel-catalog [data-qty-step]')) e.preventDefault(); });
+  function quickQty() {
+    const row = $('.ac-pdp-qtyrow', mount); if (!row || $('.es-qpick', mount)) return;
+    row.insertAdjacentHTML('afterend', `<div class="es-qpick" role="group" aria-label="Quantità rapide">${[10, 25, 50, 100, 250].map(n => `<button type="button" data-es-q="${n}">${n}</button>`).join('')}<span class="es-qhint">oppure tieni premuto + o scrivi il numero</span></div>`);
+  }
+  doc.addEventListener('click', e => { const b = e.target.closest('#moi-apparel-catalog [data-es-q]'); if (!b) return; setQty(+b.dataset.esQ); $$('[data-es-q]', mount).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
+  doc.addEventListener('input', e => { if (!e.target.matches?.('#moi-apparel-catalog [data-qty-input]')) return; const v = e.target.value; $$('[data-es-q]', mount).forEach(x => x.setAttribute('aria-pressed', String(x.dataset.esQ === v))); });
 
   /* ---------- totale "1 × 28,90 € = 28,90 €": tutte le cifre girano ---------- */
   function total() {
@@ -347,7 +390,7 @@
     tabs();
     cards();
     if ($('.br-layout', mount)) { viewToggle(); autoMore(); typer(); }
-    if ($('.ac-pdp', mount)) { colors(); zoom(); segs(); mobileHead(); total(); }
+    if ($('.ac-pdp', mount)) { colors(); zoom(); segs(); mobileHead(); total(); quickQty(); }
     stickyBar();
     reveal();
   }
