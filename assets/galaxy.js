@@ -307,7 +307,8 @@ function mount(container, opts = {}) {
       premultipliedAlpha: true,
       antialias: false,
       depth: false,
-      stencil: false
+      stencil: false,
+      preserveDrawingBuffer: !!opts.preserve   // MOI LAB: serve per riusare le stelle dentro le scritte
     });
     if (!container || !canvas || !gl) return undefined;
 
