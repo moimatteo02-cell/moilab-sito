@@ -30,18 +30,30 @@
   curtain.innerHTML = '<i class="l1"></i><i class="l2"></i><div class="sa-curtain-in"><span class="sa-curtain-ic"></span><b></b><small></small></div>';
   document.body.append(curtain);
   let busy = false;
-  function go(a) {
+  function play(ic, title, sub, hash) {
     if (busy) return; busy = true;
-    const hash = a.getAttribute('href'), w = a.closest('.mlg-card-wrap');
     if (reduce) { location.hash = hash; busy = false; return; }
-    curtain.querySelector('.sa-curtain-ic').innerHTML = w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML || '';
-    curtain.querySelector('b').textContent = w.querySelector('h2')?.textContent || '';
-    curtain.querySelector('small').textContent = w.querySelector('.mlg-caption p')?.textContent || '';
+    curtain.querySelector('.sa-curtain-ic').innerHTML = ic || '';
+    curtain.querySelector('b').textContent = title || '';
+    curtain.querySelector('small').textContent = sub || '';
     curtain.classList.add('is-in');
     setTimeout(() => { location.hash = hash; }, 950);
     setTimeout(() => { curtain.classList.add('is-out'); curtain.classList.remove('is-in'); }, 1350);
     setTimeout(() => { curtain.classList.add('no-anim'); curtain.classList.remove('is-out'); void curtain.offsetWidth; curtain.classList.remove('no-anim'); busy = false; }, 2300);
   }
+  function go(a) {
+    const w = a.closest('.mlg-card-wrap');
+    play(w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML, w.querySelector('h2')?.textContent, w.querySelector('.mlg-caption p')?.textContent, a.getAttribute('href'));
+  }
+  // ritorno ai servizi da dentro un servizio: stessa tendina dell'entrata
+  document.addEventListener('click', e => {
+    const b = e.target.closest?.('.moi-room a.moi-back'); if (!b) return;
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    const key = b.closest('.moi-room')?.id.replace('moi-showroom-', '');
+    const ic = grid.querySelector(`[data-card="${key}"] .mlg-caption .mlg-service-icon`)?.outerHTML;
+    play(ic, 'SERVIZI', 'Torna a tutti i servizi', b.getAttribute('href') || '#servizi');
+  }, true);
   grid.addEventListener('keydown', e => {
     const k = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!k) return;
     e.preventDefault(); const n = (active + k + wraps.length) % wraps.length; wraps[n].querySelector('a.mlg-card')?.focus();
