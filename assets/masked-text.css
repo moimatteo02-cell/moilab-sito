@@ -13,4 +13,4 @@
 #servizi.sa .mlg-caption p.gt-text{font-size:clamp(15px,1.25vw,19px)!important;font-weight:500;letter-spacing:.01em}
 .sa-curtain small.gt-text{font-size:clamp(13px,1.4vw,17px);letter-spacing:.22em}
 #servizi.sa .sa-intro{bottom:clamp(140px,17.5vh,170px)!important}
-@media (max-width:760px){#servizi.sa .sa-intro{bottom:110px!important}}
+@media (max-width:760px){#servizi.sa .sa-intro{bottom:120px!important}}
