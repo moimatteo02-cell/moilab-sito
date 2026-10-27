@@ -1,0 +1,14 @@
+/* Desktop: ogni pagina usa tutta la larghezza dello schermo (prima i contenuti si fermavano a 1040–1400px al centro).
+   Stesso margine laterale dell'Abbigliamento. Telefono e tablet restano come prima. */
+@media (min-width:1025px){
+  :root{--fw-g:clamp(24px,2.6vw,48px)}
+  /* pagina dei servizi */
+  .mlg .mlg-shell{width:calc(100% - 2 * var(--fw-g))!important;max-width:none!important}
+  #servizi.sa{height:clamp(460px,calc(100svh - 350px),1000px)}
+  /* stanze dei servizi (custom, automotive, signage, design) */
+  .moi-room-shell{width:calc(100% - 2 * var(--fw-g));max-width:none}
+  /* digital: niente colonne strette al centro */
+  #moi-showroom-digital .dx-hero-in,#moi-showroom-digital .dx-build-pin,#moi-showroom-digital .dx-sec{max-width:none}
+}
+/* barra di scorrimento scura nelle stanze scure */
+#moi-showroom-digital{scrollbar-color:#2c3533 #0b0f0f}
