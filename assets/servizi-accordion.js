@@ -30,14 +30,16 @@
   curtain.innerHTML = '<i class="l1"></i><i class="l2"></i><div class="sa-curtain-in"><span class="sa-curtain-ic"></span><b></b><small></small></div>';
   document.body.append(curtain);
   let busy = false;
+  const goTo = d => { if (d.startsWith('#')) location.hash = d; else { try { sessionStorage.setItem('moi-curtain', '1'); } catch {} location.href = d; } };
   function play(ic, title, sub, hash) {
     if (busy) return; busy = true;
-    if (reduce) { location.hash = hash; busy = false; return; }
+    if (reduce) { goTo(hash); busy = false; return; }
     curtain.querySelector('.sa-curtain-ic').innerHTML = ic || '';
     curtain.querySelector('b').textContent = title || '';
     curtain.querySelector('small').textContent = sub || '';
     curtain.classList.add('is-in');
-    setTimeout(() => { location.hash = hash; }, 950);
+    setTimeout(() => goTo(hash), 950);
+    if (!hash.startsWith('#')) return;   // altra pagina: la tendina sfuma là
     setTimeout(() => { curtain.classList.add('is-out'); curtain.classList.remove('is-in'); }, 1350);
     setTimeout(() => { curtain.classList.add('no-anim'); curtain.classList.remove('is-out'); void curtain.offsetWidth; curtain.classList.remove('no-anim'); busy = false; }, 2300);
   }
@@ -53,6 +55,16 @@
     const key = b.closest('.moi-room')?.id.replace('moi-showroom-', '');
     const ic = grid.querySelector(`[data-card="${key}"] .mlg-caption .mlg-service-icon`)?.outerHTML;
     play(ic, 'SERVIZI', 'Torna a tutti i servizi', b.getAttribute('href') || '#servizi');
+  }, true);
+  // tornando indietro dalla pagina Chi siamo (cache del browser) la tendina non deve restare chiusa
+  addEventListener('pageshow', e => { if (e.persisted) { curtain.className = 'sa-curtain'; busy = false; } });
+  // apertura: «Iniziamo» e «Chi siamo» con la stessa tendina
+  document.addEventListener('click', e => {
+    const a = e.target.closest?.('.mi-intro a[href="#servizi"], .mi-intro a[href="/chi-siamo/"]'); if (!a) return;
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    const about = a.getAttribute('href') === '/chi-siamo/', m = '<svg viewBox="0 0 42 43" fill="none" stroke="#efd4a7" stroke-width="2.2" aria-hidden="true"><path d="M4 34V9l17 18L38 9v25"/></svg>';
+    play(m, about ? 'CHI SIAMO' : 'SERVIZI', about ? 'La nostra storia' : 'Scopri cosa facciamo', a.getAttribute('href'));
   }, true);
   grid.addEventListener('keydown', e => {
     const k = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!k) return;

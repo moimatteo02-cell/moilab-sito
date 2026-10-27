@@ -82,3 +82,7 @@
 #servizi.sa .sa-side .sa-new{writing-mode:horizontal-tb;transform:none}
 @keyframes saNew{50%{box-shadow:0 0 22px #e2c28e99}}
 @media (prefers-reduced-motion:reduce){.sa-new{animation:none}}
+
+.sa-curtain-ic>svg{display:block;width:58px;height:auto}
+/* arrivo su un'altra pagina (es. Chi siamo) a tendina chiusa: copre finché la tendina non sfuma */
+html.moi-cover::after{content:'';position:fixed;inset:0;background:#0c0c0c;z-index:2147483100}

@@ -3,6 +3,13 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const COLS = ['#e2c28e', '#c8aa77', '#49a58c', '#df6650'], CODE = '01<>/{}[]#$%&*+=ABXYZ';
+  // arrivo dalla tendina dell'apertura: la tendina è chiusa e sfuma
+  try { if (sessionStorage.getItem('moi-curtain')) { sessionStorage.removeItem('moi-curtain');
+    const c = document.createElement('div'); c.className = 'sa-curtain is-in no-anim'; c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = '<i class="l1"></i><i class="l2"></i><div class="sa-curtain-in"><span class="sa-curtain-ic"><svg viewBox="0 0 42 43" fill="none" stroke="#efd4a7" stroke-width="2.2"><path d="M4 34V9l17 18L38 9v25"/></svg></span><b>CHI SIAMO</b><small>La nostra storia</small></div>';
+    document.body.append(c); document.documentElement.classList.remove('moi-cover'); void c.offsetWidth; c.classList.remove('no-anim');
+    setTimeout(() => { c.classList.add('is-out'); c.classList.remove('is-in'); }, 250); setTimeout(() => c.remove(), 1100); } } catch {}
+  document.documentElement.classList.remove('moi-cover');
   document.getElementById('y').textContent = new Date().getFullYear();
 
   const rays = document.querySelector('.cs-rays');
