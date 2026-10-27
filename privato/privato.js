@@ -12,6 +12,11 @@ const date = t => new Date(t).toLocaleString('it-IT', { day: '2-digit', month: '
 const load = () => { try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
 const store = list => { try { localStorage.setItem(KEY, JSON.stringify(list)); return true; } catch { return false; } };
 let list = load(), current = null;
+/* tabella fornitore (file privato, mai nel sito): codice MOI → link e prezzo del fornitore */
+const SKEY = 'moilab-private-supplier-v1';
+let sup = (() => { try { return JSON.parse(localStorage.getItem(SKEY) || '{}'); } catch { return {}; } })();
+function parseCSV(t) { const rows = t.replace(/^\uFEFF/, '').split(/\r?\n/).filter(Boolean).map(l => l.split(';')); const h = rows.shift() || []; const ic = h.indexOf('codice MOI'), il = h.indexOf('link fornitore'), ip = h.indexOf('prezzo fornitore senza IVA (da)'), iq = h.indexOf('quantità minima'), inn = h.indexOf('nome fornitore');
+  const m = {}; rows.forEach(r => { if (r[ic]) m[r[ic]] = { l: r[il], p: r[ip], q: r[iq], n: r[inn] }; }); return m; }
 
 /* ---------- decodifica del link ---------- */
 const unb64 = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
@@ -54,8 +59,10 @@ function showDetail(p) {
     <button type="button" data-copy>Copia riepilogo</button><button type="button" data-print>Stampa</button><button type="button" data-close aria-label="Chiudi">×</button></div></div>
     ${p.o ? `<p class="pv-notes"><em>Note del cliente</em>${esc(p.o)}</p>` : ''}
     ${ORDER.filter(s => p.i.some(i => i.s === s)).map(s => `<section class="pv-g"><p class="pv-gk"><span>${SERVICES[s][0]}</span>${SERVICES[s][1]}</p>
-      ${p.i.filter(i => i.s === s).map(i => `<article class="pv-item"><div><h3>${esc(i.t)}</h3><dl>${(i.d || []).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></div>
+      ${p.i.filter(i => i.s === s).map(i => `<article class="pv-item"><div><h3>${esc(i.t)}</h3><dl>${(i.d || []).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+        ${(() => { const c = (i.d || []).find(d => d[0] === 'Codice')?.[1], f = c && sup[c]; return f ? `<p class="pv-sup"><a href="${esc(f.l)}" target="_blank" rel="noopener noreferrer">Ordina dal fornitore ↗</a><span>fornitore: da ${esc(f.p)} € + IVA · min ${esc(f.q)}</span></p>` : ''; })()}</div>
         <div class="pv-q">${i.q ? `<b>${i.q}</b><small>pz</small>` : '<small>—</small>'}${i.p && i.q ? `<span>${i.f ? 'da ' : ''}${euro(i.p * i.q)}</span>` : ''}</div></article>`).join('')}</section>`).join('')}
+    ${Object.keys(sup).length ? '' : '<p class="pv-sup-hint">Collega la tabella fornitore (in fondo alla pagina) per vedere qui i link per ordinare.</p>'}
     ${priced.length ? `<div class="pv-tot"><span>Stima dei capi con prezzo</span><b>${from ? 'da ' : ''}${euro(Math.round(tot * 100) / 100)}</b></div>` : ''}`;
   box.hidden = false;
   box.querySelector('[data-status]').onchange = e => { if (!list.find(x => x.code === p.c)) save(p); setStatus(p.c, e.target.value); };
@@ -87,6 +94,12 @@ $('.pv-open').addEventListener('submit', e => {
   const code = v.toUpperCase().replace(/\s/g, ''), x = list.find(x => x.code === code || x.code === 'MOI-' + code);
   if (x) { showDetail(x.payload); msg(''); } else msg(`${code} non è nell’archivio di questo dispositivo: apri il link “Riepilogo” del messaggio WhatsApp con quel codice.`);
 });
+// collega la tabella fornitore
+const supBox = document.querySelector('.pv-supplier');
+const supInfo = () => { supBox.querySelector('span').textContent = Object.keys(sup).length ? `Tabella fornitore collegata: ${Object.keys(sup).length} prodotti.` : 'Nessuna tabella fornitore collegata.'; };
+supBox.querySelector('input').addEventListener('change', async e => { const f = e.target.files[0]; if (!f) return; sup = parseCSV(await f.text()); try { localStorage.setItem(SKEY, JSON.stringify(sup)); } catch {} supInfo(); if (current) showDetail(current); });
+supBox.querySelector('[data-unlink]').addEventListener('click', () => { sup = {}; try { localStorage.removeItem(SKEY); } catch {} supInfo(); if (current) showDetail(current); });
+supInfo();
 renderList();
 const h = location.hash.match(/^#q=([A-Za-z0-9_-]+)/); if (h) openEnc(h[1]);
 addEventListener('hashchange', () => { const m = location.hash.match(/^#q=([A-Za-z0-9_-]+)/); if (m) openEnc(m[1]); });
