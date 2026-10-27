@@ -21,6 +21,17 @@ const projectsOf = (data, key) => (data?.[key]?.progetti || []).filter(p => p &&
 
 function renderTeaser(el, data) {
   const key = el.dataset.portfolio, name = NAMES[key] || key, list = projectsOf(data, key);
+  // Flex Carousel di React Bits (per ora solo Abbigliamento): titolo dentro l'animazione, niente pulsante galleria
+  if (el.dataset.style === 'flex' && list.length && window.MoiFlexCarousel) {
+    el.classList.add('mp-teaser--flex');
+    el.innerHTML = `<div class="mp-flex-head"><p class="mp-eyebrow">MOI LAB / ${esc(name.toUpperCase())} / LAVORI</p>
+      <h2>I nostri lavori.<br><em>Guardali da vicino.</em></h2></div><div class="mp-flex"></div>`;
+    const items = list.map(p => ({ src: p.immagini[0], alt: p.titolo || name, title: p.titolo || name, subtitle: [p.cliente, p.anno].filter(Boolean).join(' · ') || (p.esempio ? 'Esempio' : '') }));
+    let ok = null;
+    try { ok = window.MoiFlexCarousel.mount(el.querySelector('.mp-flex'), { items, preset: 'liquid', intro: 'rise', captureWheel: false, label: `Lavori ${name}` }); } catch (e) { console.warn('Flex Carousel non disponibile', e); }
+    if (ok) return;
+    el.classList.remove('mp-teaser--flex');
+  }
   el.innerHTML = `
     <div class="mp-teaser-copy">
       <p class="mp-eyebrow">MOI LAB / ${esc(name.toUpperCase())} / LAVORI</p>

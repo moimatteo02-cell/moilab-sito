@@ -78,3 +78,8 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Apertura home: `assets/intro.js/.css` (porting di "Scroll Expand" di React Bits) con `assets/galaxy.js/.css` (porting di "Galaxy", stesso shader WebGL2) e la M del caricamento. Entrambi MIT + Commons Clause.
 - Nuova apertura: Light Rays + M → la cornice si allarga (Scroll Expand) → interfaccia con Swarm Cursor ("Iniziamo" → servizi, "Chi siamo" → `/chi-siamo/`). Porting vanilla in `assets/light-rays.js`, `assets/swarm-cursor.js`, `assets/intro.js`. Il racconto della vecchia home ora vive in `/chi-siamo/` (nella home è nascosto con `.mi-split`).
 - Pulsante «Iniziamo»: Specular Button di React Bits (porting in `assets/specular-button.js`, stesso shader), colori dorati.
+
+## Flex Carousel — «I nostri lavori» in Abbigliamento
+- `assets/flex-carousel.js` + `assets/flex-carousel.css`: porting vanilla (WebGL2 puro, senza OGL) del Flex Carousel di React Bits (MIT + Commons Clause). API: `MoiFlexCarousel.mount(el, { items, preset, intro, ... })`.
+- Si attiva con `data-style="flex"` sulla sezione `.mp-teaser` (oggi solo `data-portfolio="apparel"`); immagini e titoli da `data/portfolio.json`. Niente pulsante «Entra nella galleria»: tocco = ingrandisce la foto. La rotella verticale scorre la pagina (captureWheel:false).
+- Senza WebGL2 torna la galleria 3D di prima. In Abbigliamento «Esplora un altro mondo» è centrato, con la scritta sopra.
