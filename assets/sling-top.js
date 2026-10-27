@@ -18,7 +18,7 @@
     const box = doc.createElement('div'); box.className = 'sling-end' + (dark ? ' sling-end-dark' : '');
     box.innerHTML = '<span class="sling-end-slot"></span><p><b>Tirami giù</b><span>e lasciami andare: torni in cima.</span></p>';
     where(box);
-    MoiSling.mount(box.querySelector('.sling-end-slot'), { ...(dark ? {} : LIGHT), axis: 'vertical', ariaLabel: 'Torna in cima alla pagina', hint: 'Premi Invio per tornare in cima, oppure tira giù e rilascia.', onSend: () => fly(scroller) });
+    MoiSling.mount(box.querySelector('.sling-end-slot'), { ...(dark ? {} : LIGHT), axis: 'down', ariaLabel: 'Torna in cima alla pagina', hint: 'Premi Invio per tornare in cima, oppure tira giù e rilascia.', onSend: () => fly(scroller) });
     new IntersectionObserver(es => { es[0].isIntersecting ? shown.add(box) : shown.delete(box); sync(); }, { root: scroller || null }).observe(box);
   };
   doc.querySelectorAll('.moi-room').forEach(room => {

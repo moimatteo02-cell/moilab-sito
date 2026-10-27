@@ -108,14 +108,15 @@
       const g = grip; if (!g || g.id !== e.pointerId) return;
       const dx = (e.clientX - g.startX) / g.scale, dy = (e.clientY - g.startY) / g.scale;
       let rx = g.rawOrigin.x + dx, ry = g.rawOrigin.y + dy;
-      if (opt.axis === 'horizontal') ry = rubberband(ry, size / 4); else if (opt.axis === 'vertical') rx = rubberband(rx, size / 4);
+      if (opt.axis === 'horizontal') ry = rubberband(ry, size / 4); else if (opt.axis === 'vertical' || opt.axis === 'down') rx = rubberband(rx, size / 4);
+      if (opt.axis === 'down' && ry < 0) ry = rubberband(ry, size / 6);   // si tira solo verso il basso
       if (!g.moved && Math.hypot(dx, dy) > g.slop) g.moved = true;
       const raw = Math.hypot(rx, ry); if (raw < 0.01) return;
       const d = (R * raw) / (R + raw), ux = rx / raw, uy = ry / raw;
       dir = { ux, uy }; setPos(d * ux, d * uy);
       const t = performance.now(); g.hist.push({ x: d * ux, y: d * uy, t });
       while (g.hist.length > 4 || t - g.hist[0].t > 80) g.hist.shift();
-      const isArmed = d >= ARM; if (isArmed !== armed) setArmed(isArmed);
+      const isArmed = d >= ARM && (opt.axis !== 'down' || uy > 0.6); if (isArmed !== armed) setArmed(isArmed);
     });
     const release = (pointerId, cancelled) => {
       const g = grip; if (!g || g.id !== pointerId) return;
@@ -141,9 +142,12 @@
       }
       setArmed(false); setHeld(false);
     };
+    pad.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+    pad.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    root.style.touchAction = 'none';
     pad.addEventListener('pointerup', e => release(e.pointerId, false));
     pad.addEventListener('pointercancel', e => release(e.pointerId, true));
-    pad.addEventListener('lostpointercapture', e => release(e.pointerId, true));
+    pad.addEventListener('lostpointercapture', e => release(e.pointerId, !armed));
     pad.addEventListener('keydown', e => { if (e.key === 'Escape' && grip) release(grip.id, true); });
     pad.addEventListener('click', () => { if (skipClick) { skipClick = false; return; } if (!opt.disabled) send(); });
     return root;
