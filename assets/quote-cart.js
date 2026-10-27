@@ -199,6 +199,6 @@ document.addEventListener('click', e => {
   } catch (err) { console.warn('Carrello: elemento non valido', err); }
 }, true);
 
-window.MoiCart = { fly, add, open, close, remove, syncGroup, clear, items: () => state.items.slice(), count: () => state.items.length, message };
+window.MoiCart = { toast: html => toast(html), fly, add, open, close, remove, syncGroup, clear, items: () => state.items.slice(), count: () => state.items.length, message };
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', build) : build();
 })();

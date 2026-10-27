@@ -274,12 +274,22 @@
   }
 }
 
-/* ===== MOI LAB: freccia «Indietro» in Abbigliamento ===== */
-.rb-back{position:fixed;left:20px;bottom:20px;z-index:2147482650;display:flex;flex-direction:column;align-items:flex-start;gap:8px;transition:bottom .3s}
+/* ===== MOI LAB: freccia «Indietro» dentro i servizi (sostituisce «Torna ai servizi») ===== */
+.moi-room-header .moi-back:not(.moi-room-brand){position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;padding:0!important;border:0!important;margin:0!important}
+.rb-back{position:fixed;left:20px;bottom:20px;z-index:2147482650;transition:bottom .3s}
 .rb-back[hidden]{display:none}
 .rb-back .hold-button{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;height:48px;padding:0 20px 0 14px;box-shadow:0 14px 34px -14px #000c,inset 0 1px 0 #ffffff10;border:1px solid #ffffff1f}
-.rb-tip{order:-1;padding:7px 12px;border-radius:10px;background:#151515f0;color:#f6e7c8;font:500 12.5px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;white-space:nowrap;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none}
-.rb-back.rb-tip-on .rb-tip{opacity:1;transform:none}
 html.es-bar-on .rb-back{bottom:92px}
-html.qc-open .rb-back,html.mm-sm-open .rb-back,html.owm-open .rb-back,html.mi-gate .rb-back,html.br-lock .rb-back{opacity:0;pointer-events:none}
-@media (max-width:640px){.rb-back{left:14px;bottom:14px}.rb-back .hold-button{width:48px;height:48px;padding:0;font-size:14px}.rb-back .rb-t{display:none}.rb-tip{font-size:12px}}
+html.qc-open .rb-back,html.mm-sm-open .rb-back,html.owm-open .rb-back,html.mi-gate .rb-back,html.br-lock .rb-back,html.as-open .rb-back{opacity:0;pointer-events:none}
+@media (max-width:640px){.rb-back{left:14px;bottom:14px}.rb-back .hold-button{width:48px;height:48px;padding:0}.rb-back .rb-t{display:none}}
+
+/* ===== mini tutorial (coach.js) ===== */
+.cx-finger{position:fixed;left:0;top:0;z-index:2147483250;width:34px;height:34px;border-radius:50%;background:#ffffffd9;box-shadow:0 0 0 6px #ffffff40,0 10px 24px -6px #000a;pointer-events:none;opacity:0;transition:transform .75s cubic-bezier(.6,0,.2,1),opacity .35s,scale .2s}
+.cx-finger.is-on{opacity:1}
+.cx-finger.is-tap{scale:.72}
+.cx-finger.is-tap::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid #e2c28e;animation:cx-ripple .5s ease-out forwards}
+.cx-finger.is-hold{scale:.8;box-shadow:0 0 0 10px #e2c28e55,0 10px 24px -6px #000a}
+@keyframes cx-ripple{to{inset:-26px;opacity:0}}
+.cx-bubble{position:fixed;z-index:2147483250;max-width:min(300px,calc(100vw - 24px));padding:10px 14px;border-radius:14px;background:#151515f2;color:#f6f2ea;font:500 13.5px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;box-shadow:0 16px 36px -16px #000c;border:1px solid #c8aa7755;pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.cx-bubble.is-on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.cx-finger{display:none}.cx-bubble{transition:none}}

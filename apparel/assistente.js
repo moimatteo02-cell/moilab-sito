@@ -29,14 +29,24 @@
   const STEPS = 5;
 
   /* ---------- pulsante e pannello ---------- */
-  const pill = doc.createElement('button'); pill.type = 'button'; pill.className = 'as-pill';
-  pill.innerHTML = '<span class="as-spark" aria-hidden="true">✦</span><span>Ti aiuto a scegliere</span>';
+  // pulsante compatto (Hold Button di React Bits): tocco = apri l'assistente, tieni premuto = nascondilo per questa visita
+  let hiddenByUser = false;
+  const pill = doc.createElement('div'); pill.className = 'as-pill as-fab';
+  let pillBtn;
+  if (window.MoiHold) {
+    pillBtn = window.MoiHold.create({ label: '<span class="as-spark" aria-hidden="true">✦</span><span class="as-fab-t">Ti aiuto a scegliere</span>', doneLabel: '<span class="as-fab-t">Nascosto</span>', holdTime: 700, releaseTime: 220, resetAfter: 500, radius: 999,
+      backgroundColor: '#151515', fillColor: '#3a3631', textColor: '#ffffff', fillTextColor: '#e7d3ac', ariaLabel: 'Ti aiuto a scegliere. Tieni premuto per nasconderlo',
+      hint: 'Tocca per aprire l’assistente, tieni premuto per nasconderlo',
+      onTap: () => open(), onHold: () => setTimeout(() => { hiddenByUser = true; sync(); window.MoiCart?.toast?.('Assistente nascosto: torna la prossima volta che apri Abbigliamento'); }, 300) });
+  } else { pillBtn = doc.createElement('button'); pillBtn.type = 'button'; pillBtn.innerHTML = '<span class="as-spark" aria-hidden="true">✦</span><span class="as-fab-t">Ti aiuto a scegliere</span>'; pillBtn.addEventListener('click', () => open()); }
+  pillBtn.classList.add('as-fab-btn'); pill.append(pillBtn);
   const panel = doc.createElement('div'); panel.className = 'as-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true'); panel.setAttribute('aria-label', 'Assistente: ti aiuto a scegliere'); panel.hidden = true;
   const shade = doc.createElement('div'); shade.className = 'as-shade'; shade.hidden = true;
   doc.body.append(pill, shade, panel);
 
   const sync = () => {
-    const on = room.classList.contains('is-active') && !room.classList.contains('ac-detail-mode') && !doc.documentElement.classList.contains('br-lock') && panel.hidden;
+    if (!room.classList.contains('is-active')) hiddenByUser = false;
+    const on = !hiddenByUser && room.classList.contains('is-active') && !room.classList.contains('ac-detail-mode') && !doc.documentElement.classList.contains('br-lock') && panel.hidden;
     pill.classList.toggle('is-on', on);
   };
   new MutationObserver(sync).observe(room, { attributes: true, attributeFilter: ['class'] });
@@ -52,9 +62,8 @@
   const close = () => {
     panel.classList.remove('is-in'); shade.classList.remove('is-in'); doc.documentElement.classList.remove('as-open');
     setTimeout(() => { panel.hidden = true; shade.hidden = true; sync(); }, calm ? 0 : 320);
-    pill.focus({ preventScroll: true });
+    pillBtn.focus({ preventScroll: true });
   };
-  pill.addEventListener('click', open);
   shade.addEventListener('click', close);
   doc.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(); });
 

@@ -100,3 +100,8 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `/privato/` (privato.js/.css): apre il link o il codice, mostra la richiesta ordinata per servizio con quantità e stima, stato (Nuova → In lavorazione → Preventivo inviato → Accettata → Archiviata), copia, stampa; archivio locale nel browser. Non indicizzata (meta + header `X-Robots-Tag`). Per ora raggiungibile anche dal menu (voce «Privato»).
 - Copia di sicurezza: all'invio il carrello manda anche il modulo Netlify `preventivo` (form nascosto in index.html). Funziona solo se in Netlify è attiva la rilevazione dei moduli (Forms).
 - `assets/hold-button.js/.css` (Hold Button di React Bits) + `assets/room-back.js`: in Abbigliamento «Indietro» (tocco = un passo indietro nel catalogo, tieni premuto = servizi).
+
+## Indietro in tutti i servizi + assistente compatto + mini tutorial
+- «Torna ai servizi» in alto è nascosto (resta nel codice per la tendina): in ogni servizio c'è la freccia Indietro (Hold Button) in basso a sinistra.
+- «Ti aiuto a scegliere» è un pulsante compatto sopra la freccia (solo ✦ su telefono): tocco = apre, tieni premuto = lo nascondi fino alla prossima visita di Abbigliamento.
+- `assets/coach.js`: le prime 2 volte un dito fantasma mostra tocco e pressione lunga di questi pulsanti; si chiude toccando lo schermo.
