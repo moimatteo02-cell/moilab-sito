@@ -211,6 +211,9 @@
 #moi-apparel-catalog .es-prices strong span,#moi-apparel-catalog .es-sum strong span{font-size:inherit!important;letter-spacing:inherit!important;text-transform:none!important;color:inherit!important;font-weight:inherit}
 #moi-apparel-catalog .es-sum strong{font-size:26px;font-weight:500;letter-spacing:-.03em;color:var(--es-ink)}
 
+#moi-apparel-catalog .es-choose{margin:0}
+#moi-apparel-catalog .es-choose button{min-height:0!important;height:auto!important;border-radius:12px!important;font-size:inherit;line-height:1.2}
+#moi-apparel-catalog .es-choose button strong{font-size:clamp(22px,1.8vw,26px)!important}
 /* ---------- 29 · colori ---------- */
 #moi-apparel-catalog .ac-pdp-chip>span{overflow-wrap:normal!important;word-break:normal;hyphens:none}
 #moi-apparel-catalog .ac-pdp-colors{transition:-webkit-mask-image .3s}

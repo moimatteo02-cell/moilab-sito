@@ -78,7 +78,6 @@ if(mount){
     <p class="ac-overline">${e(p.marca)} / ${e(p.sku)}${p.linea_premium?' / PREMIUM':''}</p>
     <h2 tabindex="-1">${e(p.nome)}</h2>
     <p class="ac-pdp-type">${e(p.tipo)}</p>
-    <div class="ac-dual-prices es-prices" aria-live="polite"><button type="button" data-personalization="no" aria-pressed="${!personalized}"><span>Senza logo</span><strong data-price>${priceLabel('prezzo')}</strong><small>Il capo neutro</small></button><button type="button" data-personalization="yes" aria-pressed="${personalized}"><span>Col tuo logo</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong><small>Stampa fino a 40 cm inclusa</small></button></div>
     <p class="ac-pdp-short">${e(short)}</p>
     <ul class="ac-pdp-features">
      <li>${ico.print}<div><strong>Stampa inclusa</strong><span>Una stampa fino a 40 cm nel prezzo personalizzato</span></div></li>
@@ -103,7 +102,7 @@ if(mount){
     <div class="ac-pdp-row"><span>${e(p.sku)}</span><span class="ac-pdp-stock"><i></i>Su ordinazione</span></div>
     <fieldset><legend>Colore <span data-color-label>${e(color)}</span></legend><div class="ac-pdp-colors">${p.colori.map(swatch).join('')}</div></fieldset>
     <fieldset><legend>Taglia <button type="button" class="ac-pdp-link" data-open-sizes>Guida alle taglie</button></legend><div class="ac-pdp-sizes">${p.taglie.map(s=>`<button type="button" data-size="${e(s)}" aria-pressed="false">${e(s)}</button>`).join('')}</div><p class="ac-pdp-hint" data-size-label>Seleziona una taglia</p></fieldset>
-    <fieldset><legend>Come lo vuoi?</legend><div class="ac-pdp-toggle"><button type="button" data-personalization="no" aria-pressed="${!personalized}">Senza stampa</button><button type="button" data-personalization="yes" aria-pressed="${personalized}">Con stampa</button></div></fieldset>
+    <fieldset><legend>Come lo vuoi?</legend><div class="ac-dual-prices es-prices es-choose" role="group" aria-label="Come lo vuoi?" aria-live="polite"><button type="button" data-personalization="no" aria-pressed="${!personalized}"><span>Senza logo</span><strong data-price>${priceLabel('prezzo')}</strong><small>Il capo neutro</small></button><button type="button" data-personalization="yes" aria-pressed="${personalized}"><span>Col tuo logo</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong><small>Stampa fino a 40 cm inclusa</small></button></div></fieldset>
     <fieldset><legend>Quantità</legend><div class="ac-pdp-qtyrow"><div class="ac-pdp-stepper"><button type="button" data-qty-step="-1" aria-label="Diminuisci quantità">−</button><input data-qty-input type="number" inputmode="numeric" min="1" max="9999" value="${qty}" aria-label="Quantità"><button type="button" data-qty-step="1" aria-label="Aumenta quantità">+</button></div><p class="ac-pdp-total" data-total aria-live="polite">${totalLabel()}</p></div></fieldset>
     <p class="ac-pdp-price es-sum"><span data-unit-mode>${personalized?'con personalizzazione':'senza personalizzazione'}, al pezzo</span><strong data-unit-price>${unitLabel()}</strong></p>
     <a class="ac-pdp-cta" data-quote href="${e(quote())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>
