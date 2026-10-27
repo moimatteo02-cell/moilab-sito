@@ -152,8 +152,8 @@
   if (grid && !reduce) {
     const mq = matchMedia('(max-width: 760px)'), wraps = $$('.mlg-card-wrap', grid);
     let raf = 0;
-    const paint = () => { raf = 0; if (!mq.matches) return; wraps.forEach((w, i) => { const next = wraps[i + 1], card = $('.mlg-card', w); if (!next || !card) return; const d = next.getBoundingClientRect().top - w.getBoundingClientRect().top; const p = Math.max(0, Math.min(1, 1 - d / (w.offsetHeight + 24))); card.style.transform = p ? `scale(${(1 - p * .07).toFixed(3)})` : ''; card.style.filter = p ? `brightness(${(1 - p * .45).toFixed(2)})` : ''; }); };
-    const apply = () => { grid.classList.toggle('mm-stack', mq.matches); wraps.forEach((w, i) => w.style.setProperty('--mm-i', i)); if (!mq.matches) wraps.forEach(w => { const c = $('.mlg-card', w); if (c) { c.style.transform = ''; c.style.filter = ''; } }); paint(); };
+    const paint = () => { raf = 0; if (!mq.matches || grid.classList.contains('sa')) return; wraps.forEach((w, i) => { const next = wraps[i + 1], card = $('.mlg-card', w); if (!next || !card) return; const d = next.getBoundingClientRect().top - w.getBoundingClientRect().top; const p = Math.max(0, Math.min(1, 1 - d / (w.offsetHeight + 24))); card.style.transform = p ? `scale(${(1 - p * .07).toFixed(3)})` : ''; card.style.filter = p ? `brightness(${(1 - p * .45).toFixed(2)})` : ''; }); };
+    const apply = () => { if (grid.classList.contains('sa')) { grid.classList.remove('mm-stack'); return; } grid.classList.toggle('mm-stack', mq.matches); wraps.forEach((w, i) => w.style.setProperty('--mm-i', i)); if (!mq.matches) wraps.forEach(w => { const c = $('.mlg-card', w); if (c) { c.style.transform = ''; c.style.filter = ''; } }); paint(); };
     mq.addEventListener('change', apply); apply();
     addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(paint); }, { passive: true });
   }
