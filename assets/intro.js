@@ -34,8 +34,18 @@
 
   const toOpen = () => scrollTo({ top: track.offsetTop + root.offsetTop + stageH * C.scrollDistance, behavior: reduce ? 'auto' : 'smooth' });
   skip.addEventListener('click', toOpen);
-  // "Iniziamo" e "Servizi": vanno alla scelta dei servizi
-  root.querySelectorAll('[data-mi-go="servizi"]').forEach(a => a.addEventListener('click', e => { const t = document.getElementById('servizi'); if (!t) return; e.preventDefault(); t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }));
+  // due pagine separate: l'apertura (senza hash) e i servizi (#servizi o una stanza). "Iniziamo" porta ai servizi,
+  // il logo MOI LAB in alto riporta all'apertura.
+  const html = document.documentElement;
+  const mode = () => {
+    const h = location.hash, intro = !h || h === '#inizio' || h === '#moi-lab-hub';
+    const was = html.classList.contains('mi-gate');
+    html.classList.toggle('mi-gate', intro); html.classList.toggle('mi-done', !intro);
+    if (!intro) html.classList.remove('mi-on');
+    if (intro !== was) { requestAnimationFrame(() => scrollTo({ top: 0, behavior: 'instant' })); measure(); target = read(); current = target; apply(current); }
+    if (!intro && !was && h === '#servizi' && mode.first) requestAnimationFrame(() => scrollTo({ top: 0, behavior: 'instant' }));
+  };
+  addEventListener('hashchange', mode); addEventListener('popstate', mode); mode();
 
   // raggi di luce (impostazioni predefinite di React Bits, colore caldo MOI LAB)
   const rays = $('.mi-rays');

@@ -56,3 +56,14 @@
 }
 @media (prefers-reduced-motion:reduce){.mi-m .g{animation:none;stroke-dashoffset:0}.mi-m .s{animation:none;offset-distance:100%}.mi-hint i::after{animation:none}}
 html.mi-on .mm-wa,html.mi-on .mm-top,html.mi-on .mm-progress,html.mi-on .as-pill{opacity:0!important;pointer-events:none!important}
+
+/* due pagine separate */
+html.mi-gate #moi-lab-hub{display:none!important}
+html.mi-gate .sling-end,html.mi-gate .mm-top{display:none!important}
+html.mi-done .mi-intro{display:none!important}
+.mi-svc-head{padding:clamp(24px,5vh,56px) 4px clamp(18px,3vh,30px);text-align:left}
+.mi-svc-head p{margin:0 0 10px;font-size:11px;letter-spacing:.26em;color:#c8aa77}
+.mi-svc-head h2{margin:0 0 8px;font-size:clamp(34px,5.4vw,72px);font-weight:400;letter-spacing:-.045em;line-height:1;color:#f3f0ea}
+.mi-svc-head h2 em{font-family:'Moi Editorial',Georgia,serif;font-style:italic;color:#e2c28e}
+.mi-svc-head span{font-size:14px;color:#9a958c}
+html.mi-done #moi-lab-hub .mm-vel{display:none!important}
