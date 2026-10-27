@@ -63,3 +63,10 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Elenco: fondo da studio, colonna del "da", etichette dalla tipologia (solo genere, "anche bambino" e parole del tipo di capo: nessun dato inventato), cuore e "Vedi il capo", caselle filtro su misura, vista 4/2, caricamento automatico, sagome di caricamento.
 - Scheda: nome nello stile del sito, prezzi grandi cliccabili (Senza logo / Col tuo logo), lente, linee della galleria, nome in alto e barra fissa su telefono, conferma del preventivo, foto che vola dall'elenco alla scheda.
 - Tutto rispetta "riduci movimento". I preferiti delle schede usano la stessa chiave `moi-preferiti` della scheda prodotto.
+
+## Assistente "Ti aiuto a scegliere" (27/10/2026, fase 1 senza AI)
+- `apparel/assistente.js` + `.css`: pulsante fisso nel catalogo APPAREL (nascosto nella scheda prodotto).
+- 5 domande: settore, capi, quantità, logo sì/no, priorità (risparmio / equilibrio / il più completo).
+- Consigli calcolati solo sui dati del catalogo: "il più adatto" (pertinenza `rk`/`p1` del settore), "il più conveniente" (tra i capi pertinenti, stessa tipologia se possibile), "il più completo" (più caratteristiche `x`). Le differenze mostrate sono solo materiale, caratteristiche e tipologia reali.
+- Consiglio quantità: se mancano pochi pezzi a 10 o 50, mostra quanto costa davvero con la soglia (regola stampa: 10–49 capo +7 €, 50+ capo +5 €).
+- Fase 2 (da fare): chat AI tramite funzione Netlify; la chiave API va messa dall'utente nelle variabili di Netlify, mai nel repository.
