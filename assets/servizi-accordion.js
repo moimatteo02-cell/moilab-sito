@@ -11,7 +11,8 @@
   grid.addEventListener('pointerdown', () => { lastDown = performance.now(); }, true);
   wraps.forEach((w, i) => {
     const a = w.querySelector('a.mlg-card'), name = w.querySelector('h2')?.textContent || '', intro = a?.dataset.moiIntro || '';
-    a?.insertAdjacentHTML('beforeend', `<span class="sa-side" aria-hidden="true">${name}</span><span class="sa-intro">${intro}</span><span class="sa-enter" aria-hidden="true">Entra →</span>`);
+    const ic = w.querySelector('.mlg-service-icon')?.outerHTML || '';
+    a?.insertAdjacentHTML('beforeend', `<span class="sa-ic" aria-hidden="true">${ic}</span><span class="sa-side" aria-hidden="true"><span class="sa-name">${name}</span></span><span class="sa-intro">${intro}</span><span class="sa-enter" aria-hidden="true">Entra →</span>`);
     w.style.setProperty('--sa-i', i);
     w.addEventListener('mouseenter', () => { if (fine.matches) set(i); });
     a?.addEventListener('focus', () => { if (performance.now() - lastDown > 600) set(i); });   // solo da tastiera
