@@ -295,6 +295,106 @@
       "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
       "batch": "20261027-08",
       "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G843FF6": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g843ff6-biglietti-da-visita-in-cotone-riciclato.webp",
+      "small": "/assets/catalogo/design/g843ff6-biglietti-da-visita-in-cotone-riciclato-480.webp",
+      "alt": "Biglietti da visita in cotone riciclato — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta di cotone riciclato, con superficie morbida e una grafica dimostrativa tessile.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-09",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G382E86": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g382e86-biglietti-da-visita-in-plastica.webp",
+      "small": "/assets/catalogo/design/g382e86-biglietti-da-visita-in-plastica-480.webp",
+      "alt": "Biglietti da visita in plastica — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in plastica: il mockup mostra la variante trasparente con angoli arrotondati.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-09",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G5110C8": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g5110c8-biglietti-da-visita-extra-spessi.webp",
+      "small": "/assets/catalogo/design/g5110c8-biglietti-da-visita-extra-spessi-480.webp",
+      "alt": "Biglietti da visita extra spessi — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta extra spessa, per una presentazione dalla consistenza più robusta.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-09",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G92B84E": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g92b84e-biglietti-da-visita-slim.webp",
+      "small": "/assets/catalogo/design/g92b84e-biglietti-da-visita-slim-480.webp",
+      "alt": "Biglietti da visita slim — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita slim, dal formato rettangolare più stretto rispetto a quello standard.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-09",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G18644D": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g18644d-biglietti-da-visita-ultra-resistenti.webp",
+      "small": "/assets/catalogo/design/g18644d-biglietti-da-visita-ultra-resistenti-480.webp",
+      "alt": "Biglietti da visita ultra resistenti — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita ultra resistenti, in materiale sintetico dall’aspetto liscio.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-09",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G822116": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g822116-biglietti-da-visita-in-bamb.webp",
+      "small": "/assets/catalogo/design/g822116-biglietti-da-visita-in-bamb-480.webp",
+      "alt": "Biglietti da visita in bambù — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta di fibre di bambù, color avorio e non patinata: non sono tessere in legno.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-10",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GA47AB4": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/ga47ab4-biglietti-da-visita-con-carta-di-canapa.webp",
+      "small": "/assets/catalogo/design/ga47ab4-biglietti-da-visita-con-carta-di-canapa-480.webp",
+      "alt": "Biglietti da visita con carta di canapa — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta mista canapa, con superficie color crema leggermente puntinata.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-10",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G637137": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g637137-biglietti-da-visita-ovali.webp",
+      "small": "/assets/catalogo/design/g637137-biglietti-da-visita-ovali-480.webp",
+      "alt": "Biglietti da visita ovali — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita di forma ovale, con taglio sagomato e grafica personalizzata.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-10",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G03A976": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g03a976-biglietti-da-visita-con-stampa-a-bassorilievo.webp",
+      "small": "/assets/catalogo/design/g03a976-biglietti-da-visita-con-stampa-a-bassorilievo-480.webp",
+      "alt": "Biglietti da visita con stampa a bassorilievo — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con motivo a bassorilievo sul fronte; il mockup mostra un esempio geometrico.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-10",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G871DF9": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g871df9-biglietti-con-effetto-lino.webp",
+      "small": "/assets/catalogo/design/g871df9-biglietti-con-effetto-lino-480.webp",
+      "alt": "Biglietti con effetto lino — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita su carta effetto lino, con una fine trama incrociata della superficie.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-10",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
     }
   }
 }
