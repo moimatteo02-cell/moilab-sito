@@ -365,7 +365,7 @@
   /* ---------- tutto insieme, a ogni cambio di vista ---------- */
   function enhance() {
     raf = 0;
-    if ($('.br-hero', mount) && !$('.mm-lt', mount) && window.MOI_LOGO_TRY_HTML) $('.br-special', mount)?.insertAdjacentHTML('beforebegin', window.MOI_LOGO_TRY_HTML());   // la prova logo arriva anche se il catalogo si è disegnato prima
+    // prova logo tolta dal catalogo
     if ($('.br-hero', mount)) { heroTitle(); aurora(); typer(); trust(); tee(); parallax(); }
     tabs();
     cards();

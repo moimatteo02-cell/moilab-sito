@@ -3,7 +3,7 @@
 // Tutti i filtri usano solo dati presenti nei file (nessun dato inventato).
 
 import { ICONS, CAT_ICON, SET_ICON, ES_ICON, icon } from './icons.mjs?v=20261025-30';
-const V = '?v=20261027-1';
+const V = '?v=20261027-2';
 const PER_PAGE = 24;
 const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', 'XXXL', '4XL', '5XL', '6XL', 'TAGLIA UNICA', 'TAGLIA UNICA ADULTO', 'UNICO'];
 const GENERI = [['uomo', 'Uomo'], ['donna', 'Donna'], ['unisex', 'Unisex'], ['bambino', 'Bambino']];
@@ -123,7 +123,7 @@ export function createBrowser(mount, h) {
   /* ---------- HOME: testata + tre percorsi ---------- */
   function renderHome() {
     view = 'home';
-    const cats = meta.categories, prim = cats.filter(c => c.modelli >= 15), rest = cats.filter(c => c.modelli < 15);
+    const cats = meta.categories, prim = cats, rest = [];   // tutte le categorie come schede (anche quelle con pochi modelli)
     const catPrice = c => { const ps = list.filter(p => p.categoria === c.nome), m = k => { const v = ps.map(p => p[k]).filter(x => x != null); return v.length ? Math.min(...v) : null; };
       const lg = m('prezzo_personalizzato_da'), nt = m('prezzo_da'); return lg == null && nt == null ? '' : `<span class="br-card-prices es-cp">${nt != null ? `<span class="es-cp-row"><span>Senza logo da</span><b>${euro(nt)}</b></span>` : ''}${lg != null ? `<span class="es-cp-row"><span>Col tuo logo da</span><b>${euro(lg)}</b></span>` : ''}</span>`; };
     const big = [...prim].sort((a, b) => b.modelli - a.modelli).slice(0, 2).map(c => c.nome);
@@ -148,8 +148,6 @@ export function createBrowser(mount, h) {
       <div class="es-trust" role="list" aria-label="Perché sceglierci"><div class="es-trust-in"><span role="listitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>Prezzi finali, nessuna IVA da aggiungere</span><span role="listitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M7 14h10v7H7z"/></svg>Stampa fino a 40 cm inclusa</span><span role="listitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>Risposta su WhatsApp</span><span role="listitem"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>Più ne ordini, meno paghi</span></div></div>
       <div class="br-tabs" role="tablist" aria-label="Come vuoi cercare">${tabs.map(([k, l, ic]) => `<button role="tab" data-br-tab="${k}" aria-selected="${tab === k}" id="br-tab-${k}" aria-controls="br-panel"><span class="br-ico">${ic}</span><span>${l}</span></button>`).join('')}</div>
       <div class="br-panel" id="br-panel" role="tabpanel" aria-labelledby="br-tab-${tab}">${body[tab]}</div>
-      ${window.MOI_LOGO_TRY_HTML ? window.MOI_LOGO_TRY_HTML() : ''}
-      ${special()}
       <button class="br-all" data-br-all>Esplora tutti i ${list.length} modelli <span aria-hidden="true">→</span></button>
       <p class="ac-note">Prezzi finali, nessuna IVA da aggiungere. Disponibilità, quantità e tempi confermati nel preventivo.</p>`);
       countUp(mount.querySelector('.br-count-up'));
