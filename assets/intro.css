@@ -71,3 +71,9 @@ html.mi-done #moi-lab-hub .mm-vel{display:none!important}
 .mi-go{text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;box-shadow:0 12px 30px -14px #e2c28e66,inset 0 1px 0 #ffffff14}
 .mi-go:not(.specular-button){display:inline-flex;align-items:center;gap:8px;padding:18px 38px;border-radius:14px;border:1px solid #c8aa77;color:#f6e7c8}
 .mi-cta{align-items:center}.mi-cta .mi-btn{height:52px;border-radius:14px}
+
+/* scritta iniziale dentro la cornice, al centro; sfuma mentre compare l'interfaccia */
+.mi-title{align-items:center!important;padding:0!important}
+.mi-title-in{display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vh,30px);width:calc(var(--mi-fw,60vw) - 48px);max-width:92vw}
+.mi-title h2{text-wrap:balance;line-height:1.05}
+.mi-title .mi-hint{position:static;font-size:11px}
