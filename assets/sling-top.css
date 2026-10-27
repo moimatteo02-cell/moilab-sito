@@ -1,0 +1,8 @@
+.sling-end{display:flex;align-items:center;justify-content:center;gap:28px;margin:36px auto 56px;padding:34px 20px 30px;max-width:560px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.sling-end p{margin:0;display:grid;gap:3px;color:#151515}
+.sling-end b{font-size:20px;font-weight:500;letter-spacing:-.02em}
+.sling-end p span{font-size:13.5px;color:#66655f}
+.sling-end-slot{flex:none;display:grid;place-items:center;width:84px;height:84px}
+html.sling-end-on .mm-top{opacity:0!important;pointer-events:none!important;transform:scale(.6)!important}
+#moi-showroom-digital .sling-end :is(p,b,span){font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:normal}
+.sling-end-dark p{color:#f3f0ea}.sling-end-dark p span{color:#a8a399}
