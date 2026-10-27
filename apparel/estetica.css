@@ -278,7 +278,7 @@ html.es-bar-on .mm-favchip{translate:0 -70px}
 
 /* ---------- 34 · conferma del preventivo ---------- */
 #moi-apparel-catalog .ac-pdp-cta,.es-bar-cta{position:relative;overflow:hidden}
-#moi-apparel-catalog .ac-pdp-cta::before,.es-bar-cta::before{content:"✓  Ti aspettiamo su WhatsApp";position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:#2f6f4f;color:#fff;font-size:13px;letter-spacing:.06em;text-transform:none;transform:translateY(105%);transition:transform .45s var(--es-ease)}
+#moi-apparel-catalog .ac-pdp-cta::before,.es-bar-cta::before{content:"✓  Aggiunto al carrello";position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:#2f6f4f;color:#fff;font-size:13px;letter-spacing:.06em;text-transform:none;transform:translateY(105%);transition:transform .45s var(--es-ease)}
 #moi-apparel-catalog .ac-pdp-cta.es-sent::before,.es-bar-cta.es-sent::before{transform:none}
 .es-bar-cta::before{content:"✓ Aperto"}
 

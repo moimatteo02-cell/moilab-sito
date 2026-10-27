@@ -215,7 +215,7 @@
 
   /* ---------- 33 · barra fissa su telefono con prezzo e preventivo ---------- */
   const bar = doc.createElement('div'); bar.className = 'es-bar'; bar.hidden = true;
-  bar.innerHTML = '<span class="es-bar-p"><small data-es-m></small><b data-es-p></b></span><a class="es-bar-cta" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>';
+  bar.innerHTML = '<span class="es-bar-p"><small data-es-m></small><b data-es-p></b></span><a class="es-bar-cta" role="button">Aggiungi al carrello <span aria-hidden="true">+</span></a>';
   doc.body.append(bar);
   let ctaIO = null, ctaSeen = true, pdpIn = false, barMO = null;
   const syncBar = () => {
@@ -223,7 +223,7 @@
     const tt = $('.es-tt', mount), note = $('[data-es-note]', mount);
     if (tt) { $('[data-es-p]', bar).textContent = tt.getAttribute('aria-label') || tt.textContent; $('[data-es-m]', bar).textContent = 'Totale · ' + (note?.textContent || ''); }
     else { $('[data-es-p]', bar).textContent = u.getAttribute('aria-label') || u.textContent; $('[data-es-m]', bar).textContent = (/^con/.test(m?.textContent || '') ? 'Col tuo logo' : 'Senza logo') + ' · al pezzo'; }
-    $('.es-bar-cta', bar).href = q.href;
+    $('.es-bar-cta', bar).href = q.href; if (q.dataset.cartItem) $('.es-bar-cta', bar).dataset.cartItem = q.dataset.cartItem;
   };
   const showBar = () => { const on = !!$('.ac-pdp', mount) && pdpIn && !locked() && !ctaSeen && room?.classList.contains('is-active'); bar.hidden = !on; doc.documentElement.classList.toggle('es-bar-on', on); };
   function stickyBar() {

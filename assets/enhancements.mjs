@@ -1,12 +1,12 @@
 import {refreshPrivateTools} from '/digital/access.mjs';
-import {initDigital,loadDigital,failDigital} from '/digital/page.mjs';
+import {initDigital,loadDigital,failDigital} from '/digital/page.mjs?v=20261027-1';
 initDigital();
 import {mountComparison} from '/automotive/comparison.mjs?v=20261021-1';
 import {minimalIcon,presetIcons} from '/automotive/icons.mjs';
 window.MOI_MINIMAL_ICONS=Object.fromEntries(presetIcons.map(([k])=>[k,minimalIcon(k)]));
 import {categoryIcon} from '/sticker/icons.mjs';
 import {startTranslations} from './i18n.mjs';
-import {mountWizard} from '/automotive/wizard.mjs';
+import {mountWizard} from '/automotive/wizard.mjs?v=20261027-1';
 import {mountGallery} from '/automotive/gallery.mjs';
 const entry=document.querySelector('.moi-sticker-entry');if(entry)entry.insertAdjacentHTML('afterbegin',categoryIcon('Sticker'));
 document.getElementById('year').textContent=new Date().getFullYear();

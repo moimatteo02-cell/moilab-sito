@@ -118,7 +118,7 @@
   const card = (x, tag, note) => `<div class="as-card"><button type="button" class="as-card-open" data-sku="${esc(x.p.sku)}"><img src="${esc(x.p.immagine_modello_fronte || x.p.immagine_principale)}" alt="" loading="lazy"><span class="as-card-t"><em>${tag}</em><b>${esc(x.p.nome)}</b><small>${esc(x.p.tipo)}</small></span><span class="as-card-p"><b>${from(x.p) ? '<small>da</small> ' : ''}${euro(x.u)}</b><small>al pezzo</small></span></button>${note ? `<p class="as-note">${note}</p>` : ''}</div>`;
 
   function results() {
-    const Q = st.qty, lines = [];
+    const Q = st.qty, lines = [], cartAdds = [];
     let html = head('Ecco cosa ti consiglio', `${st.set === 'altro' ? '' : esc(data.idx.settori.find(s => s.id === st.set)?.nome || '') + ' · '}${Q} pezzi per capo · ${st.logo ? 'col tuo logo' : 'senza logo'}`);
     let tot = 0, totCheap = 0;
     st.cats.forEach(cat => {
@@ -129,7 +129,7 @@
         : [[best, 'Il più adatto'], [cheap, 'Il più conveniente'], [rich, 'Il più completo']];
       const seen = new Set(), shown = order.filter(([x]) => !seen.has(x.p.sku) && seen.add(x.p.sku));
       const main = shown[0][0];
-      tot += main.u * Q; totCheap += cheap.u * Q; lines.push(`${main.p.nome} (${main.p.sku}) × ${Q}`);
+      tot += main.u * Q; totCheap += cheap.u * Q; lines.push(`${main.p.nome} (${main.p.sku}) × ${Q}`); cartAdds.push({ service: 'apparel', title: main.p.nome, key: ['ap', main.p.sku, '', '', st.logo ? 1 : 0].join('|'), qty: Q, image: main.p.immagine_modello_fronte || main.p.immagine_principale || '', details: [['Codice', main.p.sku], ['Colore', 'da definire'], ['Taglia', 'da definire'], ['Stampa', st.logo ? 'Con il tuo logo' : 'Senza logo'], ['Scelto con', 'Ti aiuto a scegliere']] });
       html += `<section class="as-sec"><h4>${esc(cat)} <small>${r.n} ${r.n === 1 ? "modello adatto" : "modelli adatti"}</small></h4>`;
       shown.forEach(([x, tag], i) => {
         let note = '';
@@ -155,7 +155,7 @@
     }
     const wa = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(`Ciao MOI LAB, ho usato l'assistente del sito. ${st.set !== 'altro' ? 'Settore: ' + (data.idx.settori.find(s => s.id === st.set)?.nome || '') + '. ' : ''}${st.logo ? 'Con il nostro logo' : 'Senza logo'}. Vorrei un preventivo per: ${lines.join(', ')}.`);
     html += `<div class="as-total"><span><small>Stima per la tua selezione</small><b>${euro(r2(tot))}</b></span>${totCheap < tot ? `<small>Con le opzioni più convenienti: ${euro(r2(totCheap))}</small>` : ''}</div>
-      <a class="as-wa" href="${wa}" target="_blank" rel="noopener">Chiedi il preventivo per questa selezione →</a>
+      <a class="as-wa" href="${wa}" role="button" data-cart-item="${esc(JSON.stringify(cartAdds))}">Aggiungi tutto al carrello +</a>
       <p class="as-fine">Prezzi finali, nessuna IVA da aggiungere, presi dal listino del catalogo (prezzo di partenza del capo). Disponibilità e tempi li confermiamo nel preventivo.</p>
       <div class="as-nav"><button type="button" class="as-back" data-as="back">← Modifica le risposte</button><button type="button" class="as-back" data-as="restart">Ricomincia</button></div>`;
     return html;

@@ -121,11 +121,11 @@
       <div class="mm-sign-wall"><div class="mm-sign-out" aria-live="polite">IL TUO NOME</div></div>
       <div class="mm-sign-ctl"><input type="text" maxlength="22" placeholder="Nome della tua attività" aria-label="Nome della tua attività">
         <div class="mm-sign-cols" role="group" aria-label="Colore della luce"><button type="button" aria-pressed="true" data-c="">Caldo</button><button type="button" aria-pressed="false" data-c="mm-c-bianco">Bianco</button><button type="button" aria-pressed="false" data-c="mm-c-blu">Blu</button><button type="button" aria-pressed="false" data-c="mm-c-rosa">Rosa</button></div>
-        <a class="mm-sign-cta" target="_blank" rel="noopener" href="#">Chiedi un preventivo per questa insegna ↗</a></div>
+        <a class="mm-sign-cta" role="button" href="#">Aggiungi questa insegna al carrello +</a></div>
       <small class="mm-sign-note">Anteprima indicativa: forma, materiali e dimensioni li definiamo insieme.</small></section>`);
     const box = $('.mm-sign', sign), out = $('.mm-sign-out', box), inp = $('input', box), cta = $('.mm-sign-cta', box), bs = $$('.mm-sign-cols button', box);
     let colName = 'Caldo';
-    const link = () => { cta.href = `https://wa.me/${WA}?text=${encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per un'insegna luminosa con la scritta "${out.textContent}" (luce: ${colName}).`)}`; };
+    const link = () => { cta.href = `https://wa.me/${WA}?text=${encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per un'insegna luminosa con la scritta "${out.textContent}" (luce: ${colName}).`)}`; cta.dataset.cartItem = JSON.stringify({ service: 'signage', title: `Insegna luminosa «${out.textContent}»`, key: 'sign|' + out.textContent + '|' + colName, qty: 1, details: [['Scritta', out.textContent], ['Luce', colName], ['Forma, materiali e misure', 'da definire insieme']] }); };
     const flick = () => { if (reduce) return; out.classList.remove('is-flick'); void out.offsetWidth; out.classList.add('is-flick'); };
     let t = 0; inp.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { out.textContent = (inp.value.trim() || 'IL TUO NOME').toUpperCase(); link(); flick(); }, 300); });
     bs.forEach(b => b.addEventListener('click', () => { bs.forEach(x => x.setAttribute('aria-pressed', String(x === b))); out.className = 'mm-sign-out ' + b.dataset.c; colName = b.textContent; link(); flick(); }));

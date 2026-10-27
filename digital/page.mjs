@@ -1,4 +1,4 @@
-import {openProjectWizard} from './project-wizard.mjs';
+import {openProjectWizard} from './project-wizard.mjs?v=20261027-1';
 import {projectObjectives} from './project-core.mjs';
 import {serviceIcon} from './service-icons.mjs';
 import {mountSoftware} from './library.mjs';

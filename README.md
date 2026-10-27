@@ -88,3 +88,9 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `assets/option-wheel.js/.css`: porting vanilla dell'Option Wheel di React Bits (MIT + Commons Clause) + `MoiOptionWheel.menu()` (ruota + pulsante «Vai»).
 - `assets/wheel-menu.js`: nella home dei servizi la ruota sostituisce l'elenco nel menu delle tre lineette (Chi siamo / Inizio / Scrivici; lingua e link di gestione restano). In Chi siamo aggiunge le tre lineette con tutti i servizi.
 - Scorri o trascina per scegliere; tocca di nuovo l'opzione scelta o il pulsante per entrare.
+
+## Carrello unico del preventivo
+- `assets/quote-cart.js/.css`: un solo carrello (localStorage `moilab-quote-cart-v1`) per tutti i servizi; pulsante fisso «Preventivo» con il numero, pannello laterale, stima indicativa dei capi, «Aggiungi anche», annulla rimozione, invio unico su WhatsApp (+ copia testo).
+- Aggiungono al carrello: Abbigliamento (scheda prodotto, barra mobile, «Ti aiuto a scegliere»), Sticker (sincronizzati dal loro carrello), Automotive (ultimo passo del configuratore), Insegna al neon, «Cosa ti serve?» in Custom/Insegne/Grafica (`assets/quick-request.js`), Digital (ultimo passo del progetto).
+- API: `MoiCart.add({service,title,details,qty,image,key,price})`, `MoiCart.open()`, oppure `data-cart-item='{json}'` su qualsiasi pulsante.
+- Nota: il configuratore Automotive prima inviava a `/api/automotive/orders`, che sul sito statico non esiste: ora passa dal carrello e i file si allegano su WhatsApp.

@@ -64,6 +64,8 @@ if(mount){
  function price(){return product.varianti.find(v=>v.colore===color&&(v.taglia===size||v.taglia==='tutte'))?.prezzo;}
  function customPrice(){return product.varianti.find(v=>v.colore===color&&(v.taglia===size||v.taglia==='tutte'))?.prezzo_personalizzato;}
  function quote(){const u=unit();return 'https://wa.me/393278815148?text='+encodeURIComponent(`Ciao MOI LAB, vorrei un preventivo per ${product.nome} (${product.sku}), colore ${color||'da definire'}, taglia ${size||'da definire'}, quantità ${qty}. ${personalized?'Con personalizzazione (una stampa fino a 40 cm inclusa)':'Capo senza personalizzazione'}. Prezzo indicato: ${u?(u.from?'da ':'')+euro(u.n)+' al pezzo':'da confermare'}.`);}
+ // carrello unico del preventivo (assets/quote-cart.js)
+ function cartItem(){const u=unit();return {service:'apparel',title:product.nome,price:u?u.n:null,priceFrom:!!u?.from,key:['ap',product.sku,color,size,personalized?1:0].join('|'),qty:qty,image:product.immagine_modello_fronte||product.immagine_principale||'',details:[['Codice',product.sku],['Colore',color||'da definire'],['Taglia',size||'da definire'],['Stampa',personalized?'Con il tuo logo (una stampa fino a 40 cm)':'Senza logo'],['Prezzo indicativo',u?(u.from?'da ':'')+euro(u.n)+' al pezzo':'su richiesta']]};}
  function showProduct(){
   const p=product;
   const short=String(p.descrizione_breve||p.descrizione||'').split('\n')[0];
@@ -109,7 +111,7 @@ if(mount){
     <fieldset><legend>Come lo vuoi?</legend><div class="ac-dual-prices es-prices es-choose" role="group" aria-label="Come lo vuoi?" aria-live="polite"><button type="button" data-personalization="no" aria-pressed="${!personalized}"><span>Senza logo</span><strong data-price>${priceLabel('prezzo')}</strong><small>Il capo neutro</small></button><button type="button" data-personalization="yes" aria-pressed="${personalized}"><span>Col tuo logo</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong><small>Stampa fino a 40 cm inclusa</small></button></div></fieldset>
     <fieldset><legend>Quantità</legend><div class="ac-pdp-qtyrow"><div class="ac-pdp-stepper"><button type="button" data-qty-step="-1" aria-label="Diminuisci quantità">−</button><input data-qty-input type="number" inputmode="numeric" min="1" max="9999" value="${qty}" aria-label="Quantità"><button type="button" data-qty-step="1" aria-label="Aumenta quantità">+</button></div><p class="es-each"><span aria-hidden="true">×</span> <strong data-unit-price>${unitLabel()}</strong> <span>al pezzo</span><span class="br-sr" data-unit-mode>${personalized?'con personalizzazione':'senza personalizzazione'}, al pezzo</span></p></div></fieldset>
     <div class="es-sum"><span class="es-sum-l"><b>Totale</b><small data-es-note></small></span><p class="ac-pdp-total es-sum-v" data-total aria-live="polite">${totalLabel()}</p></div>
-    <a class="ac-pdp-cta" data-quote href="${e(quote())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>
+    <a class="ac-pdp-cta" data-quote href="${e(quote())}" data-cart-item="${e(JSON.stringify(cartItem()))}" role="button">Aggiungi al carrello <span aria-hidden="true">+</span></a>
     <button type="button" class="ac-pdp-fav" data-fav aria-pressed="${isFav()}">${ico.heart}<span data-fav-label>${isFav()?'Salvato nei preferiti':'Salva nei preferiti'}</span></button>
     <ul class="ac-pdp-trust">
      <li>${ico.print}<div><strong>Stampa fino a 40 cm inclusa</strong><span>Nel prezzo con personalizzazione</span></div></li>
@@ -165,7 +167,7 @@ if(mount){
   mount.querySelector('[data-price]').textContent=priceLabel('prezzo');
   mount.querySelector('[data-custom-price]').textContent=priceLabel('prezzo_personalizzato');const qt=mount.querySelector('[data-qty]');if(qt)qt.innerHTML=qtyTable();
   mount.querySelectorAll('[data-personalization]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.personalization==='yes')===personalized)));
-  mount.querySelector('[data-quote]').href=quote();
+  const qa=mount.querySelector('[data-quote]');qa.href=quote();qa.dataset.cartItem=JSON.stringify(cartItem());
  }
  // Foto: trascina (su/giu' o destra/sinistra), rotellina o clic per cambiare
  let drag=null,wheelAcc=0,wheelLock=0;

@@ -1,7 +1,7 @@
 // MOI LAB — DIGITAL, nuova pagina: interazioni.
 // Scritte che rispondono al tocco (.dx-play), pixel che si accendono, terminale che costruisce,
 // obiettivi con risposta, carte che si girano, sito che si costruisce scorrendo.
-import { openProjectWizard } from './project-wizard.mjs';
+import { openProjectWizard } from './project-wizard.mjs?v=20261027-1';
 import { serviceIcon } from './service-icons.mjs';
 
 const room = document.querySelector('#moi-showroom-digital'), dx = room?.querySelector('.dx');
