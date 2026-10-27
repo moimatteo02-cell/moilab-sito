@@ -206,10 +206,15 @@
 #moi-apparel-catalog .es-prices button[aria-pressed=true]>span{color:#e7d3ac}
 #moi-apparel-catalog .es-prices button[aria-pressed=true] strong{color:#fff}
 #moi-apparel-catalog .es-prices button[aria-pressed=true] small{color:#c9c4ba}
-#moi-apparel-catalog .es-sum{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0;padding:12px 0 2px;border-top:1px solid var(--es-line)}
-#moi-apparel-catalog .es-sum>span{font-size:12px;color:var(--es-soft)}
-#moi-apparel-catalog .es-prices strong span,#moi-apparel-catalog .es-sum strong span{font-size:inherit!important;letter-spacing:inherit!important;text-transform:none!important;color:inherit!important;font-weight:inherit}
-#moi-apparel-catalog .es-sum strong{font-size:26px;font-weight:500;letter-spacing:-.03em;color:var(--es-ink)}
+#moi-apparel-catalog .es-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0;padding:14px 0 4px;border-top:1px solid var(--es-line)}
+#moi-apparel-catalog .es-sum-l{display:grid;gap:2px}
+#moi-apparel-catalog .es-sum-l b{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--es-ink)}
+#moi-apparel-catalog .es-sum-l small{font-size:12px;color:var(--es-soft)}
+#moi-apparel-catalog .es-sum-v{margin:0;font-size:inherit;color:var(--es-ink)}
+#moi-apparel-catalog .es-sum-v .es-tt{font-size:clamp(28px,2.4vw,34px);font-weight:500;letter-spacing:-.03em;color:var(--es-ink)}
+#moi-apparel-catalog .es-prices strong span,#moi-apparel-catalog .es-sum strong span,#moi-apparel-catalog .es-each strong span{font-size:inherit!important;letter-spacing:inherit!important;text-transform:none!important;color:inherit!important;font-weight:inherit}
+#moi-apparel-catalog .es-each{margin:0;font-size:13px;color:var(--es-soft);font-variant-numeric:tabular-nums}
+#moi-apparel-catalog .es-each strong{font-size:15px;font-weight:500;color:var(--es-ink)}
 
 #moi-apparel-catalog .es-choose{margin:0}
 #moi-apparel-catalog .es-choose button{min-height:0!important;height:auto!important;border-radius:12px!important;font-size:inherit;line-height:1.2}

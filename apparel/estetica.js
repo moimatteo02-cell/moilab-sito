@@ -220,7 +220,9 @@
   let ctaIO = null, ctaSeen = true, pdpIn = false, barMO = null;
   const syncBar = () => {
     const u = $('[data-unit-price]', mount), m = $('[data-unit-mode]', mount), q = $('[data-quote]', mount); if (!u || !q) return;
-    $('[data-es-p]', bar).textContent = u.getAttribute('aria-label') || u.textContent; $('[data-es-m]', bar).textContent = (/^con/.test(m?.textContent || '') ? 'Col tuo logo' : 'Senza logo') + ' · al pezzo';
+    const tt = $('.es-tt', mount), note = $('[data-es-note]', mount);
+    if (tt) { $('[data-es-p]', bar).textContent = tt.getAttribute('aria-label') || tt.textContent; $('[data-es-m]', bar).textContent = 'Totale · ' + (note?.textContent || ''); }
+    else { $('[data-es-p]', bar).textContent = u.getAttribute('aria-label') || u.textContent; $('[data-es-m]', bar).textContent = (/^con/.test(m?.textContent || '') ? 'Col tuo logo' : 'Senza logo') + ' · al pezzo'; }
     $('.es-bar-cta', bar).href = q.href;
   };
   const showBar = () => { const on = !!$('.ac-pdp', mount) && pdpIn && !locked() && !ctaSeen && room?.classList.contains('is-active'); bar.hidden = !on; doc.documentElement.classList.toggle('es-bar-on', on); };
@@ -303,22 +305,25 @@
   /* ---------- totale "1 × 28,90 € = 28,90 €": tutte le cifre girano ---------- */
   function total() {
     const t = $('[data-total]', mount); if (!t || t.dataset.es) return; t.dataset.es = '1';
-    let last = { q: '', u: '', tot: '' };
+    let last = '';
     const build = () => {
       if (t.querySelector('.es-tt')) return;                      // già nostro
       const txt = t.textContent, m = txt.match(/^\s*(\d+)\s*×\s*(.+?)\s*=\s*(.+)$/); if (!m) return;
       mo.disconnect();
-      t.innerHTML = '<span aria-hidden="true"><span class="es-tq"></span> × <span class="es-tu"></span> = <strong class="es-tt"></strong></span><span class="br-sr"></span>';
-      $('.br-sr', t).textContent = txt.trim();
-      const roll = window.MOI_ROLL;
-      const put = (sel, v, k) => { const el = $(sel, t); if (roll && !calm) roll(el, v, last[k] || v); else el.textContent = v; };
-      put('.es-tq', m[1], 'q'); put('.es-tu', m[2], 'u'); put('.es-tt', m[3], 'tot');
-      if (last.tot && last.tot !== m[3] && !calm) { t.classList.remove('es-tflash'); void t.offsetWidth; t.classList.add('es-tflash'); }
-      last = { q: m[1], u: m[2], tot: m[3] };
+      const note = $('[data-es-note]', mount), logo = $('[data-personalization="yes"][aria-pressed="true"]', mount);
+      const num = v => parseFloat(String(v || '').replace(/[^\d,]/g, '').replace(',', '.')), base = $(logo ? '[data-custom-price]' : '[data-price]', mount), bv = base && num(base.getAttribute('aria-label') || base.textContent);
+      if (note) note.textContent = `${m[1]} ${m[1] === '1' ? 'pezzo' : 'pezzi'} · ${logo ? 'col tuo logo' : 'senza logo'}${bv && num(m[2]) < bv ? ' · sconto quantità' : ''}`;
+      t.innerHTML = '<strong class="es-tt" aria-hidden="true"></strong><span class="br-sr"></span>';
+      $('.br-sr', t).textContent = 'Totale: ' + txt.trim();
+      const el = $('.es-tt', t);
+      if (window.MOI_ROLL && !calm) window.MOI_ROLL(el, m[3], last || m[3]); else el.textContent = m[3];
+      if (last && last !== m[3] && !calm) { t.classList.remove('es-tflash'); void t.offsetWidth; t.classList.add('es-tflash'); }
+      last = m[3]; syncBar();
       mo.observe(t, { childList: true });
     };
     const mo = new MutationObserver(build); build(); mo.observe(t, { childList: true });
   }
+
 
   /* ---------- 36 · le sezioni entrano mentre scorri ---------- */
   let rvIO = null;

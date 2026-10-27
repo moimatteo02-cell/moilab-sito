@@ -75,7 +75,7 @@
   const STRIP = '<span>' + '012345678901234567890123456789'.split('').map(d => `<i>${d}</i>`).join('') + '</span>';
   // slot machine: ogni cifra che cambia gira per un giro intero e si ferma sulla nuova, una dopo l'altra
   const spin = (s, from, to, k) => {
-    if (from === to && s.dataset.at) return;
+    if (from === to) { if (s.dataset.at !== to) { s.dataset.at = to; s.style.transition = 'none'; s.style.transform = `translateY(${-(20 + +to)}em)`; } return; }   // cifra uguale: resta ferma
     s.dataset.at = to;
     if (reduce) { s.style.transition = 'none'; s.style.transform = `translateY(${-(20 + +to)}em)`; return; }
     s.style.transition = 'none'; s.style.transform = `translateY(${-(+from)}em)`;
