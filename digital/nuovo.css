@@ -193,3 +193,13 @@
 #moi-showroom-digital .dx .dx-title,#moi-showroom-digital .dx .dx-h2,#moi-showroom-digital .dx .dx-end-t{letter-spacing:-.045em}
 #moi-showroom-digital .dx .dx-k{letter-spacing:.2em}
 #moi-showroom-digital .moi-room-nav :is(a,span){font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+
+/* Sling Button nella chiusura e nel modulo progetto */
+.dx-sling-row{display:flex;flex-direction:column;align-items:center;gap:22px;margin:10px 0 34px}
+.dx-sling-row p{margin:0;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#6f807b}
+.dx-sling{display:grid;place-items:center;width:200px;height:120px}
+.dx-sling-send{display:flex;align-items:center;gap:26px;margin:18px 0 14px;padding:22px 20px 22px 34px;border:1px dashed #1818182e;border-radius:14px;background:#fffdf7}
+.dx-sling-send p{margin:0;display:grid;gap:3px;font-size:13px}
+.dx-sling-send b{font-size:15px}
+.dx-sling-send p span{color:#66655f}
+.dx-sling-slot{flex:none;display:grid;place-items:center;width:72px;height:72px}

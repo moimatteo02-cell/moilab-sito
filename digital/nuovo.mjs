@@ -179,6 +179,20 @@ if (dx) {
   $$('[data-dx-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.dxGo)));
   const ex = $('[data-digital-explore]'); if (ex) setTimeout(() => { ex.disabled = false; }, 0);
 
+  /* ========== Sling Button (React Bits): tira indietro e lancia ========== */
+  const SL_DARK = {}, SL_LIGHT = { padColor: '#18181b', iconColor: '#ffffff', accentColor: '#18181b', wellColor: '#f6f6f6', bandColor: '#a1a1aa' };
+  const endSling = $('.dx-sling');
+  if (endSling && window.MoiSling) window.MoiSling.mount(endSling, { ...SL_DARK, ariaLabel: 'Lancia la tua idea', onSend: () => setTimeout(() => openProjectWizard(endSling.querySelector('button')), calm ? 0 : 420) });
+  // nell'ultimo passo del modulo progetto: lanci il messaggio e si apre WhatsApp
+  new MutationObserver(() => {
+    const a = document.querySelector('.mdq-send:not([data-sling])'); if (!a || !window.MoiSling) return;
+    a.dataset.sling = '1';
+    const box = document.createElement('div'); box.className = 'dx-sling-send';
+    box.innerHTML = '<span class="dx-sling-slot"></span><p><b>Lancia il messaggio</b><span>Tira indietro il pulsante e lascialo andare, oppure toccalo.</span></p>';
+    a.before(box);
+    window.MoiSling.mount(box.querySelector('.dx-sling-slot'), { ...SL_LIGHT, ariaLabel: 'Invia il progetto su WhatsApp', onSend: () => window.open(a.href, '_blank', 'noopener') });
+  }).observe(document.body, { childList: true, subtree: true });
+
   /* ========== le sezioni entrano mentre scorri ========== */
   if (!calm) {
     const rio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } }), { root: room, threshold: .12 });

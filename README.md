@@ -70,3 +70,7 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Consigli calcolati solo sui dati del catalogo: "il più adatto" (pertinenza `rk`/`p1` del settore), "il più conveniente" (tra i capi pertinenti, stessa tipologia se possibile), "il più completo" (più caratteristiche `x`). Le differenze mostrate sono solo materiale, caratteristiche e tipologia reali.
 - Consiglio quantità: se mancano pochi pezzi a 10 o 50, mostra quanto costa davvero con la soglia (regola stampa: 10–49 capo +7 €, 50+ capo +5 €).
 - Fase 2 (da fare): chat AI tramite funzione Netlify; la chiave API va messa dall'utente nelle variabili di Netlify, mai nel repository.
+
+## Sling Button (27/10/2026)
+- `assets/sling-button.js` + `.css`: porting vanilla del componente React Bits "Sling Button" (David Haz, licenza MIT + Commons Clause: uso nel sito consentito, non si rivende il componente). CSS originale invariato.
+- Usato nella chiusura della pagina Digital (lancia → apre il modulo progetto) e nell'ultimo passo del modulo progetto (lancia → apre WhatsApp col messaggio pronto).

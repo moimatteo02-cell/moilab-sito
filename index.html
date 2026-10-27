@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="assets/front.css?v=20261021-4"><link rel="stylesheet" href="assets/demo.css">
 <link rel="stylesheet" href="assets/reference.css"><link rel="stylesheet" href="assets/door.css">
 <link rel="stylesheet" href="/assets/sticker-entry.css"><link rel="stylesheet" href="/assets/refinements.css?v=20261021-4">
-<link rel="stylesheet" href="/automotive/automotive.css?v=20261021-1"><link rel="stylesheet" href="/digital/digital.css"><link rel="stylesheet" href="/digital/nuovo.css?v=20261027-2"><link rel="stylesheet" href="/assets/editorial.css?v=20261022-1"><link rel="stylesheet" href="/assets/service-reveal.css?v=20261021-5"><link rel="stylesheet" href="/assets/service-icons.css?v=20261021-1"><script>
+<link rel="stylesheet" href="/automotive/automotive.css?v=20261021-1"><link rel="stylesheet" href="/digital/digital.css"><link rel="stylesheet" href="/digital/nuovo.css?v=20261027-3"><link rel="stylesheet" href="/assets/sling-button.css?v=20261027-1"><link rel="stylesheet" href="/assets/editorial.css?v=20261022-1"><link rel="stylesheet" href="/assets/service-reveal.css?v=20261021-5"><link rel="stylesheet" href="/assets/service-icons.css?v=20261021-1"><script>
 (()=>{const h=document.documentElement;h.classList.add('moi-loading');window.MOI_ASSETS_READY=new Promise(resolve=>{window.MOI_ASSETS_RESOLVE=resolve});window.MOI_RELEASE=()=>{h.classList.remove('moi-loading');const l=document.getElementById('moi-loader');if(l){l.setAttribute('aria-hidden','true');l.inert=true}const r=document.getElementById('moi-lab-hub');if(r)r.inert=h.classList.contains('moi-scroll-lock');window.dispatchEvent(new Event('moi:revealed'))};window.MOI_LOAD_FAILSAFE=setTimeout(window.MOI_RELEASE,10000)})();
 </script>
 <link rel="preload" href="/assets/fonts/moi-calligraphy.woff" as="font" type="font/woff" crossorigin>
@@ -223,7 +223,8 @@
     <p class="dx-k dx-mono">Pronto a partire?</p>
     <h2 id="dx-end-t" class="dx-end-t"><span class="dx-play" data-fx="pixel">Raccontaci</span> <em class="dx-serif dx-play" data-fx="code">la tua idea.</em></h2>
     <p>Ti rispondiamo su WhatsApp con le prime idee e un preventivo.</p>
-    <button type="button" class="dx-btn dx-btn-light" data-digital-project>Parliamo del tuo progetto <span aria-hidden="true">→</span></button>
+    <div class="dx-sling-row"><span class="dx-sling"></span><p class="dx-mono">↖ tira indietro e lascia andare</p></div>
+    <button type="button" class="dx-btn dx-btn-ghost" data-digital-project>oppure apri il modulo <span aria-hidden="true">→</span></button>
    </section>
   </div>
   <nav class="moi-room-nav" aria-label="I mondi MOI LAB"><span>ESPLORA UN ALTRO MONDO</span><a href="#moi-showroom-apparel" data-moi-category="apparel">APPAREL</a><a href="#moi-showroom-custom" data-moi-category="custom">CUSTOM</a><a href="#moi-showroom-automotive" data-moi-category="automotive">AUTOMOTIVE</a><a href="#moi-showroom-signage" data-moi-category="signage">SIGNAGE</a><a href="#moi-showroom-design" data-moi-category="design">DESIGN</a><a href="#moi-showroom-digital" data-moi-category="digital" aria-current="page">DIGITAL</a></nav>
@@ -231,7 +232,8 @@
 </section>
 <div id="demo-toast" class="demo-toast" role="status"></div>
 <script type="module" src="/assets/enhancements.mjs?v=20261021-2"></script><script src="assets/front.js?v=20261021-5"></script><script src="/digital/transition.js"></script><script src="assets/door.js"></script><script src="/assets/service-reveal.js?v=20261021-5"></script>
-<script type="module" src="/digital/nuovo.mjs?v=20261027-1"></script>
+<script src="/assets/sling-button.js?v=20261027-1"></script>
+<script type="module" src="/digital/nuovo.mjs?v=20261027-2"></script>
 <script type="module" src="/assets/portfolio-ring.js?v=20261027-2"></script>
 <script defer src="/assets/moi-motion.js?v=20261026-2"></script>
 <script defer src="/assets/moi-motion-extra.js?v=20261026-1"></script>
