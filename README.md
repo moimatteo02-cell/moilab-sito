@@ -83,3 +83,8 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `assets/flex-carousel.js` + `assets/flex-carousel.css`: porting vanilla (WebGL2 puro, senza OGL) del Flex Carousel di React Bits (MIT + Commons Clause). API: `MoiFlexCarousel.mount(el, { items, preset, intro, ... })`.
 - Si attiva con `data-style="flex"` sulla sezione `.mp-teaser` (oggi solo `data-portfolio="apparel"`); immagini e titoli da `data/portfolio.json`. Niente pulsante «Entra nella galleria»: tocco = ingrandisce la foto. La rotella verticale scorre la pagina (captureWheel:false).
 - Senza WebGL2 torna la galleria 3D di prima. In Abbigliamento «Esplora un altro mondo» è centrato, con la scritta sopra.
+
+## Menu a ruota (Option Wheel)
+- `assets/option-wheel.js/.css`: porting vanilla dell'Option Wheel di React Bits (MIT + Commons Clause) + `MoiOptionWheel.menu()` (ruota + pulsante «Vai»).
+- `assets/wheel-menu.js`: nella home dei servizi la ruota sostituisce l'elenco nel menu delle tre lineette (Chi siamo / Inizio / Scrivici; lingua e link di gestione restano). In Chi siamo aggiunge le tre lineette con tutti i servizi.
+- Scorri o trascina per scegliere; tocca di nuovo l'opzione scelta o il pulsante per entrare.

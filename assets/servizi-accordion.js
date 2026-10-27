@@ -43,6 +43,7 @@
     setTimeout(() => { curtain.classList.add('is-out'); curtain.classList.remove('is-in'); }, 1350);
     setTimeout(() => { curtain.classList.add('no-anim'); curtain.classList.remove('is-out'); void curtain.offsetWidth; curtain.classList.remove('no-anim'); busy = false; }, 2300);
   }
+  window.MoiCurtain = { play: (ic, title, sub, dest) => play(ic || '<svg viewBox="0 0 42 43" fill="none" stroke="#efd4a7" stroke-width="2.2" aria-hidden="true"><path d="M4 34V9l17 18L38 9v25"/></svg>', title, sub, dest) };
   function go(a) {
     const w = a.closest('.mlg-card-wrap');
     play(w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML, w.querySelector('h2')?.textContent, w.querySelector('.mlg-caption p')?.textContent, a.getAttribute('href'));

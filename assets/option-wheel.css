@@ -1,0 +1,83 @@
+/* OptionWheel — React Bits (David Haz), MIT + Commons Clause. CSS originale + menu MOI LAB. */
+.option-wheel {
+  --ow-text-color: #a6a6a6;
+  --ow-active-color: #ffffff;
+  --ow-font-size: 3rem;
+  --ow-inset: 80px;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+
+.option-wheel--dragging {
+  cursor: grabbing;
+}
+
+/* Each option is absolutely centered, then offset along the curve by the
+   rAF loop through transform/opacity/filter, so everything stays in step. */
+.option-wheel__item {
+  position: absolute;
+  top: 50%;
+  left: var(--ow-inset);
+  white-space: nowrap;
+  font-size: var(--ow-font-size);
+  line-height: 1;
+  font-weight: 200;
+  transform-origin: left center;
+  cursor: pointer;
+  will-change: transform, opacity, filter;
+  /* --ow-p goes 0 -> 1 as an option approaches the middle of the wheel */
+  color: color-mix(in srgb, var(--ow-active-color) calc(var(--ow-p, 0) * 100%), var(--ow-text-color));
+}
+
+.option-wheel--right .option-wheel__item {
+  left: auto;
+  right: var(--ow-inset);
+  transform-origin: right center;
+}
+
+.option-wheel__item--selected {
+  font-weight: 500;
+}
+
+/* ===== menu a ruota MOI LAB ===== */
+.ow-menu{display:flex;flex-direction:column;gap:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.ow-menu-k{margin:0;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#c8aa77}
+.ow-menu-wheel{height:min(380px,46svh);margin:0 -40px;-webkit-mask:linear-gradient(transparent,#000 18%,#000 82%,transparent);mask:linear-gradient(transparent,#000 18%,#000 82%,transparent)}
+.ow-menu .option-wheel__item{font-weight:300;letter-spacing:-.03em}
+.ow-menu .option-wheel__item--selected{font-weight:500}
+.ow-menu .option-wheel:focus-visible{box-shadow:inset 0 0 0 1px #e2c28e66;border-radius:12px}
+.ow-menu-go{align-self:flex-start;display:inline-flex;align-items:center;gap:12px;height:48px;padding:0 22px;border-radius:999px;background:#f6e7c8;color:#15130f!important;font-size:15px!important;font-weight:500;text-decoration:none!important;margin-top:0!important;opacity:1!important;box-shadow:0 10px 28px -12px #e2c28e99;transition:transform .2s,background .2s}
+.ow-menu-go:hover{background:#fff}.ow-menu-go:active{transform:scale(.97)}
+.ow-menu-go i{font-style:normal}
+.ow-menu-hint{margin:0;font-size:11px;letter-spacing:.08em;color:#8d887e}
+/* home: la ruota prende il posto dell'elenco (lingua e link di gestione restano) */
+.mm-sm-host nav.has-wheel>a[href="/chi-siamo/"],.mm-sm-host nav.has-wheel>.moi-menu-label,.mm-sm-host nav.has-wheel>a[data-moi-category]{display:none!important}
+.mm-sm-host nav.has-wheel .ow-menu{opacity:0;transform:translateY(24px);transition:opacity .6s .35s,transform .8s .35s cubic-bezier(.2,.8,.2,1)}
+.mm-sm-host.is-open nav.has-wheel .ow-menu{opacity:1;transform:none}
+.mm-sm-host nav.has-wheel .ow-menu-go{padding:0 22px!important;background:#f6e7c8!important;border-radius:999px!important;display:inline-flex!important}
+/* Chi siamo: tre lineette e pannello */
+.owm-burger{margin-left:8px;display:grid;place-content:center;gap:5px;width:44px;height:44px;border:1px solid #ffffff2e;border-radius:50%;background:#0f0f0f99;cursor:pointer;flex:none}
+.owm-burger span{display:block;width:18px;height:1.5px;background:#f3f0ea;border-radius:2px}
+.owm{position:fixed;inset:0;z-index:2147483000;pointer-events:none;overflow:hidden;transition:background .5s}
+.owm.is-open{pointer-events:auto;background:#0006}
+.owm>i,.owm-panel{position:absolute;top:0;right:0;bottom:0;width:min(520px,100vw);transform:translateX(100%);transition:transform .7s cubic-bezier(.7,0,.2,1)}
+.owm-l1{background:#c8aa77}.owm-l2{background:#2a2925;transition-delay:.06s!important}
+.owm-panel{background:#111;transition-delay:.12s;display:flex;flex-direction:column;justify-content:center;padding:96px 40px 40px;box-sizing:border-box}
+.owm.is-open>i,.owm.is-open .owm-panel{transform:none}
+.owm.is-closing .owm-panel{transition-delay:0s}.owm.is-closing .owm-l2{transition-delay:.08s!important}.owm.is-closing .owm-l1{transition-delay:.16s}
+.owm-close{position:absolute;top:22px;right:22px;display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 14px;border:1px solid #ffffff30;border-radius:999px;background:#1c1c1c;color:#f3f0ea;font:500 14px 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer}
+.owm-close span{position:relative;width:14px;height:14px}
+.owm-close span::before,.owm-close span::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;background:currentColor;transform:rotate(45deg)}
+.owm-close span::after{transform:rotate(-45deg)}
+.owm .ow-menu{opacity:0;transform:translateY(24px);transition:opacity .6s .4s,transform .8s .4s cubic-bezier(.2,.8,.2,1)}
+.owm.is-open .ow-menu{opacity:1;transform:none}
+html.owm-open{overflow:hidden}
+@media (max-width:640px){.owm-panel{padding:90px 24px 32px}.ow-menu-wheel{margin:0 -24px}}
+@media (prefers-reduced-motion:reduce){.owm>i,.owm-panel,.owm .ow-menu,.mm-sm-host nav.has-wheel .ow-menu{transition:none!important}}
