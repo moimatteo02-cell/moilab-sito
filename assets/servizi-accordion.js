@@ -7,12 +7,12 @@
   const wraps = [...grid.querySelectorAll(':scope > .mlg-card-wrap')]; if (wraps.length < 2) return;
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   grid.classList.add('sa'); grid.classList.remove('mm-stack');
-  let active = 2, lastDown = 0;
+  let active = 0, lastDown = 0;
   grid.addEventListener('pointerdown', () => { lastDown = performance.now(); }, true);
   wraps.forEach((w, i) => {
     const a = w.querySelector('a.mlg-card'), name = w.querySelector('h2')?.textContent || '', intro = a?.dataset.moiIntro || '';
     const ic = w.querySelector('.mlg-service-icon')?.outerHTML || '';
-    a?.insertAdjacentHTML('beforeend', `<span class="sa-side" aria-hidden="true"><span class="sa-ic">${ic}</span><span class="sa-name">${name}</span></span><span class="sa-intro">${intro}</span><span class="sa-enter" aria-hidden="true">Entra →</span>`);
+    a?.insertAdjacentHTML('beforeend', `<span class="sa-side" aria-hidden="true"><span class="sa-ic">${ic}</span><span class="sa-name">${name}</span>${w.dataset.new?'<span class="sa-new">NEW</span>':''}</span><span class="sa-intro">${intro}</span><span class="sa-enter" aria-hidden="true">Entra →</span>`);
     w.style.setProperty('--sa-i', i);
     w.addEventListener('mouseenter', () => { if (fine.matches) set(i); });
     a?.addEventListener('focus', () => { if (performance.now() - lastDown > 600) set(i); });   // solo da tastiera

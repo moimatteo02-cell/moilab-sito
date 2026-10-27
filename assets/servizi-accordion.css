@@ -75,3 +75,10 @@
 .sa-curtain small{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#c8aa77}
 .sa-curtain.no-anim i,.sa-curtain.no-anim .sa-curtain-in>*{transition:none!important}
 .sa-curtain.no-anim,.sa-curtain.no-anim i,.sa-curtain.no-anim .sa-curtain-in>*{transition:none!important}
+
+/* badge NEW sul servizio Digital */
+.sa-new{display:inline-block;font:600 10px/1 system-ui,sans-serif;letter-spacing:.18em;padding:5px 8px 4px;border-radius:99px;color:#1a1408;background:linear-gradient(135deg,#f6e7c8,#e2c28e 55%,#c9a25f);box-shadow:0 0 14px #e2c28e55;vertical-align:middle;animation:saNew 2.4s ease-in-out infinite}
+.mlg-caption h2+.sa-new{margin:6px 0 4px}
+#servizi.sa .sa-side .sa-new{writing-mode:horizontal-tb;transform:none}
+@keyframes saNew{50%{box-shadow:0 0 22px #e2c28e99}}
+@media (prefers-reduced-motion:reduce){.sa-new{animation:none}}
