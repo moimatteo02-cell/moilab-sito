@@ -37,10 +37,10 @@
     curtain.querySelector('.sa-curtain-ic').innerHTML = w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML || '';
     curtain.querySelector('b').textContent = w.querySelector('h2')?.textContent || '';
     curtain.querySelector('small').textContent = w.querySelector('.mlg-caption p')?.textContent || '';
-    curtain.classList.remove('is-out'); void curtain.offsetWidth; curtain.classList.add('is-in');
+    curtain.classList.add('is-in');
     setTimeout(() => { location.hash = hash; }, 950);
     setTimeout(() => { curtain.classList.add('is-out'); curtain.classList.remove('is-in'); }, 1350);
-    setTimeout(() => { curtain.classList.remove('is-out'); busy = false; }, 2300);
+    setTimeout(() => { curtain.classList.add('no-anim'); curtain.classList.remove('is-out'); void curtain.offsetWidth; curtain.classList.remove('no-anim'); busy = false; }, 2300);
   }
   grid.addEventListener('keydown', e => {
     const k = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!k) return;
