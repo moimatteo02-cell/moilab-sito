@@ -11,13 +11,13 @@ Checkpoint del 27/10/2026. Progetto IN CORSO, non completato.
 
 ## Produzione immagini
 - Immagini specifiche iniziali nei tre cataloghi: 0 (46 illustrazioni condivise).
-- 42 generazioni eseguite con lo strumento integrato imagegen; 41 mockup selezionati, controllati e integrati, uno scartato prima dell'importazione perché le proporzioni indicate non coincidevano con il riferimento. La seconda versione del biglietto pieghevole usa il riferimento corretto.
-- 82 file WebP finali: due risoluzioni per ciascuno dei 41 prodotti. Nomi contenenti codice MOI e nome prodotto; nessuna condivisione accidentale dell'immagine fra codici.
+- 53 generazioni eseguite con lo strumento integrato imagegen; 52 mockup selezionati, controllati e integrati, uno scartato prima dell'importazione perché le proporzioni indicate non coincidevano con il riferimento. La seconda versione del biglietto pieghevole usa il riferimento corretto.
+- 104 file WebP finali: due risoluzioni per ciascuno dei 52 prodotti. Nomi contenenti codice MOI e nome prodotto; nessuna condivisione accidentale dell'immagine fra codici.
 - Lotto 01: GC28FAA, GFC7832, GE9DA2C, GF7FF12 (biglietti lucidi, quadrati, standard, Kraft).
 - Lotto 02: GD82566, G868CC6, G8BF630 (biglietti arrotondati, opachi, Soft Touch).
 - Lotto 03: G26787E, GA9A0EF, G6AEAF8, G1EDAC9 (pieghevoli, scatole postali, astucci ovali, adesivi rotondi su foglio).
 - Lotto 04: GAAED0B, GFE3104, G58A315, G18186A (roll up, striscioni, poster, cartelli in plastica ondulata).
-- 3.080 prodotti ancora senza immagine specifica. Le illustrazioni precedenti restano per non nascondere/eliminare prodotti: NON valgono come completamento.
+- 3.069 prodotti ancora senza immagine specifica. Le illustrazioni precedenti restano per non nascondere/eliminare prodotti: NON valgono come completamento.
 - I mockup sono esempi di personalizzazione originali, non fotografie del prodotto consegnato. Materiali, dimensioni e finiture da confermare nel preventivo; nessuna promessa di caratteristiche non documentate.
 - Nessuna fotografia di terzi scaricata o modificata, nessun nuovo asset con licenza esterna. Prompt dei file selezionati: `prompts.json`.
 
@@ -49,7 +49,7 @@ Checkpoint del 27/10/2026. Progetto IN CORSO, non completato.
 2. Eseguire audit, scegliere righe non completate dall'inventario, consultare privatamente il riferimento corretto e pianificare piccoli lotti omogenei.
 3. Generare un originale per codice; esaminare ogni risultato prima dell'importazione. Non usare un'unica foto per prodotti diversi e non passare una semplice variazione di tinta per un modello diverso.
 4. Importare con `tools/catalog_media.py`, aggiungere la descrizione e i campi nel manifest solo dopo il controllo. Aggiornare prompt, registro, versioni risorse e verifiche.
-5. Completare il collaudo reale prima di segnare prodotti come interamente conclusi. Alla data di questo checkpoint: 41 contenuti visivi pronti, 0 prodotti collaudati online end-to-end.
+5. Completare il collaudo reale prima di segnare prodotti come interamente conclusi. Alla data di questo checkpoint: 52 contenuti visivi pronti, 0 prodotti collaudati online end-to-end.
 
 Il file privato del fornitore, i suoi link e i prezzi di acquisto non sono inclusi nel nuovo materiale pubblico.
 
@@ -69,3 +69,7 @@ Il file privato del fornitore, i suoi link e i prezzi di acquisto non sono inclu
 ## Checkpoint 41 immagini specifiche
 - Aggiunti 10 mockup originali, dopo verifica dei riferimenti e del risultato. Codici: G843FF6, G382E86, G5110C8, G92B84E, G18644D, G822116, GA47AB4, G637137, G03A976, G871DF9.
 - Totale: 41 immagini integrate, 3080 ancora da produrre; verifica online end-to-end ancora in attesa.
+
+## Checkpoint 52 immagini specifiche
+- Aggiunti 11 mockup originali, dopo verifica dei riferimenti e del risultato. Codici: GCEC902, GE3C817, G45372A, G2C109F, GD1D116, G3A65CF, G9127AA, G4E395B, G60408C, G9B5A6F, G8249FB.
+- Totale: 52 immagini integrate, 3069 ancora da produrre; verifica online end-to-end ancora in attesa.

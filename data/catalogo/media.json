@@ -395,6 +395,116 @@
       "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
       "batch": "20261027-10",
       "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GCEC902": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gcec902-badge-personalizzabili.webp",
+      "small": "/assets/catalogo/design/gcec902-badge-personalizzabili-480.webp",
+      "alt": "Badge personalizzabili — esempio di personalizzazione MOI",
+      "description": "Badge in plastica con angoli arrotondati e foro, esempio MOI LAB Staff.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GE3C817": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/ge3c817-carte-fedelt.webp",
+      "small": "/assets/catalogo/design/ge3c817-carte-fedelt-480.webp",
+      "alt": "Carte fedeltà — esempio di personalizzazione MOI",
+      "description": "Carta fedeltà con spazi per i timbri, esempio MOI Coffee.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G45372A": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g45372a-segnalibri-personalizzati-stampabili.webp",
+      "small": "/assets/catalogo/design/g45372a-segnalibri-personalizzati-stampabili-480.webp",
+      "alt": "Segnalibri personalizzati stampabili — esempio di personalizzazione MOI",
+      "description": "Segnalibri stampati su carta, esempio MOI Books.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G2C109F": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g2c109f-cartelline.webp",
+      "small": "/assets/catalogo/design/g2c109f-cartelline-480.webp",
+      "alt": "Cartelline — esempio di personalizzazione MOI",
+      "description": "Cartellina da presentazione con tasche interne, esempio MOI Architecture.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GD1D116": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gd1d116-volantini-e-d-pliant.webp",
+      "small": "/assets/catalogo/design/gd1d116-volantini-e-d-pliant-480.webp",
+      "alt": "Volantini e dépliant — esempio di personalizzazione MOI",
+      "description": "Volantino piatto stampato su carta, esempio MOI Gelato.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G3A65CF": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g3a65cf-d-pliant-pieghevoli.webp",
+      "small": "/assets/catalogo/design/g3a65cf-d-pliant-pieghevoli-480.webp",
+      "alt": "Dépliant pieghevoli — esempio di personalizzazione MOI",
+      "description": "Dépliant con due pieghe e tre pannelli, esempio MOI Travel.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G9127AA": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g9127aa-opuscoli-a-punto-metallico.webp",
+      "small": "/assets/catalogo/design/g9127aa-opuscoli-a-punto-metallico-480.webp",
+      "alt": "Opuscoli a punto metallico — esempio di personalizzazione MOI",
+      "description": "Opuscolo con rilegatura a punto metallico, esempio MOI Interior.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G4E395B": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g4e395b-men-di-carta.webp",
+      "small": "/assets/catalogo/design/g4e395b-men-di-carta-480.webp",
+      "alt": "Menù di carta — esempio di personalizzazione MOI",
+      "description": "Menù piatto stampato su carta, esempio MOI Bistro.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G60408C": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g60408c-biglietti-per-appuntamenti.webp",
+      "small": "/assets/catalogo/design/g60408c-biglietti-per-appuntamenti-480.webp",
+      "alt": "Biglietti per appuntamenti — esempio di personalizzazione MOI",
+      "description": "Biglietto promemoria con campi per giorno e ora, esempio MOI Beauty.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G9B5A6F": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g9b5a6f-cavalieri-da-tavolo.webp",
+      "small": "/assets/catalogo/design/g9b5a6f-cavalieri-da-tavolo-480.webp",
+      "alt": "Cavalieri da tavolo — esempio di personalizzazione MOI",
+      "description": "Cavaliere da tavolo in cartoncino piegato, esempio MOI Coffee.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G8249FB": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g8249fb-sottobicchieri.webp",
+      "small": "/assets/catalogo/design/g8249fb-sottobicchieri-480.webp",
+      "alt": "Sottobicchieri — esempio di personalizzazione MOI",
+      "description": "Sottobicchieri rotondi in cartone stampato, esempio MOI Bar.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-11",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
     }
   }
 }
