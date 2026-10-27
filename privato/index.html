@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#0b0b0b">
+<title>Area privata — MOI LAB</title>
+<link rel="icon" href="/assets/moi-lab-wordmark.svg">
+<link rel="stylesheet" href="/assets/editorial.css?v=20261022-1">
+<link rel="stylesheet" href="/privato/privato.css?v=20261027-1">
+</head>
+<body>
+<header class="pv-top">
+ <a class="pv-brand" href="/"><img src="/assets/moi-lab-wordmark.svg" alt="MOI LAB"></a>
+ <span class="pv-tag">Area privata</span>
+ <a class="pv-site" href="/#servizi">Torna al sito →</a>
+</header>
+<main class="pv">
+ <section class="pv-hero">
+  <p class="pv-k">MOI LAB / PREVENTIVI</p>
+  <h1>Le richieste, <em>in ordine.</em></h1>
+  <p class="pv-lead">Apri il link “Riepilogo” arrivato su WhatsApp oppure incollalo qui: la richiesta viene salvata nell’archivio di questo dispositivo.</p>
+  <form class="pv-open" autocomplete="off">
+   <label class="pv-sr" for="pv-in">Link o codice della richiesta</label>
+   <input id="pv-in" name="q" placeholder="Incolla il link del riepilogo o scrivi il codice (MOI-…)" required>
+   <button type="submit">Apri</button>
+  </form>
+  <p class="pv-msg" role="status"></p>
+ </section>
+ <section class="pv-detail" hidden aria-live="polite"></section>
+ <section class="pv-archive" aria-labelledby="pv-arch-t">
+  <div class="pv-arch-head"><h2 id="pv-arch-t">Archivio</h2>
+   <div class="pv-filters"><input type="search" placeholder="Cerca codice o nome" aria-label="Cerca nell’archivio" data-search>
+    <select aria-label="Filtra per stato" data-filter><option value="">Tutti gli stati</option></select></div></div>
+  <div class="pv-list"></div>
+ </section>
+ <p class="pv-foot">L’archivio è salvato solo in questo browser. Pagina non indicizzata dai motori di ricerca.</p>
+</main>
+<script src="/privato/privato.js?v=20261027-1"></script>
+</body>
+</html>

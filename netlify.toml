@@ -8,3 +8,10 @@
   for = "/api/*"
   [headers.values]
     Content-Type = "application/json; charset=utf-8"
+
+# Area privata: mai nei motori di ricerca
+[[headers]]
+  for = "/privato/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"

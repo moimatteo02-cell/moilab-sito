@@ -7,7 +7,7 @@
 .qc-btn.qc-bump{animation:qc-bump .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes qc-bump{30%{transform:scale(1.12)}}
 html.es-bar-on .qc-btn{bottom:92px}
-html.mi-on .qc-btn,html.mi-gate .qc-btn,html.mm-sm-open .qc-btn,html.owm-open .qc-btn,html.qc-open .qc-btn{opacity:0;pointer-events:none}
+html.mm-sm-open .qc-btn,html.owm-open .qc-btn,html.qc-open .qc-btn{opacity:0;pointer-events:none}
 
 
 .qc{position:fixed;inset:0;z-index:2147483100;pointer-events:none}
@@ -93,3 +93,4 @@ html.qc-open{overflow:hidden}
 .qc-toast [data-undo]{background:#2a2925;color:#f6e7c8}
 .qc-fields{padding:18px 0 6px;border-top:1px solid #ffffff14;margin-top:14px}
 @media (max-width:640px){.qc-toast{left:12px;right:12px;max-width:none;transform:translateY(-20px)}.qc-toast.is-on{transform:none}.qc-toast span{flex:1}}
+.qc-code{margin:6px 0 0;font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;color:#c8aa77}

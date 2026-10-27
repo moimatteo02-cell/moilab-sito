@@ -94,3 +94,9 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Aggiungono al carrello: Abbigliamento (scheda prodotto, barra mobile, «Ti aiuto a scegliere»), Sticker (sincronizzati dal loro carrello), Automotive (ultimo passo del configuratore), Insegna al neon, «Cosa ti serve?» in Custom/Insegne/Grafica (`assets/quick-request.js`), Digital (ultimo passo del progetto).
 - API: `MoiCart.add({service,title,details,qty,image,key,price})`, `MoiCart.open()`, oppure `data-cart-item='{json}'` su qualsiasi pulsante.
 - Nota: il configuratore Automotive prima inviava a `/api/automotive/orders`, che sul sito statico non esiste: ora passa dal carrello e i file si allegano su WhatsApp.
+
+## Codice richiesta + area privata
+- Il carrello genera un codice (es. `MOI-7KQ2X`). Il messaggio WhatsApp è corto: codice, contenuto per servizio, nome/note e un link «Riepilogo» → `/privato/#q=…` (i dati stanno compressi nel link, dopo il `#`: non passano da nessun server).
+- `/privato/` (privato.js/.css): apre il link o il codice, mostra la richiesta ordinata per servizio con quantità e stima, stato (Nuova → In lavorazione → Preventivo inviato → Accettata → Archiviata), copia, stampa; archivio locale nel browser. Non indicizzata (meta + header `X-Robots-Tag`). Per ora raggiungibile anche dal menu (voce «Privato»).
+- Copia di sicurezza: all'invio il carrello manda anche il modulo Netlify `preventivo` (form nascosto in index.html). Funziona solo se in Netlify è attiva la rilevazione dei moduli (Forms).
+- `assets/hold-button.js/.css` (Hold Button di React Bits) + `assets/room-back.js`: in Abbigliamento «Indietro» (tocco = un passo indietro nel catalogo, tieni premuto = servizi).

@@ -16,7 +16,8 @@ function home() {
   const links = [
     { label: 'Chi siamo', href: '/chi-siamo/', go: 'Scopri chi siamo' },
     { label: 'Inizio', href: '#inizio', go: "Torna all'inizio" },
-    { label: 'Scrivici', href: WA, target: '_blank', go: 'Scrivici su WhatsApp' }
+    { label: 'Scrivici', href: WA, target: '_blank', go: 'Scrivici su WhatsApp' },
+    { label: 'Privato', href: '/privato/', go: 'Apri l’area privata' }   // provvisorio: poi solo dal link diretto
   ];
   W().menu(box, links, {
     kicker: 'MOI LAB', label: 'Menu',

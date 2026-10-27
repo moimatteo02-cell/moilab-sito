@@ -17,8 +17,11 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const read = (k, fb) => { try { const v = JSON.parse(localStorage.getItem(k) || 'null'); return v ?? fb; } catch { return fb; } };
 const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
 const clean = list => (Array.isArray(list) ? list : []).filter(i => i && typeof i.title === 'string' && SERVICES[i.service]).slice(0, MAX);
-let state = { items: clean(read(KEY, {})?.items), name: read(KEY, {})?.name || '', notes: read(KEY, {})?.notes || '', sent: false };
-const save = () => { write(KEY, { items: state.items, name: state.name, notes: state.notes }); paint(); };
+const newCode = () => { const A = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ', r = crypto.getRandomValues(new Uint8Array(5)); return 'MOI-' + [...r].map(x => A[x % A.length]).join(''); };
+let state = { items: clean(read(KEY, {})?.items), name: read(KEY, {})?.name || '', notes: read(KEY, {})?.notes || '', code: read(KEY, {})?.code || '', sent: false };
+if (!/^MOI-[A-Z0-9]{5}$/.test(state.code)) state.code = newCode();
+const persist = () => write(KEY, { items: state.items, name: state.name, notes: state.notes, code: state.code });
+const save = () => { persist(); paint(); queueLink(); };
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
 function add(item, silent) {
@@ -49,27 +52,49 @@ function syncGroup(prefix, items) {
   const added = next.length > Object.keys(prev).length;
   state.items = [...keep, ...next].slice(0, MAX); save(); if (added) bump();
 }
-function clear() { state.items = []; state.notes = ''; state.sent = false; write(STICKER_KEY, []); dispatchEvent(new CustomEvent('moicart:sticker-changed')); save(); }
+function clear() { state.items = []; state.notes = ''; state.sent = false; state.code = newCode(); write(STICKER_KEY, []); dispatchEvent(new CustomEvent('moicart:sticker-changed')); save(); }
 
 /* ---------- messaggio WhatsApp ---------- */
+/* ---------- richiesta compatta: codice + link al riepilogo privato ---------- */
+function payload() {
+  return { v: 1, c: state.code, t: Date.now(), n: state.name.trim(), o: state.notes.trim(),
+    i: state.items.map(i => ({ s: i.service, t: i.title, d: i.details, q: i.qty || 0, p: i.price || 0, f: i.priceFrom ? 1 : 0 })) };
+}
+const b64url = bytes => { let s = ''; bytes.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+async function encode(obj) {
+  const raw = new TextEncoder().encode(JSON.stringify(obj));
+  try { if (window.CompressionStream) { const buf = await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer(); return 'z' + b64url(new Uint8Array(buf)); } } catch {}
+  return 'j' + b64url(raw);
+}
+let link = '', linkKey = '';
+async function refreshLink() {
+  const p = payload(), k = JSON.stringify(p.i) + p.n + p.o + p.c; if (k === linkKey) return; linkKey = k;
+  const enc = await encode(p); if (k !== linkKey) return;
+  link = location.origin + '/privato/#q=' + enc; syncLink();
+}
+function counts() { return ORDER.filter(s => state.items.some(i => i.service === s)).map(s => `${SERVICES[s].short} (${state.items.filter(i => i.service === s).length})`).join(', '); }
 function message() {
-  const lines = ['Buongiorno MOI LAB!', '', 'Vorrei un preventivo per:', ''];
+  const lines = ['Ciao MOI LAB! Vi invio una richiesta di preventivo.', '', 'Codice: ' + state.code, 'Contenuto: ' + counts()];
+  if (state.name.trim()) lines.push('Nome: ' + state.name.trim());
+  if (state.notes.trim()) lines.push('Note: ' + state.notes.trim());
+  if (link) lines.push('', 'Riepilogo: ' + link);
+  lines.push('', 'Se servono file o foto, li allego qui. Grazie!');
+  return lines.join('\n');
+}
+/* testo lungo, solo per «Copia il testo» */
+function fullText() {
+  const lines = ['Richiesta di preventivo ' + state.code, ''];
   let n = 0;
-  ORDER.forEach(s => {
-    const group = state.items.filter(i => i.service === s); if (!group.length) return;
-    lines.push(`— ${SERVICES[s].label.toUpperCase()} —`);
-    group.forEach(i => {
-      n++; lines.push(`${n}) ${i.title}`);
-      i.details.forEach(([k, v]) => lines.push(`   ${k}: ${v}`));
-      if (i.qty) lines.push(`   Quantità: ${i.qty}`);
-    });
-    lines.push('');
-  });
-  if (lines[lines.length - 1] === '' && !state.name.trim() && !state.notes.trim()) lines.pop();
+  ORDER.forEach(s => { const g = state.items.filter(i => i.service === s); if (!g.length) return; lines.push('— ' + SERVICES[s].label.toUpperCase() + ' —');
+    g.forEach(i => { n++; lines.push(`${n}) ${i.title}`); i.details.forEach(([k, v]) => lines.push(`   ${k}: ${v}`)); if (i.qty) lines.push(`   Quantità: ${i.qty}`); }); lines.push(''); });
   if (state.name.trim()) lines.push('Nome / Azienda: ' + state.name.trim());
   if (state.notes.trim()) lines.push('Note: ' + state.notes.trim());
-  lines.push('', 'Se servono file o foto, li allego in questa chat. Grazie!');
   return lines.join('\n');
+}
+/* copia di sicurezza su Netlify Forms (se attivi), senza bloccare WhatsApp */
+function backup() {
+  try { const body = new URLSearchParams({ 'form-name': 'preventivo', codice: state.code, nome: state.name.trim(), contenuto: counts(), dati: JSON.stringify(payload()), link });
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString(), keepalive: true }).catch(() => {}); } catch {}
 }
 const euro = n => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' });
 function estimate() {
@@ -88,35 +113,37 @@ function build() {
   btn.addEventListener('click', open);
   panel = document.createElement('div'); panel.className = 'qc'; panel.inert = true;
   panel.innerHTML = `<div class="qc-veil" data-close></div><aside class="qc-panel" role="dialog" aria-modal="true" aria-labelledby="qc-title">
-    <header class="qc-head"><div><p class="qc-k">MOI LAB / CARRELLO</p><h2 id="qc-title">Il tuo preventivo</h2></div><button type="button" class="qc-x" data-close aria-label="Chiudi il carrello">×</button></header>
+    <header class="qc-head"><div><p class="qc-k">MOI LAB / CARRELLO</p><h2 id="qc-title">Il tuo preventivo</h2><p class="qc-code" title="Il codice della tua richiesta"></p></div><button type="button" class="qc-x" data-close aria-label="Chiudi il carrello">×</button></header>
     <div class="qc-body"></div></aside>`;
   panel.addEventListener('click', e => {
     if (e.target.closest('[data-close]')) close();
     const rm = e.target.closest('[data-rm]'); if (rm) remove(rm.dataset.rm);
     const st = e.target.closest('[data-step]'); if (st) { const it = state.items.find(x => x.id === st.dataset.id); if (it) setQty(it.id, it.qty + Number(st.dataset.step)); }
-    if (e.target.closest('[data-send]')) setTimeout(() => { state.sent = true; paint(); }, 400);
+    if (e.target.closest('[data-send]')) { backup(); setTimeout(() => { state.sent = true; paint(); }, 400); }
     if (e.target.closest('[data-clear]')) { clear(); }
     if (e.target.closest('[data-keep]')) { state.sent = false; paint(); }
     if (e.target.closest('[data-go]')) close();
-    const cp = e.target.closest('[data-copy]'); if (cp) { const t = message(); (navigator.clipboard?.writeText(t) || Promise.reject()).then(() => { cp.textContent = 'Copiato ✓'; }, () => { cp.textContent = 'Copia non riuscita'; }); }
+    const cp = e.target.closest('[data-copy]'); if (cp) { const t = fullText(); (navigator.clipboard?.writeText(t) || Promise.reject()).then(() => { cp.textContent = 'Copiato ✓'; }, () => { cp.textContent = 'Copia non riuscita'; }); }
   });
   panel.addEventListener('input', e => {
-    if (e.target.name === 'qc-name') { state.name = e.target.value.slice(0, 120); write(KEY, { items: state.items, name: state.name, notes: state.notes }); syncLink(); }
-    if (e.target.name === 'qc-notes') { state.notes = e.target.value.slice(0, 1500); write(KEY, { items: state.items, name: state.name, notes: state.notes }); syncLink(); }
+    if (e.target.name === 'qc-name') { state.name = e.target.value.slice(0, 120); persist(); queueLink(); syncLink(); }
+    if (e.target.name === 'qc-notes') { state.notes = e.target.value.slice(0, 1500); persist(); queueLink(); syncLink(); }
   });
   panel.addEventListener('change', e => { if (e.target.dataset.qty) setQty(e.target.dataset.qty, Number(e.target.value)); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('is-open')) close(); });
   toastEl = document.createElement('div'); toastEl.className = 'qc-toast'; toastEl.setAttribute('role', 'status'); toastEl.hidden = true;
   toastEl.addEventListener('click', e => { if (e.target.closest('[data-open]')) { open(); hideToast(); } if (e.target.closest('[data-undo]')) undo(); });
   document.body.append(btn, panel, toastEl);
-  paint();
+  paint(); queueLink();
 }
 const syncLink = () => { const a = panel?.querySelector('[data-send]'); if (a) a.href = waURL(); };
+const queueLink = () => { refreshLink().catch(() => {}); };
 function paint() {
   if (!btn) return;
   const n = state.items.length;
   btn.hidden = n === 0; btn.querySelector('.qc-count').textContent = n;
   btn.setAttribute('aria-label', `Apri il carrello del preventivo: ${n} ${n === 1 ? 'elemento' : 'elementi'}`);
+  panel.querySelector('.qc-code').textContent = n ? 'Codice ' + state.code : '';
   const body = panel.querySelector('.qc-body');
   if (!n) { body.innerHTML = `<div class="qc-empty">${BAG}<h3>Il carrello è vuoto.</h3><p>Aggiungi capi, gadget, sticker, insegne, grafiche o progetti digital: poi chiedi un unico preventivo per tutto.</p><button type="button" class="qc-ghost" data-close>Continua a scegliere</button></div>`; return; }
   if (state.sent) {
