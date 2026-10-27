@@ -21,8 +21,6 @@ const projectsOf = (data, key) => (data?.[key]?.progetti || []).filter(p => p &&
 
 function renderTeaser(el, data) {
   const key = el.dataset.portfolio, name = NAMES[key] || key, list = projectsOf(data, key);
-  const fan = list.length ? Array.from({ length: Math.min(7, Math.max(5, list.length)) }, (_, i) => list[i % list.length]) : [];
-  const mid = (fan.length - 1) / 2;
   el.innerHTML = `
     <div class="mp-teaser-copy">
       <p class="mp-eyebrow">MOI LAB / ${esc(name.toUpperCase())} / LAVORI</p>
@@ -30,18 +28,80 @@ function renderTeaser(el, data) {
       <p class="mp-lead">${list.length ? (list.every(p => p.esempio) ? 'Qui arriveranno i nostri lavori. Intanto prova la galleria: sfoglia, gira, apri.' : `${list.length} ${list.length === 1 ? 'progetto realizzato' : 'progetti realizzati'}. Sfogliali, girali, aprili uno per uno.`) : 'La galleria si sta preparando. Presto qui troverai i nostri lavori.'}</p>
       ${list.length ? `<button class="mp-open" type="button">Entra nella galleria <span aria-hidden="true">→</span></button>` : ''}
     </div>
-    <button class="mp-fan" type="button" aria-label="Apri la galleria dei lavori ${esc(name)}" ${list.length ? '' : 'disabled'}>
-      ${fan.map((p, i) => `<span class="mp-fan-card" style="--i:${i - mid};--d:${Math.abs(i - mid)}"><img src="${esc(p.immagini[0])}" alt="" loading="lazy" decoding="async"></span>`).join('')}
-      ${list.length ? '<span class="mp-fan-hint">Trascina · Ruota · Apri</span>' : ''}
-    </button>`;
-  el.querySelectorAll('.mp-open, .mp-fan').forEach(b => b.addEventListener('click', () => openGallery(key, list, b)));
+    ${list.length ? `<div class="mp-3d" role="button" tabindex="0" aria-label="Lavori ${esc(name)} in 3D: trascina per girare, tocca per aprire la galleria">
+      <div class="mp-3d-stage"></div><span class="mp-fan-hint">Trascina · Tocca per aprire</span>
+    </div>` : ''}`;
+  el.querySelector('.mp-open')?.addEventListener('click', e => openGallery(key, list, e.currentTarget));
+  const box = el.querySelector('.mp-3d');
+  if (box) gallery3d(box, list, layoutFor(key), i => openGallery(key, list, el.querySelector('.mp-open'), i));
+}
+
+/* ---------------- Gallerie 3D dell'anteprima ----------------
+   Sei forme scelte: elica, doppia elica, sfera, vortice, torre, spirale piatta.
+   A ogni visita ogni servizio ne riceve una diversa, a caso (mai due uguali nella stessa visita). */
+const PI = Math.PI, R2D = 180 / PI, mod = (a, n) => ((a % n) + n) % n;
+const depth = z => ({ br: .45 + .55 * clamp((z + 1) / 2, 0, 1), zi: 500 + z * 400 });
+const LAYOUTS = {
+  elica: { n: 16, axis: true, pos: (i, n, a, T, W, H) => { const S = 360 / 7, tt = mod(i * S - a, 14 * S) - 7 * S, th = tt / R2D, R = Math.min(240, W * .36), z = Math.cos(th), y = -tt / 360 * H * .62; return { x: Math.sin(th) * R, y, z: z * R, ry: tt, o: clamp((H * .62 - Math.abs(y)) / (H * .16), 0, 1) * (.35 + .65 * (z + 1) / 2), ...depth(z) }; } },
+  dna: { n: 20, axis: true, pos: (i, n, a, T, W, H) => { const k = i >> 1, side = i % 2, S = 60, tt = mod(k * S - a, 12 * S) - 6 * S, th = (tt + side * 180) / R2D, R = Math.min(200, W * .3), z = Math.cos(th), y = -tt / 360 * H * .6; return { x: Math.sin(th) * R, y, z: z * R, ry: tt + side * 180, s: .8, o: clamp((H * .6 - Math.abs(y)) / (H * .14), 0, 1), ...depth(z) }; } },
+  sfera: { n: 26, w: 90, auto: .2, stage: (a, T, W, H, b) => `rotateX(${-b}deg) rotateY(${-a}deg)`, pos: (i, n) => { const y = 1 - (i + .5) / n * 2, r = Math.sqrt(1 - y * y), phi = i * 2.39996, R = 200; return { x: Math.cos(phi) * r * R, y: y * R, z: Math.sin(phi) * r * R, ry: -(phi * R2D) + 90, rx: Math.asin(y) * R2D, o: .95 }; } },
+  vortice: { n: 22, w: 100, auto: .6, pos: (i, n, a) => { const k = mod(i + a / 40, n) / n, ang = k * PI * 6, R = 40 + k * 230; return { x: Math.cos(ang) * R, y: Math.sin(ang) * R * .55, z: (1 - k) * -500, rz: ang * R2D + 90, s: .35 + k * .8, o: clamp(k * 3, 0, 1) * clamp((1 - k) * 6, 0, 1) }; } },
+  torre: { n: 24, w: 100, auto: .3, stage: (a) => `rotateX(-10deg) rotateY(${-a}deg)`, pos: (i, n, a, T, W, H) => { const y = mod(i * 40 - a * 1.5, n * 40) - n * 20; return { ry: i * 45, tz: 150, y, o: clamp((H * .5 - Math.abs(y)) / 80, 0, 1) }; } },
+  spirale: { n: 20, w: 100, auto: .5, pos: (i, n, a) => { const k = i / n, ang = k * PI * 3.5 + a / 80, R = 30 + k * 220; return { x: Math.cos(ang) * R, y: Math.sin(ang) * R * .8, z: -k * 200, rz: ang * R2D, s: .4 + k * .7, o: 1 }; } },
+};
+let deal = null;
+function layoutFor(key) {
+  if (!deal) {
+    const keys = Object.keys(LAYOUTS).sort(() => Math.random() - .5), svc = Object.keys(NAMES);
+    deal = Object.fromEntries(svc.map((k, i) => [k, keys[i % keys.length]]));
+  }
+  return LAYOUTS[deal[key] || 'elica'];
+}
+function gallery3d(box, list, cfg, onOpen) {
+  const stage = box.querySelector('.mp-3d-stage'), reduce = reduceMQ.matches;
+  if (cfg.axis) box.insertAdjacentHTML('afterbegin', '<span class="mp-3d-axis" aria-hidden="true"></span>');
+  const n = cfg.n, mob = () => box.clientWidth < 600;
+  const cards = Array.from({ length: n }, (_, i) => {
+    const p = list[i % list.length], c = document.createElement('div');
+    c.className = 'mp-3d-card'; c.dataset.i = i % list.length;
+    c.innerHTML = `<img src="${esc(p.immagini[0])}" alt="" loading="lazy" decoding="async" draggable="false">`;
+    stage.append(c); return c;
+  });
+  const size = () => { const sc = mob() ? .8 : 1, w = (cfg.w || 130) * sc, h = w * 4 / 3; cards.forEach(c => { c.style.width = w + 'px'; c.style.height = h + 'px'; c.style.left = -w / 2 + 'px'; c.style.top = -h / 2 + 'px'; }); };
+  size(); addEventListener('resize', size);
+  const scroller = box.closest('.moi-room'), sy = () => scroller ? scroller.scrollTop : scrollY;
+  let a = 0, v = 0, b = 0, drag = null, vis = false, raf = 0, lastY = sy();
+  box.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, m: 0 }; v = 0; box.setPointerCapture?.(e.pointerId); kick(); });
+  box.addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.lx, dy = e.clientY - drag.ly; drag.lx = e.clientX; drag.ly = e.clientY; drag.m = Math.max(drag.m, Math.hypot(e.clientX - drag.x, e.clientY - drag.y)); v = dx * .35; a += v; b = clamp(b + dy * .2, -30, 30); kick(); });
+  box.addEventListener('pointerup', e => { if (drag && drag.m < 8) { const c = document.elementsFromPoint(e.clientX, e.clientY).find(x => x.classList?.contains('mp-3d-card')); onOpen(c ? +c.dataset.i : 0); } drag = null; });
+  box.addEventListener('pointercancel', () => { drag = null; });
+  box.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(0); } });
+  const t0 = performance.now();
+  const frame = t => {
+    raf = 0; if (!vis) return;
+    const T = (t - t0) / 1000, now = sy(), dy = now - lastY; lastY = now;
+    if (!drag) { a += v + (reduce ? 0 : (cfg.auto ?? .25)) + (reduce ? 0 : clamp(dy * .12, -6, 6)); v *= .94; b *= .97; }
+    const W = box.clientWidth, H = box.clientHeight;
+    stage.style.transform = cfg.stage ? cfg.stage(a, T, W, H, b) : `rotateX(${-b * .3}deg)`;
+    cards.forEach((c, i) => {
+      const p = cfg.pos(i, n, a, T, W, H);
+      c.style.transform = `translate3d(${p.x || 0}px,${p.y || 0}px,${p.z || 0}px) rotateZ(${p.rz || 0}deg) rotateY(${p.ry || 0}deg) rotateX(${p.rx || 0}deg) translateZ(${p.tz || 0}px) scale(${p.s ?? 1})`;
+      c.style.opacity = (p.o ?? 1).toFixed(3);
+      if (p.br != null) c.style.filter = `brightness(${p.br.toFixed(3)})`;
+      if (p.zi != null) c.style.zIndex = Math.round(p.zi);
+    });
+    if (!reduce || drag) raf = requestAnimationFrame(frame);
+  };
+  const kick = () => { if (!raf && vis) raf = requestAnimationFrame(frame); };
+  new IntersectionObserver(es => { vis = es[0].isIntersecting; if (vis) { lastY = sy(); kick(); } }, { rootMargin: '100px' }).observe(box);
 }
 
 /* ---------------- Galleria a tutto schermo ---------------- */
 
 let current = null;
 
-function openGallery(key, list, opener) {
+function openGallery(key, list, opener, from = 0) {
+  if (from > 0 && from < list.length) list = [...list.slice(from), ...list.slice(0, from)];   // la foto toccata arriva per prima
   if (current || !list.length) return;
   current = new Ring(key, list, opener);
 }
