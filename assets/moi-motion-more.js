@@ -182,7 +182,7 @@
   /* ================= G2 · barra oro di avanzamento + "torna su" ================= */
   const bar = doc.createElement('div'); bar.className = 'mm-progress'; bar.setAttribute('aria-hidden', 'true'); doc.body.append(bar);
   const top = doc.createElement('button'); top.type = 'button'; top.className = 'mm-top'; top.setAttribute('aria-label', 'Torna su');
-  top.innerHTML = '<svg class="mm-top-ring" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="25"/></svg><span aria-hidden="true">↑</span>'; doc.body.append(top);
+  top.innerHTML = '<svg class="mm-top-ring" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="25"/></svg><span aria-hidden="true">↑</span>'; // pulsante «torna su» tolto: c'è la fionda «Tirami giù» e il pulsantino ✦ (l'elemento resta in memoria, non in pagina)
   const scroller = () => $('.moi-room.is-active') || null;
   let praf = 0;
   const ppaint = () => { praf = 0; const r = scroller(); const y = r ? r.scrollTop : scrollY, max = r ? r.scrollHeight - r.clientHeight : doc.documentElement.scrollHeight - innerHeight; const p = max > 0 ? Math.min(1, y / max) : 0; bar.style.transform = `scaleX(${p.toFixed(4)})`; $('circle', top).style.strokeDashoffset = (157 * (1 - p)).toFixed(1); const show = y > innerHeight * .8; top.classList.toggle('is-on', show); bar.classList.toggle('is-on', max > innerHeight * .5); };
