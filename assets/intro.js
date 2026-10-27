@@ -53,6 +53,9 @@
   // raggi di luce (impostazioni predefinite di React Bits, colore caldo MOI LAB)
   const rays = $('.mi-rays');
   if (rays && window.MoiLightRays) { try { window.MoiLightRays.mount(rays, { raysOrigin: 'top-center', raysColor: '#f3e2bf', followMouse: true, mouseInfluence: 0.1 }); } catch (e) { console.warn('Light Rays non disponibile', e); } }
+  // stessa luce anche dietro la pagina dei servizi
+  const hr = document.querySelector('#moi-lab-hub .hub-rays');
+  if (hr && window.MoiLightRays) { try { window.MoiLightRays.mount(hr, { raysOrigin: 'top-center', raysColor: '#f3e2bf' }); } catch (e) { console.warn('Light Rays servizi non disponibile', e); } }
   // sciame di particelle dentro l'interfaccia
   const sw = $('.mi-swarm');
   if (sw && window.MoiSwarm) { try { window.MoiSwarm.mount(sw, { count: 800, size: 2.6, color: '#ffffff', accentColor: '#e2c28e', clickEffect: 'burst', idle: 'roam' }); } catch (e) { console.warn('Swarm Cursor non disponibile', e); } }

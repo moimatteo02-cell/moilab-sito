@@ -4,7 +4,7 @@ body{margin:0;background:#080808;color:#f3f0ea;font:16px/1.6 'Helvetica Neue',He
 em{font-family:'Moi Editorial',Georgia,serif;font-style:italic;font-weight:400;color:#e2c28e}
 a{color:inherit}
 .cs-top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:20px;padding:16px clamp(16px,4vw,48px);background:linear-gradient(#080808cc,#08080800);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.cs-brand img{display:block;height:20px;filter:invert(1) brightness(1.4)}
+.cs-brand img{display:block;height:24px;filter:brightness(0) invert(1);opacity:.96}
 .cs-top nav{display:flex;gap:4px;margin-left:auto}
 .cs-top nav a{padding:8px 12px;border-radius:999px;font-size:13px;color:#d5cfc3;text-decoration:none;transition:background .2s}
 .cs-top nav a:hover{background:#ffffff14}
@@ -62,3 +62,5 @@ h2{margin:0 0 22px;font-size:clamp(36px,6vw,86px);font-weight:400;letter-spacing
 .sling-end p{color:#f3f0ea}.sling-end p span{color:#a8a399}
 @media (max-width:820px){.cs-worlds,.cs-media{grid-template-columns:1fr}.cs-top nav a:not(:first-child){display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cs-rv{opacity:1;transform:none}}
+
+.cs-m{position:absolute;left:50%;top:max(9vh,76px);z-index:1;transform:translateX(-50%)}

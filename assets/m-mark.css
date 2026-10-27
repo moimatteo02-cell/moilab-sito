@@ -1,0 +1,16 @@
+/* M di MOI LAB disegnata dalla luce (come nell'apertura) + raggi di luce dietro i servizi */
+.moi-mark{pointer-events:none;width:clamp(44px,6vmin,64px);filter:drop-shadow(0 0 22px #e2c28e55)}
+.moi-mark svg{display:block;width:100%;overflow:visible;fill:none;stroke-linecap:square;stroke-linejoin:miter}
+.moi-mark .b{stroke:#ffffff2a;stroke-width:.9}
+.moi-mark .g{stroke:#e2c28e;stroke-width:.9;stroke-dasharray:100;stroke-dashoffset:100;animation:moi-mark-draw 2.4s cubic-bezier(.6,0,.2,1) .3s forwards}
+.moi-mark .s{fill:#f1d9a6;filter:drop-shadow(0 0 1.2px #f1d9a6) drop-shadow(0 0 3px #c8aa77);offset-path:path('M4 34V9l17 18L38 9v25');animation:moi-mark-run 2.4s cubic-bezier(.6,0,.2,1) .3s forwards,moi-mark-glow 2.4s ease-in-out 3s infinite}
+@keyframes moi-mark-draw{to{stroke-dashoffset:0}}
+@keyframes moi-mark-run{from{offset-distance:0%}to{offset-distance:100%}}
+@keyframes moi-mark-glow{50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){.moi-mark .g{animation:none;stroke-dashoffset:0}.moi-mark .s{animation:none;offset-distance:100%}}
+/* servizi: stessa luce di apertura e Chi siamo */
+#moi-lab-hub .hub-rays{position:absolute;left:0;right:0;top:0;height:100svh;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 43%,#141414 0%,#0d0d0d 38%,#080808 75%);-webkit-mask:linear-gradient(#000 60%,transparent);mask:linear-gradient(#000 60%,transparent)}
+#moi-lab-hub .mlg-aura{display:none}
+#moi-lab-hub .mlg-shell{position:relative;z-index:1}
+#moi-lab-hub .hub-m{position:absolute;left:50%;top:50%;transform:translate(-50%,-30%)}
+@media (max-width:620px){#moi-lab-hub .hub-m{width:38px;top:calc(100% + 14px);transform:translateX(-50%)}#moi-lab-hub .mi-svc-head{padding-top:78px}}
