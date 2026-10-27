@@ -1,6 +1,6 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
 import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
-import {createBrowser} from './browse.mjs?v=20261026-4';
+import {createBrowser} from './browse.mjs?v=20261027-1';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
  const room=mount.closest('.moi-room');
@@ -39,7 +39,7 @@ if(mount){
  function previewAttrs(p){return `data-preview-card data-preview-video="${e(p.video?safeURL(p.video):'')}"`;}
  function cardPhoto(p){return `<div class="ac-picture ac-preview">${image(p.immagine_modello_fronte||p.immagine_principale,p.nome,'class="ac-model-photo"')}${p.immagine_modello_retro?image(p.immagine_modello_retro,p.nome+' · modello di spalle','class="ac-back-photo"'):p.retro_capo?image(p.retro_capo,p.nome+' · retro','class="ac-back-photo ac-back-flat"'):''}${p.linea_premium?'<span class="ac-badge">PREMIUM</span>':''}</div>`;}
 
- function special(){const sp=meta.special,ph=sp.immagine_prodotto&&sp.immagine_prodotto!==sp.immagine_principale;return `<article class="ac-special br-special"><button class="br-sp-media${ph?' has-two':''}" data-sku="${e(sp.sku)}" aria-label="Scopri Atomic 150"><span class="br-sp-ph br-sp-model">${image(sp.immagine_principale,'Atomic 150 indossata')}</span>${ph?`<span class="br-sp-ph br-sp-flat">${image(sp.immagine_prodotto,'Atomic 150')}</span>`:''}</button><div class="br-sp-copy"><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p class="br-sp-type">T-shirt base · con o senza personalizzazione</p><div class="br-sp-prices"><span class="br-sp-row"><span class="br-pc-label">Senza logo</span><strong>${sp.prezzo==null?'da confermare':'da '+euro(sp.prezzo)}</strong></span><span class="br-sp-row"><span class="br-pc-label">Col tuo logo</span><strong>${euro(sp.prezzo_personalizzato)}</strong></span></div><button class="ac-cta" data-sku="${e(sp.sku)}">Scopri il capo →</button></div></article>`;}
+ function special(){const sp=meta.special,ph=sp.immagine_prodotto&&sp.immagine_prodotto!==sp.immagine_principale;return `<article class="ac-special br-special"><button class="br-sp-media${ph?' has-two':''}" data-sku="${e(sp.sku)}" aria-label="Scopri Atomic 150"><span class="br-sp-ph br-sp-model">${image(sp.immagine_principale,'Atomic 150 indossata')}</span>${ph?`<span class="br-sp-ph br-sp-flat">${image(sp.immagine_prodotto,'Atomic 150')}</span>`:''}</button><div class="br-sp-copy"><span class="ac-overline">IL NOSTRO MUST</span><h3>Atomic 150</h3><p class="br-sp-type">T-shirt base · con o senza personalizzazione</p><div class="br-sp-prices"><span class="br-sp-row"><span class="br-pc-label">Senza logo</span><strong>${sp.prezzo==null?'da confermare':'da '+euro(sp.prezzo)}</strong></span><span class="br-sp-row"><span class="br-pc-label">Col tuo logo</span><strong>${sp.prezzo_personalizzato==null?'da confermare':'da '+euro(sp.prezzo_personalizzato)}</strong></span></div><button class="ac-cta" data-sku="${e(sp.sku)}">Scopri il capo →</button></div></article>`;}
 
  async function listing(scroll=false){
   product=null;++request;await browser.back();
@@ -71,15 +71,14 @@ if(mount){
    chat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>',
    heart:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-9a4.6 4.6 0 0 1 9-3 4.6 4.6 0 0 1 9 3c-2 4.6-9 9-9 9z"/></svg>',
    up:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>',down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'};
-  const swatch=c=>{const tile=(c.foto&&c.foto[0])||c.immagine;return `<button type="button" data-color="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}"><span class="ac-pdp-swatch">${tile?image(tile,''):`<i style="background:${colorFill(c.hex)}"></i>`}</span><span class="ac-pdp-chip">${dot(c.hex)}<span>${e(c.nome)}</span></span></button>`;};
+  const swatch=c=>{const tile=(c.foto&&c.foto[0])||c.immagine;return `<button type="button" data-color="${e(c.nome)}" aria-pressed="${color===c.nome}" title="${e(c.nome)}"><span class="ac-pdp-swatch">${tile?image(tile,''):`<i style="background:${colorFill(c.hex)}"></i>`}</span><span class="ac-pdp-chip">${dot(c.hex)}<span>${e(c.nome).replace(/\//g,'/<wbr>')}</span></span></button>`;};
   paint(`<nav class="ac-pdp-crumbs" aria-label="Percorso"><button type="button" data-home>Catalogo</button><span>/</span><button type="button" data-list>${e(category||p.categoria||'Tutti i capi')}</button>${p.sottocategoria?`<span>/</span><span>${e(p.sottocategoria)}</span>`:''}</nav>
   <div class="ac-pdp">
    <div class="ac-pdp-info">
     <p class="ac-overline">${e(p.marca)} / ${e(p.sku)}${p.linea_premium?' / PREMIUM':''}</p>
     <h2 tabindex="-1">${e(p.nome)}</h2>
     <p class="ac-pdp-type">${e(p.tipo)}</p>
-    <p class="ac-pdp-price"><strong data-unit-price>${unitLabel()}</strong><span data-unit-mode>${personalized?'con personalizzazione':'senza personalizzazione'}, al pezzo</span></p>
-    <div class="ac-dual-prices" aria-live="polite"><div><span>Senza personalizzazione</span><strong data-price>${priceLabel('prezzo')}</strong></div><div><span>Con personalizzazione</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong></div></div>
+    <div class="ac-dual-prices es-prices" aria-live="polite"><button type="button" data-personalization="no" aria-pressed="${!personalized}"><span>Senza logo</span><strong data-price>${priceLabel('prezzo')}</strong><small>Il capo neutro</small></button><button type="button" data-personalization="yes" aria-pressed="${personalized}"><span>Col tuo logo</span><strong data-custom-price>${priceLabel('prezzo_personalizzato')}</strong><small>Stampa fino a 40 cm inclusa</small></button></div>
     <p class="ac-pdp-short">${e(short)}</p>
     <ul class="ac-pdp-features">
      <li>${ico.print}<div><strong>Stampa inclusa</strong><span>Una stampa fino a 40 cm nel prezzo personalizzato</span></div></li>
@@ -106,6 +105,7 @@ if(mount){
     <fieldset><legend>Taglia <button type="button" class="ac-pdp-link" data-open-sizes>Guida alle taglie</button></legend><div class="ac-pdp-sizes">${p.taglie.map(s=>`<button type="button" data-size="${e(s)}" aria-pressed="false">${e(s)}</button>`).join('')}</div><p class="ac-pdp-hint" data-size-label>Seleziona una taglia</p></fieldset>
     <fieldset><legend>Come lo vuoi?</legend><div class="ac-pdp-toggle"><button type="button" data-personalization="no" aria-pressed="${!personalized}">Senza stampa</button><button type="button" data-personalization="yes" aria-pressed="${personalized}">Con stampa</button></div></fieldset>
     <fieldset><legend>Quantità</legend><div class="ac-pdp-qtyrow"><div class="ac-pdp-stepper"><button type="button" data-qty-step="-1" aria-label="Diminuisci quantità">−</button><input data-qty-input type="number" inputmode="numeric" min="1" max="9999" value="${qty}" aria-label="Quantità"><button type="button" data-qty-step="1" aria-label="Aumenta quantità">+</button></div><p class="ac-pdp-total" data-total aria-live="polite">${totalLabel()}</p></div></fieldset>
+    <p class="ac-pdp-price es-sum"><span data-unit-mode>${personalized?'con personalizzazione':'senza personalizzazione'}, al pezzo</span><strong data-unit-price>${unitLabel()}</strong></p>
     <a class="ac-pdp-cta" data-quote href="${e(quote())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>
     <button type="button" class="ac-pdp-fav" data-fav aria-pressed="${isFav()}">${ico.heart}<span data-fav-label>${isFav()?'Salvato nei preferiti':'Salva nei preferiti'}</span></button>
     <ul class="ac-pdp-trust">
@@ -196,7 +196,7 @@ if(mount){
  mount.addEventListener('input',ev=>{if(ev.target.matches('[data-qty-input]')){const n=Math.floor(Number(ev.target.value));if(n>=1){qty=Math.min(9999,n);updateSelection();}}});
  mount.addEventListener('submit',ev=>{if(ev.target.closest('[data-br-search]'))return;ev.preventDefault();q=new FormData(ev.target).get('q')||'';page=1;if(/^(atomic(?:\s*150)?|ca6424)$/i.test(q.trim()))detail(meta.special.sku);else listing();});
  addEventListener('popstate',ev=>{if(ev.state?.acProduct&&started)detail(ev.state.acProduct,true);});
- async function start(){if(started)return;started=true;browser??=createBrowser(mount,{e,euro,image,previewAttrs,cardPhoto,special,paint,onProduct:sku=>detail(sku)});mount.innerHTML='<p role="status">Prepariamo il tuo catalogo…</p>';try{meta=await api();home();}catch{started=false;mount.innerHTML='<p role="alert">Catalogo non disponibile.</p><button data-init>Riprova</button>';}}
+ async function start(){if(started)return;started=true;browser??=createBrowser(mount,{e,euro,image,previewAttrs,cardPhoto,special,paint,onProduct:sku=>detail(sku)});mount.innerHTML='<p role="status" class="br-sr">Prepariamo il tuo catalogo…</p><div class="es-skel" aria-hidden="true"><i class="es-skel-hero"></i>'+'<i></i>'.repeat(8)+'</div>';try{meta=await api();home();}catch{started=false;mount.innerHTML='<p role="alert">Catalogo non disponibile.</p><button data-init>Riprova</button>';}}
  mount.addEventListener('click',e=>{if(e.target.closest('[data-init]'))start();});
  const observer=new MutationObserver(()=>{if(room.classList.contains('is-active'))start();});observer.observe(room,{attributes:true,attributeFilter:['class']});
  if(room.classList.contains('is-active'))start();

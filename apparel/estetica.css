@@ -1,0 +1,310 @@
+/* ===== MOI LAB — APPAREL: estetica del catalogo (36 modifiche) =====
+   Palette: nero #151515, carta #f6f5f2, oro #8a7552 / #c8aa77, grigio #7d7b75 */
+#moi-apparel-catalog{--es-gold:#8a7552;--es-gold-2:#c8aa77;--es-ink:#151515;--es-soft:#7d7b75;--es-line:#1818181a;--es-ease:cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- 1 · titolo che entra a parole ---------- */
+#moi-apparel-catalog .br-hero h2 .es-w{display:inline-block}
+#moi-apparel-catalog .br-hero h2.es-play .es-w{animation:es-word .9s var(--es-ease) both;animation-delay:calc(var(--i) * 70ms + 120ms)}
+@keyframes es-word{from{opacity:0;filter:blur(12px);transform:translateY(.35em)}to{opacity:1;filter:none;transform:none}}
+#moi-apparel-catalog .br-hero h2 em.es-write{display:inline-block;padding-right:.08em}
+#moi-apparel-catalog .br-hero h2.es-play em.es-write{animation:es-write 1.5s cubic-bezier(.65,0,.35,1) both;animation-delay:calc(var(--i) * 70ms + 260ms)}
+@keyframes es-write{from{clip-path:inset(-20% 100% -30% 0)}to{clip-path:inset(-20% -2% -30% 0)}}
+
+/* ---------- 2 · sfondo che respira ---------- */
+#moi-apparel-catalog .br-hero{isolation:isolate}
+.es-aurora{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.es-aurora i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;opacity:.55;will-change:transform}
+.es-aurora i:nth-child(1){left:-18vmax;top:-30vmax;background:radial-gradient(closest-side,#e9dcc2,transparent 70%);animation:es-drift1 22s ease-in-out infinite alternate}
+.es-aurora i:nth-child(2){right:-22vmax;top:-18vmax;background:radial-gradient(closest-side,#dcc6a0aa,transparent 70%);animation:es-drift2 26s ease-in-out infinite alternate}
+.es-aurora i:nth-child(3){left:30%;bottom:-44vmax;background:radial-gradient(closest-side,#f3ece0,transparent 70%);animation:es-drift3 30s ease-in-out infinite alternate}
+@keyframes es-drift1{to{transform:translate(14vmax,8vmax) scale(1.1)}}
+@keyframes es-drift2{to{transform:translate(-12vmax,10vmax) scale(.92)}}
+@keyframes es-drift3{to{transform:translate(-10vmax,-8vmax) scale(1.08)}}
+
+/* ---------- 3 · ricerca ---------- */
+#moi-apparel-catalog .br-search-big input::placeholder{color:#8d8b84;transition:color .2s}
+
+/* ---------- 4 · numero grande ---------- */
+.es-stat{display:flex;align-items:flex-end;gap:14px;margin:0 0 14px!important;line-height:1}
+#moi-apparel-catalog .es-stat .br-count-up{font-family:'Moi Editorial',Georgia,serif;font-style:italic;font-size:clamp(64px,7vw,112px);font-weight:400;letter-spacing:-.04em;line-height:.8;color:var(--es-gold);font-variant-numeric:lining-nums tabular-nums}
+.es-stat-l{padding-bottom:.35em;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#55544f;line-height:1.5}
+
+/* ---------- 5 · striscia di fiducia ---------- */
+.es-trust{margin:0 calc(-1 * var(--ap-g,24px));padding:16px var(--ap-g,24px);border-bottom:1px solid var(--es-line);background:#fbfaf7;overflow:hidden}
+.es-trust-in{display:flex;justify-content:space-between;gap:12px 28px}
+.es-trust-in>span{display:inline-flex;align-items:center;gap:10px;flex:none;font-size:12.5px;letter-spacing:.02em;color:#3f3e3a;white-space:nowrap}
+.es-trust svg{width:18px;height:18px;fill:none;stroke:var(--es-gold);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.es-trust .es-dup{display:none}
+
+/* ---------- 6 · percorsi: evidenziatore che scivola ---------- */
+#moi-apparel-catalog .br-tabs.es-has-ind{position:relative}
+#moi-apparel-catalog .br-tabs .es-ind{position:absolute;left:0;top:0;z-index:0;border-radius:999px;background:var(--es-ink);box-shadow:0 8px 18px -10px #0008;transition:transform .5s cubic-bezier(.3,1.35,.5,1),width .5s var(--es-ease),height .3s;pointer-events:none}
+#moi-apparel-catalog .br-tabs.es-has-ind button{position:relative;z-index:1;background:none!important;transition:color .35s}
+#moi-apparel-catalog .br-tabs.es-has-ind button[aria-selected=true]{color:#fff}
+#moi-apparel-catalog .br-tabs.es-has-ind button[aria-selected=true] .br-ico{color:#e7d3ac}
+
+/* ---------- 7 · percorsi sempre a portata ---------- */
+#moi-apparel-catalog .br-tabs{position:sticky;top:12px;z-index:15;background:#ffffffc7;backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 10px 30px -22px #0006}
+
+/* ---------- 8 · prezzi categoria su due righe ---------- */
+#moi-apparel-catalog .es-cp{display:grid;gap:3px;margin-top:6px;padding-top:8px;border-top:1px solid var(--es-line)}
+.es-cp-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12px;color:#66655f}
+.es-cp-row b{font-size:15px;font-weight:500;color:var(--es-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- 9 · mosaico ---------- */
+@media (min-width:1100px){
+ #moi-apparel-catalog .br-panel .br-cards:not(.br-cards-sect){grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-flow:dense}
+ #moi-apparel-catalog .br-card.es-big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column}
+ #moi-apparel-catalog .br-card.es-big-1{grid-column:4 / span 2;grid-row:1 / span 2}
+ #moi-apparel-catalog .br-card.es-big .br-card-img{flex:1 1 0;aspect-ratio:auto;min-height:0;position:relative}
+ #moi-apparel-catalog .br-card.es-big .br-card-img>img{position:absolute;inset:0}
+ #moi-apparel-catalog .br-panel .br-cards:not(.br-cards-sect) .br-card:not(.es-big) .br-card-img{aspect-ratio:5/4}
+ #moi-apparel-catalog .br-panel .br-cards:not(.br-cards-sect) .br-card-img img{object-position:center 25%}
+ #moi-apparel-catalog .br-card.es-big .br-card-txt strong{font-size:22px}
+}
+@media (max-width:1099px){#moi-apparel-catalog .br-card.es-big-0{grid-column:1 / -1}#moi-apparel-catalog .br-card.es-big-0 .br-card-img{aspect-ratio:16/11}}
+
+/* ---------- 10 · passaggio sulle categorie ---------- */
+#moi-apparel-catalog .br-card .br-card-img{border-radius:10px}
+#moi-apparel-catalog .br-card .br-card-img img{transition:transform .9s var(--es-ease),filter .6s}
+#moi-apparel-catalog .br-card:hover .br-card-img img{transform:scale(1.07)}
+.es-go{position:absolute;right:12px;bottom:12px;padding:9px 14px;border-radius:999px;background:#151515e6;color:#fff;font-size:12px;letter-spacing:.03em;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .45s var(--es-ease)}
+#moi-apparel-catalog .br-card:hover .es-go,#moi-apparel-catalog .br-card:focus-visible .es-go{opacity:1;transform:none}
+
+/* ---------- 11 · etichetta vetro con numero modelli ---------- */
+#moi-apparel-catalog .es-badge{width:auto;height:auto;gap:8px;padding:7px 12px 7px 9px;border-radius:999px;display:inline-flex;background:#ffffffb8;border:1px solid #ffffff99;backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4)}
+#moi-apparel-catalog .es-badge .ic{width:18px;height:18px}
+#moi-apparel-catalog .es-badge em{font-style:normal;font-size:11.5px;font-weight:500;letter-spacing:.02em;color:var(--es-ink);white-space:nowrap}
+
+/* ---------- 12 · "Anche:" ---------- */
+#moi-apparel-catalog .es-more button{transition:border-color .25s,background .25s,transform .25s}
+#moi-apparel-catalog .es-more button:hover{background:var(--es-ink);border-color:var(--es-ink);color:#fff;transform:translateY(-1px)}
+#moi-apparel-catalog .es-more button:hover .br-ico,#moi-apparel-catalog .es-more button:hover small{color:#e7d3ac}
+@media (max-width:760px){
+ #moi-apparel-catalog .es-more{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:calc(-1 * var(--ap-g,16px));padding-right:var(--ap-g,16px);scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+ #moi-apparel-catalog .es-more::-webkit-scrollbar{display:none}
+ #moi-apparel-catalog .es-more button{flex:none;scroll-snap-align:start}
+ #moi-apparel-catalog .es-more>span{flex:none}
+}
+
+/* ---------- 13 · maglietta più vera ---------- */
+.mm-lt-pic.es-tee{background:radial-gradient(70% 60% at var(--gx,50%) 30%,#f7f4ee,#e3ddd2 75%);transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--es-ease);transform-style:preserve-3d}
+.mm-lt-pic.es-tee>svg:first-child{filter:drop-shadow(0 18px 18px #0000002a) drop-shadow(0 3px 4px #0000001f)}
+.mm-lt-pic .es-folds{position:absolute;left:10%;top:50%;width:80%;transform:translateY(-50%);pointer-events:none;mix-blend-mode:multiply}
+.mm-lt-pic.es-tee .mm-lt-print{z-index:2;opacity:.94;filter:contrast(.96)}
+.mm-lt-pic.es-tee .mm-lt-print.is-on{opacity:.94}
+
+/* ---------- 14 · cambio colore morbido ---------- */
+.mm-lt-pic .mm-tee-body{transition:fill .7s var(--es-ease)}
+#moi-apparel-catalog .mm-lt-dots button{transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .25s}
+#moi-apparel-catalog .mm-lt-dots button:hover{transform:scale(1.18)}
+
+/* ---------- 15 + 16 · Atomic 150 ---------- */
+#moi-apparel-catalog .br-special{position:relative;border-color:transparent;isolation:isolate}
+#moi-apparel-catalog .br-special::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1px;background:conic-gradient(from var(--es-a,0deg),#c4b59d55,#e9d3a6,#c4b59d55 30%,#c4b59d55 70%,#8a7552,#c4b59d55);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:es-spin 7s linear infinite}
+@property --es-a{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes es-spin{to{--es-a:360deg}}
+#moi-apparel-catalog .br-sp-copy .ac-overline{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:6px 12px;border-radius:999px;background:#151515;color:#e7d3ac!important;letter-spacing:.2em}
+#moi-apparel-catalog .br-sp-copy .ac-overline::before{content:"★";font-size:10px;letter-spacing:0}
+#moi-apparel-catalog .br-sp-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--es-line)}
+#moi-apparel-catalog .br-sp-prices strong{font-family:'Moi Editorial',Georgia,serif;font-weight:400;font-size:clamp(34px,3vw,50px);letter-spacing:-.02em;font-variant-numeric:lining-nums}
+.br-sp-ph img{scale:1.1;translate:0 var(--py,0px);transition:transform .7s cubic-bezier(.2,.8,.2,1),translate .2s linear}
+
+/* ---------- 17 · foto su fondo da studio ---------- */
+#moi-apparel-catalog .br-pc .ac-picture{border-radius:10px;background:radial-gradient(120% 90% at 50% 20%,#f4f2ed,#e6e2da)}
+#moi-apparel-catalog .br-pc .ac-model-photo,#moi-apparel-catalog .br-pc .ac-back-flat{mix-blend-mode:multiply}
+
+/* ---------- 18 · prezzi in colonna ---------- */
+#moi-apparel-catalog .br-pc-row strong{display:inline-grid;grid-template-columns:auto auto;column-gap:5px;align-items:baseline;text-align:right;font-variant-numeric:tabular-nums}
+#moi-apparel-catalog .br-pc-row .es-da{font-size:11px;font-weight:400;color:var(--es-soft);text-align:left}
+
+/* ---------- 19 · pallini ---------- */
+#moi-apparel-catalog .br-pc-dots i{transition:transform .25s cubic-bezier(.3,1.6,.5,1),box-shadow .25s}
+#moi-apparel-catalog .br-pc-dots i:hover,#moi-apparel-catalog .br-pc-dots i.is-on{transform:scale(1.35);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--es-ink)}
+
+/* ---------- 20 · etichette sulla foto ---------- */
+.es-tags{position:absolute;left:10px;top:10px;z-index:3;display:flex;flex-wrap:wrap;gap:5px;max-width:calc(100% - 56px);pointer-events:none}
+.es-tags i{padding:4px 9px;border-radius:999px;background:#ffffffd9;font-style:normal;font-size:10.5px;font-weight:500;letter-spacing:.03em;color:#2b2a27;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 2px 8px -4px #0004}
+#moi-apparel-catalog .br-pc .ac-badge{top:auto;bottom:10px;left:10px}
+
+/* ---------- 21 · la scheda si solleva, cuore e "Vedi" ---------- */
+#moi-apparel-catalog .br-pc{transition:transform .45s var(--es-ease)}
+#moi-apparel-catalog .br-pc .ac-picture{transition:box-shadow .45s var(--es-ease)}
+@media (hover:hover){
+ #moi-apparel-catalog .br-pc:hover{transform:translateY(-6px)}
+ #moi-apparel-catalog .br-pc:hover .ac-picture{box-shadow:0 26px 40px -26px #0006}
+}
+.es-heart{position:absolute;right:10px;top:10px;z-index:4;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#ffffffe0;box-shadow:0 4px 12px -6px #0005;cursor:pointer;transition:transform .25s,background .25s}
+.es-heart svg{width:18px;height:18px;fill:none;stroke:var(--es-ink);stroke-width:1.7;stroke-linejoin:round;transition:fill .25s,stroke .25s}
+.es-heart[aria-pressed=true] svg{fill:#c0393b;stroke:#c0393b}
+.es-heart:hover{transform:scale(1.1)}
+.es-heart:focus-visible{outline:2px solid var(--es-gold);outline-offset:2px}
+.es-heart.es-pop{animation:es-pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes es-pop{40%{transform:scale(1.35)}}
+.es-see{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;padding:11px 0;border-radius:999px;background:#151515e8;color:#fff;font-size:12.5px;letter-spacing:.03em;text-align:center;opacity:0;transform:translateY(14px);transition:opacity .3s,transform .45s var(--es-ease);pointer-events:none}
+@media (hover:hover){#moi-apparel-catalog .br-pc:hover .es-see{opacity:1;transform:none}}
+@media (hover:none){.es-see{display:none}}
+
+/* ---------- 22 · filtri: caselle su misura ---------- */
+#moi-apparel-catalog .br-opt input[type=checkbox],#moi-apparel-catalog .br-opt input[type=radio]{appearance:none;-webkit-appearance:none;display:grid;place-items:center;width:18px;height:18px;border:1.5px solid #18181855;border-radius:5px;background:#fff;transition:background .2s,border-color .2s;cursor:pointer}
+#moi-apparel-catalog .br-opt input[type=radio]{border-radius:50%}
+#moi-apparel-catalog .br-opt input[type=checkbox]::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) scale(0);margin-top:-2px;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+#moi-apparel-catalog .br-opt input[type=radio]::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+#moi-apparel-catalog .br-opt input:checked{background:var(--es-ink);border-color:var(--es-ink)}
+#moi-apparel-catalog .br-opt input:checked::after{transform:rotate(-45deg) scale(1)}
+#moi-apparel-catalog .br-opt input[type=radio]:checked::after{transform:scale(1)}
+#moi-apparel-catalog .br-opt input:focus-visible{outline:2px solid var(--es-gold);outline-offset:2px}
+#moi-apparel-catalog .br-opt small{min-width:24px;padding:1px 7px;border-radius:999px;background:#f0eee9;text-align:center;font-size:10.5px}
+#moi-apparel-catalog .br-opt:has(input:checked) small{background:var(--es-ink);color:#fff}
+#moi-apparel-catalog .br-f-grid .br-opt input{appearance:auto;position:absolute;opacity:0}
+
+/* ---------- 23 · filtri attivi ---------- */
+#moi-apparel-catalog .br-active button:not(.br-clear){border-color:transparent;background:var(--es-ink);color:#fff;padding:8px 10px 8px 14px;animation:es-chip .45s cubic-bezier(.3,1.4,.5,1) both;transition:background .2s}
+#moi-apparel-catalog .br-active button:not(.br-clear) span{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#ffffff26;font-size:13px}
+#moi-apparel-catalog .br-active button:not(.br-clear):hover{background:#3a3935}
+#moi-apparel-catalog .br-active .br-clear{text-decoration:none;color:var(--es-gold);font-weight:500}
+#moi-apparel-catalog .br-active .br-clear:hover{text-decoration:underline}
+@keyframes es-chip{from{opacity:0;transform:scale(.8)}}
+
+/* ---------- 24 · vista ---------- */
+.es-view{display:inline-flex;padding:3px;border:1px solid var(--es-line);border-radius:999px;background:#fff}
+#moi-apparel-catalog .es-view button{display:grid;place-items:center;width:34px;height:30px;padding:0;border:0;border-radius:999px;background:none;color:#8d8b84;cursor:pointer;transition:background .25s,color .25s}
+.es-view svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
+#moi-apparel-catalog .es-view button[aria-pressed=true]{background:var(--es-ink);color:#fff}
+@media (min-width:761px){#moi-apparel-catalog.es-v2 .ac-products{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))}}
+@media (max-width:760px){#moi-apparel-catalog.es-v2 .ac-products{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- 25 · caricamento automatico ---------- */
+#moi-apparel-catalog .ac-pagination [data-br-more]{display:grid;justify-items:center;gap:10px;min-width:min(320px,100%);padding:16px 26px;border:0;border-radius:16px;background:none;color:var(--es-ink);cursor:pointer}
+.es-more-t{font-size:13px;color:#55544f}
+.es-more-bar{display:block;width:220px;max-width:70vw;height:3px;border-radius:3px;background:#e4e1da;overflow:hidden}
+.es-more-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--es-gold),var(--es-gold-2));border-radius:3px;transition:width .6s var(--es-ease)}
+.es-more-c{font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px}
+[data-br-more].is-loading .es-more-c{animation:es-blink 1s ease-in-out infinite}
+@keyframes es-blink{50%{opacity:.35}}
+
+/* ---------- 26 · sagome mentre carica ---------- */
+.es-skel{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;padding:24px 0}
+.es-skel i{display:block;aspect-ratio:4/5;border-radius:10px;background:linear-gradient(100deg,#ebe8e2 30%,#f6f4f0 50%,#ebe8e2 70%) 0 0/300% 100%;animation:es-shim 1.3s linear infinite}
+.es-skel .es-skel-hero{grid-column:1 / -1;aspect-ratio:auto;height:clamp(200px,32vh,320px)}
+@keyframes es-shim{from{background-position:100% 0}to{background-position:0 0}}
+#moi-apparel-catalog[aria-busy=true]::before{content:"";position:fixed;left:0;right:0;top:0;z-index:2147483000;height:3px;background:linear-gradient(90deg,transparent,var(--es-gold-2),transparent) 0 0/40% 100% no-repeat;animation:es-busy 1s linear infinite}
+@keyframes es-busy{from{background-position:-40% 0}to{background-position:140% 0}}
+
+/* ---------- 27 · nome del prodotto nello stile del sito ---------- */
+#moi-apparel-catalog .ac-pdp-info h2{font-weight:400!important;text-transform:none!important;letter-spacing:-.035em!important;font-size:clamp(34px,3vw,48px)!important;line-height:1!important}
+#moi-apparel-catalog .ac-pdp-type{font-family:'Moi Editorial',Georgia,serif;font-style:italic;font-size:21px;color:var(--es-gold);margin-top:2px}
+
+/* ---------- 28 · prezzi grandi, si accende quello scelto ---------- */
+#moi-apparel-catalog .es-prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 20px;padding:0;border:0}
+#moi-apparel-catalog .es-prices button{display:grid;gap:2px;justify-items:start;padding:14px 14px 12px;border:1px solid #1818182b;border-radius:12px;background:#fff;text-align:left;cursor:pointer;transition:background .3s,border-color .3s,transform .3s var(--es-ease),box-shadow .3s}
+#moi-apparel-catalog .es-prices button>span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--es-soft)}
+#moi-apparel-catalog .es-prices button strong{font-size:clamp(24px,2vw,30px)!important;font-weight:500;letter-spacing:-.03em;color:var(--es-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+#moi-apparel-catalog .es-prices button small{font-size:11px;color:var(--es-soft);line-height:1.3}
+#moi-apparel-catalog .es-prices button:hover{border-color:var(--es-ink)}
+#moi-apparel-catalog .es-prices button[aria-pressed=true]{background:var(--es-ink);border-color:var(--es-ink);box-shadow:0 14px 28px -18px #000a;transform:translateY(-2px)}
+#moi-apparel-catalog .es-prices button[aria-pressed=true]>span{color:#e7d3ac}
+#moi-apparel-catalog .es-prices button[aria-pressed=true] strong{color:#fff}
+#moi-apparel-catalog .es-prices button[aria-pressed=true] small{color:#c9c4ba}
+#moi-apparel-catalog .es-sum{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0;padding:12px 0 2px;border-top:1px solid var(--es-line)}
+#moi-apparel-catalog .es-sum>span{font-size:12px;color:var(--es-soft)}
+#moi-apparel-catalog .es-prices strong span,#moi-apparel-catalog .es-sum strong span{font-size:inherit!important;letter-spacing:inherit!important;text-transform:none!important;color:inherit!important;font-weight:inherit}
+#moi-apparel-catalog .es-sum strong{font-size:26px;font-weight:500;letter-spacing:-.03em;color:var(--es-ink)}
+
+/* ---------- 29 · colori ---------- */
+#moi-apparel-catalog .ac-pdp-chip>span{overflow-wrap:normal!important;word-break:normal;hyphens:none}
+#moi-apparel-catalog .ac-pdp-colors{transition:-webkit-mask-image .3s}
+#moi-apparel-catalog .ac-pdp-colors.es-more-below{-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+#moi-apparel-catalog .ac-pdp-colors .ac-pdp-swatch{border-radius:10px;overflow:hidden;transition:transform .35s var(--es-ease)}
+#moi-apparel-catalog .ac-pdp-colors button:hover .ac-pdp-swatch{transform:translateY(-2px)}
+.es-ncol{margin-left:8px;font-size:11px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--es-soft)}
+
+/* ---------- 30 · lente ---------- */
+#moi-apparel-catalog .ac-pdp-stage{position:relative}
+#moi-apparel-catalog .ac-pdp-stage [data-media-stage] img{transition:scale .45s var(--es-ease)}
+#moi-apparel-catalog .ac-pdp-stage.es-zoom{cursor:zoom-in}
+#moi-apparel-catalog .ac-pdp-stage.es-zoom [data-media-stage] img{scale:1.9;transform-origin:var(--zx,50%) var(--zy,50%);transition:scale .45s var(--es-ease),transform-origin .12s linear}
+#moi-apparel-catalog .ac-pdp-stage [data-media-stage]{overflow:hidden}
+#moi-apparel-catalog .es-lens{position:absolute;right:12px;top:12px;z-index:5;display:none;place-items:center;width:42px;height:42px;border:0;border-radius:50%;background:#ffffffe6;box-shadow:0 6px 16px -8px #0006;cursor:pointer}
+.es-lens svg{width:20px;height:20px;fill:none;stroke:var(--es-ink);stroke-width:1.8;stroke-linecap:round}
+@media (hover:none),(pointer:coarse){#moi-apparel-catalog .es-lens{display:grid}}
+.es-viewer{position:fixed;inset:0;z-index:2147483600;background:#0e0e0ef2;display:flex;flex-direction:column;animation:es-fade .3s ease}
+.es-viewer-sc{flex:1;overflow:auto;touch-action:pan-x pan-y pinch-zoom;-webkit-overflow-scrolling:touch}
+.es-viewer-sc img{display:block;width:220%;max-width:none;height:auto}
+.es-viewer p{margin:0;padding:12px;text-align:center;font-size:12px;color:#bdb8ae}
+.es-viewer-x{position:absolute;right:14px;top:14px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;background:#fff;font-size:26px;line-height:1;cursor:pointer}
+html.es-viewer-on{overflow:hidden}
+@keyframes es-fade{from{opacity:0}}
+
+/* ---------- 31 · linee della galleria ---------- */
+#moi-apparel-catalog [data-gallery-position]{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;border:0!important}
+.es-segs{position:absolute;left:50%;bottom:14px;z-index:5;display:flex;gap:4px;width:min(70%,320px);transform:translateX(-50%)}
+.es-segs button{flex:1;height:14px;padding:5px 0;border:0;background:none;cursor:pointer}
+.es-segs i{display:block;height:3px;border-radius:3px;background:#ffffff80;box-shadow:0 0 0 .5px #0002;transition:background .3s}
+.es-segs button:hover i{background:#ffffffc0}
+.es-segs .is-on i{background:#fff;animation:es-seg .5s var(--es-ease)}
+.es-segs.es-light i{background:#15151526;box-shadow:none}
+.es-segs.es-light .is-on i{background:#151515}
+@keyframes es-seg{from{transform:scaleX(.3);transform-origin:left}}
+
+/* ---------- 32 · nome subito visibile su telefono ---------- */
+.es-mhead{display:none}
+@media not all and (min-width:1024px) and (min-height:640px){
+ #moi-apparel-catalog .es-mhead{display:grid;gap:2px;margin:0 0 14px}
+ .es-mhead p{margin:0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--es-soft)}
+ .es-mhead strong{font-size:clamp(30px,8vw,40px);font-weight:400;letter-spacing:-.035em;line-height:1.05;color:var(--es-ink)}
+ .es-mhead em{font-family:'Moi Editorial',Georgia,serif;font-size:19px;color:var(--es-gold)}
+ #moi-apparel-catalog .ac-pdp-info>.ac-overline,#moi-apparel-catalog .ac-pdp-info>h2,#moi-apparel-catalog .ac-pdp-info>.ac-pdp-type{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0!important}
+}
+
+/* ---------- 33 · barra fissa su telefono ---------- */
+.es-bar,.es-viewer{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
+.es-bar{position:fixed;left:10px;right:10px;bottom:10px;z-index:2147482900;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 18px;border-radius:18px;background:#151515f2;color:#fff;box-shadow:0 18px 40px -16px #000a;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:es-bar-in .45s var(--es-ease)}
+.es-bar[hidden]{display:none}
+.es-bar-p{display:grid;line-height:1.15;min-width:0}
+.es-bar-p small{font-size:10.5px;color:#c9c4ba;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.es-bar-p b{font-size:20px;font-weight:500;letter-spacing:-.02em;white-space:nowrap}
+.es-bar-cta{flex:none;display:inline-flex;align-items:center;gap:6px;height:46px;padding:0 18px;border-radius:12px;background:#f3efe7;color:#151515!important;font-size:13.5px;font-weight:500;text-decoration:none}
+@keyframes es-bar-in{from{transform:translateY(120%)}}
+html.es-bar-on .mm-favchip{translate:0 -70px}
+
+/* ---------- 34 · conferma del preventivo ---------- */
+#moi-apparel-catalog .ac-pdp-cta,.es-bar-cta{position:relative;overflow:hidden}
+#moi-apparel-catalog .ac-pdp-cta::before,.es-bar-cta::before{content:"✓  Ti aspettiamo su WhatsApp";position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:#2f6f4f;color:#fff;font-size:13px;letter-spacing:.06em;text-transform:none;transform:translateY(105%);transition:transform .45s var(--es-ease)}
+#moi-apparel-catalog .ac-pdp-cta.es-sent::before,.es-bar-cta.es-sent::before{transform:none}
+.es-bar-cta::before{content:"✓ Aperto"}
+
+/* ---------- 35 · foto che vola nella scheda ---------- */
+.es-fly{position:fixed;z-index:2147483500;object-fit:cover;border-radius:10px;pointer-events:none;transform-origin:center;box-shadow:0 30px 60px -30px #0008}
+
+/* ---------- 36 · sezioni che entrano ---------- */
+.es-rv{opacity:0;transform:translateY(36px);transition:opacity .9s var(--es-ease),transform 1s var(--es-ease)}
+.es-rv.es-in{opacity:1;transform:none}
+
+/* ---------- telefono ---------- */
+@media (max-width:760px){
+ .es-trust-in{justify-content:flex-start;gap:0;width:max-content;animation:es-marq 26s linear infinite}
+ .es-trust-in>span{padding-right:28px}
+ .es-trust .es-dup{display:inline-flex}
+ #moi-apparel-catalog .br-tabs .es-tl{display:none}
+ #moi-apparel-catalog .br-tabs{top:8px}
+ .es-stat{gap:10px}
+ #moi-apparel-catalog .es-prices button{padding:12px 11px 10px}
+ .es-tags i{font-size:9.5px;padding:3px 7px}
+ .es-heart{width:32px;height:32px;right:8px;top:8px}
+ .es-tags{left:8px;top:8px;flex-direction:column;align-items:flex-start}
+}
+@keyframes es-marq{to{transform:translateX(-50%)}}
+@media (max-width:520px){
+ #moi-apparel-catalog .br-bar-r{min-width:0;max-width:100%}
+ #moi-apparel-catalog .br-sort{flex:1 1 auto;min-width:0}
+ #moi-apparel-catalog .br-sort select{width:100%;min-width:0}
+ #moi-apparel-catalog .es-view button{width:30px}
+}
+
+@media (prefers-reduced-motion:reduce){
+ .es-aurora i,.es-trust-in,#moi-apparel-catalog .br-special::before,.es-skel i,.es-bar,.es-segs .is-on i,#moi-apparel-catalog .br-active button{animation:none!important}
+ .es-rv{opacity:1;transform:none}
+ .br-sp-ph img{translate:none}
+ .mm-lt-pic.es-tee{transform:none}
+}

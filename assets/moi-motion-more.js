@@ -38,6 +38,7 @@
   const syncChip = () => { const n = favs().length; $('b', chip).textContent = n; chip.classList.toggle('is-on', n > 0 && !!apparel?.classList.contains('is-active')); };
   if (apparel) new MutationObserver(syncChip).observe(apparel, { attributes: true, attributeFilter: ['class'] });
   syncChip();
+  window.MOI_FAV_SYNC = syncChip;
   let list = null;
   const openDrawer = async () => {
     list ??= await fetch('/data/apparel/elenco.json?v=20261026-3').then(r => r.json()).catch(() => []);

@@ -55,3 +55,11 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `assets/sticker-peel.js`: porting WebGL di Sticker Peel, caricato solo quando si apre Custom.
 - Con "riduci animazioni" attivo nel sistema restano solo gli stati finali.
 - Terzo giro (`assets/moi-motion-extra.js` + `.css`): pulsante WhatsApp fisso, monolite con polvere d'oro e scritta "CREATIVE SOLUTIONS" che corre con lo scroll (home), "Prova il tuo logo" e colore dai pallini (catalogo), "Prova la tua insegna" (Signage), pellicola sull'auto (Automotive), terminale (Digital).
+
+## Estetica del catalogo APPAREL (27/10/2026)
+- `apparel/estetica.css` + `apparel/estetica.js` (caricati dopo `browse.css` e dopo `moi-motion-more.js`): 36 ritocchi di presentazione.
+- Testata: titolo a parole, sfondo che respira, esempi di ricerca che si scrivono, "400" grande, striscia di fiducia.
+- Percorsi: evidenziatore che scivola, barra fissa in alto; categorie a mosaico (le due con più modelli in grande da 1100 px), prezzi su due righe, etichetta vetro con il numero di modelli.
+- Elenco: fondo da studio, colonna del "da", etichette dalla tipologia (solo genere, "anche bambino" e parole del tipo di capo: nessun dato inventato), cuore e "Vedi il capo", caselle filtro su misura, vista 4/2, caricamento automatico, sagome di caricamento.
+- Scheda: nome nello stile del sito, prezzi grandi cliccabili (Senza logo / Col tuo logo), lente, linee della galleria, nome in alto e barra fissa su telefono, conferma del preventivo, foto che vola dall'elenco alla scheda.
+- Tutto rispetta "riduci movimento". I preferiti delle schede usano la stessa chiave `moi-preferiti` della scheda prodotto.
