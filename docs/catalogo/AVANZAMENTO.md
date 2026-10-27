@@ -11,13 +11,13 @@ Checkpoint del 27/10/2026. Progetto IN CORSO, non completato.
 
 ## Produzione immagini
 - Immagini specifiche iniziali nei tre cataloghi: 0 (46 illustrazioni condivise).
-- 16 generazioni eseguite con lo strumento integrato imagegen; 15 mockup selezionati, controllati e integrati, uno scartato prima dell'importazione perché le proporzioni indicate non coincidevano con il riferimento. La seconda versione del biglietto pieghevole usa il riferimento corretto.
-- 30 file WebP finali: due risoluzioni per ciascuno dei 15 prodotti. Nomi contenenti codice MOI e nome prodotto; nessuna condivisione accidentale dell'immagine fra codici.
+- 24 generazioni eseguite con lo strumento integrato imagegen; 23 mockup selezionati, controllati e integrati, uno scartato prima dell'importazione perché le proporzioni indicate non coincidevano con il riferimento. La seconda versione del biglietto pieghevole usa il riferimento corretto.
+- 46 file WebP finali: due risoluzioni per ciascuno dei 23 prodotti. Nomi contenenti codice MOI e nome prodotto; nessuna condivisione accidentale dell'immagine fra codici.
 - Lotto 01: GC28FAA, GFC7832, GE9DA2C, GF7FF12 (biglietti lucidi, quadrati, standard, Kraft).
 - Lotto 02: GD82566, G868CC6, G8BF630 (biglietti arrotondati, opachi, Soft Touch).
 - Lotto 03: G26787E, GA9A0EF, G6AEAF8, G1EDAC9 (pieghevoli, scatole postali, astucci ovali, adesivi rotondi su foglio).
 - Lotto 04: GAAED0B, GFE3104, G58A315, G18186A (roll up, striscioni, poster, cartelli in plastica ondulata).
-- 3.106 prodotti ancora senza immagine specifica. Le illustrazioni precedenti restano per non nascondere/eliminare prodotti: NON valgono come completamento.
+- 3.098 prodotti ancora senza immagine specifica. Le illustrazioni precedenti restano per non nascondere/eliminare prodotti: NON valgono come completamento.
 - I mockup sono esempi di personalizzazione originali, non fotografie del prodotto consegnato. Materiali, dimensioni e finiture da confermare nel preventivo; nessuna promessa di caratteristiche non documentate.
 - Nessuna fotografia di terzi scaricata o modificata, nessun nuovo asset con licenza esterna. Prompt dei file selezionati: `prompts.json`.
 
@@ -40,7 +40,7 @@ Checkpoint del 27/10/2026. Progetto IN CORSO, non completato.
 1. Anteprima Netlify protetta con Team protection: verifica online non eseguita; nessuna protezione disattivata.
 2. Il browser remoto non accede al server locale; il runtime locale non ha il binario Chromium. Nessuno screenshot desktop/mobile del sito modificato e nessuna dichiarazione di collaudo browser completo.
 3. Da verificare a 390 e 1440 px: nessun overflow orizzontale, immagini caricate, interazioni touch, tastiera, riduzione movimento, scheda e carrello fra servizi. Gli stili responsive sono predisposti ma non equivalgono a queste prove.
-4. 3.106 immagini ancora da produrre, con descrizioni e verifica di corrispondenza individuale. Gadget molto simili richiedono prima il confronto con la specifica scheda reale.
+4. 3.098 immagini ancora da produrre, con descrizioni e verifica di corrispondenza individuale. Gadget molto simili richiedono prima il confronto con la specifica scheda reale.
 5. Dieci coppie di nomi ripetuti con ID diversi: non unite o cancellate. Confrontare la corrispondenza privata per verificare le differenze prima di modificare l'assortimento.
 6. Varianti tecniche/formati/materiali dei prodotti non sono presenti in modo strutturato nei tre JSON. Non aggiunti filtri che fingano di possedere quei dati.
 
@@ -49,6 +49,15 @@ Checkpoint del 27/10/2026. Progetto IN CORSO, non completato.
 2. Eseguire audit, scegliere righe non completate dall'inventario, consultare privatamente il riferimento corretto e pianificare piccoli lotti omogenei.
 3. Generare un originale per codice; esaminare ogni risultato prima dell'importazione. Non usare un'unica foto per prodotti diversi e non passare una semplice variazione di tinta per un modello diverso.
 4. Importare con `tools/catalog_media.py`, aggiungere la descrizione e i campi nel manifest solo dopo il controllo. Aggiornare prompt, registro, versioni risorse e verifiche.
-5. Completare il collaudo reale prima di segnare prodotti come interamente conclusi. Alla data di questo checkpoint: 15 contenuti visivi pronti, 0 prodotti collaudati online end-to-end.
+5. Completare il collaudo reale prima di segnare prodotti come interamente conclusi. Alla data di questo checkpoint: 23 contenuti visivi pronti, 0 prodotti collaudati online end-to-end.
 
 Il file privato del fornitore, i suoi link e i prezzi di acquisto non sono inclusi nel nuovo materiale pubblico.
+
+## Lotti 05 e 06 — screenshot come riferimento strutturale
+- Otto schede reali osservate nel browser e relativi screenshot usati direttamente come riferimento nella generazione. Gli screenshot non sono pubblicati e nessuna foto originale è distribuita come asset del sito.
+- Lotto 05: GB8E91B (MOI BURGER, box hamburger), G01DA1E (MOI COFFEE, bicchieri), G313A6E (MOI BURGER, sacchetti con manici piatti), G65FC08 (MOI PIZZA, vassoi triangolari).
+- Lotto 06: G1C9806 (MOI GELATO, coppette), GEF0E79 (MOI BAKERY, contenitori take-away), GA2CDF2 (MOI STREET FOOD, coni), G3B9EBA (MOI LAB, adesivi rotondi singoli).
+- Otto nuove immagini originali, sedici file responsive, otto descrizioni. Grafica dimostrativa adatta al settore, interni dei contenitori senza alimenti per renderne leggibile la costruzione.
+- Verificati forma generale, manici piatti, coperchi incernierati, bordi delle coppette e differenza fra adesivi singoli e su foglio. I mockup non sostituiscono la verifica su campioni fisici.
+- Per articoli neutri o non personalizzabili: non mostrare stampe o opzioni che non risultino disponibili nella scheda reale.
+- Versione manifest e caricamento catalogo aggiornata a 20261027-5.

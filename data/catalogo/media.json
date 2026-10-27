@@ -135,6 +135,86 @@
       "description": "Cartelli in plastica ondulata personalizzabili, per presentare il tuo messaggio su un supporto rigido.",
       "provenance": "Mockup originale generato con imagegen; grafica dimostrativa, nessuna foto di terzi copiata.",
       "batch": "20261027-04"
+    },
+    "GB8E91B": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gb8e91b-box-personalizzati-per-hamburger.webp",
+      "small": "/assets/catalogo/custom/gb8e91b-box-personalizzati-per-hamburger-480.webp",
+      "alt": "Box personalizzati per hamburger — esempio di personalizzazione MOI",
+      "description": "Box in cartoncino personalizzabili per hamburger, con coperchio incernierato e chiusura a linguetta.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-05",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "G01DA1E": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g01da1e-bicchieri-di-carta.webp",
+      "small": "/assets/catalogo/custom/g01da1e-bicchieri-di-carta-480.webp",
+      "alt": "Bicchieri di carta — esempio di personalizzazione MOI",
+      "description": "Bicchieri di carta da personalizzare con la tua grafica esterna. Il mockup mostra un esempio per caffetteria, senza coperchio.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-05",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "G313A6E": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g313a6e-sacchetti-di-carta-per-asporto.webp",
+      "small": "/assets/catalogo/custom/g313a6e-sacchetti-di-carta-per-asporto-480.webp",
+      "alt": "Sacchetti di carta per asporto — esempio di personalizzazione MOI",
+      "description": "Sacchetti da asporto in carta kraft con manici piatti e soffietti laterali, con grafica personalizzata sul fronte.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-05",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "G65FC08": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g65fc08-piatto-pizza-triangolo.webp",
+      "small": "/assets/catalogo/custom/g65fc08-piatto-pizza-triangolo-480.webp",
+      "alt": "Piatto pizza triangolo — esempio di personalizzazione MOI",
+      "description": "Vassoi triangolari in cartoncino per fette di pizza, con bordi ripiegati e grafica dimostrativa per pizzeria.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-05",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "G1C9806": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g1c9806-coppette-per-gelato.webp",
+      "small": "/assets/catalogo/custom/g1c9806-coppette-per-gelato-480.webp",
+      "alt": "Coppette per gelato — esempio di personalizzazione MOI",
+      "description": "Coppette di carta per gelato, con bordo arrotolato e grafica personalizzata sulla superficie esterna.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-06",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "GEF0E79": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gef0e79-contenitori-take-away.webp",
+      "small": "/assets/catalogo/custom/gef0e79-contenitori-take-away-480.webp",
+      "alt": "Contenitori take-away — esempio di personalizzazione MOI",
+      "description": "Contenitori take-away rettangolari in cartoncino, con coperchio incernierato e grafica esterna personalizzabile.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-06",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "GA2CDF2": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/ga2cdf2-coni-di-carta-per-alimenti.webp",
+      "small": "/assets/catalogo/custom/ga2cdf2-coni-di-carta-per-alimenti-480.webp",
+      "alt": "Coni di carta per alimenti — esempio di personalizzazione MOI",
+      "description": "Coni in cartoncino per snack e street food, con punta chiusa e superficie esterna personalizzabile.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-06",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "G3B9EBA": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g3b9eba-adesivi-rotondi.webp",
+      "small": "/assets/catalogo/custom/g3b9eba-adesivi-rotondi-480.webp",
+      "alt": "Adesivi rotondi — esempio di personalizzazione MOI",
+      "description": "Adesivi rotondi ritagliati singolarmente, con supporto individuale: diversi dagli adesivi forniti su foglio.",
+      "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
+      "batch": "20261027-06",
+      "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
     }
   }
 }

@@ -9,7 +9,7 @@ const ROOMS = {
 };
 const PAGE = 24;
 const NAV = window.MoiCatalogNavigation;
-const VERSION = '20261027-4';
+const VERSION = '20261027-5';
 const catalogCache = new Map();
 let mediaPromise;
 const getMedia = () => mediaPromise ||= fetch(`/data/catalogo/media.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({items:{}}));
