@@ -2,20 +2,20 @@
    (Custom, Insegne, Grafica: i servizi senza un configuratore completo). */
 (() => {
 const BLOCKS = {
-  custom: { room: 'moi-showroom-custom', title: 'Gadget e oggetti personalizzati', k: 'Cosa vuoi personalizzare?',
-    p: 'Scegli uno o più oggetti, indica la quantità e aggiungili al carrello. Prezzi e campioni li vediamo nel preventivo.',
+  custom: { room: 'moi-showroom-custom', title: 'Gadget e oggetti personalizzati', k: 'Non trovi quello che cerchi?',
+    p: 'Dicci cosa ti serve: lo cerchiamo noi e lo aggiungiamo al preventivo.',
     chips: ['Tazze', 'Borracce e thermos', 'Penne', 'Shopper e borse', 'Portachiavi', 'Calendari', 'Gadget aziendali', 'Altro'], qty: true },
-  signage: { room: 'moi-showroom-signage', title: 'Insegne e pannelli', k: 'Ti serve qualcos’altro?',
-    p: 'Oltre al neon: scegli cosa ti serve e aggiungilo al carrello. Misure e materiali li definiamo insieme.',
+  signage: { room: 'moi-showroom-signage', title: 'Insegne e pannelli', k: 'Non trovi quello che cerchi?',
+    p: 'Insegne su misura, totem, vetrofanie: dicci cosa ti serve, misure e materiali li definiamo insieme.',
     chips: ['Insegna per negozio', 'Insegna a bandiera', 'Pannelli e cartelli', 'Vetrofanie', 'Totem', 'Targhe', 'Roll-up', 'Altro'], qty: true },
-  design: { room: 'moi-showroom-design', title: 'Grafica e branding', k: 'Cosa ti serve?',
-    p: 'Scegli i lavori grafici che ti servono e aggiungili al carrello: li mettiamo nello stesso preventivo.',
+  design: { room: 'moi-showroom-design', title: 'Grafica e branding', k: 'Ti serve la grafica?',
+    p: 'Logo, biglietti, menu, social: scegli cosa progettiamo per te e aggiungilo al preventivo.',
     chips: ['Logo', 'Biglietti da visita', 'Volantini e flyer', 'Menu', 'Grafiche per i social', 'Packaging ed etichette', 'Brand identity completa', 'Altro'], qty: false }
 };
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 function mount(service, b) {
   const room = document.getElementById(b.room); if (!room || room.querySelector('.qc-quick')) return;
-  const anchor = room.querySelector('.mm-sign') || room.querySelector('.moi-room-content'); if (!anchor) return;
+  const anchor = room.querySelector('.gk') || room.querySelector('.mm-sign') || room.querySelector('.moi-room-content'); if (!anchor) return;
   const box = document.createElement('section'); box.className = 'qc-quick'; box.setAttribute('aria-label', b.k);
   box.innerHTML = `<p class="mm-sign-k">MOI LAB / CARRELLO</p><h3>${esc(b.k)}</h3><p>${esc(b.p)}</p>
     <div class="qc-chips" role="group" aria-label="${esc(b.k)}">${b.chips.map(c => `<button type="button" aria-pressed="false">${esc(c)}</button>`).join('')}</div>
@@ -34,6 +34,6 @@ function mount(service, b) {
 }
 const start = () => Object.entries(BLOCKS).forEach(([k, b]) => mount(k, b));
 // le insegne al neon vengono create da moi-motion-extra.js: aspetto che ci siano
-const go = () => { start(); setTimeout(start, 800); };
+const go = () => { setTimeout(start, 900); setTimeout(start, 2000); };
 document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', go) : go();
 })();

@@ -113,3 +113,9 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 ## Pulsantino ✦ dentro i servizi (dock)
 - `assets/dock.js/.css`: dentro un servizio c'è solo il pulsante dorato ✦ (+ il carrello, sempre visibile). Tocco → si aprono Indietro (Hold Button: tocco = indietro, tieni premuto = servizi), Ti aiuto a scegliere (solo Abbigliamento, `window.MoiAssist.open`), WhatsApp. Il WhatsApp fisso e i pulsanti separati sono nascosti nei servizi.
 - Il mini tutorial (coach.js) ora mostra: tocca ✦ → si apre → tieni premuto Indietro.
+
+## Catalogo gadget / insegne / stampa (fornitore esterno)
+- Dati: `data/catalogo/custom.json` (2.855), `signage.json` (163), `design.json` (103). Campi: id (codice MOI `G…`), n nome (senza il marchio del fornitore), cat/sub (categorie MOI), ic (illustrazione), q quantità minima, p prezzo «da» al pezzo IVA inclusa, col colori, o ordine consigliato.
+- Interfaccia: `assets/gadget-catalog.js/.css` + illustrazioni `assets/gadget-icons.js` (disegnate per MOI LAB: niente foto del fornitore). Cerca, categorie, sottocategorie, ordina, «anche 1 pezzo», scheda con colore/quantità/stima/dettagli → carrello del preventivo.
+- Il nome del fornitore e i suoi link NON sono nel repository (repository pubblico): la tabella codice MOI → prodotto/link/prezzo del fornitore è un file privato fuori dal sito.
+- Prezzi: per ora uguali a quelli del fornitore (IVA inclusa). Da rivedere con il ricarico.
