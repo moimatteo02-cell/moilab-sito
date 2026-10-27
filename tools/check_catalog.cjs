@@ -18,7 +18,7 @@ assert(search('ristorante').length>0);
 for (const p of nav.paths) assert(all.some(x=>nav.inPath(x,p.id)), `Empty path ${p.id}`);
 const media = JSON.parse(fs.readFileSync(path.join(root,'data/catalogo/media.json'))).items;
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261027-5'));
+assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261027-6'));
 assert(html.includes('/assets/gadget-catalog.css?v=20261027-4'));
 for(const [id,m] of Object.entries(media)) {
   assert(all.some(x=>x.id===id));

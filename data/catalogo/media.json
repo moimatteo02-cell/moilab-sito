@@ -215,6 +215,86 @@
       "provenance": "Mockup originale generato con imagegen da screenshot della scheda reale usato come riferimento strutturale; grafica e scena originali. Screenshot di riferimento non pubblicato.",
       "batch": "20261027-06",
       "reference_review": "Screenshot della specifica scheda osservato e passato alla generazione; confronto visivo di forma, chiusura, bordo o manici."
+    },
+    "GBC4055": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gbc4055-biglietti-da-visita-con-vernice-uv.webp",
+      "small": "/assets/catalogo/design/gbc4055-biglietti-da-visita-con-vernice-uv-480.webp",
+      "alt": "Biglietti da visita con vernice UV — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con vernice UV lucida in rilievo su dettagli della grafica.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-07",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G0A7C37": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g0a7c37-biglietti-da-visita-in-carta-naturale.webp",
+      "small": "/assets/catalogo/design/g0a7c37-biglietti-da-visita-in-carta-naturale-480.webp",
+      "alt": "Biglietti da visita in carta naturale — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta naturale non patinata, con una superficie leggermente materica.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-07",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G69C1EB": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g69c1eb-biglietti-da-visita-con-effetto-metallico-in-rilievo.webp",
+      "small": "/assets/catalogo/design/g69c1eb-biglietti-da-visita-con-effetto-metallico-in-rilievo-480.webp",
+      "alt": "Biglietti da visita con effetto metallico in rilievo — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con dettagli metallici in rilievo: il mockup mostra una personalizzazione dorata.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-07",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G49D5D8": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g49d5d8-biglietti-da-visita-rotondi.webp",
+      "small": "/assets/catalogo/design/g49d5d8-biglietti-da-visita-rotondi-480.webp",
+      "alt": "Biglietti da visita rotondi — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita di forma circolare, con bordo in carta e grafica personalizzata.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-07",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G6421D4": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g6421d4-biglietti-da-visita-effetto-madreperla.webp",
+      "small": "/assets/catalogo/design/g6421d4-biglietti-da-visita-effetto-madreperla-480.webp",
+      "alt": "Biglietti da visita effetto madreperla — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita su carta effetto madreperla, con una leggera brillantezza della superficie.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-08",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GEF696D": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gef696d-biglietti-da-visita-effetto-metallico.webp",
+      "small": "/assets/catalogo/design/gef696d-biglietti-da-visita-effetto-metallico-480.webp",
+      "alt": "Biglietti da visita effetto metallico — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita con effetto metallico sul fronte: il mockup mostra dettagli color rame.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-08",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GDE7624": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gde7624-biglietti-da-visita-in-carta-ruvida.webp",
+      "small": "/assets/catalogo/design/gde7624-biglietti-da-visita-in-carta-ruvida-480.webp",
+      "alt": "Biglietti da visita in carta ruvida — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta ruvida non patinata, con texture visibile al tatto e alla luce.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-08",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "GB6F998": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gb6f998-biglietti-da-visita-in-carta-riciclata-opaca.webp",
+      "small": "/assets/catalogo/design/gb6f998-biglietti-da-visita-in-carta-riciclata-opaca-480.webp",
+      "alt": "Biglietti da visita in carta riciclata opaca — esempio di personalizzazione MOI",
+      "description": "Biglietti da visita in carta riciclata opaca, con una personalizzazione dimostrativa dai colori tenui.",
+      "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
+      "batch": "20261027-08",
+      "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
     }
   }
 }
