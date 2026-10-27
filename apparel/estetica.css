@@ -354,3 +354,26 @@ html.es-bar-on .mm-favchip{translate:0 -70px}
 #moi-apparel-catalog .br-sp-media.has-two:has(.br-sp-ph[hidden]){grid-template-columns:1fr}
 #moi-apparel-catalog .br-sp-media:not(:has(.br-sp-ph:not([hidden]))){display:none}
 #moi-apparel-catalog .br-sp-ph[hidden]{display:none}
+
+/* ===== Atomic 150 compatto (sostituisce il banner grande) ===== */
+#moi-apparel-catalog .br-special.es-sp{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:18px 24px;margin:22px 0;padding:14px 22px 14px 14px;min-height:0;border-radius:16px;background:linear-gradient(120deg,#fffdf8,#f4ede1);overflow:hidden}
+#moi-apparel-catalog .es-sp-pic{display:block;width:96px;height:120px;padding:0;border:0;border-radius:12px;overflow:hidden;background:#ece8df;cursor:pointer;flex:none}
+#moi-apparel-catalog .es-sp-pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+#moi-apparel-catalog .es-sp:hover .es-sp-pic img{transform:scale(1.06)}
+.es-sp-body{display:grid;gap:3px;min-width:0}
+.es-sp-k{justify-self:start;padding:4px 10px;border-radius:999px;background:#151515;color:#e7d3ac;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+#moi-apparel-catalog .es-sp-body h3{margin:4px 0 0;font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-.03em;line-height:1.1}
+#moi-apparel-catalog .es-sp-t{margin:0;font-size:13px;color:#66655f}
+.es-sp-prices{display:flex;gap:22px}
+.es-sp-prices span{display:grid;gap:1px}
+.es-sp-prices small{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7d7b75}
+#moi-apparel-catalog .es-sp-prices b{font-family:'Moi Editorial',Georgia,serif;font-weight:400;font-size:clamp(22px,2vw,28px);letter-spacing:-.01em;color:#151515;white-space:nowrap}
+#moi-apparel-catalog .es-sp-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 20px;border:0;border-radius:999px;background:#151515;color:#fff;font-size:13.5px;cursor:pointer;white-space:nowrap}
+@media (max-width:760px){
+ #moi-apparel-catalog .br-special.es-sp{grid-template-columns:84px minmax(0,1fr);gap:10px 14px;padding:12px}
+ #moi-apparel-catalog .es-sp-pic{width:84px;height:104px;grid-row:span 2}
+ .es-sp-prices{grid-column:2;gap:16px}
+ #moi-apparel-catalog .es-sp-prices b{font-size:20px}
+ #moi-apparel-catalog .es-sp-cta{grid-column:1 / -1;height:42px}
+ #moi-apparel-catalog .es-sp-body h3{font-size:20px}
+}
