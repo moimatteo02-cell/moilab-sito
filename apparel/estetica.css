@@ -300,6 +300,10 @@ html.es-bar-on .mm-favchip{translate:0 -70px}
 @keyframes es-sweep{to{transform:translateX(120%)}}
 @media (prefers-reduced-motion:reduce){#moi-apparel-catalog .es-prices button[aria-pressed=true]::after,#moi-apparel-catalog [data-total].es-tflash::after{animation:none;display:none}}
 
+/* prezzo non disponibile per quella taglia: "Su richiesta" più piccolo, niente "× al pezzo" */
+#moi-apparel-catalog .es-prices button strong.mm-ask{font-size:19px!important;letter-spacing:-.01em;white-space:normal}
+#moi-apparel-catalog .es-each:has(.mm-ask){display:none}
+#moi-apparel-catalog .es-sum-v .es-ask{font-size:22px;font-weight:500;letter-spacing:-.01em}
 /* ---------- tieni premuto e scelte rapide ---------- */
 #moi-apparel-catalog [data-qty-step]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
 #moi-apparel-catalog [data-qty-step].es-holding{background:#151515!important;color:#fff!important}

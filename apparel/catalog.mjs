@@ -1,5 +1,5 @@
 import {bindPreviews} from './preview.mjs?v=20261024-2';
-import {prepareProduct} from './pdp-loader.mjs?v=20261025-13';
+import {prepareProduct} from './pdp-loader.mjs?v=20261027-1';
 import {createBrowser} from './browse.mjs?v=20261027-1';
 const mount=document.querySelector('#moi-apparel-catalog');
 if(mount){
@@ -51,7 +51,7 @@ if(mount){
   finally{if(id===request)mount.removeAttribute('aria-busy');}
  }
  // Prezzo per colore+taglia; senza taglia scelta mostra 'da X €' se le taglie hanno prezzi diversi
- function priceLabel(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x&&x[k]!=null)return euro(x[k]);if(!size){const ns=vs.map(v=>v[k]).filter(n=>n!=null);if(ns.length){const lo=Math.min(...ns),hi=Math.max(...ns);return (lo!==hi?'da ':'')+euro(lo);}}return 'Prezzo da confermare';}
+ function priceLabel(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x&&x[k]!=null)return euro(x[k]);if(!size){const ns=vs.map(v=>v[k]).filter(n=>n!=null);if(ns.length){const lo=Math.min(...ns),hi=Math.max(...ns);return (lo!==hi?'da ':'')+euro(lo);}}return 'Su richiesta';}
  // Personalizzazione a quantita': 1-9 pz +10 EUR, 10-49 pz +7 EUR, 50+ pz +5 EUR (mai sopra il prezzo 1-9 pz)
  function qtyTable(){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte')||(!size&&vs.length?vs.reduce((a,b)=>a.prezzo<=b.prezzo?a:b):null);
   if(!x||x.prezzo==null||x.prezzo_personalizzato==null)return '';const from=!size&&!vs.find(v=>v.taglia==='tutte')&&new Set(vs.map(v=>v.prezzo)).size>1?'da ':'';
@@ -136,7 +136,7 @@ if(mount){
  // Prezzo al pezzo per la selezione corrente; con stampa applica lo scaglione di quantita'
  function pick(k){const vs=product.varianti.filter(v=>v.colore===color),x=vs.find(v=>v.taglia===size)||vs.find(v=>v.taglia==='tutte');if(x)return {v:x,from:false};if(!size&&vs.length){const m=vs.reduce((a,b)=>(a[k]??1e9)<=(b[k]??1e9)?a:b);return {v:m,from:new Set(vs.map(v=>v[k])).size>1};}return null;}
  function unit(){const r=pick(personalized?'prezzo_personalizzato':'prezzo');if(!r)return null;const x=r.v;let n=personalized?x.prezzo_personalizzato:x.prezzo;if(n==null)return null;if(personalized&&x.prezzo!=null)n=qty>=50?Math.min(n,x.prezzo+5):qty>=10?Math.min(n,x.prezzo+7):n;return {n:Math.round(n*100)/100,from:r.from};}
- function unitLabel(){const u=unit();return u?(u.from?'da ':'')+euro(u.n):'Prezzo da confermare';}
+ function unitLabel(){const u=unit();return u?(u.from?'da ':'')+euro(u.n):'su richiesta';}
  function totalLabel(){const u=unit();return u?`${qty} × ${euro(u.n)} = <strong>${u.from?'da ':''}${euro(Math.round(u.n*qty*100)/100)}</strong>`:'';}
  function favs(){try{return JSON.parse(localStorage.getItem('moi-preferiti')||'[]')}catch{return []}}
  function isFav(){return favs().includes(product.sku);}

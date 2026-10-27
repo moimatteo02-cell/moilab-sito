@@ -9,7 +9,11 @@ function overlay(name) {
   const el = document.createElement('div');
   el.className = 'pdp-loader'; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'polite');
   el.setAttribute('aria-label', `Caricamento di ${name}`);
+  // foto del capo toccato nell'elenco (passata dal catalogo): vola dentro il caricamento al posto della M
+  const fly = window.__moiFly && performance.now() - window.__moiFly.t < 1500 ? window.__moiFly : null; window.__moiFly = null;
+  if (fly) el.classList.add('has-photo');
   el.innerHTML = `<div class="pdp-loader-inner">
+    ${fly ? `<div class="pdp-loader-photo"><img src="${esc(fly.src)}" alt=""></div>` : ''}
     <svg viewBox="0 0 42 43" aria-hidden="true"><path class="pdp-loader-base" d="${PATH}"/><path class="pdp-loader-gold" pathLength="100" d="${PATH}"/><circle class="pdp-loader-spark" r=".55" cx="4" cy="34"/></svg>
     <p class="pdp-loader-brand">MOI LAB</p>
     <p class="pdp-loader-name">${esc(name)}</p>
@@ -17,7 +21,13 @@ function overlay(name) {
     <span class="pdp-loader-pct">0%</span>
   </div>`;
   document.body.appendChild(el);
-  requestAnimationFrame(() => el.classList.add('is-on'));
+  if (fly && !reduce()) {
+    const box = el.querySelector('.pdp-loader-photo'), to = box.getBoundingClientRect(), r = fly.rect;
+    const sx = r.width / to.width, sy = r.height / to.height, dx = r.left + r.width / 2 - (to.left + to.width / 2), dy = r.top + r.height / 2 - (to.top + to.height / 2);
+    el.classList.add('is-on', 'is-fly');
+    box.animate([{ transform: `translate(${dx}px,${dy}px) scale(${sx},${sy})`, borderRadius: '10px' }, { transform: 'none', borderRadius: '14px' }], { duration: 620, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    el.animate([{ backgroundColor: 'rgba(255,255,255,0)' }, { backgroundColor: 'rgba(255,255,255,1)' }], { duration: 420, easing: 'ease-out' });
+  } else requestAnimationFrame(() => el.classList.add('is-on'));
   return el;
 }
 

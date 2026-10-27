@@ -245,34 +245,13 @@
     [$('.ac-pdp-cta', mount), $('.es-bar-cta', bar)].forEach(x => { if (!x) return; x.classList.add('es-sent'); clearTimeout(x._es); x._es = setTimeout(() => x.classList.remove('es-sent'), 2600); });
   });
 
-  /* ---------- 35 · la foto della scheda si allarga fino alla scheda prodotto ---------- */
-  let fly = null;
-  const killFly = () => { fly?.remove(); fly = null; };
+  /* ---------- 35 · la foto della scheda toccata vola dentro il caricamento ---------- */
   doc.addEventListener('click', e => {
-    if (calm) return;
     const card = e.target.closest('#moi-apparel-catalog .ac-products .ac-product, #moi-apparel-catalog .br-sp-media'); if (!card || e.target.closest('.es-heart')) return;
-    if (mount.getAttribute('aria-busy') !== 'true') return;          // la scheda si apre davvero (non è il primo tocco di anteprima)
-    const img = $('.ac-model-photo, img', card); if (!img) return;
+    const img = $('.ac-model-photo, img', card); if (!img || !img.complete || !img.naturalWidth) return;
     const r = img.getBoundingClientRect(); if (!r.width) return;
-    killFly(); fly = doc.createElement('img'); fly.className = 'es-fly'; fly.src = img.currentSrc || img.src; fly.alt = '';
-    Object.assign(fly.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-    doc.body.append(fly); const flyEl = fly; setTimeout(() => { if (flyEl === fly) killFly(); else flyEl.remove(); }, 1800);
-    fly.animate([{ transform: 'none' }, { transform: 'scale(1.04)' }], { duration: 260, fill: 'forwards', easing: 'ease-out' });
-    const t0 = performance.now(), me = fly;
-    const onScroll = () => { if (me === fly) killFly(); removeEventListener('scroll', onScroll, true); }; setTimeout(() => addEventListener('scroll', onScroll, true), 900);
-    const wait = () => {
-      if (me !== fly) return;
-      const st = $('.ac-pdp [data-media-stage]', mount);
-      if (st && !mount.hasAttribute('aria-busy')) {
-        requestAnimationFrame(() => {
-          const s = st.getBoundingClientRect(); if (!s.width || s.bottom < 0 || s.top > innerHeight) return killFly();
-          const sc = Math.min(s.width / r.width, s.height / r.height), x = s.left + s.width / 2 - (r.left + r.width / 2), y = s.top + s.height / 2 - (r.top + r.height / 2);
-          me.animate([{ transform: 'scale(1.04)', opacity: 1 }, { transform: `translate(${x}px,${y}px) scale(${sc})`, opacity: 1, offset: .82 }, { transform: `translate(${x}px,${y}px) scale(${sc})`, opacity: 0 }], { duration: 640, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).onfinish = () => me === fly && killFly();
-        });
-      } else if (performance.now() - t0 < 6000) requestAnimationFrame(wait); else killFly();
-    };
-    requestAnimationFrame(wait);
-  });
+    window.__moiFly = { src: img.currentSrc || img.src, rect: { left: r.left, top: r.top, width: r.width, height: r.height }, t: performance.now() };
+  }, true);
 
   /* ---------- quantità: il numero scorre come un contachilometri + "+1" che vola ---------- */
   let qOld = null;
@@ -351,7 +330,8 @@
     let last = '';
     const build = () => {
       if (t.querySelector('.es-tt')) return;                      // già nostro
-      const txt = t.textContent, m = txt.match(/^\s*(\d+)\s*×\s*(.+?)\s*=\s*(.+)$/); if (!m) return;
+      const txt = t.textContent, m = txt.match(/^\s*(\d+)\s*×\s*(.+?)\s*=\s*(.+)$/);
+      if (!m) { if (!txt.trim()) { mo.disconnect(); const q = $('[data-qty-input]', mount)?.value || '1', note = $('[data-es-note]', mount); if (note) note.textContent = `${q} ${q === '1' ? 'pezzo' : 'pezzi'} · prezzo nel preventivo`; t.innerHTML = '<strong class="es-tt es-ask">Su richiesta</strong>'; last = ''; syncBar(); mo.observe(t, { childList: true }); } return; }
       mo.disconnect();
       const note = $('[data-es-note]', mount), logo = $('[data-personalization="yes"][aria-pressed="true"]', mount);
       const num = v => parseFloat(String(v || '').replace(/[^\d,]/g, '').replace(',', '.')), base = $(logo ? '[data-custom-price]' : '[data-price]', mount), bv = base && num(base.getAttribute('aria-label') || base.textContent);

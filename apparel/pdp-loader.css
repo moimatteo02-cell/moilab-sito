@@ -12,4 +12,15 @@
 .pdp-loader-bar{width:100%;height:2px;background:#eeebe5;overflow:hidden;border-radius:2px}
 .pdp-loader-bar i{display:block;height:100%;background:#151515;transform:scaleX(0);transform-origin:left center}
 .pdp-loader-pct{margin-top:10px;font:400 10px/1 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.18em;color:#8d8b84;font-variant-numeric:tabular-nums}
-@media (prefers-reduced-motion:reduce){.pdp-loader{transition:none}}
+/* con la foto del capo: la foto vola dentro, il resto entra dopo */
+.pdp-loader.is-fly{transition:none}
+.pdp-loader.is-fly.is-off{transition:opacity .45s ease}
+.pdp-loader-photo{width:min(190px,48vw);aspect-ratio:4/5;margin-bottom:6px;border-radius:14px;overflow:hidden;background:#eeebe5;box-shadow:0 24px 50px -28px #0007;transform-origin:center}
+.pdp-loader-photo img{width:100%;height:100%;object-fit:cover;display:block;animation:pdp-kb 5s .6s ease-in-out infinite alternate}
+@keyframes pdp-kb{to{transform:scale(1.07)}}
+.pdp-loader.is-off .pdp-loader-photo{transform:scale(1.04);transition:transform .45s ease}
+.pdp-loader.has-photo svg{display:none}
+.pdp-loader.is-fly .pdp-loader-brand,.pdp-loader.is-fly .pdp-loader-name,.pdp-loader.is-fly .pdp-loader-bar,.pdp-loader.is-fly .pdp-loader-pct{animation:pdp-up .5s .35s cubic-bezier(.2,.8,.2,1) both}
+.pdp-loader.is-fly .pdp-loader-photo::after{content:"";position:absolute}
+@keyframes pdp-up{from{opacity:0;transform:translateY(12px)}}
+@media (prefers-reduced-motion:reduce){.pdp-loader{transition:none}.pdp-loader.is-fly *{animation:none!important}}

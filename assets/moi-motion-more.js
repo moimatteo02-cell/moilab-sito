@@ -84,7 +84,7 @@
   const roll = (el, text, given) => {
     const prev = given ?? rollers.get(el) ?? '';
     const mo = el._mmMo; mo?.disconnect();
-    el.setAttribute('aria-label', text);
+    el.setAttribute('aria-label', text); el.classList.toggle('mm-ask', !/\d/.test(text));
     const prevDigits = prev.replace(/\D/g, ''), digits = text.replace(/\D/g, '');
     if (prev.replace(/\d/g, '0') !== text.replace(/\d/g, '0') || !el.querySelector('.mm-dg')) {
       el.innerHTML = [...text].map(c => /\d/.test(c) ? `<span class="mm-dg" aria-hidden="true">${STRIP}</span>` : `<span class="mm-ch" aria-hidden="true">${esc(c)}</span>`).join('');
