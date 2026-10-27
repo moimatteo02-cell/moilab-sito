@@ -30,20 +30,16 @@
 #servizi.sa .sa-side{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;letter-spacing:.3em;color:#ffffffc0;pointer-events:none;transition:opacity .35s}
 #servizi.sa .sa-on .sa-side{opacity:0}
 #servizi.sa .mlg-placeholder{display:none!important}
-/* telefono: strisce verticali affiancate come nell'originale; quella toccata si allarga */
+/* telefono: strisce orizzontali una sotto l'altra, quella toccata si apre */
 @media (max-width:760px){
- #servizi.sa{flex-direction:row;height:min(560px,calc(100svh - 160px));gap:5px;perspective:900px}
- #servizi.sa>.mlg-card-wrap{transform:rotateY(calc(var(--sa-side,0) * 6deg))!important}
- #servizi.sa>.mlg-card-wrap.sa-on{flex-grow:9}
- #servizi.sa .mlg-card{border-radius:12px!important}
- #servizi.sa .mlg-card-wrap::before{border-radius:13px}
- #servizi.sa .mlg-photo{width:max(100%,300px)!important;transform:translateX(calc(-50% + var(--sa-drift,0) * 10px))!important}
- #servizi.sa .sa-side{font-size:10px;letter-spacing:.24em}
- #servizi.sa .mlg-caption{left:14px!important;right:14px!important;bottom:58px!important;gap:10px}
- #servizi.sa .mlg-caption h2{font-size:21px!important}
- #servizi.sa .mlg-caption p{font-size:12.5px!important}
- #servizi.sa .mlg-number{display:none!important}
- #servizi.sa .sa-intro{left:25px;right:14px;bottom:auto;top:16px;font-size:12.5px;line-height:1.4}
- #servizi.sa .sa-enter{left:14px;right:14px;bottom:12px;padding:9px 0;text-align:center;font-size:12px}
+ #servizi.sa{flex-direction:column;height:min(720px,calc(100svh - 120px));gap:8px;perspective:1200px}
+ #servizi.sa>.mlg-card-wrap{transform:rotateX(calc(var(--sa-side,0) * -6deg))!important}
+ #servizi.sa>.mlg-card-wrap.sa-on{flex-grow:4.2}
+ #servizi.sa .mlg-photo{width:100%!important;height:max(100%,320px)!important;left:0!important;top:50%!important;transform:translateY(calc(-50% + var(--sa-drift,0) * 10px))!important}
+ #servizi.sa .sa-side{writing-mode:horizontal-tb;transform:none;justify-content:flex-start;padding-left:20px;font-size:12.5px}
+ #servizi.sa .mlg-caption{left:16px!important;right:16px!important;bottom:16px!important}
+ #servizi.sa .sa-intro{left:27px;right:16px;bottom:96px;font-size:13px}
+ #servizi.sa .sa-enter{right:16px;bottom:16px;padding:9px 13px;font-size:12px}
+ #servizi.sa .mlg-caption h2{font-size:24px!important}
 }
 @media (prefers-reduced-motion:reduce){#servizi.sa *,#servizi.sa>*,#servizi.sa>*::before{transition:none!important;animation:none!important}}

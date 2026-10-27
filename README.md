@@ -75,3 +75,4 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `assets/sling-button.js` + `.css`: porting vanilla del componente React Bits "Sling Button" (David Haz, licenza MIT + Commons Clause: uso nel sito consentito, non si rivende il componente). CSS originale invariato.
 - Usato nella chiusura della pagina Digital (lancia → apre il modulo progetto) e nell'ultimo passo del modulo progetto (lancia → apre WhatsApp col messaggio pronto).
 - `assets/servizi-accordion.js` + `.css`: scelta dei servizi in home a fisarmonica (effetto "Accordion Gallery" di React Bits, rifatto sulle card esistenti senza React/GSAP). Il servizio aperto è a colori con bordo dorato che gira; primo tocco apre, secondo entra.
+- Apertura home: `assets/intro.js/.css` (porting di "Scroll Expand" di React Bits) con `assets/galaxy.js/.css` (porting di "Galaxy", stesso shader WebGL2) e la M del caricamento. Entrambi MIT + Commons Clause.
