@@ -271,6 +271,55 @@
     requestAnimationFrame(wait);
   });
 
+  /* ---------- quantità: il numero scorre come un contachilometri + "+1" che vola ---------- */
+  let qOld = null;
+  doc.addEventListener('click', e => { const b = e.target.closest('#moi-apparel-catalog [data-qty-step]'); if (b) qOld = $('[data-qty-input]', mount)?.value ?? null; }, true);
+  doc.addEventListener('click', e => {
+    const b = e.target.closest('#moi-apparel-catalog [data-qty-step]'); if (!b || qOld == null) return;
+    const inp = $('[data-qty-input]', mount), from = qOld; qOld = null; if (!inp || inp.value === from || calm) return;
+    const up = +inp.value > +from, box = inp.parentElement;
+    box.classList.add('es-qbox'); box.querySelector('.es-qfx')?.remove();
+    const fx = doc.createElement('span'); fx.className = 'es-qfx'; fx.setAttribute('aria-hidden', 'true');
+    Object.assign(fx.style, { left: inp.offsetLeft + 'px', top: inp.offsetTop + 'px', width: inp.offsetWidth + 'px', height: inp.offsetHeight + 'px' });
+    fx.style.fontSize = getComputedStyle(inp).fontSize; fx.innerHTML = `<b>${esc(from)}</b><b>${esc(inp.value)}</b>`; box.append(fx); inp.classList.add('es-qhide');
+    const [o, n] = fx.children, d = up ? 1 : -1, opt = { duration: 420, easing: 'cubic-bezier(.2,.9,.25,1.25)', fill: 'forwards' };
+    o.animate([{ transform: 'none', opacity: 1, filter: 'blur(0)' }, { transform: `translateY(${-d * 110}%) scale(.7)`, opacity: 0, filter: 'blur(3px)' }], opt);
+    n.animate([{ transform: `translateY(${d * 110}%) scale(.7)`, opacity: 0, filter: 'blur(3px)' }, { transform: 'none', opacity: 1, filter: 'blur(0)' }], opt).onfinish = () => { inp.classList.remove('es-qhide'); fx.remove(); };
+    const chip = doc.createElement('span'); chip.className = 'es-qchip'; chip.textContent = (up ? '+' : '−') + Math.abs(+inp.value - +from); chip.setAttribute('aria-hidden', 'true');
+    chip.style.left = (b.offsetLeft + b.offsetWidth / 2) + 'px'; box.append(chip);
+    chip.animate([{ transform: 'translate(-50%,0) scale(.6)', opacity: 0 }, { transform: 'translate(-50%,-26px) scale(1.1)', opacity: 1, offset: .35 }, { transform: 'translate(-50%,-46px) scale(1)', opacity: 0 }], { duration: 900, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = () => chip.remove();
+    b.animate([{ transform: 'scale(1)' }, { transform: 'scale(.82)' }, { transform: 'scale(1)' }], { duration: 260, easing: 'ease-out' });
+  });
+
+  /* ---------- prezzo scelto (senza logo / col tuo logo): le cifre fanno un giro da slot machine ---------- */
+  doc.addEventListener('click', e => {
+    const b = e.target.closest('#moi-apparel-catalog [data-personalization]'); if (!b || calm || !window.MOI_ROLL) return;
+    requestAnimationFrame(() => {
+      const on = $(`.es-prices [data-personalization="${b.dataset.personalization}"]`, mount), el = on && $('[data-price],[data-custom-price]', on); if (!el) return;
+      const txt = el.getAttribute('aria-label') || el.textContent; window.MOI_ROLL(el, txt, txt.replace(/\d/g, '0'));
+    });
+  });
+
+  /* ---------- totale "1 × 28,90 € = 28,90 €": tutte le cifre girano ---------- */
+  function total() {
+    const t = $('[data-total]', mount); if (!t || t.dataset.es) return; t.dataset.es = '1';
+    let last = { q: '', u: '', tot: '' };
+    const build = () => {
+      if (t.querySelector('.es-tt')) return;                      // già nostro
+      const txt = t.textContent, m = txt.match(/^\s*(\d+)\s*×\s*(.+?)\s*=\s*(.+)$/); if (!m) return;
+      mo.disconnect();
+      t.innerHTML = '<span aria-hidden="true"><span class="es-tq"></span> × <span class="es-tu"></span> = <strong class="es-tt"></strong></span><span class="br-sr"></span>';
+      $('.br-sr', t).textContent = txt.trim();
+      const roll = window.MOI_ROLL;
+      const put = (sel, v, k) => { const el = $(sel, t); if (roll && !calm) roll(el, v, last[k] || v); else el.textContent = v; };
+      put('.es-tq', m[1], 'q'); put('.es-tu', m[2], 'u'); put('.es-tt', m[3], 'tot');
+      if (last.tot && last.tot !== m[3] && !calm) { t.classList.remove('es-tflash'); void t.offsetWidth; t.classList.add('es-tflash'); }
+      last = { q: m[1], u: m[2], tot: m[3] };
+      mo.observe(t, { childList: true });
+    };
+    const mo = new MutationObserver(build); build(); mo.observe(t, { childList: true });
+  }
+
   /* ---------- 36 · le sezioni entrano mentre scorri ---------- */
   let rvIO = null;
   function reveal() {
@@ -293,7 +342,7 @@
     tabs();
     cards();
     if ($('.br-layout', mount)) { viewToggle(); autoMore(); typer(); }
-    if ($('.ac-pdp', mount)) { colors(); zoom(); segs(); mobileHead(); }
+    if ($('.ac-pdp', mount)) { colors(); zoom(); segs(); mobileHead(); total(); }
     stickyBar();
     reveal();
   }

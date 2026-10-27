@@ -274,6 +274,24 @@ html.es-bar-on .mm-favchip{translate:0 -70px}
 #moi-apparel-catalog .ac-pdp-cta.es-sent::before,.es-bar-cta.es-sent::before{transform:none}
 .es-bar-cta::before{content:"✓ Aperto"}
 
+/* ---------- quantità e totale animati ---------- */
+.es-qbox{position:relative;overflow:visible!important}
+.es-qhide{color:transparent!important;caret-color:transparent}
+.es-qfx{position:absolute;display:grid;overflow:hidden;pointer-events:none}
+.es-qfx b{grid-area:1/1;display:grid;place-items:center;font-weight:500;font-size:inherit;color:#151515;will-change:transform}
+.es-qchip{position:absolute;top:0;z-index:3;padding:3px 8px;border-radius:999px;background:#151515;color:#e7d3ac;font-size:12px;font-weight:600;pointer-events:none;white-space:nowrap}
+#moi-apparel-catalog [data-qty-step]{transition:background .2s}
+#moi-apparel-catalog [data-qty-step]:active{background:#ece9e2}
+#moi-apparel-catalog [data-total]{position:relative}
+#moi-apparel-catalog [data-total] .es-tt{display:inline-block;color:#151515}
+#moi-apparel-catalog [data-total].es-tflash::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#c8aa77,transparent);animation:es-tflash 1.1s ease-out forwards}
+@keyframes es-tflash{from{transform:scaleX(0);opacity:1}60%{transform:scaleX(1);opacity:1}to{transform:scaleX(1);opacity:0}}
+/* il prezzo scelto: lampo di luce che lo attraversa */
+#moi-apparel-catalog .es-prices button{position:relative;overflow:hidden}
+#moi-apparel-catalog .es-prices button[aria-pressed=true]::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#ffffff40 48%,#e7d3ac55 52%,transparent 70%);transform:translateX(-120%);animation:es-sweep 1.1s .15s cubic-bezier(.3,.7,.3,1) forwards;pointer-events:none}
+@keyframes es-sweep{to{transform:translateX(120%)}}
+@media (prefers-reduced-motion:reduce){#moi-apparel-catalog .es-prices button[aria-pressed=true]::after,#moi-apparel-catalog [data-total].es-tflash::after{animation:none;display:none}}
+
 /* ---------- 35 · foto che vola nella scheda ---------- */
 .es-fly{position:fixed;z-index:2147483500;object-fit:cover;border-radius:10px;pointer-events:none;transform-origin:center;box-shadow:0 30px 60px -30px #0008}
 

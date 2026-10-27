@@ -33,7 +33,11 @@ body:has(.ac-detail-mode) .mm-favchip{right:24px;bottom:24px}
 
 /* A3 · prezzo che rotola */
 .mm-dg{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:-.12em}
-.mm-dg>span{display:block;transition:transform .7s cubic-bezier(.2,.9,.2,1)}
+.mm-dg>span{display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.mm-pop{display:inline-block;animation:mm-pop .9s cubic-bezier(.3,1.5,.5,1)}
+@keyframes mm-pop{0%{transform:none}25%{transform:scale(1.08);color:#8a7552}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.mm-pop{animation:none}}
+.mm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .mm-dg i{display:block;height:1em;line-height:1;font-style:normal}
 .mm-ch{display:inline-block;white-space:pre}
 

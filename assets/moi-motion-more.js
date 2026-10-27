@@ -72,23 +72,34 @@
 
   /* ================= A3 · prezzo che rotola ================= */
   const rollers = new WeakMap();
-  const roll = (el, text) => {
-    const prev = rollers.get(el) || '';
+  const STRIP = '<span>' + '012345678901234567890123456789'.split('').map(d => `<i>${d}</i>`).join('') + '</span>';
+  // slot machine: ogni cifra che cambia gira per un giro intero e si ferma sulla nuova, una dopo l'altra
+  const spin = (s, from, to, k) => {
+    if (from === to && s.dataset.at) return;
+    s.dataset.at = to;
+    if (reduce) { s.style.transition = 'none'; s.style.transform = `translateY(${-(20 + +to)}em)`; return; }
+    s.style.transition = 'none'; s.style.transform = `translateY(${-(+from)}em)`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { s.style.transition = ''; s.style.transitionDelay = (k * 70) + 'ms'; s.style.transform = `translateY(${-(20 + +to)}em)`; }));
+  };
+  const roll = (el, text, given) => {
+    const prev = given ?? rollers.get(el) ?? '';
     const mo = el._mmMo; mo?.disconnect();
     el.setAttribute('aria-label', text);
-    if (reduce || prev.replace(/\d/g, '0') !== text.replace(/\d/g, '0') || !el.querySelector('.mm-dg')) {
-      el.innerHTML = [...text].map(c => /\d/.test(c) ? `<span class="mm-dg" aria-hidden="true"><span>${'0123456789'.split('').map(d => `<i>${d}</i>`).join('')}</span></span>` : `<span class="mm-ch" aria-hidden="true">${esc(c)}</span>`).join('');
-      const ds = $$('.mm-dg > span', el); let k = 0; const prevDigits = prev.replace(/\D/g, '');
-      [...text].forEach(c => { if (/\d/.test(c)) { const s = ds[k]; const from = prevDigits[k] ?? c; s.style.transition = 'none'; s.style.transform = `translateY(${-from}em)`; k++; requestAnimationFrame(() => requestAnimationFrame(() => { s.style.transition = ''; s.style.transform = `translateY(${-c}em)`; })); } });
-    } else {
-      const ds = $$('.mm-dg > span', el); let k = 0; [...text].forEach(c => { if (/\d/.test(c)) ds[k++].style.transform = `translateY(${-c}em)`; });
+    const prevDigits = prev.replace(/\D/g, ''), digits = text.replace(/\D/g, '');
+    if (prev.replace(/\d/g, '0') !== text.replace(/\d/g, '0') || !el.querySelector('.mm-dg')) {
+      el.innerHTML = [...text].map(c => /\d/.test(c) ? `<span class="mm-dg" aria-hidden="true">${STRIP}</span>` : `<span class="mm-ch" aria-hidden="true">${esc(c)}</span>`).join('');
     }
+    let sr = el.querySelector(':scope > .mm-sr'); if (!sr) { sr = doc.createElement('span'); sr.className = 'mm-sr'; el.append(sr); } sr.textContent = text;   // testo vero per i lettori di schermo
+    const ds = $$('.mm-dg > span', el), n = ds.length;
+    ds.forEach((s, k) => spin(s, prevDigits[k - n + prevDigits.length] ?? (prev ? '0' : digits[k]), digits[k], n - 1 - k));
+    if (prev && prev !== text && !reduce) { el.classList.remove('mm-pop'); void el.offsetWidth; el.classList.add('mm-pop'); }
     rollers.set(el, text);
     mo?.observe(el, { childList: true, characterData: true, subtree: true });
   };
+  window.MOI_ROLL = roll;
   const watchPrice = el => {
     if (el._mmMo) return;
-    const mo = new MutationObserver(() => { const t = el.textContent; if (el.querySelector('.mm-dg') && !el.querySelector(':scope > :not(.mm-dg):not(.mm-ch)') && [...el.childNodes].every(n => n.nodeType === 1)) return; roll(el, t); });
+    const mo = new MutationObserver(() => { const t = el.textContent; if (el.querySelector('.mm-dg') && !el.querySelector(':scope > :not(.mm-dg):not(.mm-ch):not(.mm-sr)') && [...el.childNodes].every(n => n.nodeType === 1)) return; roll(el, t); });
     el._mmMo = mo; rollers.set(el, el.textContent); roll(el, el.textContent);
   };
   new MutationObserver(() => $$('.ac-pdp [data-unit-price], .ac-pdp [data-price], .ac-pdp [data-custom-price]').forEach(watchPrice)).observe(doc.body, { childList: true, subtree: true });
