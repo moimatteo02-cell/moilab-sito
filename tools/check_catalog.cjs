@@ -18,11 +18,13 @@ assert(search('ristorante').length>0);
 for (const p of nav.paths) assert(all.some(x=>nav.inPath(x,p.id)), `Empty path ${p.id}`);
 const media = JSON.parse(fs.readFileSync(path.join(root,'data/catalogo/media.json'))).items;
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261027-8'));
-assert(html.includes('/assets/gadget-catalog.css?v=20261027-4'));
+assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261028-1'));
+assert(html.includes('/assets/gadget-catalog.css?v=20261028-1'));
 for(const [id,m] of Object.entries(media)) {
   assert(all.some(x=>x.id===id));
   assert.equal(m.status,'verified');
   for(const file of [m.src,m.small]) assert(fs.existsSync(path.join(root,file)),file);
 }
+const imgs = JSON.parse(fs.readFileSync(path.join(root,'data/catalogo/immagini.json')));
+for (const n of imgs) assert(fs.existsSync(path.join(root,`assets/catalogo/categorie/${n}.webp`)), n);
 console.log(`PASS: ${all.length} products, ${Object.keys(media).length} media pairs, 6 macroareas, synonym/intent searches, IDs and asset versions`);

@@ -121,6 +121,8 @@
   function route(focus) {
     clearTask();
     const match = [...rooms].find(([, room]) => '#' + room.id === location.hash);
+    // già dentro questa stanza (es. indietro tra le pagine del catalogo): non ricominciare da capo
+    if (match && match[0] === current && rooms.get(current).classList.contains('is-active')) return;
     if (match) showRoom(match[0], false, focus);
     else showHome(false, focus);
   }

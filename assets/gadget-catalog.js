@@ -7,109 +7,172 @@ const ROOMS = {
   signage: { room: 'moi-showroom-signage', k: 'MOI LAB / INSEGNE / CATALOGO', h: 'Striscioni, cartelli', em: 'e allestimenti.', lead: 'Roll-up, bandiere, poster, pannelli e tutto per fiere ed eventi.', ph: 'Cerca: roll-up, bandiera, pannello…' },
   design: { room: 'moi-showroom-design', k: 'MOI LAB / GRAFICA / STAMPA', h: 'La tua grafica,', em: 'stampata bene.', lead: 'Biglietti da visita, volantini, opuscoli, menu, inviti: la grafica la curiamo noi, se vuoi.', ph: 'Cerca: biglietti, volantini, menu…' }
 };
-const PAGE = 24;
+const PAGE = 30;
 const NAV = window.MoiCatalogNavigation;
-const VERSION = '20261027-8';
+const VERSION = '20261028-1';
 const catalogCache = new Map();
 let mediaPromise;
-const getMedia = () => mediaPromise ||= fetch(`/data/catalogo/media.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({items:{}}));
+const getMedia = () => mediaPromise ||= fetch(`/data/catalogo/media.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({ items: {} }));
 function getCatalog(key) {
   if (!catalogCache.has(key)) catalogCache.set(key, Promise.all([
     fetch(`/data/catalogo/${key}.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }), getMedia()
-  ]).then(([d, m]) => d.items.map(x => ({...x, _service:key, _media:m.items[x.id]}))).catch(e => { catalogCache.delete(key); throw e; }));
+  ]).then(([d, m]) => d.items.map(x => ({ ...x, _service: key, _media: m.items[x.id] }))).catch(e => { catalogCache.delete(key); throw e; }));
   return catalogCache.get(key);
 }
-function picture(x, hero = false) {
-  const m = x._media;
-  if (!m || m.status !== 'verified') return icon(x.ic, hero ? 'gk-ic-big' : '');
-  return `<img class="gk-photo" src="${esc(m.src)}" srcset="${esc(m.small)} 480w, ${esc(m.src)} 960w" sizes="${hero ? '(max-width:640px) 100vw, 520px' : '(max-width:640px) 48vw, (max-width:1100px) 30vw, 240px'}" width="960" height="768" alt="${esc(m.alt)}" loading="${hero ? 'eager' : 'lazy'}" decoding="async">`;
-}
+const getAll = () => Promise.all(Object.keys(ROOMS).map(getCatalog)).then(l => l.flat());
+const SVC = { custom: 'Gadget', signage: 'Insegne', design: 'Stampa' };
+const ORDER = { custom: ['Tazze e bicchieri', 'Borracce', 'Penne e scrittura', 'Quaderni e blocchi', 'Tecnologia', 'Tempo libero', 'Casa', 'Ufficio', 'Portachiavi', 'Adesivi ed etichette', 'Regali con foto', 'Dolci e snack', 'Packaging', 'Packaging per alimenti'] };
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const euro = n => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: n < 1 ? 3 : 2 });
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const slug = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const TINTS = ['#efe6d6', '#e3ebe6', '#e6e9f0', '#f0e5e3', '#ece6f1', '#e8eee0', '#f2ecdc', '#e2ecef'];
 const COLORS = { nero: '#1b1b1b', bianco: '#f7f7f5', white: '#f7f7f5', black: '#1b1b1b', grigio: '#9a9a9a', antracite: '#3a3d40', argento: '#c7c9cc', silver: '#c7c9cc', blu: '#2b5bd7', navy: '#1f2b4d', 'blu navy': '#1f2b4d', 'blu reale': '#2a49b8', azzurro: '#7cc0ea', rosso: '#d23b33', bordeaux: '#6d1f2a', verde: '#2f8a4c', giallo: '#f2c230', arancione: '#f08a24', rosa: '#f2a2bd', viola: '#7b4bb5', marrone: '#6e4a2f', beige: '#d9c89e', oro: '#c9a24c', trasparente: '#e9eef2', titanio: '#7c7f84', naturale: '#e2d3b5', legno: '#b98a5a', kraft: '#b88c5a', tortora: '#a8998a' };
 const colorHex = name => { const n = norm(name); if (COLORS[n]) return COLORS[n]; const k = Object.keys(COLORS).sort((a, b) => b.length - a.length).find(x => n.includes(x)); return k ? COLORS[k] : '#cfcac0'; };
 const icon = (ic, cls = '') => `<svg class="gk-ic ${cls}" viewBox="0 0 48 48" aria-hidden="true">${(window.MoiGadgetIcons || {})[ic] || ''}</svg>`;
+/* immagini delle sottocategorie: data/catalogo/immagini.json elenca i file presenti in /assets/catalogo/ */
+let IMGS = null;
+const imgsReady = fetch(`/data/catalogo/immagini.json?v=${VERSION}`).then(r => r.ok ? r.json() : []).catch(() => []).then(l => { IMGS = new Set(l); });
+const imgOf = (key, sub) => IMGS && IMGS.has(key + '-' + slug(sub)) ? `/assets/catalogo/categorie/${key}-${slug(sub)}.webp` : '';
+/* immagine di un prodotto: mockup specifico verificato → immagine della sottocategoria → illustrazione */
+function picture(x, size = 'row') {
+  const m = x._media;
+  if (m && m.status === 'verified') return `<img class="gk-photo" src="${esc(size === 'hero' ? m.src : m.small)}" ${size === 'hero' ? `srcset="${esc(m.small)} 480w, ${esc(m.src)} 960w" sizes="(max-width:640px) 100vw, 520px"` : ''} width="960" height="768" alt="${esc(m.alt)}" loading="${size === 'hero' ? 'eager' : 'lazy'}" decoding="async">`;
+  const c = size === 'hero' && imgOf(x._service, x.sub);
+  if (c) return `<img class="gk-photo gk-photo-cat" src="${c}" alt="" loading="${size === 'hero' ? 'eager' : 'lazy'}" decoding="async">`;
+  return icon(x.ic, size === 'hero' ? 'gk-ic-big' : '');
+}
+const dots = (col, max = 5) => col && col.length > 1 ? `<span class="gk-dots">${col.slice(0, max).map(c => `<i style="background:${colorHex(c)}"></i>`).join('')}${col.length > max ? `<b>+${col.length - max}</b>` : ''}</span>` : '';
+const plural = n => `${n.toLocaleString('it-IT')} ${n === 1 ? 'prodotto' : 'prodotti'}`;
 
 function mount(key, cfg) {
   const room = document.getElementById(cfg.room); if (!room) return;
   const anchor = room.querySelector('.mm-sign') || room.querySelector('.moi-room-content'); if (!anchor) return;
   const sec = document.createElement('section'); sec.className = 'gk'; sec.id = 'gk-' + key; sec.setAttribute('aria-label', 'Catalogo');
   sec.innerHTML = `<header class="gk-head"><p class="gk-k">${cfg.k}</p><h2>${esc(cfg.h)} <em>${esc(cfg.em)}</em></h2><p class="gk-lead">${esc(cfg.lead)}</p></header>
-    <div class="gk-tools"><label class="gk-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="gk-sr">Cerca nel catalogo</span><input type="search" placeholder="${esc(cfg.ph)}" autocomplete="off"></label>
-      <select class="gk-sort" aria-label="Ordina"><option value="">Consigliati</option><option value="pa">Prezzo: dal più basso</option><option value="pd">Prezzo: dal più alto</option><option value="q">Quantità minima più bassa</option></select>
-      <label class="gk-nomin"><input type="checkbox"> Anche 1 pezzo</label></div>
-    <div class="gk-discover"><label>Esplora per esigenza<select class="gk-path"><option value="">Tutti gli utilizzi</option>${NAV.paths.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select></label>
-      <label>Macroarea<select class="gk-family"><option value="">Tutte le macroaree</option></select></label>
-      <label class="gk-global"><input type="checkbox"> Cerca anche negli altri servizi</label>
-      <button class="gk-reset" type="button">Azzera filtri</button></div>
-    <div class="gk-cats" role="tablist" aria-label="Categorie"></div><div class="gk-subs" aria-label="Sottocategorie"></div>
-    <p class="gk-count" aria-live="polite">Carico il catalogo…</p><div class="gk-grid"></div><div class="gk-more-wrap"><button type="button" class="gk-more" hidden>Mostra altri</button></div>`;
+    <label class="gk-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="gk-sr">Cerca nel catalogo</span><input type="search" placeholder="${esc(cfg.ph)}" autocomplete="off"><button type="button" class="gk-clear" hidden aria-label="Cancella la ricerca">×</button></label>
+    <div class="gk-view" aria-live="polite"><p class="gk-count">Carico il catalogo…</p></div>`;
   anchor.after(sec);
-  let data = null, loading = false, generation = 0, st = { q: '', cat: '', sub: '', sort: '', one: false, family:'', path:'', global:false, shown: PAGE };
-  const $ = s => sec.querySelector(s);
-  const load = async (reload = false) => {
-    if (!reload && (data || loading)) return;
-    const token = ++generation; loading = true;
-    $('.gk-count').textContent = 'Carico il catalogo…';
-    sec.setAttribute('aria-busy','true');
-    try {
-      const catalogs = await Promise.all((st.global ? Object.keys(ROOMS) : [key]).map(getCatalog));
-      if (token !== generation) return;
-      data = catalogs.flat();
-      data.forEach((x, i) => { x._i = i; });
-      const cats = [...new Set(data.map(x => x.cat))];
-      sec._tint = Object.fromEntries(cats.map((c, i) => [c, TINTS[i % TINTS.length]]));
-      const families = [...new Set(data.map(NAV.family))];
-      $('.gk-family').innerHTML = '<option value="">Tutte le macroaree</option>' + families.map(f => `<option value="${esc(f)}">${esc(f)}</option>`).join('');
-      $('.gk-family').value = st.family;
-      render();
-    } catch {
-      if (token !== generation) return;
-      data = null; $('.gk-grid').innerHTML = ''; $('.gk-more').hidden = true;
-      $('.gk-count').innerHTML = 'Catalogo non disponibile. <button type="button" class="gk-retry">Riprova</button>';
-      $('.gk-retry').addEventListener('click', () => load(true));
-    } finally { if (token === generation) { loading = false; sec.removeAttribute('aria-busy'); } }
+  const $ = s => sec.querySelector(s), view = $('.gk-view'), input = $('.gk-search input');
+  let data = null, all = null, loading = false, cats = [], tint = {};
+  let st = { v: 'home', cat: '', sub: '', path: '', q: '', global: false, sort: '', one: false, shown: PAGE };
+
+  const load = async () => {
+    if (data || loading) return; loading = true; sec.setAttribute('aria-busy', 'true');
+    try { [data] = await Promise.all([getCatalog(key), imgsReady]); }
+    catch { loading = false; sec.removeAttribute('aria-busy'); view.innerHTML = '<p class="gk-count">Catalogo non disponibile. <button type="button" class="gk-retry">Riprova</button></p>'; return; }
+    loading = false; sec.removeAttribute('aria-busy');
+    const by = {}; data.forEach(x => { const c = by[x.cat] || (by[x.cat] = { name: x.cat, n: 0, min: Infinity, ic: x.ic, subs: {} }); c.n++; c.min = Math.min(c.min, x.p);
+      const s = c.subs[x.sub] || (c.subs[x.sub] = { name: x.sub, n: 0, min: Infinity, ic: x.ic }); s.n++; s.min = Math.min(s.min, x.p); });
+    const ord = ORDER[key] || [];
+    cats = Object.values(by).map(c => ({ ...c, subs: Object.values(c.subs).sort((a, b) => b.n - a.n) }))
+      .sort((a, b) => ((ord.indexOf(a.name) + 1 || 99) - (ord.indexOf(b.name) + 1 || 99)) || b.n - a.n);
+    const mock = (cat, sub) => data.find(x => x.cat === cat && (!sub || x.sub === sub) && x._media?.status === 'verified')?._media.small || '';
+    cats.forEach((c, i) => { tint[c.name] = TINTS[i % TINTS.length]; c.subs.forEach(s => { s.img = imgOf(key, s.name) || mock(c.name, s.name); }); c.img = c.subs.map(s => imgOf(key, s.name)).find(Boolean) || mock(c.name) ; });
+    // percorsi per esigenza e «cerca in tutti i servizi» usano anche gli altri cataloghi: li carico in background
+    getAll().then(l => { all = l; let i = cats.length; l.forEach(x => { if (!tint[x.cat]) tint[x.cat] = TINTS[i++ % TINTS.length]; }); if (st.path || st.global) render(); }).catch(() => {});
+    try { history.replaceState({ ...(history.state || {}), gk: key, st: { ...st }, y: room.scrollTop }, ''); } catch {}
+    render();
   };
-  const filtered = () => {
-    let l = data.filter(x => (!st.cat || x.cat === st.cat) && (!st.sub || x.sub === st.sub) && (!st.one || x.q === 1) && (!st.family || NAV.family(x) === st.family) && NAV.inPath(x, st.path) && NAV.matches(x, st.q));
-    if (!st.sort) l = l.slice().sort((a, b) => (a.o ?? 0) - (b.o ?? 0)); else if (st.sort === 'pa') l = l.slice().sort((a, b) => a.p - b.p); else if (st.sort === 'pd') l = l.slice().sort((a, b) => b.p - a.p); else if (st.sort === 'q') l = l.slice().sort((a, b) => a.q - b.q || a.p - b.p);
-    return l;
+
+  /* ---------- pezzi ---------- */
+  const tile = (t, attrs) => `<button type="button" class="gk-tile${t.img ? ' has-img' : ''}" ${attrs}>
+      <span class="gk-tile-pic" style="--gk-t:${t.tint}">${t.img ? `<img src="${t.img}" alt="" loading="lazy" decoding="async">` : `<span class="gk-blob"></span>${icon(t.ic)}`}</span>
+      <span class="gk-tile-txt"><b>${esc(t.name)}</b><small>${plural(t.n)} · da ${euro(t.min)}</small></span><span class="gk-tile-go" aria-hidden="true">→</span></button>`;
+  const row = x => `<button type="button" class="gk-row" data-id="${x.id}" data-svc="${x._service}"><span class="gk-row-pic" style="--gk-t:${tint[x.cat] || TINTS[0]}">${picture(x)}</span>
+      <span class="gk-row-main">${x._service !== key ? `<em class="gk-svc">${SVC[x._service]} · ${esc(x.sub)}</em>` : ''}<b>${esc(x.n)}</b><small>${dots(x.col)}${x.col && x.col.length > 1 ? `<span>${x.col.length} colori</span>` : ''}<span class="${x.q === 1 ? 'gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span></small></span>
+      <span class="gk-row-p"><small>da</small><b>${euro(x.p)}</b><small>al pezzo</small></span></button>`;
+  const crumbs = () => {
+    const parts = [`<button type="button" data-go="home">Catalogo</button>`];
+    const c = cats.find(c => c.name === st.cat);
+    if (st.v === 'list' && st.sub && c && c.subs.length > 1) parts.push(`<button type="button" data-go="cat" data-cat="${esc(st.cat)}">${esc(st.cat)}</button>`);
+    return `<nav class="gk-crumbs" aria-label="Sei in"><button type="button" class="gk-up" data-up aria-label="Indietro">←</button>${parts.join('<span>/</span>')}</nav>`;
   };
-  const card = x => `<button type="button" class="gk-card" data-id="${x.id}"><span class="gk-pic" style="--gk-t:${sec._tint[x.cat]};--gk-c:${x.col && x.col.length ? colorHex(x.col[0]) : 'transparent'}"><span class="gk-blob"></span>${picture(x)}${x.col && x.col.length > 1 ? `<span class="gk-dots">${x.col.slice(0, 5).map(c => `<i style="background:${colorHex(c)}"></i>`).join('')}${x.col.length > 5 ? `<b>+${x.col.length - 5}</b>` : ''}</span>` : ''}</span>
-    <span class="gk-sub">${st.global ? esc(ROOMS[x._service].k.split(' / ')[1]) + ' · ' : ''}${esc(x.sub)}</span><span class="gk-n">${esc(x.n)}</span><span class="gk-p">da <b>${euro(x.p)}</b> al pezzo</span><span class="gk-q">${x.q > 1 ? `Minimo ${x.q} pezzi` : 'Anche 1 pezzo'}</span></button>`;
+  const tools = n => `<div class="gk-tools"><p class="gk-count">${n ? plural(n) : 'Nessun prodotto'}</p>
+      <label class="gk-nomin"><input type="checkbox" ${st.one ? 'checked' : ''}> Anche 1 pezzo</label>
+      <select class="gk-sort" aria-label="Ordina"><option value="">Consigliati</option><option value="pa" ${st.sort === 'pa' ? 'selected' : ''}>Prezzo più basso</option><option value="pd" ${st.sort === 'pd' ? 'selected' : ''}>Prezzo più alto</option><option value="q" ${st.sort === 'q' ? 'selected' : ''}>Minimo più basso</option></select></div>`;
+  const sortL = l => { if (!st.sort) return l.sort((a, b) => (a.o ?? 0) - (b.o ?? 0)); if (st.sort === 'pa') return l.sort((a, b) => a.p - b.p); if (st.sort === 'pd') return l.sort((a, b) => b.p - a.p); return l.sort((a, b) => a.q - b.q || a.p - b.p); };
+  const listing = l => { const rest = l.length - st.shown;
+    return `<div class="gk-rows">${l.slice(0, st.shown).map(row).join('')}</div>${l.length ? '' : '<p class="gk-empty">Nessun prodotto con questi filtri. Togli «Anche 1 pezzo» o prova un’altra parola.</p>'}
+      ${rest > 0 ? `<div class="gk-more-wrap"><button type="button" class="gk-more">Mostra altri ${Math.min(PAGE, rest)} <small>ne restano ${rest.toLocaleString('it-IT')}</small></button></div>` : ''}`; };
+
+  /* ---------- viste ---------- */
   function render() {
-    if (!data) return;
-    const all = data.filter(x => (!st.one || x.q === 1) && (!st.family || NAV.family(x) === st.family) && NAV.inPath(x,st.path));
-    const cats = {}; all.forEach(x => { cats[x.cat] = (cats[x.cat] || 0) + 1; });
-    if (st.cat && !cats[st.cat]) { st.cat = ''; st.sub = ''; }
-    $('.gk-cats').innerHTML = `<button type="button" role="tab" aria-selected="${!st.cat}" data-cat="">Tutto <small>${all.length}</small></button>` + Object.entries(cats).map(([c, n]) => `<button type="button" role="tab" aria-selected="${st.cat === c}" data-cat="${esc(c)}">${esc(c)} <small>${n}</small></button>`).join('');
-    const subs = {}; if (st.cat) all.filter(x => x.cat === st.cat).forEach(x => { subs[x.sub] = (subs[x.sub] || 0) + 1; });
-    const subList = Object.entries(subs);
-    $('.gk-subs').innerHTML = subList.length > 1 ? `<button type="button" aria-pressed="${!st.sub}" data-sub="">Tutte</button>` + subList.map(([s, n]) => `<button type="button" aria-pressed="${st.sub === s}" data-sub="${esc(s)}">${esc(s)} <small>${n}</small></button>`).join('') : '';
-    const l = filtered();
-    $('.gk-count').textContent = l.length ? `${l.length.toLocaleString('it-IT')} ${l.length === 1 ? 'prodotto' : 'prodotti'}` : 'Nessun prodotto: prova un’altra parola o togli i filtri.';
-    $('.gk-grid').innerHTML = l.slice(0, st.shown).map(card).join('');
-    const more = $('.gk-more'), rest = l.length - st.shown; more.hidden = rest <= 0; more.textContent = `Mostra altri ${Math.min(PAGE, rest)} · ne restano ${rest.toLocaleString('it-IT')}`;
+    if (!data || !data.length) return;
+    $('.gk-clear').hidden = !st.q;
+    let h = '';
+    if (st.q.trim()) {
+      const words = norm(st.q).split(/\s+/).filter(Boolean);
+      const src = st.global && all ? all : data;
+      const l = sortL(src.filter(x => (!st.one || x.q === 1) && NAV.matches(x, st.q)));
+      const subHits = []; cats.forEach(c => c.subs.forEach(s => { if (words.some(w => w.length > 2 && norm(s.name + ' ' + c.name).includes(w.slice(0, Math.max(4, w.length - 2))))) subHits.push([c, s]); }));
+      h = `<div class="gk-v-head"><div><h3>Risultati per «${esc(st.q.trim())}»</h3></div></div>
+        <div class="gk-chips"><button type="button" class="gk-glob" aria-pressed="${st.global}">${st.global ? 'In tutti i servizi ✓' : 'Cerca anche in tutti i servizi'}</button></div>
+        ${subHits.length ? `<div class="gk-chips"><span>Vai a</span>${subHits.slice(0, 6).map(([c, s]) => `<button type="button" data-cat="${esc(c.name)}" data-sub="${esc(s.name)}">${esc(s.name)} <small>${s.n}</small></button>`).join('')}</div>` : ''}
+        ${tools(l.length)}${listing(l)}`;
+    } else if (st.v === 'home') {
+      const groups = [...new Set(cats.map(c => NAV.family({ cat: c.name })))], fam = groups.length > 1;
+      h = `<div class="gk-chips gk-paths"><span>Per esigenza</span>${NAV.paths.map(p => `<button type="button" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>
+        ${groups.map(g => `${fam ? `<h3 class="gk-fam">${esc(g)}</h3>` : ''}<div class="gk-tiles">${cats.filter(c => NAV.family({ cat: c.name }) === g).map(c => tile({ name: c.name, n: c.n, min: c.min, ic: c.ic, img: c.img, tint: tint[c.name] }, `data-cat="${esc(c.name)}"`)).join('')}</div>`).join('')}
+        <p class="gk-foot">${plural(data.length)} in ${cats.length} categorie · prezzi IVA inclusa, stampa del logo confermata nel preventivo</p>`;
+    } else if (st.v === 'path') {
+      const pth = NAV.paths.find(p => p.id === st.path);
+      if (!all) h = `${crumbs()}<p class="gk-count">Carico i prodotti di tutti i servizi…</p>`;
+      else { const l = sortL(all.filter(x => NAV.inPath(x, st.path) && (!st.one || x.q === 1)));
+        h = `${crumbs()}<div class="gk-v-head"><div><h3>${esc(pth.name)}</h3><p>Idee da gadget, insegne e stampa: tutto finisce nello stesso preventivo</p></div></div>
+          <div class="gk-chips">${NAV.paths.map(p => `<button type="button" aria-pressed="${p.id === st.path}" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>${tools(l.length)}${listing(l)}`; }
+    } else if (st.v === 'cat') {
+      const c = cats.find(c => c.name === st.cat);
+      h = `${crumbs()}<div class="gk-v-head"><div><h3>${esc(c.name)}</h3><p>${plural(c.n)} · da ${euro(c.min)} al pezzo</p></div></div>
+        <div class="gk-tiles">${c.subs.map(s => tile({ ...s, tint: tint[c.name] }, `data-cat="${esc(c.name)}" data-sub="${esc(s.name)}"`)).join('')}
+        <button type="button" class="gk-tile gk-tile-all" data-cat="${esc(c.name)}" data-sub=""><span class="gk-tile-txt"><b>Vedi tutto</b><small>${plural(c.n)} di ${esc(c.name.toLowerCase())}</small></span><span class="gk-tile-go" aria-hidden="true">→</span></button></div>`;
+    } else {
+      const c = cats.find(c => c.name === st.cat);
+      const l = sortL(data.filter(x => x.cat === st.cat && (!st.sub || x.sub === st.sub) && (!st.one || x.q === 1)));
+      const img = st.sub ? (c.subs.find(s => s.name === st.sub) || {}).img : c.img;
+      h = `${crumbs()}<div class="gk-v-head${img ? ' has-img' : ''}">${img ? `<img src="${img}" alt="" loading="lazy">` : ''}<div><h3>${esc(st.sub || c.name)}</h3><p>${st.sub && st.sub !== c.name ? esc(c.name) + ' · ' : ''}da ${euro((st.sub ? c.subs.find(s => s.name === st.sub) : c).min)} al pezzo</p></div></div>
+        ${c.subs.length > 1 ? `<div class="gk-chips">${[{ name: '', n: c.n }, ...c.subs].map(s => `<button type="button" aria-pressed="${st.sub === s.name}" data-cat="${esc(c.name)}" data-sub="${esc(s.name)}">${s.name ? esc(s.name) : 'Tutto'} <small>${s.n}</small></button>`).join('')}</div>` : ''}
+        ${tools(l.length)}${listing(l)}`;
+    }
+    view.innerHTML = h;
   }
-  const resetNavigation = () => { st.cat = ''; st.sub = ''; st.shown = PAGE; };
-  $('.gk-family').addEventListener('change', e => { st.family = e.target.value; resetNavigation(); render(); });
-  $('.gk-path').addEventListener('change', e => { st.path = e.target.value; resetNavigation(); render(); });
-  $('.gk-global input').addEventListener('change', e => { st.global = e.target.checked; st.family = ''; resetNavigation(); load(true); });
-  $('.gk-reset').addEventListener('click', () => {
-    st.q = ''; st.family = ''; st.path = ''; st.one = false; st.sort = ''; resetNavigation();
-    $('.gk-search input').value = ''; $('.gk-family').value = ''; $('.gk-path').value = '';
-    $('.gk-nomin input').checked = false; $('.gk-sort').value = ''; render();
+
+  /* ---------- navigazione (con il tasto indietro del telefono) ---------- */
+  // dopo ogni scelta porto in vista la ricerca e il nuovo contenuto, non il titolo grande
+const top = () => { const r = $('.gk-search').getBoundingClientRect(); if (Math.abs(r.top - 16) > 40) room.scrollBy({ top: r.top - 16, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+  function go(next) {
+    try { history.replaceState({ ...(history.state || {}), gk: key, st: { ...st }, y: room.scrollTop }, ''); history.pushState({ gk: key, st: { ...next } }, ''); } catch {}
+    st = next; render(); top();
+  }
+  addEventListener('popstate', e => {
+    const s = e.state; if (!s || s.gk !== key || !data) return;
+    st = { ...s.st }; input.value = st.q || ''; render();
+    if (typeof s.y === 'number') requestAnimationFrame(() => { room.scrollTop = s.y; });
+  });
+  const open = (cat, sub) => { const c = cats.find(c => c.name === cat); if (!c) return;
+    if (sub === undefined && c.subs.length > 1) go({ ...st, v: 'cat', cat, sub: '', q: '', shown: PAGE });
+    else go({ ...st, v: 'list', cat, sub: sub ?? (c.subs.length === 1 ? c.subs[0].name : ''), q: '', shown: PAGE });
+    input.value = ''; };
+
+  view.addEventListener('click', e => {
+    const t = e.target;
+    if (t.closest('.gk-retry')) { load(); return; }
+    const pb = t.closest('[data-path]'); if (pb) { go({ ...st, v: 'path', path: pb.dataset.path, q: '', shown: PAGE }); input.value = ''; return; }
+    if (t.closest('.gk-glob')) { st.global = !st.global; st.shown = PAGE; render(); return; }
+    const b = t.closest('[data-cat]'); if (b) { open(b.dataset.cat, b.dataset.sub === undefined ? undefined : b.dataset.sub); return; }
+    if (t.closest('[data-up]')) { history.state?.gk === key && st.v !== 'home' ? history.back() : go({ ...st, v: 'home', q: '' }); return; }
+    const g = t.closest('[data-go]'); if (g) { go({ ...st, v: g.dataset.go, cat: g.dataset.cat || '', sub: '', q: '', shown: PAGE }); return; }
+    if (t.closest('.gk-more')) { st.shown += PAGE; render(); return; }
+    const r = t.closest('.gk-row'); if (r) { const x = (all || data).find(x => x.id === r.dataset.id); if (x) sheet(x, tint[x.cat], r); }
+  });
+  view.addEventListener('change', e => {
+    if (e.target.matches('.gk-sort')) { st.sort = e.target.value; st.shown = PAGE; render(); }
+    if (e.target.matches('.gk-nomin input')) { st.one = e.target.checked; st.shown = PAGE; render(); }
   });
   let t = 0;
-  $('.gk-search input').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { st.q = e.target.value; st.shown = PAGE; render(); }, 180); });
-  $('.gk-sort').addEventListener('change', e => { st.sort = e.target.value; st.shown = PAGE; render(); });
-  $('.gk-nomin input').addEventListener('change', e => { st.one = e.target.checked; st.shown = PAGE; render(); });
-  $('.gk-cats').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; st.cat = b.dataset.cat; st.sub = ''; st.shown = PAGE; render(); });
-  $('.gk-subs').addEventListener('click', e => { const b = e.target.closest('[data-sub]'); if (!b) return; st.sub = b.dataset.sub; st.shown = PAGE; render(); });
-  $('.gk-more').addEventListener('click', () => { st.shown += PAGE; render(); });
-  $('.gk-grid').addEventListener('click', e => { const b = e.target.closest('.gk-card'); if (!b) return; const x = data.find(x => x.id === b.dataset.id); if (x) sheet(x, sec._tint[x.cat], b); });
+  input.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { st.q = input.value; st.shown = PAGE; render(); }, 180); });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
+  $('.gk-clear').addEventListener('click', () => { input.value = ''; st.q = ''; render(); input.focus(); });
   // il catalogo si carica quando entri nel servizio (o quando lo vedi)
   const io = new IntersectionObserver(en => { if (en.some(x => x.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '600px' }); io.observe(sec);
   new MutationObserver(() => { if (room.classList.contains('is-active')) load(); }).observe(room, { attributes: true, attributeFilter: ['class'] });
@@ -130,7 +193,7 @@ function sheet(x, tint, opener) {
   let qty = x.q, color = x.col && x.col.length ? x.col[0] : '';
   const p = sh.querySelector('.gk-panel');
   p.innerHTML = `<button type="button" class="gk-x" data-x aria-label="Chiudi">×</button>
-    <div class="gk-hero" style="--gk-t:${tint};--gk-c:${color ? colorHex(color) : 'transparent'}"><span class="gk-blob"></span>${picture(x, true)}</div>
+    <div class="gk-hero" style="--gk-t:${tint};--gk-c:${color ? colorHex(color) : 'transparent'}"><span class="gk-blob"></span>${picture(x, 'hero')}${!(x._media?.status === 'verified') && imgOf(x._service, x.sub) ? '<span class="gk-hero-note">Immagine indicativa della categoria</span>' : ''}</div>
     <div class="gk-body"><p class="gk-crumb">${esc(x.cat)} · ${esc(x.sub)}</p><h3 id="gk-t">${esc(x.n)}</h3>
     ${x._media?.description ? `<p class="gk-description">${esc(x._media.description)}</p>` : ''}
     ${x._media?.status === 'verified' ? '<p class="gk-disclaimer">Esempio di personalizzazione MOI · mockup illustrativo. Grafica, colori e opzioni vengono confermati nel preventivo.</p>' : ''}
@@ -152,7 +215,7 @@ function sheet(x, tint, opener) {
   p.onkeydown = e => {
     if (e.key !== 'Tab') return;
     const focusable = [...p.querySelectorAll('button,input,textarea,select,a[href]')].filter(el => !el.disabled && el.getClientRects().length);
-    const first = focusable[0], last = focusable[focusable.length-1];
+    const first = focusable[0], last = focusable[focusable.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   };
