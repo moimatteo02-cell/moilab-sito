@@ -2,9 +2,9 @@
    (Custom, Insegne, Grafica: i servizi senza un configuratore completo). */
 (() => {
 const BLOCKS = {
-  custom: { room: 'moi-showroom-custom', title: 'Sticker, biglietti e scatole su misura', k: 'Ti serve un formato diverso?',
-    p: 'Misure, materiali o finiture che non vedi nel catalogo: dicci cosa ti serve e lo aggiungiamo al preventivo.',
-    chips: ['Sticker su misura', 'Etichette per prodotti', 'Biglietti da visita speciali', 'Scatole su misura', 'Altro'], qty: true },
+  custom: { room: 'moi-showroom-custom', title: 'Richiesta speciale', k: 'Dicci cosa ti serve',
+    p: 'Un prodotto che non c’è, un formato diverso, un materiale particolare: scegli una voce, aggiungi i dettagli e lo mettiamo nel preventivo. Ti diciamo noi se possiamo farlo o procurartelo.',
+    chips: ['Sticker su misura', 'Biglietti speciali', 'Scatole su misura', 'Gadget', 'Stampa UV su oggetti', 'Altro'], qty: true },
   signage: { room: 'moi-showroom-signage', title: 'Insegne e pannelli', k: 'Non trovi quello che cerchi?',
     p: 'Insegne su misura, totem, vetrofanie: dicci cosa ti serve, misure e materiali li definiamo insieme.',
     chips: ['Insegna per negozio', 'Insegna a bandiera', 'Pannelli e cartelli', 'Vetrofanie', 'Totem', 'Targhe', 'Roll-up', 'Altro'], qty: true },

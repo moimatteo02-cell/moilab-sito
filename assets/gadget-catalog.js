@@ -112,6 +112,46 @@ function mount(key, cfg) {
     return `<div class="${curated ? 'gk-pcards' : 'gk-rows'}">${l.slice(0, st.shown).map(curated ? card : row).join('')}</div>${l.length ? '' : '<p class="gk-empty">Nessun prodotto con questi filtri. Togli «Anche 1 pezzo» o prova un’altra parola.</p>'}
       ${rest > 0 ? `<div class="gk-more-wrap"><button type="button" class="gk-more">Mostra altri ${Math.min(PAGE, rest)} <small>ne restano ${rest.toLocaleString('it-IT')}</small></button></div>` : ''}`; };
 
+  /* ---------- vetrina: pagina iniziale (eroe, stampa UV, «non c'è nel sito», prodotti, come funziona) ---------- */
+  const mediaOf = id => { const x = data.find(x => x.id === id); return x && x._media?.status === 'verified' ? x._media.src : ''; };
+  function landing() {
+    const feat = data.find(x => x.q === 1 && x._media?.status === 'verified') || data[0];
+    const heroImg = mediaOf('G3B9EBA') || cats[0].img, endImg = mediaOf('GA9A0EF') || (cats[2] || cats[0]).img;
+    return `<section class="gl-hero" aria-label="Sticker, biglietti e scatole">
+        <div class="gl-tabs"><span class="gl-pill gl-brand">MOI LAB</span><span class="gl-tabs-r">${cats.map(c => `<button type="button" class="gl-pill" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
+        <div class="gl-hero-in">
+          <div class="gl-hero-l"><h2>Sticker,<br>biglietti e scatole,<br><em>fatti bene.</em></h2>
+            <button type="button" class="gl-cta" data-go-products>Scegli il prodotto <i aria-hidden="true"></i></button></div>
+          <div class="gl-hero-img">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
+          <div class="gl-hero-r"><p><b>Da 1 pezzo</b>Adesivi sagomati anche in quantità singola, per provare prima di ordinarne tanti.</p>
+            <p><b>Prezzi chiari</b>Listino a scaglioni, IVA inclusa: vedi subito quanto spendi.</p></div>
+        </div>
+        ${feat ? `<button type="button" class="gl-mini" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button>` : ''}
+      </section>
+      <section class="gl-dark" aria-label="Stampa UV">
+        <span class="gl-tag" aria-hidden="true">In arrivo</span><i class="gl-sq gl-sq1" aria-hidden="true"></i><i class="gl-sq gl-sq2" aria-hidden="true"></i>
+        <h3>Stampa UV, su qualsiasi superficie.</h3>
+        <p>Presto il tuo logo non solo su carta e adesivi: con la stampa UV lo mettiamo direttamente sugli oggetti. Se hai già un’idea, raccontacela.</p>
+        <button type="button" class="gl-cta gl-cta-l" data-uv>Chiedi informazioni <i aria-hidden="true"></i></button>
+      </section>
+      <section class="gl-split" aria-label="Non trovi quello che cerchi?">
+        <div class="gl-split-l"><span>Non c’è</span><span>nel sito?</span></div>
+        <div class="gl-split-r"><h3>Chiedi, lo cerchiamo noi.</h3>
+          <p>Abbiamo scelto poche cose, fatte bene. Se ti serve altro – un gadget, un materiale, un formato speciale – scrivici: ti diciamo se possiamo farlo o procurartelo.</p>
+          <button type="button" class="gl-cta" data-ask>Scrivici cosa ti serve <i aria-hidden="true"></i></button></div>
+      </section>
+      <div class="gl-title" id="gk-${key}-prodotti"><h3>Scegli cosa stampare</h3><span class="gl-tag gl-tag-s" aria-hidden="true">${plural(data.length)}</span></div>
+      <div class="gk-tiles gk-tiles-few">${cats.map(c => tile({ name: c.name, n: c.n, min: c.min, ic: c.ic, img: c.img, tint: tint[c.name] }, `data-cat="${esc(c.name)}"`)).join('')}</div>
+      <section class="gl-end" aria-label="Come funziona">
+        <div class="gl-end-box"><div class="gl-steps">
+          <p><b>1 · Scegli</b>Il prodotto e lo scaglione di quantità: il prezzo lo vedi subito.</p>
+          <p><b>2 · Aggiungi</b>Metti nel carrello tutto quello che ti serve, anche da più servizi.</p>
+          <p><b>3 · Invia</b>Scorri per inviarci il riepilogo su WhatsApp: ti rispondiamo con il preventivo.</p></div>
+          <button type="button" class="gl-endbar" data-cart>Apri il carrello</button></div>
+        <div class="gl-end-img">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
+      </section>`;
+  }
+
   /* ---------- viste ---------- */
   function render() {
     if (!data || !data.length) return;
@@ -126,6 +166,8 @@ function mount(key, cfg) {
         ${curated ? '' : `<div class="gk-chips"><button type="button" class="gk-glob" aria-pressed="${st.global}">${st.global ? 'In tutti i servizi ✓' : 'Cerca anche in tutti i servizi'}</button></div>`}
         ${subHits.length ? `<div class="gk-chips"><span>Vai a</span>${subHits.slice(0, 6).map(([c, s]) => `<button type="button" data-cat="${esc(c.name)}" data-sub="${esc(s.name)}">${esc(s.name)} <small>${s.n}</small></button>`).join('')}</div>` : ''}
         ${tools(l.length)}${listing(l)}`;
+    } else if (st.v === 'home' && curated) {
+      h = landing();
     } else if (st.v === 'home') {
       const groups = curated ? [''] : [...new Set(cats.map(c => NAV.family({ cat: c.name })))], fam = groups.length > 1;
       h = `${curated ? '' : `<div class="gk-chips gk-paths"><span>Per esigenza</span>${NAV.paths.map(p => `<button type="button" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>`}
@@ -151,6 +193,7 @@ function mount(key, cfg) {
         ${tools(l.length)}${listing(l)}`;
     }
     view.innerHTML = h;
+    sec.classList.toggle('gk-at-home', curated && st.v === 'home' && !st.q.trim());
   }
 
   /* ---------- navigazione (con il tasto indietro del telefono) ---------- */
@@ -173,6 +216,11 @@ const top = () => { const r = $('.gk-search').getBoundingClientRect(); if (Math.
   view.addEventListener('click', e => {
     const t = e.target;
     if (t.closest('.gk-retry')) { load(); return; }
+    if (t.closest('[data-go-products]')) { document.getElementById(`gk-${key}-prodotti`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); return; }
+    const op = t.closest('[data-open]'); if (op) { const x = data.find(x => x.id === op.dataset.open); if (x) sheet(x, tint[x.cat], op); return; }
+    if (t.closest('[data-uv]')) { window.MoiCart?.fly(t.closest('[data-uv]')); window.MoiCart?.add({ service: key, title: 'Stampa UV su oggetti: richiesta informazioni', details: [['Richiesta', 'Vorrei sapere quando parte la stampa UV e cosa si può stampare']] }); return; }
+    if (t.closest('[data-ask]')) { const q = room.querySelector('.qc-quick'); if (q) { q.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => q.querySelector('.qc-chips button')?.focus({ preventScroll: true }), 500); } return; }
+    if (t.closest('[data-cart]')) { window.MoiCart?.open(); return; }
     const pb = t.closest('[data-path]'); if (pb) { go({ ...st, v: 'path', path: pb.dataset.path, q: '', shown: PAGE }); input.value = ''; return; }
     if (t.closest('.gk-glob')) { st.global = !st.global; st.shown = PAGE; render(); return; }
     const b = t.closest('[data-cat]'); if (b) { open(b.dataset.cat, b.dataset.sub === undefined ? undefined : b.dataset.sub); return; }

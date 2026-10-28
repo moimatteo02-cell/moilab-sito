@@ -148,3 +148,11 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Listino a scaglioni (28/10/2026, sera): in `vetrina.json` ogni prodotto ha `tiers` = [[quantità, totale IVA inclusa]], con le stesse quantità e gli stessi minimi del fornitore. Nella scheda si sceglie uno scaglione, si vede il totale e il prezzo cadauno. Nel carrello la quantità è fissa (`fixedQty`): per cambiarla si torna alla scheda. Tolti «Biglietti da visita Premium» e «Campione scatole postali», non più disponibili. La tabella d'acquisto resta fuori dal repository.
 - Prezzi presi con la configurazione base di ogni prodotto (misura, carta e opzioni predefinite); per varianti diverse il prezzo si conferma nel preventivo.
 - Stanza Custom (28/10/2026, 19:00): nascosta via CSS l'intestazione «CUSTOM / Gadget e oggetti» (testo, link Sticker, mazzo di carte, adesivo 3D). La pagina si apre direttamente sul catalogo; il titolo resta nel codice per l'accessibilità. Nella vetrina i prodotti sono schede grandi con foto (`.gk-pcard`) invece delle righe con miniatura. Per ripristinare l'intestazione basta togliere il blocco «stanza Custom» in fondo a `gadget-catalog.css`.
+- Pagina iniziale della vetrina Custom (28/10/2026, 19:30), costruita sul layout di riferimento del titolare (`landing()` in `gadget-catalog.js`, classi `.gl-*`), in quest'ordine:
+  1. eroe con schede, titolo, foto, punti chiave e prodotto in evidenza;
+  2. fascia scura «Stampa UV, in arrivo» (aggiunge una richiesta al carrello);
+  3. due riquadri «Non c'è nel sito? Chiedi, lo cerchiamo noi» (porta al blocco «Dicci cosa ti serve»);
+  4. «Scegli cosa stampare» con i 3 scaffali;
+  5. «Come funziona» con il pulsante del carrello.
+
+  Galleria «I nostri lavori» nascosta nella stanza Custom. Nella pagina iniziale la ricerca è nascosta; resta visibile nelle liste.
