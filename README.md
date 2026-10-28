@@ -144,6 +144,6 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 ### Catalogo Custom ridotto (28/10/2026)
 - La stanza Custom mostra solo la vetrina di `data/catalogo/vetrina.json`: 29 prodotti in 3 scaffali (Sticker, Biglietti da visita, Scatole), con i biglietti presi dal catalogo Stampa (nel carrello restano servizio «design»). Ricerca limitata alla vetrina, niente percorsi per esigenza né ricerca negli altri servizi. Nessun prodotto cancellato: per tornare al catalogo completo basta togliere `custom` da `vetrina.json`.
 - Blocco «Ti serve un formato diverso?» aggiornato alle tre linee.
-- Lavoro immagini a lotti sospeso: vedi `docs/catalogo/STOP-LOTTI.md` (restano 11 mockup).
+- Lavoro immagini a lotti sospeso: vedi `docs/catalogo/STOP-LOTTI.md` (restano 10 mockup).
 - Listino a scaglioni (28/10/2026, sera): in `vetrina.json` ogni prodotto ha `tiers` = [[quantità, totale IVA inclusa]], con le stesse quantità e gli stessi minimi del fornitore. Nella scheda si sceglie uno scaglione, si vede il totale e il prezzo cadauno. Nel carrello la quantità è fissa (`fixedQty`): per cambiarla si torna alla scheda. Tolti «Biglietti da visita Premium» e «Campione scatole postali», non più disponibili. La tabella d'acquisto resta fuori dal repository.
 - Prezzi presi con la configurazione base di ogni prodotto (misura, carta e opzioni predefinite); per varianti diverse il prezzo si conferma nel preventivo.
