@@ -73,3 +73,5 @@ Il file privato del fornitore, i suoi link e i prezzi di acquisto non sono inclu
 ## Checkpoint 52 immagini specifiche
 - Aggiunti 11 mockup originali, dopo verifica dei riferimenti e del risultato. Codici: GCEC902, GE3C817, G45372A, G2C109F, GD1D116, G3A65CF, G9127AA, G4E395B, G60408C, G9B5A6F, G8249FB.
 - Totale: 52 immagini integrate, 3069 ancora da produrre; verifica online end-to-end ancora in attesa.
+
+- 28/10/2026 — Lotto A01: 50 mockup verificati (48 nuovi, 2 recuperati); nessun codice saltato. Totale metà A: 50/1.520. Codici: G58144B, G9DB847, GD2B3DD, G695C27, G424444, G2FB50E, G9C4D21, G04B7CF, GF93C05, G94E26D, G6F5584, G4AC9E9, G272876, GC40BA8, G10BA02, GF9EFE5, G9A06C1, G334CB3, G6459A9, G808C3E, GF4C96C, G56D0F4, G50B659, G2C8BD5, GA18840, G2EF191, G3FD4BC, G3CF381, GD0045A, GBF1BF9, G6ECFCD, G4FDF02, GEE043B, GB3FDA6, G2C3B06, GAF23F2, G79D699, G8C61D7, G5789BF, G88BF20, G47925E, G323293, GD211BB, G546065, GB9FF6A, G45141F, G9A68FD, G573E6F, GFE5A5E, G7DBC27. Audit e check_catalog superati. QR in G45141F solo dimostrativo. Nessuna modifica a interfaccia, prodotti o registro Claude.

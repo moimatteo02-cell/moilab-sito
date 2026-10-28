@@ -505,6 +505,456 @@
       "provenance": "Mockup originale imagegen da screenshot della scheda reale come riferimento strutturale; nuova grafica e nuova scena. Screenshot non pubblicato.",
       "batch": "20261027-11",
       "reference_review": "Forma e finitura confrontate con screenshot della specifica scheda prodotto."
+    },
+    "G424444": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g424444-bicchieri-di-carta-a-doppio-strato.webp",
+      "small": "/assets/catalogo/custom/g424444-bicchieri-di-carta-a-doppio-strato-480.webp",
+      "alt": "Bicchieri di carta a doppio strato — mockup dimostrativo",
+      "description": "Bicchieri di carta a doppio strato. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GBF1BF9": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gbf1bf9-cartellini.webp",
+      "small": "/assets/catalogo/custom/gbf1bf9-cartellini-480.webp",
+      "alt": "Cartellini — mockup dimostrativo",
+      "description": "Cartellini. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G808C3E": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g808c3e-etichette-per-indirizzo.webp",
+      "small": "/assets/catalogo/design/g808c3e-etichette-per-indirizzo-480.webp",
+      "alt": "Etichette per indirizzo — mockup dimostrativo",
+      "description": "Etichette per indirizzo. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G6ECFCD": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g6ecfcd-astucci-guaina.webp",
+      "small": "/assets/catalogo/custom/g6ecfcd-astucci-guaina-480.webp",
+      "alt": "Astucci guaina — mockup dimostrativo",
+      "description": "Astucci guaina. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GD2B3DD": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gd2b3dd-buoni-regalo.webp",
+      "small": "/assets/catalogo/custom/gd2b3dd-buoni-regalo-480.webp",
+      "alt": "Buoni regalo — mockup dimostrativo",
+      "description": "Buoni regalo. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G8C61D7": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g8c61d7-buste-personalizzate.webp",
+      "small": "/assets/catalogo/custom/g8c61d7-buste-personalizzate-480.webp",
+      "alt": "Buste personalizzate — mockup dimostrativo",
+      "description": "Buste personalizzate. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GD0045A": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gd0045a-rotoli-di-adesivi.webp",
+      "small": "/assets/catalogo/custom/gd0045a-rotoli-di-adesivi-480.webp",
+      "alt": "Rotoli di adesivi — mockup dimostrativo",
+      "description": "Rotoli di adesivi. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G272876": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g272876-metro-pieghevole-da-1-m.webp",
+      "small": "/assets/catalogo/custom/g272876-metro-pieghevole-da-1-m-480.webp",
+      "alt": "Metro pieghevole da 1 m. — mockup dimostrativo",
+      "description": "Metro pieghevole da 1 m.. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G2C3B06": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g2c3b06-penna-a-sfera-soft-touch-elite-inchiostro-nero.webp",
+      "small": "/assets/catalogo/custom/g2c3b06-penna-a-sfera-soft-touch-elite-inchiostro-nero-480.webp",
+      "alt": "Penna a sfera soft-Touch Elite - inchiostro nero — mockup dimostrativo",
+      "description": "Penna a sfera soft-Touch Elite - inchiostro nero. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G2C8BD5": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g2c8bd5-bandiere-a-pinna.webp",
+      "small": "/assets/catalogo/signage/g2c8bd5-bandiere-a-pinna-480.webp",
+      "alt": "Bandiere a pinna — mockup dimostrativo",
+      "description": "Bandiere a pinna. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G9DB847": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g9db847-etichette-per-prodotti-su-foglio.webp",
+      "small": "/assets/catalogo/custom/g9db847-etichette-per-prodotti-su-foglio-480.webp",
+      "alt": "Etichette per prodotti su foglio — mockup dimostrativo",
+      "description": "Etichette per prodotti su foglio. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G56D0F4": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g56d0f4-strisce-appendiquadri-command.webp",
+      "small": "/assets/catalogo/signage/g56d0f4-strisce-appendiquadri-command-480.webp",
+      "alt": "Strisce appendiquadri Command™ — mockup dimostrativo",
+      "description": "Strisce appendiquadri Command™. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GFE5A5E": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/gfe5a5e-cuscinetti-biadesivi.webp",
+      "small": "/assets/catalogo/signage/gfe5a5e-cuscinetti-biadesivi-480.webp",
+      "alt": "Cuscinetti biadesivi — mockup dimostrativo",
+      "description": "Cuscinetti biadesivi. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G45141F": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g45141f-biglietti-da-visita-con-codice-qr.webp",
+      "small": "/assets/catalogo/design/g45141f-biglietti-da-visita-con-codice-qr-480.webp",
+      "alt": "Biglietti da visita con codice QR — mockup dimostrativo",
+      "description": "Biglietti da visita con codice QR. Mockup originale con grafica dimostrativa. Il QR raffigurato è dimostrativo.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G9A06C1": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g9a06c1-portabiglietti-da-visita-da-tavolo-in-acciaio.webp",
+      "small": "/assets/catalogo/custom/g9a06c1-portabiglietti-da-visita-da-tavolo-in-acciaio-480.webp",
+      "alt": "Portabiglietti da visita da tavolo in acciaio — mockup dimostrativo",
+      "description": "Portabiglietti da visita da tavolo in acciaio. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G4FDF02": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g4fdf02-bicchieri-di-carta-monostrato.webp",
+      "small": "/assets/catalogo/custom/g4fdf02-bicchieri-di-carta-monostrato-480.webp",
+      "alt": "Bicchieri di carta monostrato — mockup dimostrativo",
+      "description": "Bicchieri di carta monostrato. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G47925E": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g47925e-antistress-a-forma-di-cuore.webp",
+      "small": "/assets/catalogo/custom/g47925e-antistress-a-forma-di-cuore-480.webp",
+      "alt": "Antistress a forma di cuore — mockup dimostrativo",
+      "description": "Antistress a forma di cuore. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G3CF381": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g3cf381-adesivi-sagomati.webp",
+      "small": "/assets/catalogo/custom/g3cf381-adesivi-sagomati-480.webp",
+      "alt": "Adesivi sagomati — mockup dimostrativo",
+      "description": "Adesivi sagomati. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G9C4D21": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g9c4d21-matita-bic-evolution-ecolutions.webp",
+      "small": "/assets/catalogo/custom/g9c4d21-matita-bic-evolution-ecolutions-480.webp",
+      "alt": "Matita BIC® Evolution Ecolutions® — mockup dimostrativo",
+      "description": "Matita BIC® Evolution Ecolutions®. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G9A68FD": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g9a68fd-buste-da-lettera-colorate.webp",
+      "small": "/assets/catalogo/design/g9a68fd-buste-da-lettera-colorate-480.webp",
+      "alt": "Buste da lettera colorate — mockup dimostrativo",
+      "description": "Buste da lettera colorate. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G58144B": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g58144b-chiudilettera-adesivi.webp",
+      "small": "/assets/catalogo/custom/g58144b-chiudilettera-adesivi-480.webp",
+      "alt": "Chiudilettera adesivi — mockup dimostrativo",
+      "description": "Chiudilettera adesivi. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GEE043B": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gee043b-evidenziatore-bic-brite-liner-grip.webp",
+      "small": "/assets/catalogo/custom/gee043b-evidenziatore-bic-brite-liner-grip-480.webp",
+      "alt": "Evidenziatore BIC® Brite Liner Grip — mockup dimostrativo",
+      "description": "Evidenziatore BIC® Brite Liner Grip. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GF4C96C": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/gf4c96c-cartoline-premium.webp",
+      "small": "/assets/catalogo/design/gf4c96c-cartoline-premium-480.webp",
+      "alt": "Cartoline premium — mockup dimostrativo",
+      "description": "Cartoline premium. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GB9FF6A": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gb9ff6a-timbri-tondi-autoinchiostranti.webp",
+      "small": "/assets/catalogo/custom/gb9ff6a-timbri-tondi-autoinchiostranti-480.webp",
+      "alt": "Timbri tondi autoinchiostranti — mockup dimostrativo",
+      "description": "Timbri tondi autoinchiostranti. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G7DBC27": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g7dbc27-targhe-magnetiche-per-auto.webp",
+      "small": "/assets/catalogo/signage/g7dbc27-targhe-magnetiche-per-auto-480.webp",
+      "alt": "Targhe magnetiche per auto — mockup dimostrativo",
+      "description": "Targhe magnetiche per auto. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GF9EFE5": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gf9efe5-laccetto-con-fibbia-a-sgancio-rapido-e-gancio-girevole.webp",
+      "small": "/assets/catalogo/custom/gf9efe5-laccetto-con-fibbia-a-sgancio-rapido-e-gancio-girevole-480.webp",
+      "alt": "Laccetto con fibbia a sgancio rapido e gancio girevole — mockup dimostrativo",
+      "description": "Laccetto con fibbia a sgancio rapido e gancio girevole. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G50B659": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g50b659-adesivi-per-carrozzeria.webp",
+      "small": "/assets/catalogo/signage/g50b659-adesivi-per-carrozzeria-480.webp",
+      "alt": "Adesivi per carrozzeria — mockup dimostrativo",
+      "description": "Adesivi per carrozzeria. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G6F5584": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g6f5584-quaderni.webp",
+      "small": "/assets/catalogo/custom/g6f5584-quaderni-480.webp",
+      "alt": "Quaderni — mockup dimostrativo",
+      "description": "Quaderni. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G323293": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g323293-biglietti-da-visita-magnetici.webp",
+      "small": "/assets/catalogo/custom/g323293-biglietti-da-visita-magnetici-480.webp",
+      "alt": "Biglietti da visita magnetici — mockup dimostrativo",
+      "description": "Biglietti da visita magnetici. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G94E26D": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g94e26d-libretto-di-bigliettini-adesivi-frei.webp",
+      "small": "/assets/catalogo/custom/g94e26d-libretto-di-bigliettini-adesivi-frei-480.webp",
+      "alt": "Libretto di bigliettini adesivi Frei — mockup dimostrativo",
+      "description": "Libretto di bigliettini adesivi Frei. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GD211BB": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gd211bb-laccetto-essence-breakaway-con-clip-a-bottone-a-pressione-girevole.webp",
+      "small": "/assets/catalogo/custom/gd211bb-laccetto-essence-breakaway-con-clip-a-bottone-a-pressione-girevole-480.webp",
+      "alt": "Laccetto Essence Breakaway con clip a bottone a pressione girevole — mockup dimostrativo",
+      "description": "Laccetto Essence Breakaway con clip a bottone a pressione girevole. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G6459A9": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g6459a9-biglietti-da-visita-premium.webp",
+      "small": "/assets/catalogo/design/g6459a9-biglietti-da-visita-premium-480.webp",
+      "alt": "Biglietti da visita Premium — mockup dimostrativo",
+      "description": "Biglietti da visita Premium. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G334CB3": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g334cb3-timbri-autoinchiostranti.webp",
+      "small": "/assets/catalogo/custom/g334cb3-timbri-autoinchiostranti-480.webp",
+      "alt": "Timbri autoinchiostranti — mockup dimostrativo",
+      "description": "Timbri autoinchiostranti. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G3FD4BC": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g3fd4bc-roll-up-senza-pvc.webp",
+      "small": "/assets/catalogo/signage/g3fd4bc-roll-up-senza-pvc-480.webp",
+      "alt": "Roll up senza PVC — mockup dimostrativo",
+      "description": "Roll up senza PVC. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G79D699": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g79d699-kit-di-bigliettini-adesivi-freiji.webp",
+      "small": "/assets/catalogo/custom/g79d699-kit-di-bigliettini-adesivi-freiji-480.webp",
+      "alt": "Kit di bigliettini adesivi Freiji — mockup dimostrativo",
+      "description": "Kit di bigliettini adesivi Freiji. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G695C27": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g695c27-scatole-regalo.webp",
+      "small": "/assets/catalogo/custom/g695c27-scatole-regalo-480.webp",
+      "alt": "Scatole regalo — mockup dimostrativo",
+      "description": "Scatole regalo. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G4AC9E9": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g4ac9e9-fotolibri.webp",
+      "small": "/assets/catalogo/custom/g4ac9e9-fotolibri-480.webp",
+      "alt": "Fotolibri — mockup dimostrativo",
+      "description": "Fotolibri. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G546065": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g546065-portabiglietti-da-visita-verticali-in-pelle-nera.webp",
+      "small": "/assets/catalogo/custom/g546065-portabiglietti-da-visita-verticali-in-pelle-nera-480.webp",
+      "alt": "Portabiglietti da visita verticali in pelle nera — mockup dimostrativo",
+      "description": "Portabiglietti da visita verticali in pelle nera. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GA18840": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/ga18840-runner-da-tavola-personalizzati.webp",
+      "small": "/assets/catalogo/signage/ga18840-runner-da-tavola-personalizzati-480.webp",
+      "alt": "Runner da tavola personalizzati — mockup dimostrativo",
+      "description": "Runner da tavola personalizzati. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G2FB50E": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g2fb50e-evidenziatore-di-forma-triangolare.webp",
+      "small": "/assets/catalogo/custom/g2fb50e-evidenziatore-di-forma-triangolare-480.webp",
+      "alt": "Evidenziatore di forma triangolare — mockup dimostrativo",
+      "description": "Evidenziatore di forma triangolare. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GF93C05": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gf93c05-set-regalo-con-finestrella-orbia-lustra.webp",
+      "small": "/assets/catalogo/custom/gf93c05-set-regalo-con-finestrella-orbia-lustra-480.webp",
+      "alt": "Set regalo con finestrella Orbia & Lustra — mockup dimostrativo",
+      "description": "Set regalo con finestrella Orbia & Lustra. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GAF23F2": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gaf23f2-set-matite-colorate-abigail.webp",
+      "small": "/assets/catalogo/custom/gaf23f2-set-matite-colorate-abigail-480.webp",
+      "alt": "Set matite colorate Abigail — mockup dimostrativo",
+      "description": "Set matite colorate Abigail. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G04B7CF": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g04b7cf-penna-a-sfera-con-stampa-integrale.webp",
+      "small": "/assets/catalogo/custom/g04b7cf-penna-a-sfera-con-stampa-integrale-480.webp",
+      "alt": "Penna a sfera con stampa integrale — mockup dimostrativo",
+      "description": "Penna a sfera con stampa integrale. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G88BF20": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g88bf20-set-regalo-prinkipas-penna-in-oro-ros.webp",
+      "small": "/assets/catalogo/custom/g88bf20-set-regalo-prinkipas-penna-in-oro-ros-480.webp",
+      "alt": "Set regalo Prinkipas: penna in oro rosé — mockup dimostrativo",
+      "description": "Set regalo Prinkipas: penna in oro rosé. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G573E6F": {
+      "status": "verified",
+      "src": "/assets/catalogo/design/g573e6f-cartoline-standard.webp",
+      "small": "/assets/catalogo/design/g573e6f-cartoline-standard-480.webp",
+      "alt": "Cartoline standard — mockup dimostrativo",
+      "description": "Cartoline standard. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G5789BF": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g5789bf-tazze-personalizzate.webp",
+      "small": "/assets/catalogo/custom/g5789bf-tazze-personalizzate-480.webp",
+      "alt": "Tazze personalizzate — mockup dimostrativo",
+      "description": "Tazze personalizzate. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GC40BA8": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gc40ba8-palla-antistress-cool.webp",
+      "small": "/assets/catalogo/custom/gc40ba8-palla-antistress-cool-480.webp",
+      "alt": "Palla antistress cool — mockup dimostrativo",
+      "description": "Palla antistress cool. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "GB3FDA6": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/gb3fda6-matita-di-legno-graffo-con-gomma.webp",
+      "small": "/assets/catalogo/custom/gb3fda6-matita-di-legno-graffo-con-gomma-480.webp",
+      "alt": "Matita di legno Graffo con gomma — mockup dimostrativo",
+      "description": "Matita di legno Graffo con gomma. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G10BA02": {
+      "status": "verified",
+      "src": "/assets/catalogo/custom/g10ba02-calamite-personalizzate.webp",
+      "small": "/assets/catalogo/custom/g10ba02-calamite-personalizzate-480.webp",
+      "alt": "Calamite personalizzate — mockup dimostrativo",
+      "description": "Calamite personalizzate. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
+    },
+    "G2EF191": {
+      "status": "verified",
+      "src": "/assets/catalogo/signage/g2ef191-cartelli-rigidi-da-esterno.webp",
+      "small": "/assets/catalogo/signage/g2ef191-cartelli-rigidi-da-esterno-480.webp",
+      "alt": "Cartelli rigidi da esterno — mockup dimostrativo",
+      "description": "Cartelli rigidi da esterno. Mockup originale con grafica dimostrativa.",
+      "provenance": "Mockup originale generato con imagegen e controllato visivamente; nessuna foto di terzi utilizzata.",
+      "batch": "A01"
     }
   }
 }
