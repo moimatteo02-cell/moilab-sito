@@ -121,22 +121,22 @@ function mount(key, cfg) {
     const band = ['Sticker', 'Biglietti da visita', 'Scatole', 'Da 1 pezzo', 'Prezzi chiari', 'Stampa UV in arrivo'];
     return `<div class="gl">
       <section class="gl-hero" aria-label="Sticker, biglietti e scatole">
-        <div class="gl-tabs"><span class="gl-tab gl-tab-brand">MOI LAB</span><span class="gl-tabs-r">${cats.map(c => `<button type="button" class="gl-tab" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
-        <div class="gl-card">
-          <div class="gl-hero-l"><h2 class="gl-h" data-r><span style="--d:0"><i>Sticker,</i></span><span style="--d:1"><i>biglietti e</i></span><span style="--d:2"><i>scatole,</i></span><span style="--d:3"><i><em>fatti bene.</em></i></span></h2>
+        <div class="gl-tabs"><span class="gl-tab gl-tab-brand">MOI LAB</span><span class="gl-tabs-r"><span class="gl-ind" aria-hidden="true"></span>${cats.map(c => `<button type="button" class="gl-tab" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
+        <div class="gl-card"><div class="gl-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="gl-hero-l"><h2 class="gl-h"><span><b class="gw" style="--i:0">Sticker,</b></span><span><b class="gw" style="--i:1">biglietti</b> <b class="gw" style="--i:2">e</b></span><span><b class="gw" style="--i:3">scatole,</b></span><span><em class="gwrite" style="--i:4">fatti bene.</em></span></h2>
             <button type="button" class="gl-cta" data-go-products data-r style="--d:4">Scegli il prodotto <i aria-hidden="true"></i></button></div>
-          <div class="gl-hero-img" data-r style="--d:2">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
+          <div class="gl-hero-img gl-tilt" data-r style="--d:2">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
           <div class="gl-hero-r"><p data-r style="--d:3"><span class="gl-big">da ${euro(minAll)}</span><br>il primo ordine, IVA inclusa</p>
             <p data-r style="--d:4"><b>Da 1 pezzo</b>Adesivi sagomati anche singoli, per provare prima di ordinarne tanti.</p>
             <p data-r style="--d:5"><b>Prezzi chiari</b>Listino a scaglioni: scegli la quantità e vedi subito il totale.</p></div>
-          ${feat ? `<div class="gl-notch"><button type="button" class="gl-mini" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button></div>` : ''}
+          ${feat ? `<div class="gl-notch"><button type="button" class="gl-mini gl-special" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button></div>` : ''}
         </div>
         <div class="gl-band" aria-hidden="true"><div>${[...band, ...band].map(t => `<span>${t}</span>`).join('')}</div></div>
       </section>
       <section class="gl-prod" id="gk-${key}-prodotti" aria-label="Prodotti">
         <div class="gl-ttl" data-r><h3>Scegli cosa stampare</h3><span class="gl-tag">${plural(data.length)}</span></div>
         <div class="gl-cards">${cats.map((c, i) => `<button type="button" class="gl-pc" data-cat="${esc(c.name)}" data-r style="--d:${i}">
-          <span class="gl-pc-pic">${c.img ? `<img src="${c.img}" alt="" loading="lazy" decoding="async">` : icon(c.ic)}<span class="gl-pc-dot">${c.n}</span></span>
+          <span class="gl-pc-pic gl-tilt">${c.img ? `<img src="${c.img}" alt="" loading="lazy" decoding="async">` : icon(c.ic)}<span class="gl-pc-dot">${c.n}</span><span class="gl-see" aria-hidden="true">Vedi i ${c.n} prodotti →</span></span>
           <span class="gl-pc-txt"><span style="all:unset"><b>${esc(c.name)}</b><small>${c.n} prodotti · ordini da ${euro(c.min)}</small></span><span>Scopri →</span></span>
           <span class="gl-pc-line" aria-hidden="true"></span></button>`).join('')}</div>
       </section>
@@ -158,9 +158,42 @@ function mount(key, cfg) {
           <div><h4>Come funziona</h4><p>1 · Scegli prodotto e quantità</p><p>2 · Aggiungi al carrello</p><p>3 · Inviaci il riepilogo su WhatsApp</p></div>
           <div><h4>Serve altro?</h4><button type="button" data-ask>Richiesta particolare</button><button type="button" data-uv>Stampa UV, info</button><button type="button" data-cart>Il tuo carrello</button></div></div>
           <button type="button" class="gl-bar" data-cart>Apri il carrello e chiedi il preventivo</button></div>
-        <div class="gl-foot-img">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
+        <div class="gl-foot-img gl-par">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
       </section></div>`;
   }
+  /* animazioni come in Abbigliamento: titolo a parole, sfondo che respira, 3D, parallasse, evidenziatore, ricerca che scrive */
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function enhanceLanding() {
+    const h = view.querySelector('.gl-h'); if (h && !calm) requestAnimationFrame(() => h.classList.add('gl-play'));
+    if (fine && !calm) view.querySelectorAll('.gl-tilt').forEach(el => {
+      el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.setProperty('--ry', (x * 12).toFixed(2) + 'deg'); el.style.setProperty('--rx', (-y * 9).toFixed(2) + 'deg'); el.style.setProperty('--gx', (x * 100 + 50).toFixed(1) + '%'); el.style.setProperty('--gy', (y * 100 + 50).toFixed(1) + '%'); el.classList.add('is-tilt'); });
+      el.addEventListener('pointerleave', () => { el.style.setProperty('--ry', '0deg'); el.style.setProperty('--rx', '0deg'); el.classList.remove('is-tilt'); });
+    });
+    const tabs = view.querySelector('.gl-tabs-r'), ind = tabs && tabs.querySelector('.gl-ind');
+    if (tabs && ind) { const go = b => { ind.style.width = b.offsetWidth + 'px'; ind.style.transform = `translateX(${b.offsetLeft}px)`; ind.style.opacity = 1; };
+      tabs.querySelectorAll('.gl-tab').forEach(b => { b.addEventListener('pointerenter', () => go(b)); b.addEventListener('focus', () => go(b)); });
+      tabs.addEventListener('pointerleave', () => { ind.style.opacity = 0; }); }
+    parallax();
+  }
+  function parallax() {
+    if (calm || !sec.classList.contains('gk-at-home')) return; const vh = innerHeight;
+    view.querySelectorAll('.gl-hero-img img, .gl-par img, .gl-pc-pic img').forEach((img, i) => { const r = img.parentElement.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
+      img.style.setProperty('--py', (((r.top + r.height / 2 - vh / 2) / vh) * (i % 2 ? -22 : 28)).toFixed(1) + 'px'); });
+  }
+  let prf = 0; room.addEventListener('scroll', () => { if (!prf) prf = requestAnimationFrame(() => { prf = 0; parallax(); }); }, { passive: true });
+  // esempi di ricerca che si scrivono da soli (nelle liste)
+  const EX = ['adesivi rotondi', 'biglietti opachi', 'scatole postali', 'adesivi trasparenti', 'biglietti kraft', 'etichette per prodotti'];
+  if (!calm) { let w = 0, c = 0, dir = 1, pause = 0; const base = input.placeholder;
+    const tick = () => { if (!input.isConnected) return;
+      if (curated && document.activeElement !== input && !input.value && input.offsetParent) {
+        if (pause > 0) pause--; else { const word = EX[w]; c += dir;
+          if (c > word.length) { dir = -1; pause = 26; c = word.length; } else if (c < 0) { dir = 1; c = 0; w = (w + 1) % EX.length; pause = 4; }
+          input.placeholder = 'Cerca: ' + word.slice(0, c) + (c % 2 ? '|' : ' '); }
+      } else if (!input.value) input.placeholder = base;
+      setTimeout(tick, dir > 0 ? 80 : 35); };
+    setTimeout(tick, 1500); }
+
   // comparsa degli elementi quando entrano in vista
   function reveal() {
     const els = [...view.querySelectorAll('[data-r]')]; if (!els.length) return;
@@ -212,7 +245,7 @@ function mount(key, cfg) {
     }
     view.innerHTML = h;
     sec.classList.toggle('gk-at-home', curated && st.v === 'home' && !st.q.trim());
-    view.classList.remove('gl-anim'); if (sec.classList.contains('gk-at-home')) requestAnimationFrame(reveal);
+    view.classList.remove('gl-anim'); if (sec.classList.contains('gk-at-home')) requestAnimationFrame(() => { reveal(); enhanceLanding(); });
   }
 
   /* ---------- navigazione (con il tasto indietro del telefono) ---------- */
