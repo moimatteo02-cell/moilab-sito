@@ -3,13 +3,13 @@
    Prezzi «da … al pezzo» IVA inclusa: il prezzo finale lo confermiamo nel preventivo. */
 (() => {
 const ROOMS = {
-  custom: { room: 'moi-showroom-custom', k: 'MOI LAB / GADGET E OGGETTI / CATALOGO', h: 'Tutti i gadget,', em: 'con il tuo logo.', lead: 'Penne, borracce, tazze, tecnologia, packaging e regali: scegli il prodotto, il colore e la quantità, poi chiedi il preventivo.', ph: 'Cerca: penna, borraccia, tazza…' },
+  custom: { room: 'moi-showroom-custom', k: 'MOI LAB / CUSTOM / CATALOGO', h: 'Sticker, biglietti e scatole,', em: 'fatti bene.', lead: 'Pochi prodotti, scelti con cura: scegli il formato e la quantità, il prezzo finale con la tua grafica lo confermiamo nel preventivo.', ph: 'Cerca: adesivi rotondi, biglietti opachi, scatole…' },
   signage: { room: 'moi-showroom-signage', k: 'MOI LAB / INSEGNE / CATALOGO', h: 'Striscioni, cartelli', em: 'e allestimenti.', lead: 'Roll-up, bandiere, poster, pannelli e tutto per fiere ed eventi.', ph: 'Cerca: roll-up, bandiera, pannello…' },
   design: { room: 'moi-showroom-design', k: 'MOI LAB / GRAFICA / STAMPA', h: 'La tua grafica,', em: 'stampata bene.', lead: 'Biglietti da visita, volantini, opuscoli, menu, inviti: la grafica la curiamo noi, se vuoi.', ph: 'Cerca: biglietti, volantini, menu…' }
 };
 const PAGE = 30;
 const NAV = window.MoiCatalogNavigation;
-const VERSION = '20261028-1';
+const VERSION = '20261028-3';
 const catalogCache = new Map();
 let mediaPromise;
 // due registri immagini: media.json (lotti A, ChatGPT) e media-claude.json (lotti B, Claude). Nessuno dei due tocca l'altro.
@@ -22,6 +22,14 @@ function getCatalog(key) {
   return catalogCache.get(key);
 }
 const getAll = () => Promise.all(Object.keys(ROOMS).map(getCatalog)).then(l => l.flat());
+/* vetrina: per i servizi elencati in data/catalogo/vetrina.json il catalogo mostra solo i prodotti scelti, divisi in pochi scaffali */
+let vetrinaP;
+const getVetrina = () => vetrinaP ||= fetch(`/data/catalogo/vetrina.json?v=${VERSION}`).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+async function getShelves(key) {
+  const v = (await getVetrina())[key]; if (!v) return null;
+  const pool = new Map((await getAll()).map(x => [x.id, x]));
+  return v.flatMap(sh => sh.ids.map((id, i) => pool.get(id) && { ...pool.get(id), cat: sh.name, sub: sh.name, o: i })).filter(Boolean);
+}
 const SVC = { custom: 'Gadget', signage: 'Insegne', design: 'Stampa' };
 const ORDER = { custom: ['Tazze e bicchieri', 'Borracce', 'Penne e scrittura', 'Quaderni e blocchi', 'Tecnologia', 'Tempo libero', 'Casa', 'Ufficio', 'Portachiavi', 'Adesivi ed etichette', 'Regali con foto', 'Dolci e snack', 'Packaging', 'Packaging per alimenti'] };
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -56,23 +64,23 @@ function mount(key, cfg) {
     <div class="gk-view" aria-live="polite"><p class="gk-count">Carico il catalogo…</p></div>`;
   anchor.after(sec);
   const $ = s => sec.querySelector(s), view = $('.gk-view'), input = $('.gk-search input');
-  let data = null, all = null, loading = false, cats = [], tint = {};
+  let curated = false, data = null, all = null, loading = false, cats = [], tint = {};
   let st = { v: 'home', cat: '', sub: '', path: '', q: '', global: false, sort: '', one: false, shown: PAGE };
 
   const load = async () => {
     if (data || loading) return; loading = true; sec.setAttribute('aria-busy', 'true');
-    try { [data] = await Promise.all([getCatalog(key), imgsReady]); }
+    try { const [shelf] = await Promise.all([getShelves(key), imgsReady]); curated = !!shelf; data = shelf || await getCatalog(key); }
     catch { loading = false; sec.removeAttribute('aria-busy'); view.innerHTML = '<p class="gk-count">Catalogo non disponibile. <button type="button" class="gk-retry">Riprova</button></p>'; return; }
     loading = false; sec.removeAttribute('aria-busy');
     const by = {}; data.forEach(x => { const c = by[x.cat] || (by[x.cat] = { name: x.cat, n: 0, min: Infinity, ic: x.ic, subs: {} }); c.n++; c.min = Math.min(c.min, x.p);
       const s = c.subs[x.sub] || (c.subs[x.sub] = { name: x.sub, n: 0, min: Infinity, ic: x.ic }); s.n++; s.min = Math.min(s.min, x.p); });
     const ord = ORDER[key] || [];
     cats = Object.values(by).map(c => ({ ...c, subs: Object.values(c.subs).sort((a, b) => b.n - a.n) }))
-      .sort((a, b) => ((ord.indexOf(a.name) + 1 || 99) - (ord.indexOf(b.name) + 1 || 99)) || b.n - a.n);
+      .sort((a, b) => curated ? 0 : ((ord.indexOf(a.name) + 1 || 99) - (ord.indexOf(b.name) + 1 || 99)) || b.n - a.n);
     const mock = (cat, sub) => data.find(x => x.cat === cat && (!sub || x.sub === sub) && x._media?.status === 'verified')?._media.small || '';
     cats.forEach((c, i) => { tint[c.name] = TINTS[i % TINTS.length]; c.subs.forEach(s => { s.img = imgOf(key, s.name) || mock(c.name, s.name); }); c.img = c.subs.map(s => imgOf(key, s.name)).find(Boolean) || mock(c.name) ; });
     // percorsi per esigenza e «cerca in tutti i servizi» usano anche gli altri cataloghi: li carico in background
-    getAll().then(l => { all = l; let i = cats.length; l.forEach(x => { if (!tint[x.cat]) tint[x.cat] = TINTS[i++ % TINTS.length]; }); if (st.path || st.global) render(); }).catch(() => {});
+    if (!curated) getAll().then(l => { all = l; let i = cats.length; l.forEach(x => { if (!tint[x.cat]) tint[x.cat] = TINTS[i++ % TINTS.length]; }); if (st.path || st.global) render(); }).catch(() => {});
     try { history.replaceState({ ...(history.state || {}), gk: key, st: { ...st }, y: room.scrollTop }, ''); } catch {}
     render();
   };
@@ -82,7 +90,7 @@ function mount(key, cfg) {
       <span class="gk-tile-pic" style="--gk-t:${t.tint}">${t.img ? `<img src="${t.img}" alt="" loading="lazy" decoding="async">` : `<span class="gk-blob"></span>${icon(t.ic)}`}</span>
       <span class="gk-tile-txt"><b>${esc(t.name)}</b><small>${plural(t.n)} · da ${euro(t.min)}</small></span><span class="gk-tile-go" aria-hidden="true">→</span></button>`;
   const row = x => `<button type="button" class="gk-row" data-id="${x.id}" data-svc="${x._service}"><span class="gk-row-pic" style="--gk-t:${tint[x.cat] || TINTS[0]}">${picture(x)}</span>
-      <span class="gk-row-main">${x._service !== key ? `<em class="gk-svc">${SVC[x._service]} · ${esc(x.sub)}</em>` : ''}<b>${esc(x.n)}</b><small>${dots(x.col)}${x.col && x.col.length > 1 ? `<span>${x.col.length} colori</span>` : ''}<span class="${x.q === 1 ? 'gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span></small></span>
+      <span class="gk-row-main">${x._service !== key && !curated ? `<em class="gk-svc">${SVC[x._service]} · ${esc(x.sub)}</em>` : ''}<b>${esc(x.n)}</b><small>${dots(x.col)}${x.col && x.col.length > 1 ? `<span>${x.col.length} colori</span>` : ''}<span class="${x.q === 1 ? 'gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span></small></span>
       <span class="gk-row-p"><small>da</small><b>${euro(x.p)}</b><small>al pezzo</small></span></button>`;
   const crumbs = () => {
     const parts = [`<button type="button" data-go="home">Catalogo</button>`];
@@ -109,13 +117,13 @@ function mount(key, cfg) {
       const l = sortL(src.filter(x => (!st.one || x.q === 1) && NAV.matches(x, st.q)));
       const subHits = []; cats.forEach(c => c.subs.forEach(s => { if (words.some(w => w.length > 2 && norm(s.name + ' ' + c.name).includes(w.slice(0, Math.max(4, w.length - 2))))) subHits.push([c, s]); }));
       h = `<div class="gk-v-head"><div><h3>Risultati per «${esc(st.q.trim())}»</h3></div></div>
-        <div class="gk-chips"><button type="button" class="gk-glob" aria-pressed="${st.global}">${st.global ? 'In tutti i servizi ✓' : 'Cerca anche in tutti i servizi'}</button></div>
+        ${curated ? '' : `<div class="gk-chips"><button type="button" class="gk-glob" aria-pressed="${st.global}">${st.global ? 'In tutti i servizi ✓' : 'Cerca anche in tutti i servizi'}</button></div>`}
         ${subHits.length ? `<div class="gk-chips"><span>Vai a</span>${subHits.slice(0, 6).map(([c, s]) => `<button type="button" data-cat="${esc(c.name)}" data-sub="${esc(s.name)}">${esc(s.name)} <small>${s.n}</small></button>`).join('')}</div>` : ''}
         ${tools(l.length)}${listing(l)}`;
     } else if (st.v === 'home') {
-      const groups = [...new Set(cats.map(c => NAV.family({ cat: c.name })))], fam = groups.length > 1;
-      h = `<div class="gk-chips gk-paths"><span>Per esigenza</span>${NAV.paths.map(p => `<button type="button" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>
-        ${groups.map(g => `${fam ? `<h3 class="gk-fam">${esc(g)}</h3>` : ''}<div class="gk-tiles">${cats.filter(c => NAV.family({ cat: c.name }) === g).map(c => tile({ name: c.name, n: c.n, min: c.min, ic: c.ic, img: c.img, tint: tint[c.name] }, `data-cat="${esc(c.name)}"`)).join('')}</div>`).join('')}
+      const groups = curated ? [''] : [...new Set(cats.map(c => NAV.family({ cat: c.name })))], fam = groups.length > 1;
+      h = `${curated ? '' : `<div class="gk-chips gk-paths"><span>Per esigenza</span>${NAV.paths.map(p => `<button type="button" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>`}
+        ${groups.map(g => `${fam ? `<h3 class="gk-fam">${esc(g)}</h3>` : ''}<div class="gk-tiles${curated ? ' gk-tiles-few' : ''}">${cats.filter(c => curated || NAV.family({ cat: c.name }) === g).map(c => tile({ name: c.name, n: c.n, min: c.min, ic: c.ic, img: c.img, tint: tint[c.name] }, `data-cat="${esc(c.name)}"`)).join('')}</div>`).join('')}
         <p class="gk-foot">${plural(data.length)} in ${cats.length} categorie · prezzi IVA inclusa, stampa del logo confermata nel preventivo</p>`;
     } else if (st.v === 'path') {
       const pth = NAV.paths.find(p => p.id === st.path);

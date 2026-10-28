@@ -1,0 +1,49 @@
+{
+ "v": "2026-10-28",
+ "custom": [
+  {
+   "name": "Sticker",
+   "ids": [
+    "G1EDAC9",
+    "G3B9EBA",
+    "G3CF381",
+    "GC62CF1",
+    "G2AA7EB",
+    "GA14C9D",
+    "GF595FB",
+    "G871094",
+    "G6F5E88",
+    "GD0045A",
+    "G9DB847"
+   ]
+  },
+  {
+   "name": "Biglietti da visita",
+   "ids": [
+    "GE9DA2C",
+    "G868CC6",
+    "GC28FAA",
+    "G8BF630",
+    "GFC7832",
+    "GD82566",
+    "GF7FF12",
+    "G6459A9",
+    "G5110C8",
+    "G45141F"
+   ]
+  },
+  {
+   "name": "Scatole",
+   "ids": [
+    "GA9A0EF",
+    "GA316EC",
+    "G3845F6",
+    "G22E721",
+    "GEF3ED9",
+    "G695C27",
+    "G6ECFCD",
+    "G109A04"
+   ]
+  }
+ ]
+}

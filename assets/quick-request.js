@@ -2,9 +2,9 @@
    (Custom, Insegne, Grafica: i servizi senza un configuratore completo). */
 (() => {
 const BLOCKS = {
-  custom: { room: 'moi-showroom-custom', title: 'Gadget e oggetti personalizzati', k: 'Non trovi quello che cerchi?',
-    p: 'Dicci cosa ti serve: lo cerchiamo noi e lo aggiungiamo al preventivo.',
-    chips: ['Tazze', 'Borracce e thermos', 'Penne', 'Shopper e borse', 'Portachiavi', 'Calendari', 'Gadget aziendali', 'Altro'], qty: true },
+  custom: { room: 'moi-showroom-custom', title: 'Sticker, biglietti e scatole su misura', k: 'Ti serve un formato diverso?',
+    p: 'Misure, materiali o finiture che non vedi nel catalogo: dicci cosa ti serve e lo aggiungiamo al preventivo.',
+    chips: ['Sticker su misura', 'Etichette per prodotti', 'Biglietti da visita speciali', 'Scatole su misura', 'Altro'], qty: true },
   signage: { room: 'moi-showroom-signage', title: 'Insegne e pannelli', k: 'Non trovi quello che cerchi?',
     p: 'Insegne su misura, totem, vetrofanie: dicci cosa ti serve, misure e materiali li definiamo insieme.',
     chips: ['Insegna per negozio', 'Insegna a bandiera', 'Pannelli e cartelli', 'Vetrofanie', 'Totem', 'Targhe', 'Roll-up', 'Altro'], qty: true },

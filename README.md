@@ -140,3 +140,8 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - `docs/catalogo/divisione.csv`: chi fa cosa, con lotti A (ChatGPT) e B (Claude) in ordine di priorità.
 - `docs/catalogo/PROMPT-CHATGPT.md`: istruzioni da dare a ChatGPT.
 - I registri sono due: `data/catalogo/media.json` (A) e `data/catalogo/media-claude.json` (B). Il sito li unisce; `tools/check_catalog.cjs` blocca i codici nel registro sbagliato.
+
+### Catalogo Custom ridotto (28/10/2026)
+- La stanza Custom mostra solo la vetrina di `data/catalogo/vetrina.json`: 29 prodotti in 3 scaffali (Sticker, Biglietti da visita, Scatole), con i biglietti presi dal catalogo Stampa (nel carrello restano servizio «design»). Ricerca limitata alla vetrina, niente percorsi per esigenza né ricerca negli altri servizi. Nessun prodotto cancellato: per tornare al catalogo completo basta togliere `custom` da `vetrina.json`.
+- Blocco «Ti serve un formato diverso?» aggiornato alle tre linee.
+- Lavoro immagini a lotti sospeso: vedi `docs/catalogo/STOP-LOTTI.md` (restano 11 mockup).

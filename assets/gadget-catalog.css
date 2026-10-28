@@ -139,3 +139,7 @@ html.gk-lock .dk,html.gk-lock .qc-btn{opacity:0;pointer-events:none}
 .gk-disclaimer{margin:0 0 16px;font-size:12px;line-height:1.5;color:#6f6d66;padding:10px 12px;border-left:2px solid #c8aa77;background:#fff}
 .gk[aria-busy="true"] .gk-view{opacity:.55;pointer-events:none}
 .gk,.gk-view,.gk-rows,.gk-tiles{min-width:0;max-width:100%}
+/* vetrina corta: pochi scaffali grandi */
+.gk-tiles-few{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gk-tiles-few .gk-tile-txt b{font-size:20px}
+@media (max-width:640px){.gk-tiles-few{grid-template-columns:1fr}.gk-tiles-few .gk-tile-pic{aspect-ratio:16/10}.gk-tiles-few .gk-tile-txt{padding:14px 46px 16px 16px}.gk-tiles-few .gk-tile-txt b{font-size:18px}.gk-tiles-few .gk-tile-go{display:grid}}
