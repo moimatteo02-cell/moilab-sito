@@ -170,3 +170,12 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
   - ricerca che scrive esempi da sola nelle liste.
 
   Tutte disattivate con «riduci movimento»; il 3D solo con il mouse.
+- 28/10/2026, 21:00: pagina iniziale Custom in stile «poster», sul modello Smash Burger indicato dal titolare.
+  - Carattere stretto Anton, da Google Fonts.
+  - Eroe nero con titolo enorme, terza riga oro e adesivo inclinato che esce dalla cornice; freccia disegnata con il prodotto in evidenza; nastro oro.
+  - Angolo con prodotto in evidenza e frecce ‹ ›.
+  - «Pochi prodotti. Fatti bene. Niente confusione.» con le foto che fluttuano.
+  - «I più richiesti.»: 4 schede con «+» e prezzo in pillola, più i link agli scaffali.
+  - Stampa UV: foto e blocco oro.
+  - Chiusura con le colonne e la scritta gigante MOI LAB.
+  - `check_catalog.cjs` ora blocca le immagini vuote; G695C27 ricreato da 480 px, da sostituire.

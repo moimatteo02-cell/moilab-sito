@@ -113,52 +113,61 @@ function mount(key, cfg) {
       ${rest > 0 ? `<div class="gk-more-wrap"><button type="button" class="gk-more">Mostra altri ${Math.min(PAGE, rest)} <small>ne restano ${rest.toLocaleString('it-IT')}</small></button></div>` : ''}`; };
 
   /* ---------- vetrina: pagina iniziale (eroe, stampa UV, «non c'è nel sito», prodotti, come funziona) ---------- */
-  const mediaOf = id => { const x = data.find(x => x.id === id); return x && x._media?.status === 'verified' ? x._media.src : ''; };
+  const mediaOf = (id, small) => { const x = data.find(x => x.id === id); return x && x._media?.status === 'verified' ? (small && x._media.small) || x._media.src : ''; };
   function landing() {
-    const feat = data.find(x => x.q === 1 && x._media?.status === 'verified') || data[0];
-    const heroImg = mediaOf('G3B9EBA') || cats[0].img, endImg = mediaOf('GA9A0EF') || (cats[2] || cats[0]).img;
-    const minAll = Math.min(...cats.map(c => c.min));
-    const band = ['Sticker', 'Biglietti da visita', 'Scatole', 'Da 1 pezzo', 'Prezzi chiari', 'Stampa UV in arrivo'];
+    const byId = id => data.find(x => x.id === id);
+    const fav = ['G3CF381', 'G3B9EBA', 'GE9DA2C', 'GA9A0EF'].map(byId).filter(Boolean);
+    const feats = ['G3CF381', 'GC28FAA', 'G695C27', 'G1EDAC9'].map(byId).filter(x => x && x._media?.status === 'verified');
+    const heroImg = mediaOf('G1EDAC9') || cats[0].img, splitImg = mediaOf('GA9A0EF') || (cats[2] || cats[0]).img, uvImg = mediaOf('G695C27', 1) || splitImg, endImg = mediaOf('GC28FAA') || cats[1]?.img;
+    const f0 = feats[0];
+    const price = x => x.t ? euro(x.from) : euro(x.p);
+    const band = ['Sticker su misura', 'Biglietti che restano', 'Scatole col tuo logo', 'Anche 1 pezzo', 'Prezzi chiari', 'Stampa UV in arrivo'];
+    const sm = (img, cls) => img ? `<span class="${cls}"><img src="${img}" alt="" loading="lazy" decoding="async"></span>` : '';
     return `<div class="gl">
       <section class="gl-hero" aria-label="Sticker, biglietti e scatole">
-        <div class="gl-tabs"><span class="gl-tab gl-tab-brand">MOI LAB</span><span class="gl-tabs-r"><span class="gl-ind" aria-hidden="true"></span>${cats.map(c => `<button type="button" class="gl-tab" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
+        <div class="gl-tabs"><span class="gl-tab gl-tab-brand">MOI LAB</span><span class="gl-tabs-r"><span class="gl-ind" aria-hidden="true"></span>${cats.map(c => `<button type="button" class="gl-tab" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}<button type="button" class="gl-tab gl-tab-cta" data-cart>Carrello</button></span></div>
         <div class="gl-card"><div class="gl-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
-          <div class="gl-hero-l"><h2 class="gl-h"><span><b class="gw" style="--i:0">Sticker,</b></span><span><b class="gw" style="--i:1">biglietti</b> <b class="gw" style="--i:2">e</b></span><span><b class="gw" style="--i:3">scatole,</b></span><span><em class="gwrite" style="--i:4">fatti bene.</em></span></h2>
-            <button type="button" class="gl-cta" data-go-products data-r style="--d:4">Scegli il prodotto <i aria-hidden="true"></i></button></div>
-          <div class="gl-hero-img gl-tilt" data-r style="--d:2">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
-          <div class="gl-hero-r"><p data-r style="--d:3"><span class="gl-big">da ${euro(minAll)}</span><br>il primo ordine, IVA inclusa</p>
-            <p data-r style="--d:4"><b>Da 1 pezzo</b>Adesivi sagomati anche singoli, per provare prima di ordinarne tanti.</p>
-            <p data-r style="--d:5"><b>Prezzi chiari</b>Listino a scaglioni: scegli la quantità e vedi subito il totale.</p></div>
-          ${feat ? `<div class="gl-notch"><button type="button" class="gl-mini gl-special" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button></div>` : ''}
+          <div class="gl-hero-l"><h2 class="gl-h"><span><b class="gw" style="--i:0">Sticker,</b></span><span><b class="gw" style="--i:1">biglietti</b> <b class="gw" style="--i:2">e</b></span><span class="gl-h-acc"><b class="gw" style="--i:3">scatole.</b></span></h2>
+            <button type="button" class="gl-cta" data-go-products>Scegli il prodotto <i aria-hidden="true"></i></button></div>
+          <div class="gl-sticker gl-tilt" aria-hidden="true">${heroImg ? `<img src="${heroImg}" alt="" decoding="async">` : ''}</div>
+          <div class="gl-hero-r">
+            ${f0 ? `<button type="button" class="gl-caption" data-open="${f0.id}"><svg class="gl-arrow" viewBox="0 0 120 70" aria-hidden="true"><path d="M114 8C90 6 70 18 62 34c-6 12 4 22 12 14 7-7-2-20-16-16C38 38 22 52 10 62"/><path d="M8 50l2 14 14-2"/></svg><span>In evidenza<br><b>${esc(f0.n)}</b><em>da ${price(f0)}</em></span></button>` : ''}
+            <p>Adesivi, biglietti da visita e scatole stampati col tuo logo. Pochi prodotti, scelti bene, con il prezzo chiaro prima ancora di chiedere.</p></div>
+          ${feats.length ? `<div class="gl-notch"><div class="gl-mini gl-special" data-feat="0">
+            <button type="button" class="gl-mini-main" data-open="${feats[0].id}"><span class="gl-mini-pic"><img src="${esc(feats[0]._media.small || feats[0]._media.src)}" alt=""></span><span class="gl-mini-txt"><b>${esc(feats[0].n)}</b><em>da ${price(feats[0])}</em></span></button>
+            <span class="gl-mini-nav"><button type="button" data-feat-step="-1" aria-label="Prodotto precedente">‹</button><button type="button" data-feat-step="1" aria-label="Prodotto successivo">›</button></span></div></div>` : ''}
+          <div class="gl-band" aria-hidden="true"><div>${[...band, ...band].map(t => `<span>${t}</span>`).join('')}</div></div>
         </div>
-        <div class="gl-band" aria-hidden="true"><div>${[...band, ...band].map(t => `<span>${t}</span>`).join('')}</div></div>
       </section>
-      <section class="gl-prod" id="gk-${key}-prodotti" aria-label="Prodotti">
-        <div class="gl-ttl" data-r><h3>Scegli cosa stampare</h3><span class="gl-tag">${plural(data.length)}</span></div>
-        <div class="gl-cards">${cats.map((c, i) => `<button type="button" class="gl-pc" data-cat="${esc(c.name)}" data-r style="--d:${i}">
-          <span class="gl-pc-pic gl-tilt">${c.img ? `<img src="${c.img}" alt="" loading="lazy" decoding="async">` : icon(c.ic)}<span class="gl-pc-dot">${c.n}</span><span class="gl-see" aria-hidden="true">Vedi i ${c.n} prodotti →</span></span>
-          <span class="gl-pc-txt"><span style="all:unset"><b>${esc(c.name)}</b><small>${c.n} prodotti · ordini da ${euro(c.min)}</small></span><span>Scopri →</span></span>
-          <span class="gl-pc-line" aria-hidden="true"></span></button>`).join('')}</div>
+      <section class="gl-about" aria-label="Chi siamo">
+        ${sm(mediaOf('G3B9EBA', 1), 'gl-float gl-float-l')}${sm(mediaOf('GF7FF12', 1), 'gl-float gl-float-r')}
+        <div class="gl-ttl" data-r><h3>Pochi prodotti. Fatti bene. Niente confusione.</h3><span class="gl-tag">Made by MOI LAB</span></div>
+        <p class="gl-caps" data-r style="--d:1">Molti dei nostri prodotti non sono in vista, per tenere tutto semplice. Ti serve qualcosa che qui non trovi? Scrivici: ti diciamo se possiamo farlo o procurartelo.</p>
+        <button type="button" class="gl-cta gl-cta-red" data-ask data-r style="--d:2">Fai una richiesta <i aria-hidden="true"></i></button>
       </section>
-      <section class="gl-split" aria-label="Richieste particolari">
-        <div class="gl-split-l" data-r><span>Molti prodotti</span><span>non sono in vista</span></div>
-        <div class="gl-split-r" data-r style="--d:1"><h3>Per non fare confusione.</h3>
-          <p>Qui trovi solo le cose più richieste. Il resto non è esposto per tenere il sito semplice: per richieste particolari contattaci, ti diciamo se possiamo farlo o procurartelo.</p>
-          <button type="button" class="gl-cta" data-ask>Fai una richiesta <i aria-hidden="true"></i></button></div>
+      <section class="gl-fav" id="gk-${key}-prodotti" aria-label="I più richiesti">
+        <div class="gl-ttl" data-r><h3>I più richiesti.</h3><span class="gl-tag">Pronti da ordinare</span></div>
+        <div class="gl-favs">${fav.map((x, i) => `<button type="button" class="gl-pc" data-open="${x.id}" data-r style="--d:${i}">
+          <span class="gl-pc-plus" aria-hidden="true">+</span>
+          <span class="gl-pc-pic gl-tilt">${x._media?.status === 'verified' ? `<img src="${esc(x._media.small || x._media.src)}" alt="" loading="lazy" decoding="async">` : icon(x.ic)}</span>
+          <span class="gl-pc-row"><b>(( ${esc(x.n)} ))</b><span class="gl-price">${price(x)}</span></span>
+          <small>${x.t ? `${x.q} ${x.q === 1 ? 'pezzo' : 'pezzi'} · ${euro(x.p)} cad.` : 'prezzo al pezzo'} · ${esc(x.cat)}</small></button>`).join('')}</div>
+        <div class="gl-shelves" data-r>${cats.map(c => `<button type="button" data-cat="${esc(c.name)}">${c.name === 'Sticker' ? 'Tutti gli sticker' : c.name === 'Scatole' ? 'Tutte le scatole' : 'Tutti i biglietti'} <small>${c.n}</small> →</button>`).join('')}</div>
       </section>
-      <section class="gl-dark" aria-label="Stampa UV">
-        <i class="gl-sq gl-sq1" aria-hidden="true"></i><i class="gl-sq gl-sq2" aria-hidden="true"></i>
-        <div class="gl-ttl" data-r><h3>Stampa UV su qualsiasi superficie</h3><span class="gl-tag">In arrivo</span></div>
-        <p data-r style="--d:1">Presto il tuo logo non solo su carta e adesivi: con la stampa UV lo mettiamo direttamente sugli oggetti. Se hai già un’idea, raccontacela.</p>
-        <button type="button" class="gl-cta gl-cta-l" data-uv data-r style="--d:2">Chiedi informazioni <i aria-hidden="true"></i></button>
+      <section class="gl-split" aria-label="Stampa UV in arrivo">
+        <div class="gl-split-l">${splitImg ? `<img class="gl-par" src="${splitImg}" alt="" loading="lazy" decoding="async">` : ''}<h3 data-r>Stampa<br>UV.</h3></div>
+        <div class="gl-split-r" data-r style="--d:1"><h3>In arrivo</h3>
+          ${sm(uvImg, 'gl-split-pic')}
+          <p>Il tuo logo direttamente sugli oggetti.</p>
+          <button type="button" class="gl-cta gl-cta-red" data-uv>Chiedi info <i aria-hidden="true"></i></button></div>
       </section>
-      <section class="gl-foot" aria-label="Come funziona">
+      <section class="gl-foot" aria-label="MOI LAB">
         <div class="gl-foot-box"><div class="gl-cols">
           <div><h4>Prodotti</h4>${cats.map(c => `<button type="button" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</div>
-          <div><h4>Come funziona</h4><p>1 · Scegli prodotto e quantità</p><p>2 · Aggiungi al carrello</p><p>3 · Inviaci il riepilogo su WhatsApp</p></div>
-          <div><h4>Serve altro?</h4><button type="button" data-ask>Richiesta particolare</button><button type="button" data-uv>Stampa UV, info</button><button type="button" data-cart>Il tuo carrello</button></div></div>
-          <button type="button" class="gl-bar" data-cart>Apri il carrello e chiedi il preventivo</button></div>
-        <div class="gl-foot-img gl-par">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
+          <div><h4>Come funziona</h4><p>Scegli la quantità</p><p>Aggiungi al carrello</p><p>Inviaci il riepilogo</p></div>
+          <div><h4>Serve altro?</h4><button type="button" data-ask>Richiesta particolare</button><button type="button" data-uv>Stampa UV</button><button type="button" data-cart>Il tuo carrello</button></div></div>
+          <p class="gl-word" aria-hidden="true">MOI LAB</p></div>
+        <div class="gl-foot-img">${endImg ? `<img class="gl-par" src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
       </section></div>`;
   }
   /* animazioni come in Abbigliamento: titolo a parole, sfondo che respira, 3D, parallasse, evidenziatore, ricerca che scrive */
@@ -178,8 +187,8 @@ function mount(key, cfg) {
   }
   function parallax() {
     if (calm || !sec.classList.contains('gk-at-home')) return; const vh = innerHeight;
-    view.querySelectorAll('.gl-hero-img img, .gl-par img, .gl-pc-pic img').forEach((img, i) => { const r = img.parentElement.getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
-      img.style.setProperty('--py', (((r.top + r.height / 2 - vh / 2) / vh) * (i % 2 ? -22 : 28)).toFixed(1) + 'px'); });
+    view.querySelectorAll('img.gl-par, .gl-float img').forEach((img, i) => { const r = (img.closest('.gl-float') || img.parentElement).getBoundingClientRect(); if (r.bottom < 0 || r.top > vh) return;
+      img.style.setProperty('--py', (((r.top + r.height / 2 - vh / 2) / vh) * (i % 2 ? -26 : 34)).toFixed(1) + 'px'); });
   }
   let prf = 0; room.addEventListener('scroll', () => { if (!prf) prf = requestAnimationFrame(() => { prf = 0; parallax(); }); }, { passive: true });
   // esempi di ricerca che si scrivono da soli (nelle liste)
@@ -268,6 +277,9 @@ const top = () => { const r = $('.gk-search').getBoundingClientRect(); if (Math.
   view.addEventListener('click', e => {
     const t = e.target;
     if (t.closest('.gk-retry')) { load(); return; }
+    const fs = t.closest('[data-feat-step]'); if (fs) { const box = fs.closest('[data-feat]'), list = ['G3CF381', 'GC28FAA', 'G695C27', 'G1EDAC9'].map(id => data.find(x => x.id === id)).filter(x => x && x._media?.status === 'verified');
+      const n = (+box.dataset.feat + +fs.dataset.featStep + list.length) % list.length, x = list[n]; box.dataset.feat = n; const m = box.querySelector('.gl-mini-main');
+      m.dataset.open = x.id; m.querySelector('img').src = x._media.small || x._media.src; m.querySelector('b').textContent = x.n; m.querySelector('em').textContent = 'da ' + (x.t ? euro(x.from) : euro(x.p)); m.classList.remove('gl-swap'); void m.offsetWidth; m.classList.add('gl-swap'); return; }
     if (t.closest('[data-go-products]')) { document.getElementById(`gk-${key}-prodotti`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); return; }
     const op = t.closest('[data-open]'); if (op) { const x = data.find(x => x.id === op.dataset.open); if (x) sheet(x, tint[x.cat], op); return; }
     if (t.closest('[data-uv]')) { window.MoiCart?.fly(t.closest('[data-uv]')); window.MoiCart?.add({ service: key, title: 'Stampa UV su oggetti: richiesta informazioni', details: [['Richiesta', 'Vorrei sapere quando parte la stampa UV e cosa si può stampare']] }); return; }

@@ -18,3 +18,5 @@ Restano da fare solo questi 10 mockup (stesse regole di stile e di registro di `
 | Scatole | G3845F6 | Scatole economiche per spedizioni |
 | Scatole | G22E721 | Scatole con stampa monocromatica per spedizioni |
 | Scatole | GEF3ED9 | Scatole per prodotti |
+
+**Da rifare (28/10/2026):** `assets/catalogo/custom/g695c27-scatole-regalo.webp` (G695C27, lotto A01) era stato caricato vuoto (0 byte). Per non mostrare un'immagine rotta è stato ricreato ingrandendo la versione da 480 px: va sostituito con l'originale a 960 px. Ora `tools/check_catalog.cjs` blocca i file immagine vuoti.
