@@ -143,3 +143,9 @@ html.gk-lock .dk,html.gk-lock .qc-btn{opacity:0;pointer-events:none}
 .gk-tiles-few{grid-template-columns:repeat(3,minmax(0,1fr))}
 .gk-tiles-few .gk-tile-txt b{font-size:20px}
 @media (max-width:640px){.gk-tiles-few{grid-template-columns:1fr}.gk-tiles-few .gk-tile-pic{aspect-ratio:16/10}.gk-tiles-few .gk-tile-txt{padding:14px 46px 16px 16px}.gk-tiles-few .gk-tile-txt b{font-size:18px}.gk-tiles-few .gk-tile-go{display:grid}}
+/* listino a scaglioni */
+.gk-price [data-per]{font-size:14px;color:#6f6d66}
+.gk-tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;max-height:300px;overflow:auto;padding:2px}
+.gk-tiers button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:10px 12px;border:1px solid #18181822;border-radius:14px;background:#fff;color:#181818;font-family:inherit;text-align:left;cursor:pointer;font-variant-numeric:tabular-nums}
+.gk-tiers b{font-size:15px}.gk-tiers span{font-size:13.5px;font-weight:600}.gk-tiers small{font-size:11px;color:#8d887e}
+.gk-tiers [aria-checked="true"]{background:#181818;color:#fff;border-color:#181818}.gk-tiers [aria-checked="true"] small{color:#c8aa77}

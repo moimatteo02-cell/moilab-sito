@@ -26,10 +26,10 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 
 function add(item, silent) {
   const it = { id: uid(), service: item.service, title: String(item.title || '').slice(0, 160), details: (item.details || []).filter(d => d && d[1] != null && String(d[1]).trim() !== '').map(([k, v]) => [String(k).slice(0, 60), String(v).slice(0, 600)]),
-    qty: Number(item.qty) > 0 ? Math.round(Number(item.qty)) : null, image: item.image || '', key: item.key || '', ref: item.ref || '', price: Number(item.price) > 0 ? Number(item.price) : null, priceFrom: !!item.priceFrom, at: Date.now() };
+    qty: Number(item.qty) > 0 ? Math.round(Number(item.qty)) : null, image: item.image || '', key: item.key || '', ref: item.ref || '', price: Number(item.price) > 0 ? Number(item.price) : null, priceFrom: !!item.priceFrom, fixed: !!item.fixedQty, at: Date.now() };
   if (!SERVICES[it.service] || !it.title) return false;
   const same = it.key && state.items.find(x => x.key === it.key);
-  if (same) { if (it.qty && same.qty) same.qty += it.qty; same.details = it.details; same.price = it.price; same.priceFrom = it.priceFrom; }
+  if (same) { if (it.fixed) same.qty = it.qty; else if (it.qty && same.qty) same.qty += it.qty; same.details = it.details; same.price = it.price; same.priceFrom = it.priceFrom; }
   else { if (state.items.length >= MAX) { toast('Il carrello è pieno: invia la richiesta o togli qualcosa.'); return false; } state.items.push(it); }
   state.sent = false; save(); if (!silent) { bump(); toast(same ? `Quantità aggiornata: <b>${esc(it.title)}</b> · ${same.qty} pz` : `Aggiunto al carrello: <b>${esc(it.title)}</b>`, true); }
   return true;
@@ -44,7 +44,7 @@ function remove(id) {
 }
 let lastRemoved = null;
 function undo() { if (!lastRemoved) return; state.items.splice(Math.min(lastRemoved.at, state.items.length), 0, lastRemoved.it); lastRemoved = null; save(); hideToast(); }
-function setQty(id, q) { const it = state.items.find(x => x.id === id); if (!it || !it.qty) return; it.qty = Math.max(1, Math.min(100000, Math.round(q) || 1)); save(); }
+function setQty(id, q) { const it = state.items.find(x => x.id === id); if (!it || !it.qty || it.fixed) return; it.qty = Math.max(1, Math.min(100000, Math.round(q) || 1)); save(); }
 function syncGroup(prefix, items) {
   const keep = state.items.filter(x => !x.ref.startsWith(prefix + ':'));
   const prev = Object.fromEntries(state.items.filter(x => x.ref.startsWith(prefix + ':')).map(x => [x.ref, x]));
@@ -155,7 +155,7 @@ function paint() {
   body.innerHTML = `<div class="qc-list">${groups.map(s => `<section class="qc-group"><p class="qc-gk"><span>${SERVICES[s].n}</span>${esc(SERVICES[s].label)}</p>${state.items.filter(i => i.service === s).map(i => `
       <article class="qc-item">${i.image ? `<img src="${esc(i.image)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">` : `<span class="qc-ph">${SERVICES[s].n}</span>`}
         <div class="qc-it"><h3>${esc(i.title)}</h3>${i.details.length ? `<p>${i.details.map(([k, v]) => `<span><em>${esc(k)}</em> ${esc(v)}</span>`).join('')}</p>` : ''}
-          <div class="qc-row">${i.qty ? (i.ref ? `<span class="qc-q">${i.qty} pz</span>` : `<span class="qc-stepper"><button type="button" data-step="-1" data-id="${i.id}" aria-label="Meno">−</button><input type="number" min="1" inputmode="numeric" value="${i.qty}" data-qty="${i.id}" aria-label="Quantità"><button type="button" data-step="1" data-id="${i.id}" aria-label="Più">+</button></span>`) : '<span></span>'}${window.MoiHold ? `<span class="qc-rm-host" data-rm-host="${i.id}"></span>` : `<button type="button" class="qc-rm" data-rm="${i.id}">Rimuovi</button>`}</div></div>
+          <div class="qc-row">${i.qty ? (i.ref || i.fixed ? `<span class="qc-q">${i.qty} pz</span>` : `<span class="qc-stepper"><button type="button" data-step="-1" data-id="${i.id}" aria-label="Meno">−</button><input type="number" min="1" inputmode="numeric" value="${i.qty}" data-qty="${i.id}" aria-label="Quantità"><button type="button" data-step="1" data-id="${i.id}" aria-label="Più">+</button></span>`) : '<span></span>'}${window.MoiHold ? `<span class="qc-rm-host" data-rm-host="${i.id}"></span>` : `<button type="button" class="qc-rm" data-rm="${i.id}">Rimuovi</button>`}</div></div>
       </article>`).join('')}</section>`).join('')}${missing.length ? `<div class="qc-more"><p class="qc-gk">Aggiungi anche</p><div>${missing.map(x => `<a href="/#${ROOMS[x]}" data-go>${esc(SERVICES[x].short)}</a>`).join('')}</div></div>` : ''}<div class="qc-fields"><label class="qc-f">Nome e azienda · facoltativo<input name="qc-name" maxlength="120" autocomplete="organization" value="${esc(state.name)}"></label>
       <label class="qc-f">Note per tutto il preventivo · facoltative<textarea name="qc-notes" rows="2" maxlength="1500">${esc(state.notes)}</textarea></label></div></div>
     <div class="qc-foot">${estimate()}${window.MoiSlide ? '<div class="qc-slide"></div>' : `<a class="qc-cta" data-send href="${esc(waURL())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>`}

@@ -9,7 +9,7 @@ const ROOMS = {
 };
 const PAGE = 30;
 const NAV = window.MoiCatalogNavigation;
-const VERSION = '20261028-3';
+const VERSION = '20261028-4';
 const catalogCache = new Map();
 let mediaPromise;
 // due registri immagini: media.json (lotti A, ChatGPT) e media-claude.json (lotti B, Claude). Nessuno dei due tocca l'altro.
@@ -28,7 +28,9 @@ const getVetrina = () => vetrinaP ||= fetch(`/data/catalogo/vetrina.json?v=${VER
 async function getShelves(key) {
   const v = (await getVetrina())[key]; if (!v) return null;
   const pool = new Map((await getAll()).map(x => [x.id, x]));
-  return v.flatMap(sh => sh.ids.map((id, i) => pool.get(id) && { ...pool.get(id), cat: sh.name, sub: sh.name, o: i })).filter(Boolean);
+  // listino a scaglioni come dal fornitore: [[quantità, totale IVA inclusa], …]; minimo = primo scaglione
+  return v.flatMap(sh => sh.ids.map((id, i) => { const x = pool.get(id); if (!x) return null; const t = sh.tiers && sh.tiers[id];
+    return { ...x, cat: sh.name, sub: sh.name, o: i, ...(t ? { t, q: t[0][0], p: t[0][1] / t[0][0], from: t[0][1] } : {}) }; })).filter(Boolean);
 }
 const SVC = { custom: 'Gadget', signage: 'Insegne', design: 'Stampa' };
 const ORDER = { custom: ['Tazze e bicchieri', 'Borracce', 'Penne e scrittura', 'Quaderni e blocchi', 'Tecnologia', 'Tempo libero', 'Casa', 'Ufficio', 'Portachiavi', 'Adesivi ed etichette', 'Regali con foto', 'Dolci e snack', 'Packaging', 'Packaging per alimenti'] };
@@ -69,11 +71,11 @@ function mount(key, cfg) {
 
   const load = async () => {
     if (data || loading) return; loading = true; sec.setAttribute('aria-busy', 'true');
-    try { const [shelf] = await Promise.all([getShelves(key), imgsReady]); curated = !!shelf; data = shelf || await getCatalog(key); }
+    try { const [shelf] = await Promise.all([getShelves(key), imgsReady]); curated = !!shelf; if (curated) sec.dataset.curated = '1'; data = shelf || await getCatalog(key); }
     catch { loading = false; sec.removeAttribute('aria-busy'); view.innerHTML = '<p class="gk-count">Catalogo non disponibile. <button type="button" class="gk-retry">Riprova</button></p>'; return; }
     loading = false; sec.removeAttribute('aria-busy');
-    const by = {}; data.forEach(x => { const c = by[x.cat] || (by[x.cat] = { name: x.cat, n: 0, min: Infinity, ic: x.ic, subs: {} }); c.n++; c.min = Math.min(c.min, x.p);
-      const s = c.subs[x.sub] || (c.subs[x.sub] = { name: x.sub, n: 0, min: Infinity, ic: x.ic }); s.n++; s.min = Math.min(s.min, x.p); });
+    const by = {}; data.forEach(x => { const c = by[x.cat] || (by[x.cat] = { name: x.cat, n: 0, min: Infinity, ic: x.ic, subs: {} }); c.n++; c.min = Math.min(c.min, x.from ?? x.p);
+      const s = c.subs[x.sub] || (c.subs[x.sub] = { name: x.sub, n: 0, min: Infinity, ic: x.ic }); s.n++; s.min = Math.min(s.min, x.from ?? x.p); });
     const ord = ORDER[key] || [];
     cats = Object.values(by).map(c => ({ ...c, subs: Object.values(c.subs).sort((a, b) => b.n - a.n) }))
       .sort((a, b) => curated ? 0 : ((ord.indexOf(a.name) + 1 || 99) - (ord.indexOf(b.name) + 1 || 99)) || b.n - a.n);
@@ -91,7 +93,7 @@ function mount(key, cfg) {
       <span class="gk-tile-txt"><b>${esc(t.name)}</b><small>${plural(t.n)} · da ${euro(t.min)}</small></span><span class="gk-tile-go" aria-hidden="true">→</span></button>`;
   const row = x => `<button type="button" class="gk-row" data-id="${x.id}" data-svc="${x._service}"><span class="gk-row-pic" style="--gk-t:${tint[x.cat] || TINTS[0]}">${picture(x)}</span>
       <span class="gk-row-main">${x._service !== key && !curated ? `<em class="gk-svc">${SVC[x._service]} · ${esc(x.sub)}</em>` : ''}<b>${esc(x.n)}</b><small>${dots(x.col)}${x.col && x.col.length > 1 ? `<span>${x.col.length} colori</span>` : ''}<span class="${x.q === 1 ? 'gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span></small></span>
-      <span class="gk-row-p"><small>da</small><b>${euro(x.p)}</b><small>al pezzo</small></span></button>`;
+      ${x.t ? `<span class="gk-row-p"><small>${x.q} pz</small><b>${euro(x.from)}</b><small>${euro(x.p)} cad.</small></span>` : `<span class="gk-row-p"><small>da</small><b>${euro(x.p)}</b><small>al pezzo</small></span>`}</button>`;
   const crumbs = () => {
     const parts = [`<button type="button" data-go="home">Catalogo</button>`];
     const c = cats.find(c => c.name === st.cat);
@@ -133,14 +135,14 @@ function mount(key, cfg) {
           <div class="gk-chips">${NAV.paths.map(p => `<button type="button" aria-pressed="${p.id === st.path}" data-path="${p.id}">${esc(p.name)}</button>`).join('')}</div>${tools(l.length)}${listing(l)}`; }
     } else if (st.v === 'cat') {
       const c = cats.find(c => c.name === st.cat);
-      h = `${crumbs()}<div class="gk-v-head"><div><h3>${esc(c.name)}</h3><p>${plural(c.n)} · da ${euro(c.min)} al pezzo</p></div></div>
+      h = `${crumbs()}<div class="gk-v-head"><div><h3>${esc(c.name)}</h3><p>${plural(c.n)} · da ${euro(c.min)}${curated ? '' : ' al pezzo'}</p></div></div>
         <div class="gk-tiles">${c.subs.map(s => tile({ ...s, tint: tint[c.name] }, `data-cat="${esc(c.name)}" data-sub="${esc(s.name)}"`)).join('')}
         <button type="button" class="gk-tile gk-tile-all" data-cat="${esc(c.name)}" data-sub=""><span class="gk-tile-txt"><b>Vedi tutto</b><small>${plural(c.n)} di ${esc(c.name.toLowerCase())}</small></span><span class="gk-tile-go" aria-hidden="true">→</span></button></div>`;
     } else {
       const c = cats.find(c => c.name === st.cat);
       const l = sortL(data.filter(x => x.cat === st.cat && (!st.sub || x.sub === st.sub) && (!st.one || x.q === 1)));
       const img = st.sub ? (c.subs.find(s => s.name === st.sub) || {}).img : c.img;
-      h = `${crumbs()}<div class="gk-v-head${img ? ' has-img' : ''}">${img ? `<img src="${img}" alt="" loading="lazy">` : ''}<div><h3>${esc(st.sub || c.name)}</h3><p>${st.sub && st.sub !== c.name ? esc(c.name) + ' · ' : ''}da ${euro((st.sub ? c.subs.find(s => s.name === st.sub) : c).min)} al pezzo</p></div></div>
+      h = `${crumbs()}<div class="gk-v-head${img ? ' has-img' : ''}">${img ? `<img src="${img}" alt="" loading="lazy">` : ''}<div><h3>${esc(st.sub || c.name)}</h3><p>${st.sub && st.sub !== c.name ? esc(c.name) + ' · ' : ''}${curated ? 'ordini' : ''} da ${euro((st.sub ? c.subs.find(s => s.name === st.sub) : c).min)}${curated ? ', prezzi come da listino per quantità' : ' al pezzo'}</p></div></div>
         ${c.subs.length > 1 ? `<div class="gk-chips">${[{ name: '', n: c.n }, ...c.subs].map(s => `<button type="button" aria-pressed="${st.sub === s.name}" data-cat="${esc(c.name)}" data-sub="${esc(s.name)}">${s.name ? esc(s.name) : 'Tutto'} <small>${s.n}</small></button>`).join('')}</div>` : ''}
         ${tools(l.length)}${listing(l)}`;
     }
@@ -204,23 +206,28 @@ function sheet(x, tint, opener) {
   const p = sh.querySelector('.gk-panel');
   p.innerHTML = `<button type="button" class="gk-x" data-x aria-label="Chiudi">×</button>
     <div class="gk-hero" style="--gk-t:${tint};--gk-c:${color ? colorHex(color) : 'transparent'}"><span class="gk-blob"></span>${picture(x, 'hero')}${!(x._media?.status === 'verified') && imgOf(x._service, x.sub) ? '<span class="gk-hero-note">Immagine indicativa della categoria</span>' : ''}</div>
-    <div class="gk-body"><p class="gk-crumb">${esc(x.cat)} · ${esc(x.sub)}</p><h3 id="gk-t">${esc(x.n)}</h3>
+    <div class="gk-body"><p class="gk-crumb">${esc(x.cat)}${x.cat === x.sub ? '' : ' · ' + esc(x.sub)}</p><h3 id="gk-t">${esc(x.n)}</h3>
     ${x._media?.description ? `<p class="gk-description">${esc(x._media.description)}</p>` : ''}
     ${x._media?.status === 'verified' ? '<p class="gk-disclaimer">Esempio di personalizzazione MOI · mockup illustrativo. Grafica, colori e opzioni vengono confermati nel preventivo.</p>' : ''}
-    <p class="gk-price">da <b>${euro(x.p)}</b> al pezzo <small>IVA inclusa · più ne prendi, meno costa</small></p>
+    ${x.t ? `<p class="gk-price"><b data-tot>${euro(x.from)}</b> <span data-per>per ${x.q} pezzi · ${euro(x.p)} cad.</span><small>IVA inclusa · più ne prendi, meno costa</small></p>` : `<p class="gk-price">da <b>${euro(x.p)}</b> al pezzo <small>IVA inclusa · più ne prendi, meno costa</small></p>`}
     ${x.col && x.col.length ? `<div class="gk-f"><p>Colore <b data-cn>${esc(color)}</b></p><div class="gk-colors">${x.col.map((c, i) => `<button type="button" aria-pressed="${i === 0}" data-c="${esc(c)}" title="${esc(c)}" style="--c:${colorHex(c)}"><span class="gk-sr">${esc(c)}</span></button>`).join('')}</div></div>` : ''}
-    <div class="gk-f"><p>Quantità <small>${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</small></p>
+    ${x.t ? `<div class="gk-f"><p>Quantità <small>${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</small></p>
+      <div class="gk-tiers" role="radiogroup" aria-label="Quantità">${x.t.map(([q, t], i) => `<button type="button" role="radio" aria-checked="${i === 0}" data-tier="${i}"><b>${q.toLocaleString('it-IT')}</b><span>${euro(t)}</span><small>${euro(t / q)} cad.</small></button>`).join('')}</div></div>` : `<div class="gk-f"><p>Quantità <small>${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</small></p>
       <div class="gk-qty"><button type="button" data-d="-1" aria-label="Meno">−</button><input type="number" inputmode="numeric" min="${x.q}" value="${x.q}" aria-label="Quantità"><button type="button" data-d="1" aria-label="Più">+</button></div>
       <div class="gk-qs">${qs.map(v => `<button type="button" data-q="${v}">${v}</button>`).join('')}</div></div>
-    <p class="gk-est">Stima: <b data-est></b> <small>prezzo finale nel preventivo, con la stampa del tuo logo</small></p>
+    <p class="gk-est">Stima: <b data-est></b> <small>prezzo finale nel preventivo, con la stampa del tuo logo</small></p>`}
     <label class="gk-f gk-note">Dettagli · facoltativo<textarea rows="2" maxlength="400" placeholder="Es. logo a 1 colore, scritta, data di consegna…"></textarea></label>
     <button type="button" class="gk-add">Aggiungi al carrello +</button><p class="gk-code">Codice ${esc(x.id)}</p></div>`;
+  let tier = 0;
   const inp = p.querySelector('.gk-qty input'), est = p.querySelector('[data-est]');
-  const upd = () => { qty = Math.max(x.q, Math.round(+inp.value || x.q)); est.textContent = 'da ' + euro(Math.round(x.p * qty * 100) / 100); p.querySelectorAll('[data-q]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.q === qty))); };
+  const upd = x.t ? () => { qty = x.t[tier][0]; const tot = x.t[tier][1]; p.querySelector('[data-tot]').textContent = euro(tot); p.querySelector('[data-per]').textContent = `per ${qty.toLocaleString('it-IT')} pezzi · ${euro(tot / qty)} cad.`; p.querySelectorAll('[data-tier]').forEach(b => b.setAttribute('aria-checked', String(+b.dataset.tier === tier))); } : () => { qty = Math.max(x.q, Math.round(+inp.value || x.q)); est.textContent = 'da ' + euro(Math.round(x.p * qty * 100) / 100); p.querySelectorAll('[data-q]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.q === qty))); };
+  p.querySelector('.gk-tiers')?.addEventListener('click', e => { const b = e.target.closest('[data-tier]'); if (!b) return; tier = +b.dataset.tier; upd(); });
+  if (!x.t) {
   p.querySelector('.gk-qty').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if (!b) return; const step = qty >= 100 ? 10 : 1; inp.value = Math.max(x.q, qty + step * +b.dataset.d); upd(); });
   inp.addEventListener('change', () => { inp.value = Math.max(x.q, Math.round(+inp.value || x.q)); upd(); });
   inp.addEventListener('input', upd);
   p.querySelector('.gk-qs').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; inp.value = b.dataset.q; upd(); });
+  }
   p.querySelector('.gk-colors')?.addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; color = b.dataset.c; p.querySelectorAll('[data-c]').forEach(z => z.setAttribute('aria-pressed', String(z === b))); p.querySelector('[data-cn]').textContent = color; p.querySelector('.gk-hero').style.setProperty('--gk-c', colorHex(color)); });
   p.onkeydown = e => {
     if (e.key !== 'Tab') return;
@@ -233,11 +240,12 @@ function sheet(x, tint, opener) {
     if (!window.MoiCart) return; upd();
     const note = p.querySelector('textarea').value.trim(), svc = sh._svc;
     window.MoiCart.fly(e.currentTarget);
-    window.MoiCart.add({ service: svc, image: x._media?.src || '', title: x.n, qty, price: x.p, priceFrom: true, key: ['gk', x.id, color].join('|'),
-      details: [['Codice', x.id], ['Categoria', x.cat + ' · ' + x.sub], color ? ['Colore', color] : null, ['Prezzo indicativo', 'da ' + euro(x.p) + ' al pezzo'], note ? ['Dettagli', note] : null].filter(Boolean) });
+    const tot = x.t && x.t[tier][1];
+    window.MoiCart.add({ service: svc, image: x._media?.src || '', title: x.n, qty, price: x.t ? tot / qty : x.p, priceFrom: !x.t, fixedQty: !!x.t, key: ['gk', x.id, color, x.t ? qty : ''].join('|'),
+      details: [['Codice', x.id], ['Categoria', x.cat === x.sub ? x.cat : x.cat + ' · ' + x.sub], color ? ['Colore', color] : null, x.t ? ['Prezzo', euro(tot) + ' per ' + qty.toLocaleString('it-IT') + ' pezzi, IVA inclusa'] : ['Prezzo indicativo', 'da ' + euro(x.p) + ' al pezzo'], note ? ['Dettagli', note] : null].filter(Boolean) });
     setTimeout(closeSheet, 450);
   });
-  sh._svc = x._service || opener.closest('.gk')?.id.replace('gk-', '') || 'custom';
+  sh._svc = (opener.closest('.gk')?.dataset.curated ? opener.closest('.gk').id.replace('gk-', '') : '') || x._service || opener.closest('.gk')?.id.replace('gk-', '') || 'custom';
   upd(); sh.classList.add('is-open'); document.documentElement.classList.add('gk-lock');
   setTimeout(() => p.querySelector('.gk-x').focus({ preventScroll: true }), 60);
 }
