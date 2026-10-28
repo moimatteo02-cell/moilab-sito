@@ -149,3 +149,22 @@ html.gk-lock .dk,html.gk-lock .qc-btn{opacity:0;pointer-events:none}
 .gk-tiers button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:10px 12px;border:1px solid #18181822;border-radius:14px;background:#fff;color:#181818;font-family:inherit;text-align:left;cursor:pointer;font-variant-numeric:tabular-nums}
 .gk-tiers b{font-size:15px}.gk-tiers span{font-size:13.5px;font-weight:600}.gk-tiers small{font-size:11px;color:#8d887e}
 .gk-tiers [aria-checked="true"]{background:#181818;color:#fff;border-color:#181818}.gk-tiers [aria-checked="true"] small{color:#c8aa77}
+/* vetrina: schede prodotto grandi */
+.gk-pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.gk-pcard{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border-radius:22px;overflow:hidden;grid-template-columns:none}
+.gk-pcard-pic{position:relative;display:grid;place-items:center;aspect-ratio:5/4;overflow:hidden;background:radial-gradient(110% 90% at 28% 12%,#fff 0%,var(--gk-t) 72%)}
+.gk-pcard-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.gk-pcard:hover .gk-pcard-pic img{transform:scale(1.04)}
+.gk-pcard-pic .gk-ic{width:34%;stroke-width:1.4}.gk-pcard-pic .gk-blob{width:28%}
+.gk-pcard-txt{display:flex;flex-direction:column;gap:6px;padding:16px 18px 6px}
+.gk-pcard-txt>b{font-size:18px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.gk-pcard-q{font-size:13px;color:#8d887e}
+.gk-pcard-p{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;margin-top:4px;font-variant-numeric:tabular-nums}
+.gk-pcard-p b{font-size:24px;font-weight:600;letter-spacing:-.02em}.gk-pcard-p small{font-size:13px;color:#6f6d66}
+.gk-pcard-go{margin:10px 18px 18px;align-self:flex-start;padding:9px 16px;border-radius:999px;background:#181818;color:#fff;font-size:13.5px;font-weight:600}
+@media (max-width:640px){.gk-pcards{grid-template-columns:1fr;gap:12px}.gk-pcard-txt>b{font-size:17px}.gk-pcard-p b{font-size:22px}}
+/* stanza Custom: niente intestazione «Gadget e oggetti», il catalogo è la pagina */
+#moi-showroom-custom .moi-room-meta,#moi-showroom-custom .moi-room-stage,#moi-showroom-custom .moi-room-copy>:not(.moi-room-title){display:none!important}
+#moi-showroom-custom .moi-room-content{display:block!important;min-height:0!important;height:auto!important;padding:0!important;margin:0!important}
+#moi-showroom-custom .moi-room-title{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#gk-custom{margin-top:8px;padding-top:8px;border-top:0}

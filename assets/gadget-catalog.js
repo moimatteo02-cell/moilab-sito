@@ -94,6 +94,10 @@ function mount(key, cfg) {
   const row = x => `<button type="button" class="gk-row" data-id="${x.id}" data-svc="${x._service}"><span class="gk-row-pic" style="--gk-t:${tint[x.cat] || TINTS[0]}">${picture(x)}</span>
       <span class="gk-row-main">${x._service !== key && !curated ? `<em class="gk-svc">${SVC[x._service]} · ${esc(x.sub)}</em>` : ''}<b>${esc(x.n)}</b><small>${dots(x.col)}${x.col && x.col.length > 1 ? `<span>${x.col.length} colori</span>` : ''}<span class="${x.q === 1 ? 'gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span></small></span>
       ${x.t ? `<span class="gk-row-p"><small>${x.q} pz</small><b>${euro(x.from)}</b><small>${euro(x.p)} cad.</small></span>` : `<span class="gk-row-p"><small>da</small><b>${euro(x.p)}</b><small>al pezzo</small></span>`}</button>`;
+  // vetrina: schede grandi con immagine, leggibili anche da lontano
+  const card = x => `<button type="button" class="gk-row gk-pcard" data-id="${x.id}" data-svc="${x._service}"><span class="gk-pcard-pic" style="--gk-t:${tint[x.cat] || TINTS[0]}">${x._media?.status === 'verified' ? `<img src="${esc(x._media.src)}" alt="" loading="lazy" decoding="async">` : `<span class="gk-blob"></span>${icon(x.ic)}`}</span>
+      <span class="gk-pcard-txt"><b>${esc(x.n)}</b><span class="gk-pcard-q${x.q === 1 ? ' gk-one' : ''}">${x.q > 1 ? `minimo ${x.q} pezzi` : 'anche 1 pezzo'}</span>
+      ${x.t ? `<span class="gk-pcard-p"><b>${euro(x.from)}</b><small>${x.q} pz · ${euro(x.p)} cad.</small></span>` : `<span class="gk-pcard-p"><small>da</small> <b>${euro(x.p)}</b><small>al pezzo</small></span>`}</span><span class="gk-pcard-go" aria-hidden="true">Scegli →</span></button>`;
   const crumbs = () => {
     const parts = [`<button type="button" data-go="home">Catalogo</button>`];
     const c = cats.find(c => c.name === st.cat);
@@ -105,7 +109,7 @@ function mount(key, cfg) {
       <select class="gk-sort" aria-label="Ordina"><option value="">Consigliati</option><option value="pa" ${st.sort === 'pa' ? 'selected' : ''}>Prezzo più basso</option><option value="pd" ${st.sort === 'pd' ? 'selected' : ''}>Prezzo più alto</option><option value="q" ${st.sort === 'q' ? 'selected' : ''}>Minimo più basso</option></select></div>`;
   const sortL = l => { if (!st.sort) return l.sort((a, b) => (a.o ?? 0) - (b.o ?? 0)); if (st.sort === 'pa') return l.sort((a, b) => a.p - b.p); if (st.sort === 'pd') return l.sort((a, b) => b.p - a.p); return l.sort((a, b) => a.q - b.q || a.p - b.p); };
   const listing = l => { const rest = l.length - st.shown;
-    return `<div class="gk-rows">${l.slice(0, st.shown).map(row).join('')}</div>${l.length ? '' : '<p class="gk-empty">Nessun prodotto con questi filtri. Togli «Anche 1 pezzo» o prova un’altra parola.</p>'}
+    return `<div class="${curated ? 'gk-pcards' : 'gk-rows'}">${l.slice(0, st.shown).map(curated ? card : row).join('')}</div>${l.length ? '' : '<p class="gk-empty">Nessun prodotto con questi filtri. Togli «Anche 1 pezzo» o prova un’altra parola.</p>'}
       ${rest > 0 ? `<div class="gk-more-wrap"><button type="button" class="gk-more">Mostra altri ${Math.min(PAGE, rest)} <small>ne restano ${rest.toLocaleString('it-IT')}</small></button></div>` : ''}`; };
 
   /* ---------- viste ---------- */
