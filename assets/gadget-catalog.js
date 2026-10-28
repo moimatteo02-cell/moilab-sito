@@ -12,7 +12,9 @@ const NAV = window.MoiCatalogNavigation;
 const VERSION = '20261028-1';
 const catalogCache = new Map();
 let mediaPromise;
-const getMedia = () => mediaPromise ||= fetch(`/data/catalogo/media.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({ items: {} }));
+// due registri immagini: media.json (lotti A, ChatGPT) e media-claude.json (lotti B, Claude). Nessuno dei due tocca l'altro.
+const getManifest = f => fetch(`/data/catalogo/${f}?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }).catch(() => ({ items: {} }));
+const getMedia = () => mediaPromise ||= Promise.all([getManifest('media.json'), getManifest('media-claude.json')]).then(([a, b]) => ({ items: { ...b.items, ...a.items } }));
 function getCatalog(key) {
   if (!catalogCache.has(key)) catalogCache.set(key, Promise.all([
     fetch(`/data/catalogo/${key}.json?v=${VERSION}`).then(r => { if (!r.ok) throw Error(r.status); return r.json(); }), getMedia()

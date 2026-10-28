@@ -16,9 +16,16 @@ assert.deepEqual(search('GFC7832'), ['GFC7832']);
 assert.equal(search('prodotto-che-non-esiste-79399').length,0);
 assert(search('ristorante').length>0);
 for (const p of nav.paths) assert(all.some(x=>nav.inPath(x,p.id)), `Empty path ${p.id}`);
-const media = JSON.parse(fs.readFileSync(path.join(root,'data/catalogo/media.json'))).items;
+const readM = f => fs.existsSync(path.join(root,`data/catalogo/${f}`)) ? JSON.parse(fs.readFileSync(path.join(root,`data/catalogo/${f}`))).items : {};
+const mA = readM('media.json'), mB = readM('media-claude.json');
+for (const id of Object.keys(mB)) assert(!(id in mA), `Product in both manifests: ${id}`);
+const media = {...mA, ...mB};
+// ognuno registra solo i prodotti della propria metà (docs/catalogo/divisione.csv)
+const owner = Object.fromEntries(fs.readFileSync(path.join(root,'docs/catalogo/divisione.csv'),'utf8').replace(/^\uFEFF/,'').trim().split('\n').slice(1).map(l=>l.split(';')).map(r=>[r[0],r[1]]));
+for (const id of Object.keys(mA)) assert(owner[id] !== 'claude', `${id} belongs to Claude (lotti B) but is in media.json`);
+for (const id of Object.keys(mB)) assert(owner[id] !== 'chatgpt', `${id} belongs to ChatGPT (lotti A) but is in media-claude.json`);
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261028-1'));
+assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261028-2'));
 assert(html.includes('/assets/gadget-catalog.css?v=20261028-1'));
 for(const [id,m] of Object.entries(media)) {
   assert(all.some(x=>x.id===id));

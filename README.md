@@ -134,3 +134,9 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
 - Immagini delle sottocategorie: file `assets/catalogo/<servizio>-<sottocategoria>.webp` (es. `custom-tazze.webp`), elencati in `data/catalogo/immagini.json` (es. `["custom-tazze"]`). Senza immagine compare l'illustrazione a linea.
 - La scheda prodotto mostra l'immagine della sottocategoria, se c'è, con la dicitura «Immagine indicativa della categoria».
 - Unione con il lavoro dell'altra sessione: restano i mockup per prodotto (`data/catalogo/media.json`, priorità sulla foto di categoria), ricerca con sinonimi e codice (`assets/catalog-navigation.js`), percorsi «Per esigenza» (ora chip nella prima schermata, con prodotti di tutti i servizi), «Cerca anche in tutti i servizi» (chip nei risultati), macroaree (titoli sopra i riquadri), riprova al caricamento, focus nella scheda, immagine nel carrello. Le immagini di sottocategoria stanno in `assets/catalogo/categorie/`.
+
+### Immagini prodotti divise in due metà (28/10/2026)
+- `docs/catalogo/DIVISIONE.md`: regole comuni.
+- `docs/catalogo/divisione.csv`: chi fa cosa, con lotti A (ChatGPT) e B (Claude) in ordine di priorità.
+- `docs/catalogo/PROMPT-CHATGPT.md`: istruzioni da dare a ChatGPT.
+- I registri sono due: `data/catalogo/media.json` (A) e `data/catalogo/media-claude.json` (B). Il sito li unisce; `tools/check_catalog.cjs` blocca i codici nel registro sbagliato.

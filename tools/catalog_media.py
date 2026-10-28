@@ -22,8 +22,17 @@ SERVICES = ('custom', 'signage', 'design')
 def products():
     return [(s, x) for s in SERVICES for x in json.loads((DATA / f'{s}.json').read_text())['items']]
 
+MANIFESTS = ('media.json', 'media-claude.json')  # lotti A (ChatGPT) e lotti B (Claude): ognuno scrive solo il suo
+
 def media():
-    return json.loads((DATA / 'media.json').read_text()) if (DATA / 'media.json').exists() else {'version':1, 'items':{}}
+    items = {}
+    for name in MANIFESTS:
+        f = DATA / name
+        if f.exists():
+            part = json.loads(f.read_text())['items']
+            clash = set(items) & set(part); assert not clash, f'Product in both manifests: {sorted(clash)}'
+            items.update(part)
+    return {'version': 1, 'items': items}
 
 def audit():
     rows = products()
@@ -56,11 +65,11 @@ def audit():
             'origine':f'data/catalogo/{s}.json'})
     dest = ROOT / 'docs/catalogo'; dest.mkdir(parents=True, exist_ok=True)
     with (dest/'inventario.csv').open('w',newline='',encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f,fieldnames=export[0].keys(),delimiter=';'); writer.writeheader(); writer.writerows(export)
+        writer = csv.DictWriter(f,fieldnames=export[0].keys(),delimiter=';',lineterminator='\n'); writer.writeheader(); writer.writerows(export)
     apparel = json.loads((ROOT/'data/apparel/elenco.json').read_text())
     apparel_rows = [{'id':x['sku'], 'nome':x['nome'], 'categoria':x['categoria'], 'immagine_attuale':x.get('immagine_principale',''), 'stato':'URL esistente; raggiungibilità e diritti non riverificati; catalogo preservato'} for x in apparel]
     with (dest/'apparel-esistente.csv').open('w',newline='',encoding='utf-8-sig') as f:
-        writer = csv.DictWriter(f,fieldnames=apparel_rows[0].keys(),delimiter=';'); writer.writeheader(); writer.writerows(apparel_rows)
+        writer = csv.DictWriter(f,fieldnames=apparel_rows[0].keys(),delimiter=';',lineterminator='\n'); writer.writeheader(); writer.writerows(apparel_rows)
     report = {'totale_cataloghi_esaminati':len(rows)+len(apparel),'apparel_preservati':len(apparel),'apparel_con_url_immagine':sum(bool(x.get('immagine_principale')) for x in apparel),'totale':len(rows),'immagini_specifiche_iniziali':0,'immagini_generate_integrate':ready,
         'prodotti_da_illustrare':len(rows)-ready,'categorie_esistenti':len({x['cat'] for _,x in rows}),
         'sottocategorie_esistenti':len({(s,x['cat'],x['sub']) for s,x in rows}),
