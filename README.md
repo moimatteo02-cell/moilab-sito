@@ -156,3 +156,6 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
   5. «Come funziona» con il pulsante del carrello.
 
   Galleria «I nostri lavori» nascosta nella stanza Custom. Nella pagina iniziale la ricerca è nascosta; resta visibile nelle liste.
+- 28/10/2026, 20:00: pagina iniziale Custom rifatta fedele al layout di riferimento.
+  - Un unico telaio scuro con le sezioni attaccate, in quest'ordine: eroe a linguette con titolo grande in grassetto, angolo ritagliato con la mini scheda e nastro che scorre; prodotti subito dopo; «Molti prodotti non sono in vista» con la richiesta particolare; stampa UV in arrivo; chiusura a tre colonne con la barra del carrello.
+  - Animazioni: comparsa allo scorrere, titolo che sale, etichette che oscillano, quadrati che fluttuano, foto con zoom lento. Sono tutte disattivate con «riduci movimento».

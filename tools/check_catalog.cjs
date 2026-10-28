@@ -25,8 +25,8 @@ const owner = Object.fromEntries(fs.readFileSync(path.join(root,'docs/catalogo/d
 for (const id of Object.keys(mA)) assert(owner[id] !== 'claude', `${id} belongs to Claude (lotti B) but is in media.json`);
 for (const id of Object.keys(mB)) assert(owner[id] !== 'chatgpt', `${id} belongs to ChatGPT (lotti A) but is in media-claude.json`);
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261028-7'));
-assert(html.includes('/assets/gadget-catalog.css?v=20261028-6'));
+assert(html.indexOf('/assets/catalog-navigation.js?v=20261027-4') < html.indexOf('/assets/gadget-catalog.js?v=20261028-8'));
+assert(html.includes('/assets/gadget-catalog.css?v=20261028-8'));
 for(const [id,m] of Object.entries(media)) {
   assert(all.some(x=>x.id===id));
   assert.equal(m.status,'verified');

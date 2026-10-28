@@ -117,39 +117,57 @@ function mount(key, cfg) {
   function landing() {
     const feat = data.find(x => x.q === 1 && x._media?.status === 'verified') || data[0];
     const heroImg = mediaOf('G3B9EBA') || cats[0].img, endImg = mediaOf('GA9A0EF') || (cats[2] || cats[0]).img;
-    return `<section class="gl-hero" aria-label="Sticker, biglietti e scatole">
-        <div class="gl-tabs"><span class="gl-pill gl-brand">MOI LAB</span><span class="gl-tabs-r">${cats.map(c => `<button type="button" class="gl-pill" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
-        <div class="gl-hero-in">
-          <div class="gl-hero-l"><h2>Sticker,<br>biglietti e scatole,<br><em>fatti bene.</em></h2>
-            <button type="button" class="gl-cta" data-go-products>Scegli il prodotto <i aria-hidden="true"></i></button></div>
-          <div class="gl-hero-img">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
-          <div class="gl-hero-r"><p><b>Da 1 pezzo</b>Adesivi sagomati anche in quantità singola, per provare prima di ordinarne tanti.</p>
-            <p><b>Prezzi chiari</b>Listino a scaglioni, IVA inclusa: vedi subito quanto spendi.</p></div>
+    const minAll = Math.min(...cats.map(c => c.min));
+    const band = ['Sticker', 'Biglietti da visita', 'Scatole', 'Da 1 pezzo', 'Prezzi chiari', 'Stampa UV in arrivo'];
+    return `<div class="gl">
+      <section class="gl-hero" aria-label="Sticker, biglietti e scatole">
+        <div class="gl-tabs"><span class="gl-tab gl-tab-brand">MOI LAB</span><span class="gl-tabs-r">${cats.map(c => `<button type="button" class="gl-tab" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</span></div>
+        <div class="gl-card">
+          <div class="gl-hero-l"><h2 class="gl-h" data-r><span style="--d:0"><i>Sticker,</i></span><span style="--d:1"><i>biglietti e</i></span><span style="--d:2"><i>scatole,</i></span><span style="--d:3"><i><em>fatti bene.</em></i></span></h2>
+            <button type="button" class="gl-cta" data-go-products data-r style="--d:4">Scegli il prodotto <i aria-hidden="true"></i></button></div>
+          <div class="gl-hero-img" data-r style="--d:2">${heroImg ? `<img src="${heroImg}" alt="Adesivi rotondi personalizzati MOI LAB" decoding="async">` : ''}</div>
+          <div class="gl-hero-r"><p data-r style="--d:3"><span class="gl-big">da ${euro(minAll)}</span><br>il primo ordine, IVA inclusa</p>
+            <p data-r style="--d:4"><b>Da 1 pezzo</b>Adesivi sagomati anche singoli, per provare prima di ordinarne tanti.</p>
+            <p data-r style="--d:5"><b>Prezzi chiari</b>Listino a scaglioni: scegli la quantità e vedi subito il totale.</p></div>
+          ${feat ? `<div class="gl-notch"><button type="button" class="gl-mini" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button></div>` : ''}
         </div>
-        ${feat ? `<button type="button" class="gl-mini" data-open="${feat.id}"><span class="gl-mini-pic">${feat._media?.status === 'verified' ? `<img src="${esc(feat._media.small || feat._media.src)}" alt="">` : icon(feat.ic)}</span><span><small>In evidenza</small><b>${esc(feat.n)}</b><em>${feat.t ? euro(feat.from) + ' · ' + feat.q + ' pz' : 'da ' + euro(feat.p)}</em></span></button>` : ''}
+        <div class="gl-band" aria-hidden="true"><div>${[...band, ...band].map(t => `<span>${t}</span>`).join('')}</div></div>
+      </section>
+      <section class="gl-prod" id="gk-${key}-prodotti" aria-label="Prodotti">
+        <div class="gl-ttl" data-r><h3>Scegli cosa stampare</h3><span class="gl-tag">${plural(data.length)}</span></div>
+        <div class="gl-cards">${cats.map((c, i) => `<button type="button" class="gl-pc" data-cat="${esc(c.name)}" data-r style="--d:${i}">
+          <span class="gl-pc-pic">${c.img ? `<img src="${c.img}" alt="" loading="lazy" decoding="async">` : icon(c.ic)}<span class="gl-pc-dot">${c.n}</span></span>
+          <span class="gl-pc-txt"><span style="all:unset"><b>${esc(c.name)}</b><small>${c.n} prodotti · ordini da ${euro(c.min)}</small></span><span>Scopri →</span></span>
+          <span class="gl-pc-line" aria-hidden="true"></span></button>`).join('')}</div>
+      </section>
+      <section class="gl-split" aria-label="Richieste particolari">
+        <div class="gl-split-l" data-r><span>Molti prodotti</span><span>non sono in vista</span></div>
+        <div class="gl-split-r" data-r style="--d:1"><h3>Per non fare confusione.</h3>
+          <p>Qui trovi solo le cose più richieste. Il resto non è esposto per tenere il sito semplice: per richieste particolari contattaci, ti diciamo se possiamo farlo o procurartelo.</p>
+          <button type="button" class="gl-cta" data-ask>Fai una richiesta <i aria-hidden="true"></i></button></div>
       </section>
       <section class="gl-dark" aria-label="Stampa UV">
-        <span class="gl-tag" aria-hidden="true">In arrivo</span><i class="gl-sq gl-sq1" aria-hidden="true"></i><i class="gl-sq gl-sq2" aria-hidden="true"></i>
-        <h3>Stampa UV, su qualsiasi superficie.</h3>
-        <p>Presto il tuo logo non solo su carta e adesivi: con la stampa UV lo mettiamo direttamente sugli oggetti. Se hai già un’idea, raccontacela.</p>
-        <button type="button" class="gl-cta gl-cta-l" data-uv>Chiedi informazioni <i aria-hidden="true"></i></button>
+        <i class="gl-sq gl-sq1" aria-hidden="true"></i><i class="gl-sq gl-sq2" aria-hidden="true"></i>
+        <div class="gl-ttl" data-r><h3>Stampa UV su qualsiasi superficie</h3><span class="gl-tag">In arrivo</span></div>
+        <p data-r style="--d:1">Presto il tuo logo non solo su carta e adesivi: con la stampa UV lo mettiamo direttamente sugli oggetti. Se hai già un’idea, raccontacela.</p>
+        <button type="button" class="gl-cta gl-cta-l" data-uv data-r style="--d:2">Chiedi informazioni <i aria-hidden="true"></i></button>
       </section>
-      <section class="gl-split" aria-label="Non trovi quello che cerchi?">
-        <div class="gl-split-l"><span>Non c’è</span><span>nel sito?</span></div>
-        <div class="gl-split-r"><h3>Chiedi, lo cerchiamo noi.</h3>
-          <p>Abbiamo scelto poche cose, fatte bene. Se ti serve altro – un gadget, un materiale, un formato speciale – scrivici: ti diciamo se possiamo farlo o procurartelo.</p>
-          <button type="button" class="gl-cta" data-ask>Scrivici cosa ti serve <i aria-hidden="true"></i></button></div>
-      </section>
-      <div class="gl-title" id="gk-${key}-prodotti"><h3>Scegli cosa stampare</h3><span class="gl-tag gl-tag-s" aria-hidden="true">${plural(data.length)}</span></div>
-      <div class="gk-tiles gk-tiles-few">${cats.map(c => tile({ name: c.name, n: c.n, min: c.min, ic: c.ic, img: c.img, tint: tint[c.name] }, `data-cat="${esc(c.name)}"`)).join('')}</div>
-      <section class="gl-end" aria-label="Come funziona">
-        <div class="gl-end-box"><div class="gl-steps">
-          <p><b>1 · Scegli</b>Il prodotto e lo scaglione di quantità: il prezzo lo vedi subito.</p>
-          <p><b>2 · Aggiungi</b>Metti nel carrello tutto quello che ti serve, anche da più servizi.</p>
-          <p><b>3 · Invia</b>Scorri per inviarci il riepilogo su WhatsApp: ti rispondiamo con il preventivo.</p></div>
-          <button type="button" class="gl-endbar" data-cart>Apri il carrello</button></div>
-        <div class="gl-end-img">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
-      </section>`;
+      <section class="gl-foot" aria-label="Come funziona">
+        <div class="gl-foot-box"><div class="gl-cols">
+          <div><h4>Prodotti</h4>${cats.map(c => `<button type="button" data-cat="${esc(c.name)}">${esc(c.name)}</button>`).join('')}</div>
+          <div><h4>Come funziona</h4><p>1 · Scegli prodotto e quantità</p><p>2 · Aggiungi al carrello</p><p>3 · Inviaci il riepilogo su WhatsApp</p></div>
+          <div><h4>Serve altro?</h4><button type="button" data-ask>Richiesta particolare</button><button type="button" data-uv>Stampa UV, info</button><button type="button" data-cart>Il tuo carrello</button></div></div>
+          <button type="button" class="gl-bar" data-cart>Apri il carrello e chiedi il preventivo</button></div>
+        <div class="gl-foot-img">${endImg ? `<img src="${endImg}" alt="" loading="lazy" decoding="async">` : ''}</div>
+      </section></div>`;
+  }
+  // comparsa degli elementi quando entrano in vista
+  function reveal() {
+    const els = [...view.querySelectorAll('[data-r]')]; if (!els.length) return;
+    view.classList.add('gl-anim');
+    const io = new IntersectionObserver(en => en.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+    els.forEach(el => io.observe(el));
+    setTimeout(() => els.forEach(el => el.classList.add('in')), 4000);
   }
 
   /* ---------- viste ---------- */
@@ -194,6 +212,7 @@ function mount(key, cfg) {
     }
     view.innerHTML = h;
     sec.classList.toggle('gk-at-home', curated && st.v === 'home' && !st.q.trim());
+    view.classList.remove('gl-anim'); if (sec.classList.contains('gk-at-home')) requestAnimationFrame(reveal);
   }
 
   /* ---------- navigazione (con il tasto indietro del telefono) ---------- */
