@@ -159,7 +159,7 @@ function paint() {
       </article>`).join('')}</section>`).join('')}${missing.length ? `<div class="qc-more"><p class="qc-gk">Aggiungi anche</p><div>${missing.map(x => `<a href="/#${ROOMS[x]}" data-go>${esc(SERVICES[x].short)}</a>`).join('')}</div></div>` : ''}<div class="qc-fields"><label class="qc-f">Nome e azienda · facoltativo<input name="qc-name" maxlength="120" autocomplete="organization" value="${esc(state.name)}"></label>
       <label class="qc-f">Note per tutto il preventivo · facoltative<textarea name="qc-notes" rows="2" maxlength="1500">${esc(state.notes)}</textarea></label></div></div>
     <div class="qc-foot">${estimate()}${window.MoiSlide ? '<div class="qc-slide"></div>' : `<a class="qc-cta" data-send href="${esc(waURL())}" target="_blank" rel="noopener noreferrer">Richiedi il preventivo <span aria-hidden="true">→</span></a>`}
-      <p class="qc-note">Scorri fino in fondo: si apre WhatsApp con il codice e il riepilogo, poi premi Invia. File e foto li alleghi lì. Nessun pagamento. <button type="button" class="qc-copy" data-copy>Copia il testo</button></p></div>`;
+      <p class="qc-note">Scorri fino in fondo: si apre WhatsApp con il codice e il riepilogo, poi premi Invia. File e foto li alleghi lì. Nessun pagamento. <button type="button" class="qc-copy" data-copy>Copia il testo</button></p><p class="qc-note qc-priv">Inviando, ci dai il nome e la richiesta per risponderti; ne teniamo anche una copia di sicurezza. <a href="/privacy/" target="_blank" rel="noopener">Informativa privacy</a></p></div>`;
   mountWidgets(body);
 }
 function mountWidgets(body) {
