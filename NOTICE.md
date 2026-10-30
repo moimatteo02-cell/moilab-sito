@@ -1,6 +1,6 @@
 # Note legali e licenze di terze parti
 
-Il codice, i testi, la grafica e i dati di questo sito sono di MOI LAB. Tutti i diritti sono riservati: la pubblicazione del repository non concede licenza di riuso.
+Questo sito è curato e pubblicato da MOI LAB ed è stato realizzato con l'assistenza di strumenti di intelligenza artificiale (Claude di Anthropic, ChatGPT di OpenAI), che hanno contribuito a codice, testi e immagini. Il contenuto generato interamente da IA può non essere tutelato dal diritto d'autore. La pubblicazione del repository non concede licenza di riuso.
 
 ## Componenti di terze parti
 
@@ -10,7 +10,7 @@ Il codice, i testi, la grafica e i dati di questo sito sono di MOI LAB. Tutti i 
 
 ## Da chiarire (provenienza)
 
-- Font in `assets/fonts/` e `digital/`: Moi Editorial, Moi Calligraphy, MOI Pixel — indicare autore e licenza.
+- Font in `assets/fonts/` e `digital/`: Moi Editorial, Moi Calligraphy, MOI Pixel — origine da verificare (se prodotti da ChatGPT Sites o scaricati, indicare autore e licenza).
 - Immagini del catalogo: mockup creati con strumenti di IA; vedi `data/catalogo/media.json` (campo `provenance`).
 
 Pagine pubbliche collegate: `/privacy/` e `/crediti/`. Dati dell'attività: `data/azienda.json`.
