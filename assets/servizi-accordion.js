@@ -31,7 +31,12 @@
   document.body.append(curtain);
   let busy = false;
   const goTo = d => { if (d.startsWith('#')) location.hash = d; else { try { sessionStorage.setItem('moi-curtain', '1'); } catch {} location.href = d; } };
-  function play(ic, title, sub, hash) {
+  function play(ic, title, sub, hash, key) {
+    if (window.MoiST && (hash.startsWith('#') || key)) {   // stessa tendina, nei colori del servizio
+      const k = key || 'hub', o = key && key !== 'hub' ? {} : { icon: ic, title, sub };
+      if (k === 'custom') return window.MoiST.go('custom', '/custom/', false, o);
+      return window.MoiST.play(k, () => { location.hash = hash; }, o);
+    }
     if (busy) return; busy = true;
     if (reduce) { goTo(hash); busy = false; return; }
     curtain.querySelector('.sa-curtain-ic').innerHTML = ic || '';
@@ -46,7 +51,7 @@
   window.MoiCurtain = { play: (ic, title, sub, dest) => play(ic || '<svg viewBox="0 0 42 43" fill="none" stroke="#efd4a7" stroke-width="2.2" aria-hidden="true"><path d="M4 34V9l17 18L38 9v25"/></svg>', title, sub, dest) };
   function go(a) {
     const w = a.closest('.mlg-card-wrap');
-    play(w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML, w.querySelector('h2')?.textContent, w.querySelector('.mlg-caption p')?.textContent, a.getAttribute('href'));
+    play(w.querySelector('.mlg-caption .mlg-service-icon')?.outerHTML, w.querySelector('h2')?.textContent, w.querySelector('.mlg-caption p')?.textContent, a.getAttribute('href'), w.dataset.card);
   }
   // ritorno ai servizi da dentro un servizio: stessa tendina dell'entrata
   document.addEventListener('click', e => {
@@ -55,7 +60,7 @@
     e.preventDefault(); e.stopImmediatePropagation();
     const key = b.closest('.moi-room')?.id.replace('moi-showroom-', '');
     const ic = grid.querySelector(`[data-card="${key}"] .mlg-caption .mlg-service-icon`)?.outerHTML;
-    play(ic, 'SERVIZI', 'Torna a tutti i servizi', b.getAttribute('href') || '#servizi');
+    play(ic, 'SERVIZI', 'Torna a tutti i servizi', b.getAttribute('href') || '#servizi', 'hub');
   }, true);
   // tornando indietro dalla pagina Chi siamo (cache del browser) la tendina non deve restare chiusa
   addEventListener('pageshow', e => { if (e.persisted) { curtain.className = 'sa-curtain'; busy = false; } });

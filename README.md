@@ -210,3 +210,8 @@ Custom e Sticker sono la stessa cosa: una sola pagina «Sticker e oggetti» con 
 ### Pagina /custom/ rifatta sul brief del 30/10 sera
 Ordine: header (Prodotti · Personalizza · Aziende · Contatti · Preventivo) → hero «Sticker personalizzati» → fascia gialla → intro → qualità (foto + testo) → categorie a schede (Sticker · Biglietti · Scatole, alla pari) → vantaggi (antracite) → recensione (invito dichiarato finché non ce n'è una vera) → «Parliamo del tuo progetto».
 Configuratore = scheda prodotto (galleria a sinistra, opzioni a destra, consigli per il file, «Richiedi preventivo»). Solo affermazioni verificabili: niente «5 anni», «spedizione veloce», «nessun minimo».
+
+## Passaggio tra servizi e riquadro «Sei in…» — 30 ottobre 2026
+- `assets/service-transition.js/.css` (`window.MoiST`): la tendina dei servizi (due strati da destra, icona, nome, sottotitolo) ora usa i colori e il carattere del servizio di arrivo; tornando ai servizi usa oro e nero. Vale per card dei servizi, «Torna ai servizi», riquadro «Sei in…», indietro del browser e cambio pagina (/custom/ ↔ home: la pagina d'arrivo nasce coperta e si apre).
+- `servizi-accordion.js` passa le sue tendine a MoiST (Chi siamo resta col sistema di prima).
+- Riquadro «Sei in…»: solo gli altri 5 servizi, ognuno coi suoi colori e il suo carattere, sopra lo sfondo sfocato.

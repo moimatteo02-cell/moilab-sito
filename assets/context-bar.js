@@ -29,11 +29,7 @@ bar.innerHTML = `<button type="button" class="cb-back" aria-label="Indietro">${I
 const sheet = doc.createElement('div');
 sheet.id = 'cb-sheet'; sheet.className = 'cb-sheet'; sheet.hidden = true;
 sheet.innerHTML = `<div class="cb-veil" data-cb-close></div>
-  <section class="cb-pop" role="dialog" aria-label="Scegli un servizio">
-   <p class="cb-pop-k">VAI A UN ALTRO SERVIZIO</p>
-   <div class="cb-grid">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}"><b>${s[1]}</b><small>${s[2]}</small></a>`).join('')}</div>
-   <div class="cb-acts"><a href="${base}#servizi" data-cb-home>Home</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><button type="button" data-cb-assist hidden>${I.spark}Aiuto</button></div>
-  </section>`;
+  <nav class="cb-pop" aria-label="Altri servizi">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}" class="cb-s cb-s-${s[0]}">${s[1]}</a>`).join('')}</nav>`;
 doc.body.append(bar, sheet);
 const where = bar.querySelector('.cb-where');
 
@@ -46,7 +42,7 @@ function sync() {
     ctx = k; bar.dataset.theme = sheet.dataset.theme = k; k ? (html.dataset.svc = k) : delete html.dataset.svc;
     const s = S.find(x => x[0] === k); where.querySelector('b').textContent = s ? s[1] : '';
     where.setAttribute('aria-label', s ? `Sei in ${s[1]}: apri il menu` : 'Apri il menu');
-    sheet.querySelectorAll('[data-cb-go]').forEach(a => { const on = a.dataset.cbGo === k; a.classList.toggle('is-here', on); on ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'); });
+    sheet.querySelectorAll('[data-cb-go]').forEach(a => { a.hidden = a.dataset.cbGo === k; });
     html.classList.remove('cb-down');
   }
   html.classList.toggle('cb-on', !!k);
@@ -57,10 +53,9 @@ let lastFocus = null;
 function openSheet() {
   if (!sheet.hidden) return closeSheet();
   window.MoiDock?.close?.(); lastFocus = doc.activeElement;
-  sheet.querySelector('[data-cb-assist]').hidden = !(window.MoiAssist?.visible?.());
   sheet.hidden = false; html.classList.add('cb-sheet-open'); where.setAttribute('aria-expanded', 'true');
   requestAnimationFrame(() => sheet.classList.add('is-open'));
-  (sheet.querySelector('.cb-grid a.is-here') || sheet.querySelector('.cb-grid a'))?.focus({ preventScroll: true });
+  sheet.querySelector('.cb-pop a:not([hidden])')?.focus({ preventScroll: true });
 }
 function closeSheet(restore = true) {
   if (sheet.hidden) return;
@@ -71,7 +66,6 @@ function closeSheet(restore = true) {
 where.addEventListener('click', openSheet);
 sheet.addEventListener('click', e => {
   if (e.target.closest('[data-cb-close]')) { closeSheet(); return; }
-  if (e.target.closest('[data-cb-assist]')) { closeSheet(false); window.MoiAssist?.open?.(); return; }
   const a = e.target.closest('a[href]'); if (a) { if (a.dataset.cbGo === ctx) { e.preventDefault(); closeSheet(); return; } closeSheet(false); }
 });
 doc.addEventListener('keydown', e => {

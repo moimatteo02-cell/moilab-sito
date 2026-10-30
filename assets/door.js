@@ -118,11 +118,19 @@
     requestAnimationFrame(() => document.documentElement.classList.remove('moi-scroll-return'));
     if (focus) (homeFocus || cards.values().next().value).focus({preventScroll: true});
   }
+  let stTarget = null;
   function route(focus) {
     clearTask();
     const match = [...rooms].find(([, room]) => '#' + room.id === location.hash);
     // già dentro questa stanza (es. indietro tra le pagine del catalogo): non ricominciare da capo
     if (match && match[0] === current && rooms.get(current).classList.contains('is-active')) return;
+    if (match && match[0] === 'custom') return; // Sticker e oggetti è una pagina a parte (/custom/)
+    const target = match ? match[0] : 'hub';
+    if (focus && window.MoiST && (match || current)) {
+      if (stTarget === target) return; stTarget = target;
+      window.MoiST.play(target, () => match ? showRoom(match[0], false, focus) : showHome(false, focus)).finally(() => { stTarget = null; });
+      return;
+    }
     if (match) showRoom(match[0], false, focus);
     else showHome(false, focus);
   }
@@ -162,6 +170,8 @@
     root.querySelectorAll('.mlg-menu').forEach(menu => { menu.open = false; });
     syncRooms();
     if (reduced.matches) { showRoom(key, true, true); return; }
+    /* passaggio unico per tutti i servizi: tenda coi colori del servizio (assets/service-transition.js) */
+    if (window.MoiST) { window.MoiST.play(key, () => showRoom(key, true, true)); return; }
     if (key === 'digital' && !current && window.MOI_DIGITAL_TRANSITION) {enterDigital(trigger || card);return;}
     try {
       const short = window.matchMedia('(max-width: 620px)').matches;
@@ -238,7 +248,7 @@
     }
     const back = event.target.closest('.moi-back');
     if (back && [...rooms.values()].some(room => room.contains(back)) && plainClick(event, back)) {
-      event.preventDefault(); clearTask(); showHome(true, true);
+      event.preventDefault(); clearTask(); window.MoiST ? window.MoiST.play('hub', () => showHome(true, true)) : showHome(true, true);
     }
   });
   skip.addEventListener('click', finish);
