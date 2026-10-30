@@ -206,3 +206,7 @@ Custom e Sticker sono la stessa cosa: una sola pagina «Sticker e oggetti» con 
 - Catalogo a schede (Sticker · Biglietti da visita · Scatole), 4 card per scheda; configuratore unico con 6 voci, prezzi da `vetrina.json`.
 - Stile più asciutto: solo foto reali dei prodotti, niente adesivi disegnati, scritte a mano, raggi o scintille. Animazioni invariate.
 - Barra «Sei in…»: un solo servizio «Sticker e oggetti» (tema giallo e rosso), niente voce Sticker separata.
+
+### Pagina /custom/ rifatta sul brief del 30/10 sera
+Ordine: header (Prodotti · Personalizza · Aziende · Contatti · Preventivo) → hero «Sticker personalizzati» → fascia gialla → intro → qualità (foto + testo) → categorie a schede (Sticker · Biglietti · Scatole, alla pari) → vantaggi (antracite) → recensione (invito dichiarato finché non ce n'è una vera) → «Parliamo del tuo progetto».
+Configuratore = scheda prodotto (galleria a sinistra, opzioni a destra, consigli per il file, «Richiedi preventivo»). Solo affermazioni verificabili: niente «5 anni», «spedizione veloce», «nessun minimo».
