@@ -29,7 +29,7 @@ bar.innerHTML = `<button type="button" class="cb-back" aria-label="Indietro">${I
 const sheet = doc.createElement('div');
 sheet.id = 'cb-sheet'; sheet.className = 'cb-sheet'; sheet.hidden = true;
 sheet.innerHTML = `<div class="cb-veil" data-cb-close></div>
-  <nav class="cb-pop" aria-label="Altri servizi">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}" class="cb-s cb-s-${s[0]}">${s[1]}</a>`).join('')}</nav>`;
+  <nav class="cb-pop" aria-label="Altri servizi">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}" class="cb-s cb-s-${s[0]}"><span class="cb-s-ic" aria-hidden="true">${window.MOI_SERVICE_ICONS?.[s[0]] || ''}</span><span>${s[1]}</span></a>`).join('')}</nav>`;
 doc.body.append(bar, sheet);
 const where = bar.querySelector('.cb-where');
 
@@ -50,12 +50,12 @@ function sync() {
 
 /* ---------- menu ---------- */
 let lastFocus = null;
-function openSheet() {
+function openSheet(byKeyboard) {
   if (!sheet.hidden) return closeSheet();
   window.MoiDock?.close?.(); lastFocus = doc.activeElement;
   sheet.hidden = false; html.classList.add('cb-sheet-open'); where.setAttribute('aria-expanded', 'true');
   requestAnimationFrame(() => sheet.classList.add('is-open'));
-  sheet.querySelector('.cb-pop a:not([hidden])')?.focus({ preventScroll: true });
+  if (byKeyboard) sheet.querySelector('.cb-pop a:not([hidden])')?.focus({ preventScroll: true });
 }
 function closeSheet(restore = true) {
   if (sheet.hidden) return;
@@ -63,7 +63,7 @@ function closeSheet(restore = true) {
   setTimeout(() => { if (!sheet.classList.contains('is-open')) sheet.hidden = true; }, 260);
   if (restore) (lastFocus || where).focus?.({ preventScroll: true });
 }
-where.addEventListener('click', openSheet);
+where.addEventListener('click', e => openSheet(e.detail === 0));
 sheet.addEventListener('click', e => {
   if (e.target.closest('[data-cb-close]')) { closeSheet(); return; }
   const a = e.target.closest('a[href]'); if (a) { if (a.dataset.cbGo === ctx) { e.preventDefault(); closeSheet(); return; } closeSheet(false); }

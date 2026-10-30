@@ -36,8 +36,8 @@
   position:fixed;inset:0;z-index:2147482670}
  .cb-veil{position:absolute;inset:0;background:#14090a40;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);opacity:0;transition:opacity .3s,backdrop-filter .3s,-webkit-backdrop-filter .3s}
  .cb-sheet.is-open .cb-veil{opacity:1;-webkit-backdrop-filter:blur(10px) saturate(1.1);backdrop-filter:blur(10px) saturate(1.1)}
- .cb-pop{position:absolute;left:14px;right:14px;bottom:calc(88px + env(safe-area-inset-bottom));max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
- .cb-s{display:flex;align-items:center;justify-content:center;min-height:56px;padding:0 18px;border-radius:999px;text-decoration:none;box-shadow:0 14px 34px #0000003d;
+ .cb-pop{position:absolute;left:14px;right:14px;bottom:calc(88px + env(safe-area-inset-bottom));max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+ .cb-s{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:auto;max-width:100%;min-height:54px;padding:0 22px 0 16px;border-radius:999px;text-decoration:none;box-shadow:0 14px 34px #0000003d;
   opacity:0;transform:translateY(18px) scale(.96);transition:opacity .28s,transform .38s cubic-bezier(.2,.8,.2,1)}
  .cb-s[hidden]{display:none}
  .cb-sheet.is-open .cb-s{opacity:1;transform:none}
@@ -49,7 +49,11 @@
  .cb-s-automotive{background:#426b53;color:#fff;border-radius:16px;font:600 19px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
  .cb-s-signage{background:#0d0d0c;color:#ffb547;border:1px solid #2c2a25;border-radius:12px;font:700 17px/1 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 0 10px #ffaa3cbf}
  .cb-s-design{background:#fff;color:#181818;border:1px solid #e3ddd2;font:600 19px/1 Inter,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
- .cb-s-design::after{content:'';width:8px;height:8px;margin-left:10px;border-radius:50%;background:#b8923f}
+ .cb-s-ic{display:grid;place-items:center;flex:none;height:30px}
+ .cb-s-ic svg{display:block;width:auto;height:30px;max-width:34px}
+ .cb-s-ic svg *{stroke-width:13}
+ .cb-s-design .cb-s-ic{color:#b8923f}
+ .cb-s-custom .cb-s-ic{color:#ffd84f}
  .cb-s-digital{background:#0b1012;color:#49a58c;border:1px solid #263d43;border-radius:0;box-shadow:4px 4px 0 #263d43,0 14px 34px #0000003d;font:400 16px/1 'MOI Pixel','Courier New',monospace;text-transform:uppercase;letter-spacing:.06em}
 
  /* ---------- temi ---------- */

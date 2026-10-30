@@ -9,7 +9,7 @@ const doc = document, html = doc.documentElement;
 const NAMES = { hub: 'Servizi', apparel: 'Abbigliamento', custom: 'Sticker e oggetti', automotive: 'Automotive', signage: 'Signage', design: 'Design', digital: 'Digital' };
 const SUBS = { hub: 'Torna a tutti i servizi', apparel: 'Capi personalizzati', custom: 'Sticker, biglietti, scatole', automotive: 'Veicoli e wrapping', signage: 'Insegne e pannelli', design: 'Grafica e branding', digital: 'Siti e automazioni' };
 const MARK = '<svg viewBox="0 0 42 43" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 34V9l17 18L38 9v25"/></svg>';
-const iconOf = key => key === 'hub' ? MARK : (doc.querySelector(`[data-card="${key}"] .mlg-caption .mlg-service-icon`)?.outerHTML || '');
+const iconOf = key => key === 'hub' ? MARK : (doc.querySelector(`[data-card="${key}"] .mlg-caption .mlg-service-icon`)?.outerHTML || window.MOI_SERVICE_ICONS?.[key] || '');
 const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const COVER = 950, HOLD = 380, LEAVE = 480;
 let el = null, busy = false;
