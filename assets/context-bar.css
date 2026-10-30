@@ -58,12 +58,15 @@
  .cb-s-apparel .cb-fx{left:52px;right:22px;bottom:11px;height:2px;background:repeating-linear-gradient(90deg,#8a2d2d 0 6px,transparent 6px 10px);clip-path:inset(0 100% 0 0)}
  .cb-sheet.is-open .cb-s-apparel .cb-fx{animation:cbx-sew .7s linear calc(var(--fx) + .1s) forwards}
  @keyframes cbx-sew{to{clip-path:inset(0 0 0 0)}}
- /* sticker e oggetti: il pulsante si attacca come uno sticker */
- .cb-sheet.is-open .cb-s-custom{animation:cbx-stick .6s cubic-bezier(.2,.9,.3,1.3) .05s both}
- @keyframes cbx-stick{0%{opacity:0;transform:translateY(-26px) rotate(-12deg) scale(1.18)}65%{opacity:1;transform:rotate(2deg) scale(.97)}100%{opacity:1;transform:rotate(-1.5deg) scale(1)}}
- .cb-s-custom .cb-fx{right:-2px;top:-2px;width:18px;height:18px;border-radius:0 999px 0 0;background:linear-gradient(225deg,transparent 50%,#f6cf55 50%);transform-origin:100% 0}
- .cb-sheet.is-open .cb-s-custom .cb-fx{animation:cbx-peel .3s ease-out .6s forwards}
- @keyframes cbx-peel{to{transform:scale(0)}}
+ .cb-s-face{display:contents}
+ /* sticker e oggetti: il pulsante si attacca scorrendo, come un adesivo */
+ .cb-s.cb-s-custom{background:transparent;padding:0;box-shadow:none;perspective:500px}
+ .cb-s-custom .cb-s-face{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 22px 0 16px;border-radius:999px;background:#8a0d17;box-shadow:0 14px 34px #0000003d}
+ .cb-sheet.is-open .cb-s-custom .cb-s-face{animation:cbx-apply 1.15s cubic-bezier(.4,0,.3,1) .25s both}
+ @keyframes cbx-apply{from{clip-path:inset(0 100% 0 0 round 999px)}to{clip-path:inset(0 0 0 0 round 999px)}}
+ .cb-s-custom .cb-fx{top:-1px;bottom:-1px;left:0;width:62%;border-radius:999px;background:linear-gradient(90deg,#b8a77d,#fffaf0 30%,#f3e6c4 75%,#e2d3a8);box-shadow:12px 8px 18px #0000004d;transform-origin:left center;transform:rotateY(-55deg);opacity:0}
+ .cb-sheet.is-open .cb-s-custom .cb-fx{animation:cbx-curl 1.15s cubic-bezier(.4,0,.3,1) .25s both}
+ @keyframes cbx-curl{0%{opacity:1;left:0;width:62%}88%{opacity:1}100%{opacity:0;left:100%;width:0}}
  /* automotive: l'auto arriva di traverso e lascia la sgommata */
  .cb-sheet.is-open .cb-s-automotive .cb-s-ic{animation:cbx-car .55s cubic-bezier(.3,0,.2,1) var(--fx) both}
  @keyframes cbx-car{0%{opacity:0;transform:translateX(-46px) skewX(-14deg)}70%{opacity:1;transform:translateX(3px) skewX(6deg)}100%{transform:none}}

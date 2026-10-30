@@ -20,7 +20,7 @@ const SCENES = {
   signage: () => `<div class="sc sc-sign">${ic('signage')}</div>`,
   design: () => `<div class="sc sc-design"><svg viewBox="0 0 260 110" aria-hidden="true"><path class="dr" pathLength="1" d="M90 92V22l40 44 40-44v70"/><circle class="dot" cx="186" cy="18" r="5"/></svg><span class="pen">${ic('design')}</span></div>`,
   digital: () => `<div class="sc sc-dig">${Array.from({ length: 60 }, () => `<i style="--d:${(Math.random() * .75).toFixed(2)}s" class="${['g', 'c', 's', 'g', ''][Math.floor(Math.random() * 5)]}"></i>`).join('')}</div>`,
-  custom: () => `<div class="sc sc-stk"><i class="stk-sh"></i><div class="stk">${ic('custom')}<i class="peel"></i></div></div>`
+  custom: () => `<div class="sc sc-stk"><div class="stk"><div class="stk-face">${ic('custom')}<b>MOI LAB</b></div><i class="curl"></i></div></div>`
 };
 let el = null, busy = false;
 function node() {
@@ -50,7 +50,7 @@ async function uncover() {
 async function play(key, mid, o) {
   if (reduce() || busy) { mid?.(); return; }
   busy = true;
-  try { await cover(key, o); await mid?.(); await wait(el.dataset.scene ? SCENE : HOLD); await uncover(); } finally { busy = false; }
+  try { await cover(key, o); await mid?.(); await wait(el.dataset.scene ? (el.dataset.st === 'custom' ? SCENE + 250 : SCENE) : HOLD); await uncover(); } finally { busy = false; }
 }
 async function go(key, url, replace, o) {
   const nav = () => replace ? location.replace(url) : (location.href = url);
