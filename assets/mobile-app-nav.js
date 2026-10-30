@@ -59,7 +59,7 @@
   const syncActive = () => {
     const room = activeRoom() || (location.hash.startsWith('#moi-showroom-') ? location.hash.slice(14) : '');
     nav.querySelectorAll('[data-mnav-tab]').forEach(a => {
-      const active = a.dataset.mnavTab === (room === 'apparel' ? 'catalog' : !room ? 'home' : '');
+      const active = a.dataset.mnavTab === (room === 'apparel' && !searchSelected ? 'catalog' : !room ? 'home' : '');
       a.classList.toggle('is-current',active); if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
     });
     const activeServices = !!room && room !== 'apparel';
