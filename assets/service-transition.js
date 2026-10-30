@@ -65,8 +65,9 @@ function arrive() {
   let d = null; try { d = JSON.parse(sessionStorage.getItem('moi-st') || 'null'); sessionStorage.removeItem('moi-st'); } catch {}
   if (!d || !d.key || reduce()) { html.classList.remove('st-pre'); return; }
   const key = d.key, s = node(); fill(s, key, d, false);
+  s.querySelector('.st-in').hidden = true;   // l'animazione si è già vista prima di cambiare pagina: qui solo il colore che si apre
   s.className = 'st on snap cover'; html.classList.remove('st-pre');
-  const open = () => { s.classList.remove('snap'); setTimeout(uncover, 300); };
+  const open = () => { s.classList.remove('snap'); setTimeout(() => uncover().then(() => { s.querySelector('.st-in').hidden = false; }), 60); };
   (doc.fonts?.ready || Promise.resolve()).then(() => requestAnimationFrame(open));
 }
 /* tornando indietro col browser la pagina può riapparire ancora coperta */
