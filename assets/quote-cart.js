@@ -181,7 +181,7 @@ function close() { panel.classList.remove('is-open'); panel.inert = true; docume
 function fly(from, image) {
   if (!btn || !from || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const a = from.getBoundingClientRect(); if (!a.width) return;
-  btn.hidden = false; const b = btn.getBoundingClientRect();
+  btn.hidden = false; const b = (document.querySelector('.mnav-nav [data-mnav-quote]') || btn).getBoundingClientRect();
   const el = document.createElement('div'); el.className = 'qc-fly';
   if (image) el.style.backgroundImage = `url("${String(image).replace(/"/g, '%22')}")`;
   document.body.append(el);
