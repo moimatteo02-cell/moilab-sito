@@ -179,3 +179,13 @@ Presente in Apparel, Custom, Automotive, Signage e Design (non in Digital).
   - Stampa UV: foto e blocco oro.
   - Chiusura con le colonne e la scritta gigante MOI LAB.
   - `check_catalog.cjs` ora blocca le immagini vuote; G695C27 ricreato da 480 px, da sostituire.
+
+## Pagina Sticker (`/custom/sticker/`) — 30 ottobre 2026
+
+Landing dedicata agli sticker, ricostruita sul riferimento visivo fornito (hero rossa, fascia gialla, intro, due colonne, 4 card, recensioni).
+- File: `custom/sticker/index.html`, `sticker-landing.css`, `sticker-landing.js`. Geometria in unità `--R` (1/724 della larghezza, max 1440 px); sotto 1000 px tablet, sotto 640 px layout smartphone dedicato.
+- Card e configuratore leggono i prezzi reali da `data/catalogo/vetrina.json` (scaglioni, IVA inclusa). Forma e materiale scelgono il prodotto reale del listino; misura su misura, forme o materiali senza listino → «prezzo da confermare».
+- Il file della grafica non viene caricato sul sito: se ne registra il nome e si allega su WhatsApp. L'invio passa dal carrello preventivo esistente (`MoiCart`).
+- Recensioni: `data/recensioni.json`. Ora contiene solo inviti (non recensioni) etichettati «IN ARRIVO · NON È UNA RECENSIONE»; le recensioni vere vanno inserite con `tipo: "recensione"`.
+- Composizioni di sticker vettoriali (nessuna foto con mano disponibile); quando arrivano foto vere si sostituiscono.
+- Il vecchio negozio `sticker/shop.mjs` resta solo per l'area amministrativa.

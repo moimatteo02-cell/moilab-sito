@@ -1,0 +1,8 @@
+{
+  "_nota": "Recensioni della pagina Sticker. Gli elementi con tipo \"invito\" NON sono recensioni: occupano il posto finché non arrivano quelle vere. Per una recensione reale usa tipo \"recensione\" con testo, nome, ruolo e stelle (1-5), solo con il consenso del cliente.",
+  "items": [
+    { "tipo": "invito", "testo": "Qui pubblicheremo le recensioni di chi ha stampato i suoi sticker con MOI LAB. Solo recensioni vere.", "nome": "Recensioni in arrivo", "ruolo": "MOI LAB" },
+    { "tipo": "invito", "testo": "Hai già fatto i tuoi sticker con noi? Raccontaci com'è andata: potresti essere il primo di questa pagina.", "nome": "Il tuo nome qui", "ruolo": "Cliente MOI LAB" },
+    { "tipo": "invito", "testo": "Mandaci una foto dei tuoi sticker in azione: sul portatile, sul packaging, sulla borraccia.", "nome": "La tua foto qui", "ruolo": "Community MOI LAB" }
+  ]
+}
