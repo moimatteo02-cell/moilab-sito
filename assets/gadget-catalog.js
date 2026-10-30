@@ -281,6 +281,10 @@ const top = () => { const r = $('.gk-search').getBoundingClientRect(); if (Math.
       const n = (+box.dataset.feat + +fs.dataset.featStep + list.length) % list.length, x = list[n]; box.dataset.feat = n; const m = box.querySelector('.gl-mini-main');
       m.dataset.open = x.id; m.querySelector('img').src = x._media.small || x._media.src; m.querySelector('b').textContent = x.n; m.querySelector('em').textContent = 'da ' + (x.t ? euro(x.from) : euro(x.p)); m.classList.remove('gl-swap'); void m.offsetWidth; m.classList.add('gl-swap'); return; }
     if (t.closest('[data-go-products]')) { document.getElementById(`gk-${key}-prodotti`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); return; }
+    /* gli sticker hanno la loro pagina: /custom/sticker/ (configuratore con lo stesso listino) */
+    const STK = { G3CF381: 'sagomati', G3B9EBA: 'sagomati', GC62CF1: 'sagomati', G2AA7EB: 'sagomati', GA14C9D: 'sagomati', GF595FB: 'sagomati', G871094: 'sagomati-G871094', G6F5E88: 'sagomati-G6F5E88', G1EDAC9: 'foglio', G9DB847: 'etichette', GD0045A: 'packaging' };
+    if (key === 'custom') { const so = t.closest('[data-open]'); if (so && STK[so.dataset.open]) { location.href = '/custom/sticker/#configura-' + STK[so.dataset.open]; return; }
+      const sc = t.closest('[data-cat]'); if (sc && sc.dataset.cat === 'Sticker') { location.href = '/custom/sticker/'; return; } }
     const op = t.closest('[data-open]'); if (op) { const x = data.find(x => x.id === op.dataset.open); if (x) sheet(x, tint[x.cat], op); return; }
     if (t.closest('[data-uv]')) { window.MoiCart?.fly(t.closest('[data-uv]')); window.MoiCart?.add({ service: key, title: 'Stampa UV su oggetti: richiesta informazioni', details: [['Richiesta', 'Vorrei sapere quando parte la stampa UV e cosa si può stampare']] }); return; }
     if (t.closest('[data-ask]')) { const q = room.querySelector('.qc-quick'); if (q) { q.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => q.querySelector('.qc-chips button')?.focus({ preventScroll: true }), 500); } return; }

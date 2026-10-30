@@ -199,6 +199,7 @@ function fit() { $$('.sk-h1,.sk-big,.sk-intro-c .sk-h2,.sk-rev-t').forEach(h => 
 const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
 ready.then(() => {
   cards(); watch();
-  const m = location.hash.match(/^#configura-(\w+)/); if (m) openConfig(m[1]);
+  const fromHash = () => { const m = location.hash.match(/^#configura-([a-z]+)(?:-(G[0-9A-F]{6}))?/); if (m) { if (st && !m[2]) st = null; openConfig(m[1], { mat: m[2] }); } };
+  fromHash(); addEventListener('hashchange', fromHash);
 });
 })();
