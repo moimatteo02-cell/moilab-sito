@@ -15,10 +15,10 @@ const COVER = 950, HOLD = 380, LEAVE = 480, SCENE = 1050;
 /* una scena per servizio (CSS in service-transition.css): parte quando la tenda si chiude */
 const ic = k => window.MOI_SERVICE_ICONS?.[k] || '';
 const SCENES = {
-  apparel: () => `<div class="sc sc-apparel"><svg viewBox="0 0 260 110" aria-hidden="true"><defs><pattern id="sc-wv" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3h6M3 0v6" stroke="#181818" stroke-opacity=".07"/></pattern></defs><rect x="12" y="16" width="236" height="78" rx="12" fill="#e9e3d8"/><rect x="12" y="16" width="236" height="78" rx="12" fill="url(#sc-wv)"/><path d="M12 30h236M12 80h236" stroke="#d6cdbd" stroke-dasharray="2 4"/></svg><span class="sc-seam"></span><span class="sc-needle"><i></i></span></div>`,
+  apparel: () => `<div class="sc sc-apparel"><svg viewBox="0 0 260 110" aria-hidden="true"><defs><pattern id="sc-wv" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5h5M2.5 0v5" stroke="#181818" stroke-opacity=".08"/></pattern><mask id="sc-mk"><path class="mk" pathLength="1" d="M104 14L84 22 64 40 79 54 92 45V100H168V45L181 54 196 40 176 22 156 14Q148 27 130 27T104 14Z" fill="none" stroke="#fff" stroke-width="9"/></mask></defs><g class="fab"><path d="M104 14L84 22 64 40 79 54 92 45V100H168V45L181 54 196 40 176 22 156 14Q148 27 130 27T104 14Z" fill="#e7e0d3"/><path d="M104 14L84 22 64 40 79 54 92 45V100H168V45L181 54 196 40 176 22 156 14Q148 27 130 27T104 14Z" fill="url(#sc-wv)"/><path d="M118 27Q130 33 142 27" fill="none" stroke="#cfc4b2" stroke-width="2"/></g><path class="seam" d="M104 14L84 22 64 40 79 54 92 45V100H168V45L181 54 196 40 176 22 156 14Q148 27 130 27T104 14Z" fill="none" stroke="#8a2d2d" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="5 4" mask="url(#sc-mk)"/></svg><span class="sc-needle"><i></i></span></div>`,
   automotive: () => `<div class="sc sc-auto"><i class="sk sk1"></i><i class="sk sk2"></i><i class="pf p1"></i><i class="pf p2"></i><i class="pf p3"></i><span class="car">${ic('automotive')}</span></div>`,
   signage: () => `<div class="sc sc-sign">${ic('signage')}</div>`,
-  design: () => `<div class="sc sc-design"><svg viewBox="0 0 260 110" aria-hidden="true"><path class="dr" pathLength="1" d="M18 82C60 20 100 20 130 60S200 102 242 38"/><circle class="dr dr2" pathLength="1" cx="198" cy="42" r="17"/></svg><span class="pen">${ic('design')}</span></div>`,
+  design: () => `<div class="sc sc-design"><svg viewBox="0 0 260 110" aria-hidden="true"><path class="dr" pathLength="1" d="M90 92V22l40 44 40-44v70"/><circle class="dot" cx="186" cy="18" r="5"/></svg><span class="pen">${ic('design')}</span></div>`,
   digital: () => `<div class="sc sc-dig">${Array.from({ length: 60 }, () => `<i style="--d:${(Math.random() * .75).toFixed(2)}s" class="${['g', 'c', 's', 'g', ''][Math.floor(Math.random() * 5)]}"></i>`).join('')}</div>`,
   custom: () => `<div class="sc sc-stk"><i class="stk-sh"></i><div class="stk">${ic('custom')}<i class="peel"></i></div></div>`
 };
@@ -36,7 +36,7 @@ function fill(s, key, o = {}, scene = true) {
   const sc = scene && o.icon == null && SCENES[key] && !reduce() ? SCENES[key]() : '';
   s.querySelector('.st-sc').innerHTML = sc; s.dataset.scene = sc ? '1' : '';
   s.querySelector('.st-ic').innerHTML = sc ? '' : (o.icon ?? iconOf(key));
-  s.querySelector('.st-t').textContent = o.title || NAMES[key] || '';
+  const t = s.querySelector('.st-t'); if (!o.title && key === 'design') t.innerHTML = '<span class="st-moi">MOI</span> Design'; else t.textContent = o.title || NAMES[key] || '';
   s.querySelector('.st-s').textContent = o.sub ?? SUBS[key] ?? '';
 }
 async function cover(key, o) {

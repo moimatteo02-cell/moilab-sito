@@ -38,18 +38,20 @@ html.st-pre::after{content:'';position:fixed;inset:0;z-index:2147483601;backgrou
 .st.cover .st-sc{transition-delay:.3s}
 .sc{position:relative;width:260px;height:110px}
 .sc svg{display:block;width:260px;height:110px;overflow:visible}
-/* abbigliamento: l'ago cuce il tessuto */
-.sc-seam{position:absolute;left:26px;top:54px;width:0;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,#8a2d2d 0 10px,transparent 10px 18px)}
-.st.cover .sc-seam{animation:sc-seam .95s linear .6s forwards}
-@keyframes sc-seam{to{width:208px}}
-.sc-needle{position:absolute;left:26px;top:30px;width:4px;height:40px;transform:translateX(-8px);opacity:0}
-.sc-needle i{position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,#8d8d8d,#e9e9e9 45%,#9a9a9a);box-shadow:0 2px 4px #0003}
-.sc-needle i::before{content:'';position:absolute;left:1px;top:4px;width:2px;height:7px;border-radius:2px;background:#e9e3d8}
-.sc-needle::after{content:'';position:absolute;left:1px;top:-34px;width:2px;height:36px;background:#8a2d2d;transform-origin:bottom}
-.st.cover .sc-needle{animation:sc-needle .95s linear .6s forwards}
-.st.cover .sc-needle i{animation:sc-bob .14s ease-in-out .6s 7 alternate}
-@keyframes sc-needle{0%{opacity:1;transform:translateX(0)}96%{opacity:1}100%{opacity:0;transform:translateX(208px)}}
-@keyframes sc-bob{to{transform:translateY(10px)}}
+/* abbigliamento: la maglietta viene cucita lungo il contorno, poi il tessuto si riempie */
+.sc-apparel .mk{stroke-dasharray:1;stroke-dashoffset:1}
+.st.cover .sc-apparel .mk{animation:sc-draw 1.05s linear .5s forwards}
+.sc-apparel .fab{opacity:0}
+.st.cover .sc-apparel .fab{animation:sc-fab .45s ease 1.45s forwards}
+@keyframes sc-fab{to{opacity:1}}
+.sc-needle{position:absolute;left:0;top:0;width:4px;height:26px;offset-path:path('M104 14L84 22 64 40 79 54 92 45V100H168V45L181 54 196 40 176 22 156 14Q148 27 130 27T104 14Z');offset-rotate:0deg;offset-anchor:50% 85%;offset-distance:0%;opacity:0}
+.sc-needle i{position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,#8d8d8d,#eee 45%,#9a9a9a);box-shadow:0 2px 3px #0004}
+.sc-needle i::before{content:'';position:absolute;left:1px;top:3px;width:2px;height:6px;border-radius:2px;background:#f6f5f2}
+.sc-needle::after{content:'';position:absolute;left:1px;top:-30px;width:1.5px;height:32px;background:#8a2d2d}
+.st.cover .sc-needle{animation:sc-sew 1.05s linear .5s forwards}
+.st.cover .sc-needle i{animation:sc-bob .1s ease-in-out .5s 10 alternate}
+@keyframes sc-sew{0%{opacity:1;offset-distance:0%}95%{opacity:1}100%{opacity:0;offset-distance:100%}}
+@keyframes sc-bob{to{transform:translateY(7px)}}
 /* automotive: l'auto passa e lascia la sgommata */
 .sc-auto{overflow:visible}
 .sc-auto .car{position:absolute;left:0;top:4px;width:110px;color:#fff;opacity:0;transform:translateX(-150px)}
@@ -73,15 +75,17 @@ html.st-pre::after{content:'';position:fixed;inset:0;z-index:2147483601;backgrou
 .st.cover .sc-sign,.st[data-st=signage].cover .st-t{animation:sc-neon 1.1s linear .55s both}
 @keyframes sc-neon{0%{opacity:.08;filter:none;text-shadow:none}7%{opacity:1;filter:drop-shadow(0 0 10px #ffaa3c)}9%{opacity:.12}17%{opacity:1}19%{opacity:.2}30%{opacity:1}32%{opacity:.35}45%,100%{opacity:1;filter:drop-shadow(0 0 14px #ffaa3c);text-shadow:0 0 22px #ffaa3c,0 0 48px #ff8a1f80}}
 /* design: il pennino disegna */
-.sc-design .dr{fill:none;stroke:#181818;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
-.sc-design .dr2{stroke:#b8923f}
-.st.cover .sc-design .dr{animation:sc-draw .9s cubic-bezier(.5,0,.3,1) .55s forwards}
-.st.cover .sc-design .dr2{animation-delay:1.25s;animation-duration:.45s}
+.sc-design .dr{fill:none;stroke:#181818;stroke-width:5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.st.cover .sc-design .dr{animation:sc-draw .85s cubic-bezier(.5,0,.3,1) .55s forwards}
+.sc-design .dot{fill:#b8923f;transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.st.cover .sc-design .dot{animation:sc-dot .35s cubic-bezier(.3,1.6,.5,1) 1.4s forwards}
+@keyframes sc-dot{to{transform:scale(1)}}
+.st-moi{font-weight:300;letter-spacing:.18em;color:#b8923f;font-size:.62em;vertical-align:.2em;margin-right:.15em}
 @keyframes sc-draw{to{stroke-dashoffset:0}}
-.sc-design .pen{position:absolute;left:0;top:0;width:40px;color:#7a6229;offset-path:path('M18 82C60 20 100 20 130 60S200 102 242 38');offset-rotate:0deg;offset-anchor:50% 92%;offset-distance:0%;opacity:0}
+.sc-design .pen{position:absolute;left:0;top:0;width:40px;color:#7a6229;offset-path:path('M90 92V22l40 44 40-44v70');offset-rotate:0deg;offset-anchor:50% 92%;offset-distance:0%;opacity:0}
 .sc-design .pen svg{display:block;width:40px;height:auto}
 .sc-design .pen svg *{stroke-width:11}
-.st.cover .sc-design .pen{animation:sc-pen .9s cubic-bezier(.5,0,.3,1) .55s forwards}
+.st.cover .sc-design .pen{animation:sc-pen .85s cubic-bezier(.5,0,.3,1) .55s forwards}
 @keyframes sc-pen{0%{opacity:1;offset-distance:0%}92%{opacity:1}100%{opacity:0;offset-distance:100%}}
 /* digital: i pixel si accendono e il nome si scrive */
 .sc-dig{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;width:240px;height:auto;padding:6px 0}

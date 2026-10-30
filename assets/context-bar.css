@@ -49,6 +49,44 @@
  .cb-s-automotive{background:#426b53;color:#fff;border-radius:16px;font:600 19px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
  .cb-s-signage{background:#0d0d0c;color:#ffb547;border:1px solid #2c2a25;border-radius:12px;font:700 17px/1 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 0 10px #ffaa3cbf}
  .cb-s-design{background:#fff;color:#181818;border:1px solid #e3ddd2;font:600 19px/1 Inter,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
+ /* ogni servizio ha il suo gesto quando il riquadro si apre */
+ .cb-s{position:relative}
+ .cb-s-t{position:relative;display:inline-block}
+ .cb-fx{position:absolute;pointer-events:none}
+ .cb-sheet.is-open .cb-s{--fx:.32s}
+ /* abbigliamento: una cucitura corre sotto il nome */
+ .cb-s-apparel .cb-fx{left:52px;right:22px;bottom:11px;height:2px;background:repeating-linear-gradient(90deg,#8a2d2d 0 6px,transparent 6px 10px);clip-path:inset(0 100% 0 0)}
+ .cb-sheet.is-open .cb-s-apparel .cb-fx{animation:cbx-sew .7s linear calc(var(--fx) + .1s) forwards}
+ @keyframes cbx-sew{to{clip-path:inset(0 0 0 0)}}
+ /* sticker e oggetti: il pulsante si attacca come uno sticker */
+ .cb-sheet.is-open .cb-s-custom{animation:cbx-stick .6s cubic-bezier(.2,.9,.3,1.3) .05s both}
+ @keyframes cbx-stick{0%{opacity:0;transform:translateY(-26px) rotate(-12deg) scale(1.18)}65%{opacity:1;transform:rotate(2deg) scale(.97)}100%{opacity:1;transform:rotate(-1.5deg) scale(1)}}
+ .cb-s-custom .cb-fx{right:-2px;top:-2px;width:18px;height:18px;border-radius:0 999px 0 0;background:linear-gradient(225deg,transparent 50%,#f6cf55 50%);transform-origin:100% 0}
+ .cb-sheet.is-open .cb-s-custom .cb-fx{animation:cbx-peel .3s ease-out .6s forwards}
+ @keyframes cbx-peel{to{transform:scale(0)}}
+ /* automotive: l'auto arriva di traverso e lascia la sgommata */
+ .cb-sheet.is-open .cb-s-automotive .cb-s-ic{animation:cbx-car .55s cubic-bezier(.3,0,.2,1) var(--fx) both}
+ @keyframes cbx-car{0%{opacity:0;transform:translateX(-46px) skewX(-14deg)}70%{opacity:1;transform:translateX(3px) skewX(6deg)}100%{transform:none}}
+ .cb-s-automotive .cb-fx{left:6px;bottom:12px;width:40px;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,#0000004d);opacity:0}
+ .cb-sheet.is-open .cb-s-automotive .cb-fx{animation:cbx-skid 1s ease-out calc(var(--fx) + .2s) forwards}
+ @keyframes cbx-skid{0%{opacity:0;transform:scaleX(.2)}30%{opacity:1;transform:scaleX(1)}100%{opacity:0;transform:scaleX(1)}}
+ /* signage: il neon si accende a scatti */
+ .cb-sheet.is-open .cb-s-signage .cb-s-t,.cb-sheet.is-open .cb-s-signage .cb-s-ic{animation:cbx-neon .9s linear var(--fx) both}
+ @keyframes cbx-neon{0%{opacity:.1;text-shadow:none}8%{opacity:1}10%{opacity:.15}20%{opacity:1}22%{opacity:.3}36%,100%{opacity:1;text-shadow:0 0 10px #ffaa3cbf}}
+ /* design: il pennino traccia una linea dorata sotto il nome */
+ .cb-s-design .cb-fx{left:52px;right:22px;bottom:10px;height:2px;border-radius:2px;background:#b8923f;transform:scaleX(0);transform-origin:left}
+ .cb-sheet.is-open .cb-s-design .cb-fx{animation:cbx-line .55s cubic-bezier(.5,0,.3,1) calc(var(--fx) + .1s) forwards}
+ @keyframes cbx-line{to{transform:scaleX(1)}}
+ .cb-sheet.is-open .cb-s-design .cb-s-ic{animation:cbx-pen .55s ease-in-out calc(var(--fx) + .1s) both}
+ @keyframes cbx-pen{0%{transform:rotate(0)}40%{transform:rotate(-14deg) translateY(-2px)}100%{transform:rotate(0)}}
+ /* digital: il nome si scrive con il cursore */
+ .cb-s-digital .cb-s-t{clip-path:inset(0 0 0 0)}
+ .cb-sheet.is-open .cb-s-digital .cb-s-t{animation:cbx-type .5s steps(7) var(--fx) both}
+ @keyframes cbx-type{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+ .cb-s-digital .cb-fx{right:14px;top:50%;width:8px;height:2px;margin-top:6px;background:#49a58c;opacity:0}
+ .cb-sheet.is-open .cb-s-digital .cb-fx{animation:cbx-blink .5s steps(1) calc(var(--fx) + .5s) infinite}
+ @keyframes cbx-blink{0%{opacity:1}50%{opacity:0}}
+ @media (prefers-reduced-motion:reduce){.cb-sheet .cb-s,.cb-sheet .cb-s *{animation:none!important;clip-path:none!important}}
  .cb-s-ic{display:grid;place-items:center;flex:none;height:30px}
  .cb-s-ic svg{display:block;width:auto;height:30px;max-width:34px}
  .cb-s-ic svg *{stroke-width:13}
