@@ -57,8 +57,7 @@
 
  /* ---------- temi ---------- */
  .cb[data-theme=apparel]{--bg:#ffffffeb;--line:#e3ddd2;--btn:#efece6;--acc:#181818;--accfg:#fff;--font:italic 400 21px/1.1 'Moi Editorial',Georgia,serif;--mut:#8a7a5c}
- .cb[data-theme=custom]{--bg:#1f1e1c;--fg:#f5efe3;--mut:#b9b1a2;--line:#3a3833;--btn:#2c2a27;--acc:#e0b863;--accfg:#141413;--sh:0 12px 30px #00000066;--font:400 20px/1 Anton,Impact,'Arial Narrow',sans-serif;--tt:uppercase;--ls:.02em}
- .cb[data-theme=sticker]{--bg:#fad45c;--fg:#8f0d17;--mut:#8f0d17;--line:#e9b934;--btn:#fff3c4;--acc:#8f0d17;--accfg:#fff;--sh:0 12px 30px #3a000459;--font:400 21px/1 Anton,Impact,'Arial Narrow',sans-serif;--tt:uppercase}
+ .cb[data-theme=custom]{--bg:#fad45c;--fg:#8f0d17;--mut:#8f0d17;--line:#e9b934;--btn:#fff3c4;--acc:#8f0d17;--accfg:#fff;--sh:0 12px 30px #3a000459;--font:400 16px/1 Anton,Impact,'Arial Narrow',sans-serif;--tt:uppercase;--ls:.01em}
  .cb[data-theme=automotive]{--bg:#fff;--fg:#181818;--mut:#426b53;--line:#dbe6dc;--btn:#e8f0e9;--btnfg:#426b53;--acc:#426b53;--accfg:#fff;--r:20px;--rin:13px;--sh:0 12px 30px #14281924;--font:600 17px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif}
  .cb[data-theme=signage]{--bg:#0d0d0c;--fg:#ffb547;--mut:#c99a52;--line:#2c2a25;--btn:#171614;--acc:#ffb547;--accfg:#0d0d0c;--r:15px;--rin:10px;--sh:0 12px 30px #00000073;--font:700 16px/1 'Courier New',monospace;--tt:uppercase;--ls:.14em;--glow:0 0 9px #ffaa3cbf}
  .cb[data-theme=signage] .cb-back{border:1px solid #2c2a25}
@@ -67,13 +66,12 @@
  .cb[data-theme=digital] .cb-back{border:1px solid #263d43}
  .cb[data-theme=digital] .cb-quote{box-shadow:3px 3px 0 #839c91}
 
- .cb-sheet[data-theme=custom],.cb-sheet[data-theme=signage],.cb-sheet[data-theme=digital]{--pbg:#151514;--pfg:#f5efe3;--pmut:#a9a296;--pline:#34322e;--pcard:#1f1e1c;--pdark:#f5efe3;--pdarkfg:#141413}
- .cb-sheet[data-theme=custom]{--pacc:#e0b863}
+ .cb-sheet[data-theme=signage],.cb-sheet[data-theme=digital]{--pbg:#151514;--pfg:#f5efe3;--pmut:#a9a296;--pline:#34322e;--pcard:#1f1e1c;--pdark:#f5efe3;--pdarkfg:#141413}
  .cb-sheet[data-theme=signage]{--pbg:#0d0d0c;--pacc:#ffb547}
  .cb-sheet[data-theme=digital]{--pbg:#0b1012;--pcard:#121a1c;--pline:#263d43;--pacc:#49a58c}
  .cb-sheet[data-theme=apparel]{--pbg:#f6f5f2;--pcard:#fff;--pline:#e3ddd2;--pacc:#181818}
  .cb-sheet[data-theme=automotive]{--pbg:#f5f6f2;--pcard:#fff;--pline:#dbe6dc;--pacc:#426b53}
  .cb-sheet[data-theme=design]{--pbg:#f6f5f2;--pcard:#fff;--pline:#e3ddd2;--pacc:#8f7434}
- .cb-sheet[data-theme=sticker]{--pacc:#8f0d17}
+ .cb-sheet[data-theme=custom]{--pacc:#8f0d17}
 }
 @media (max-width:760px) and (prefers-reduced-motion:reduce){.cb,.cb-panel,.cb-veil{transition:none}}

@@ -1,20 +1,19 @@
 /* MOI LAB — barra «Sei in…» per telefono (bozza B).
-   Compare solo nelle zone di acquisto: le 6 stanze dei servizi e la pagina Sticker. Home, Iniziamo e Chi siamo: niente barra.
+   Compare solo nelle zone di acquisto: le stanze dei servizi e la pagina Sticker e oggetti (/custom/). Home, Iniziamo e Chi siamo: niente barra.
    Indietro · Sei in <servizio> (apre il menu) · Preventivo. Ogni servizio ha i suoi colori (assets/context-bar.css). */
 (() => {
 'use strict';
 if (document.querySelector('.cb')) return;
 const doc = document, html = doc.documentElement;
-const PAGE = doc.currentScript?.dataset.cb || '';           // "sticker" sulla pagina sticker, vuoto nella home a stanze
+const PAGE = doc.currentScript?.dataset.cb || '';           // "custom" sulla pagina /custom/, vuoto nella home a stanze
 const ON_HUB = !!doc.querySelector('.moi-room');
 const base = ON_HUB ? '' : '/';
 const WA = 'https://wa.me/393278815148?text=' + encodeURIComponent("Ciao MOI LAB, vorrei un'informazione: ");
 const S = [
-  ['apparel', 'Abbigliamento', 'Capi personalizzati'], ['custom', 'Custom', 'Biglietti, scatole, gadget'],
-  ['sticker', 'Sticker', 'Configura i tuoi sticker'], ['automotive', 'Automotive', 'Veicoli e wrapping'],
+  ['apparel', 'Abbigliamento', 'Capi personalizzati'], ['custom', 'Sticker e oggetti', 'Sticker, biglietti, scatole'], ['automotive', 'Automotive', 'Veicoli e wrapping'],
   ['signage', 'Signage', 'Insegne e pannelli'], ['design', 'Design', 'Grafica e branding'], ['digital', 'Digital', 'Siti e automazioni']
 ];
-const href = k => k === 'sticker' ? '/custom/sticker/' : base + '#moi-showroom-' + k;
+const href = k => k === 'custom' ? '/custom/' : base + '#moi-showroom-' + k;
 const ic = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
 const I = {
   back: ic('<path d="M15 5l-7 7 7 7"/>'), down: ic('<path d="M6 9l6 6 6-6"/>'),
@@ -93,7 +92,7 @@ addEventListener('popstate', () => { closeSheet(false); setTimeout(sync, 40); })
 bar.querySelector('.cb-back').addEventListener('click', () => {
   const sameSite = doc.referrer && new URL(doc.referrer, location.href).origin === location.origin;
   if (steps > 0 || history.state || (PAGE && sameSite && history.length > 1)) history.back();
-  else location.href = PAGE ? '/#moi-showroom-custom' : '#servizi';
+  else location.href = PAGE ? '/#servizi' : '#servizi';
 });
 
 /* ---------- preventivo ---------- */

@@ -197,3 +197,12 @@ Bozza B scelta dall'utente: Indietro · «Sei in <servizio>» (apre il menu con 
 - Un tema per servizio in `context-bar.css` (`.cb[data-theme=…]`): colori, caratteri e forme della stanza; i tasti restano al loro posto.
 - Si nasconde scorrendo in giù, mentre si scrive, con configuratore, carrello o menu aperti. Dove c'è la barra spariscono il ✦ del dock e il bottone carrello flottante.
 - Sostituisce `mobile-app-nav` (i file restano nel repo ma non sono più caricati).
+
+## Sticker e oggetti = un solo servizio (`/custom/`) — 30 ottobre 2026
+
+Custom e Sticker sono la stessa cosa: una sola pagina «Sticker e oggetti» con sticker, biglietti da visita e scatole.
+- File: `custom/index.html`, `custom/custom.css`, `custom/custom.js` (al posto di `custom/sticker/sticker-landing.*`).
+- `/custom/sticker/` rimanda a `/custom/` (tenendo `#configura-…`). Nella home, la stanza Custom e ogni link `#moi-showroom-custom` aprono `/custom/`.
+- Catalogo a schede (Sticker · Biglietti da visita · Scatole), 4 card per scheda; configuratore unico con 6 voci, prezzi da `vetrina.json`.
+- Stile più asciutto: solo foto reali dei prodotti, niente adesivi disegnati, scritte a mano, raggi o scintille. Animazioni invariate.
+- Barra «Sei in…»: un solo servizio «Sticker e oggetti» (tema giallo e rosso), niente voce Sticker separata.
