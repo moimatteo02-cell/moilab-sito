@@ -189,3 +189,11 @@ Landing dedicata agli sticker, ricostruita sul riferimento visivo fornito (hero 
 - Recensioni: `data/recensioni.json`. Ora contiene solo inviti (non recensioni) etichettati «IN ARRIVO · NON È UNA RECENSIONE»; le recensioni vere vanno inserite con `tipo: "recensione"`.
 - Composizioni di sticker vettoriali (nessuna foto con mano disponibile); quando arrivano foto vere si sostituiscono.
 - Il vecchio negozio `sticker/shop.mjs` resta solo per l'area amministrativa.
+
+## Barra «Sei in…» per telefono (`assets/context-bar.js` + `.css`) — 30 ottobre 2026
+
+Bozza B scelta dall'utente: Indietro · «Sei in <servizio>» (apre il menu con tutte le sezioni) · Preventivo con il numero.
+- Solo sotto 760 px e solo nelle zone di acquisto: le 6 stanze e la pagina Sticker (`data-cb="sticker"` sullo script). Niente barra in home, Iniziamo, Chi siamo.
+- Un tema per servizio in `context-bar.css` (`.cb[data-theme=…]`): colori, caratteri e forme della stanza; i tasti restano al loro posto.
+- Si nasconde scorrendo in giù, mentre si scrive, con configuratore, carrello o menu aperti. Dove c'è la barra spariscono il ✦ del dock e il bottone carrello flottante.
+- Sostituisce `mobile-app-nav` (i file restano nel repo ma non sono più caricati).
