@@ -29,12 +29,10 @@ bar.innerHTML = `<button type="button" class="cb-back" aria-label="Indietro">${I
 const sheet = doc.createElement('div');
 sheet.id = 'cb-sheet'; sheet.className = 'cb-sheet'; sheet.hidden = true;
 sheet.innerHTML = `<div class="cb-veil" data-cb-close></div>
-  <section class="cb-panel" role="dialog" aria-modal="true" aria-labelledby="cb-title">
-   <span class="cb-grip" aria-hidden="true"></span>
-   <header class="cb-head"><div><p>MOI LAB / DOVE VUOI ANDARE</p><h2 id="cb-title">Cosa ti serve?</h2></div><button type="button" class="cb-x" data-cb-close aria-label="Chiudi il menu">×</button></header>
+  <section class="cb-pop" role="dialog" aria-label="Scegli un servizio">
+   <p class="cb-pop-k">VAI A UN ALTRO SERVIZIO</p>
    <div class="cb-grid">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}"><b>${s[1]}</b><small>${s[2]}</small></a>`).join('')}</div>
-   <div class="cb-acts"><button type="button" class="cb-assist" data-cb-assist hidden>${I.spark}Ti aiuto a scegliere</button>
-    <div><a href="${WA}" target="_blank" rel="noopener">Scrivici su WhatsApp</a><a href="${base}#servizi" data-cb-home>Torna alla home</a></div></div>
+   <div class="cb-acts"><a href="${base}#servizi" data-cb-home>Home</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><button type="button" data-cb-assist hidden>${I.spark}Aiuto</button></div>
   </section>`;
 doc.body.append(bar, sheet);
 const where = bar.querySelector('.cb-where');
@@ -45,7 +43,7 @@ let ctx = '';
 function sync() {
   const k = current();
   if (k !== ctx) {
-    ctx = k; bar.dataset.theme = sheet.dataset.theme = k;
+    ctx = k; bar.dataset.theme = sheet.dataset.theme = k; k ? (html.dataset.svc = k) : delete html.dataset.svc;
     const s = S.find(x => x[0] === k); where.querySelector('b').textContent = s ? s[1] : '';
     where.setAttribute('aria-label', s ? `Sei in ${s[1]}: apri il menu` : 'Apri il menu');
     sheet.querySelectorAll('[data-cb-go]').forEach(a => { const on = a.dataset.cbGo === k; a.classList.toggle('is-here', on); on ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'); });
@@ -62,7 +60,7 @@ function openSheet() {
   sheet.querySelector('[data-cb-assist]').hidden = !(window.MoiAssist?.visible?.());
   sheet.hidden = false; html.classList.add('cb-sheet-open'); where.setAttribute('aria-expanded', 'true');
   requestAnimationFrame(() => sheet.classList.add('is-open'));
-  sheet.querySelector('.cb-x').focus({ preventScroll: true });
+  (sheet.querySelector('.cb-grid a.is-here') || sheet.querySelector('.cb-grid a'))?.focus({ preventScroll: true });
 }
 function closeSheet(restore = true) {
   if (sheet.hidden) return;
@@ -80,7 +78,7 @@ doc.addEventListener('keydown', e => {
   if (sheet.hidden) return;
   if (e.key === 'Escape') { e.preventDefault(); closeSheet(); return; }
   if (e.key !== 'Tab') return;
-  const f = [...sheet.querySelectorAll('a[href],button:not([hidden])')].filter(x => x.getClientRects().length); if (!f.length) return;
+  const f = [...sheet.querySelectorAll('.cb-pop a[href],.cb-pop button:not([hidden])')].filter(x => x.getClientRects().length); if (!f.length) return;
   if (e.shiftKey && doc.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
   else if (!e.shiftKey && doc.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
 });
