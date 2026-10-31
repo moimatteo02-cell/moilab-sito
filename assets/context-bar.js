@@ -29,7 +29,7 @@ bar.innerHTML = `<button type="button" class="cb-back" aria-label="Indietro">${I
 const sheet = doc.createElement('div');
 sheet.id = 'cb-sheet'; sheet.className = 'cb-sheet'; sheet.hidden = true;
 sheet.innerHTML = `<div class="cb-veil" data-cb-close></div>
-  <nav class="cb-pop" aria-label="Altri servizi">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}" class="cb-s cb-s-${s[0]}"><span class="cb-s-face"><span class="cb-s-ic" aria-hidden="true">${window.MOI_SERVICE_ICONS?.[s[0]] || ''}</span><span class="cb-s-t">${s[1]}</span></span><i class="cb-fx" aria-hidden="true"></i></a>`).join('')}</nav>`;
+  <nav class="cb-pop" aria-label="Altri servizi">${S.map(s => `<a href="${href(s[0])}" data-cb-go="${s[0]}" class="cb-s cb-s-${s[0]}"><span class="cb-s-face"><span class="cb-s-ic" aria-hidden="true">${s[0] === 'automotive' && window.MOI_CAR_SIDE ? `<span class="cb-car-side">${window.MOI_CAR_SIDE}</span><span class="cb-car-front">${window.MOI_SERVICE_ICONS?.automotive || ''}</span>` : window.MOI_SERVICE_ICONS?.[s[0]] || ''}</span><span class="cb-s-t">${s[1]}</span></span><i class="cb-fx" aria-hidden="true"></i></a>`).join('')}</nav>`;
 doc.body.append(bar, sheet);
 const where = bar.querySelector('.cb-where');
 

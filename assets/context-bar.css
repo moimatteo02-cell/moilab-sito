@@ -68,9 +68,17 @@
  .cb-sheet.is-open .cb-s-custom .cb-fx{animation:cbx-curl 1.15s cubic-bezier(.4,0,.3,1) .25s both}
  @keyframes cbx-curl{0%{opacity:1;left:0;width:62%}88%{opacity:1}100%{opacity:0;left:100%;width:0}}
  /* automotive: l'auto arriva di traverso e lascia la sgommata */
- .cb-sheet.is-open .cb-s-automotive .cb-s-ic{animation:cbx-car .55s cubic-bezier(.3,0,.2,1) var(--fx) both}
- @keyframes cbx-car{0%{opacity:0;transform:translateX(-46px) skewX(-14deg)}70%{opacity:1;transform:translateX(3px) skewX(6deg)}100%{transform:none}}
- .cb-s-automotive .cb-fx{left:6px;bottom:12px;width:40px;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,#0000004d);opacity:0}
+ .cb-s-automotive .cb-s-ic{position:relative;width:34px;perspective:200px}
+ .cb-s-automotive .cb-car-side,.cb-s-automotive .cb-car-front{position:absolute;left:0;top:50%;display:block;width:34px;transform:translateY(-50%)}
+ .cb-s-automotive .cb-car-side svg,.cb-s-automotive .cb-car-front svg{width:34px!important;height:auto!important;max-width:none}
+ .cb-s-automotive .cb-car-side svg *{stroke-width:11}
+ .cb-s-automotive .cb-car-side{opacity:0}
+ .cb-sheet.is-open .cb-s-automotive .cb-car-side{animation:cbx-drive .45s cubic-bezier(.2,.7,.3,1) var(--fx) both,cbx-out .18s ease-in calc(var(--fx) + .5s) forwards}
+ @keyframes cbx-drive{0%{opacity:1;transform:translate(-60px,-50%)}60%{transform:translate(4px,-50%) rotate(-8deg)}80%{transform:translate(-2px,-50%) rotate(3deg)}100%{opacity:1;transform:translate(0,-50%)}}
+ @keyframes cbx-out{from{opacity:1;transform:translateY(-50%) rotateY(0)}to{opacity:0;transform:translateY(-50%) rotateY(90deg)}}
+ .cb-sheet.is-open .cb-s-automotive .cb-car-front{animation:cbx-in .25s cubic-bezier(.2,.8,.3,1.2) calc(var(--fx) + .68s) both}
+ @keyframes cbx-in{from{opacity:0;transform:translateY(-50%) rotateY(-90deg)}to{opacity:1;transform:translateY(-50%) rotateY(0)}}
+ .cb-s-automotive .cb-fx{left:8px;bottom:12px;width:44px;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,#0000004d);opacity:0}
  .cb-sheet.is-open .cb-s-automotive .cb-fx{animation:cbx-skid 1s ease-out calc(var(--fx) + .2s) forwards}
  @keyframes cbx-skid{0%{opacity:0;transform:scaleX(.2)}30%{opacity:1;transform:scaleX(1)}100%{opacity:0;transform:scaleX(1)}}
  /* signage: il neon si accende a scatti */
