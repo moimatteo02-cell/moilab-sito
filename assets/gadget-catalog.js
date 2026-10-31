@@ -4,8 +4,7 @@
 (() => {
 const ROOMS = {
   custom: { room: 'moi-showroom-custom', k: 'MOI LAB / CUSTOM / CATALOGO', h: 'Sticker, biglietti e scatole,', em: 'fatti bene.', lead: 'Pochi prodotti, scelti con cura: scegli il formato e la quantità, il prezzo finale con la tua grafica lo confermiamo nel preventivo.', ph: 'Cerca: adesivi rotondi, biglietti opachi, scatole…' },
-  signage: { room: 'moi-showroom-signage', k: 'MOI LAB / INSEGNE / CATALOGO', h: 'Striscioni, cartelli', em: 'e allestimenti.', lead: 'Roll-up, bandiere, poster, pannelli e tutto per fiere ed eventi.', ph: 'Cerca: roll-up, bandiera, pannello…' },
-  design: { room: 'moi-showroom-design', k: 'MOI LAB / GRAFICA / STAMPA', h: 'La tua grafica,', em: 'stampata bene.', lead: 'Biglietti da visita, volantini, opuscoli, menu, inviti: la grafica la curiamo noi, se vuoi.', ph: 'Cerca: biglietti, volantini, menu…' }
+  signage: { room: 'moi-showroom-signage', k: 'MOI LAB / INSEGNE / CATALOGO', h: 'Striscioni, cartelli', em: 'e allestimenti.', lead: 'Roll-up, bandiere, poster, pannelli e tutto per fiere ed eventi.', ph: 'Cerca: roll-up, bandiera, pannello…' }
 };
 const PAGE = 30;
 const NAV = window.MoiCatalogNavigation;
@@ -32,7 +31,7 @@ async function getShelves(key) {
   return v.flatMap(sh => sh.ids.map((id, i) => { const x = pool.get(id); if (!x) return null; const t = sh.tiers && sh.tiers[id];
     return { ...x, cat: sh.name, sub: sh.name, o: i, ...(t ? { t, q: t[0][0], p: t[0][1] / t[0][0], from: t[0][1] } : {}) }; })).filter(Boolean);
 }
-const SVC = { custom: 'Gadget', signage: 'Insegne', design: 'Stampa' };
+const SVC = { custom: 'Gadget', signage: 'Insegne' };
 const ORDER = { custom: ['Tazze e bicchieri', 'Borracce', 'Penne e scrittura', 'Quaderni e blocchi', 'Tecnologia', 'Tempo libero', 'Casa', 'Ufficio', 'Portachiavi', 'Adesivi ed etichette', 'Regali con foto', 'Dolci e snack', 'Packaging', 'Packaging per alimenti'] };
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const euro = n => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: n < 1 ? 3 : 2 });

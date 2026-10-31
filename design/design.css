@@ -168,6 +168,9 @@
 }
 @media(max-width:600px){
  .dz-meta span:last-child{display:none}
+ .dz-sheet{width:min(78%,300px);justify-self:center;padding:10px}
+ .dz-sheet figcaption span:first-child{display:none}
+ .dz-sign{margin-top:22px}
  .dz-h1{font-size:clamp(46px,13.5vw,64px)}
  .dz-lead{font-size:16px;margin:22px 0 26px}
  .dz-cta .dz-btn{flex:1 1 100%;justify-content:center}
@@ -192,4 +195,94 @@
  .dz *{animation:none!important;transition:none!important}
  .dz-guide *,.dz-mk{stroke-dashoffset:0}.dz-gold{transform:none}.dz-dim{opacity:1}
  [data-dz-reveal]{opacity:1;transform:none}
+}
+
+/* ===================== animazioni «da studio» ===================== */
+/* titolo: lettere che si posano, corsivo che si scrive, svolazzo disegnato */
+.dz-w{display:inline-block;white-space:nowrap}
+.dz-ch{display:inline-block;opacity:0}
+.dz.is-drawn .dz-ch{animation:dz-ch .9s cubic-bezier(.2,.8,.2,1) calc(var(--i) * 45ms) both}
+@keyframes dz-ch{from{opacity:0;transform:translateY(.42em) rotate(7deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.dz-h1 em,.dz-h2 em{clip-path:inset(-10% 100% -25% 0)}
+.dz.is-drawn .dz-h1 em{animation:dz-write 1.3s cubic-bezier(.55,.05,.35,1) .55s forwards}
+.is-in .dz-h2 em,.dz-story.is-in .dz-h2 em{animation:dz-write 1.2s cubic-bezier(.55,.05,.35,1) .25s forwards}
+@keyframes dz-write{to{clip-path:inset(-10% -2% -25% 0)}}
+.dz-swash{display:block;width:min(260px,70%);height:auto;margin-top:2px;overflow:visible}
+.dz-swash path{fill:none;stroke:var(--g);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.dz.is-drawn .dz-hero .dz-swash path{animation:dz-line .9s cubic-bezier(.5,0,.3,1) 1.75s forwards}
+.is-in .dz-swash path,.dz-story.is-in .dz-swash path{animation:dz-line .9s cubic-bezier(.5,0,.3,1) 1.3s forwards}
+.dz-inc .dz-swash path{stroke:#d8b56a}
+/* firma calligrafica scritta col pennino */
+.dz-sign{position:relative;display:inline-block;margin:30px 0 0;font:400 clamp(30px,3.2vw,42px)/1.1 'Moi Calligraphy',cursive;color:var(--gd)}
+.dz-sign span{display:block;clip-path:inset(-20% 100% -30% 0)}
+.dz-sign::after{content:"";position:absolute;left:0;top:55%;width:7px;height:7px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--g);opacity:0}
+.dz.is-drawn .dz-sign span{animation:dz-write 2s cubic-bezier(.45,.1,.4,1) 1.5s forwards}
+.dz.is-drawn .dz-sign::after{animation:dz-nib 2s cubic-bezier(.45,.1,.4,1) 1.5s forwards}
+@keyframes dz-nib{0%{left:0;opacity:1}92%{opacity:1}100%{left:100%;opacity:0}}
+/* punti di ancoraggio come in un programma di grafica */
+.dz-pts{opacity:0}
+.dz-pts path{fill:none;stroke:var(--g);stroke-width:1}
+.dz-pts rect{fill:#fff;stroke:var(--ink);stroke-width:1.5}
+.dz-pts circle{fill:#fff;stroke:var(--g);stroke-width:1.5}
+.dz.is-drawn .dz-pts{animation:dz-pts 3.4s ease 1.9s forwards}
+@keyframes dz-pts{0%{opacity:0}12%,72%{opacity:1}100%{opacity:0}}
+/* avatar della chat: la M si disegna a ogni messaggio */
+.dz-msg .dz-av path{stroke-dasharray:1;stroke-dashoffset:1;animation:dz-line .7s cubic-bezier(.5,0,.3,1) .1s forwards}
+/* la parola «Design» disegnata a contorno, poi riempita d'oro */
+.dz-word{margin:clamp(10px,3vw,40px) 0 clamp(36px,6vw,80px);opacity:1!important;transform:none!important}
+.dz-word svg{display:block;width:100%;height:auto;overflow:visible}
+.dz-word text{font:italic 400 220px var(--ed);fill:transparent;stroke:var(--ink);stroke-width:1.1;stroke-dasharray:1500;stroke-dashoffset:1500}
+.dz-word.is-in text{animation:dz-outline 2.6s cubic-bezier(.45,.1,.35,1) forwards,dz-fill 1s ease 2.3s forwards}
+@keyframes dz-outline{to{stroke-dashoffset:0}}
+@keyframes dz-fill{to{fill:var(--g);stroke:var(--gd)}}
+/* icone dei servizi che si disegnano */
+.dz-ico{display:block;width:40px;height:40px;margin-bottom:12px;fill:none;stroke:var(--g);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dz-ico *{stroke-dasharray:1;stroke-dashoffset:1}
+.dz-list li.is-in .dz-ico *{animation:dz-line 1.1s cubic-bezier(.5,0,.3,1) .35s forwards}
+.dz-list li.is-in .dz-ico :nth-child(2){animation-delay:.6s}.dz-list li.is-in .dz-ico :nth-child(3){animation-delay:.8s}
+/* metodo: la linea si traccia, i punti si accendono */
+.dz-steps{position:relative;border-top-color:transparent!important;opacity:1!important;transform:none!important}
+.dz-steps::after{content:"";position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform 1.6s cubic-bezier(.5,0,.2,1)}
+.dz-steps.is-in::after{transform:none}
+.dz-steps li::before{transform:scale(0);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.dz-steps.is-in li::before{transform:none}
+.dz-steps.is-in li:nth-child(2)::before{transition-delay:.4s}.dz-steps.is-in li:nth-child(3)::before{transition-delay:.8s}.dz-steps.is-in li:nth-child(4)::before{transition-delay:1.2s}
+
+/* ===================== come nasce un marchio (si anima scorrendo) ===================== */
+.dz-story{--s0:0;--s1:0;--s2:0;--s3:0;--s4:0;position:relative;height:340vh;margin-top:clamp(40px,6vw,80px)}
+.dz-story-pin{position:sticky;top:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:center;height:100vh;height:100dvh}
+.dz-story-steps{margin:34px 0 0;padding:0;list-style:none}
+.dz-story-steps li{display:grid;grid-template-columns:42px 1fr;column-gap:8px;padding:12px 0;border-top:1px solid var(--line);font:600 18px/1.2 var(--sans);opacity:.32;transition:opacity .35s}
+.dz-story-steps li b{grid-row:span 2;font:400 18px/1.2 var(--ed);font-style:italic;color:var(--gd)}
+.dz-story-steps small{font:400 14px/1.45 var(--sans);color:var(--mut);max-height:0;overflow:hidden;transition:max-height .4s}
+.dz-story-steps li.is-on{opacity:1}
+.dz-story-steps li.is-on small{max-height:40px;margin-top:4px}
+.dz-story-stage{position:relative;margin:0;padding:18px;border:1px solid var(--line);background:var(--card);overflow:hidden}
+.dz-story-stage::before{content:"";position:absolute;inset:0;background:var(--ink);opacity:var(--s3)}
+.dz-story-stage svg{position:relative;display:block;width:100%;height:auto}
+.dz-story-stage figcaption{position:relative;display:flex;gap:6px;justify-content:flex-end;margin-top:10px;font:500 11px/1 var(--sans);letter-spacing:.18em;color:#8a8478}
+.dz-story-n{color:var(--g)}
+.dz-story .L0 path{fill:none;stroke:#7d776c;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--s0));opacity:calc(1 - var(--s2))}
+.dz-story .L1 *{fill:none;stroke:#cdbf9f;stroke-width:1.2;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--s1));opacity:calc(1 - var(--s3))}
+.dz-story .L2{fill:none;stroke:var(--ink);stroke-width:22;stroke-linejoin:miter;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--s2));opacity:calc(1 - var(--s3))}
+.dz-story .L3 path{fill:none;stroke:#f6f5f2;stroke-width:22;stroke-linejoin:miter;opacity:var(--s3)}
+.dz-story .L3 circle{fill:var(--g);transform-box:fill-box;transform-origin:center;transform:scale(var(--s3))}
+.dz-story .L4 text{font:600 30px var(--sans);letter-spacing:calc(.9em - var(--s4) * .55em);fill:#f6f5f2;opacity:var(--s4)}
+.dz-story .L4 .t2{font:italic 400 19px var(--ed);letter-spacing:0;fill:#d8b56a}
+
+@media(max-width:900px){
+ .dz-story{height:300vh}
+ .dz-story-pin{grid-template-columns:1fr;align-content:center;gap:14px}
+ .dz-story-copy .dz-k{margin-bottom:10px}
+ .dz-story-copy .dz-h2{font-size:clamp(26px,7.4vw,40px)}
+ .dz-story-steps{margin-top:14px}
+ .dz-story-steps li:not(.is-on){display:none}
+ .dz-story-stage{order:2;width:min(100%,46vh);justify-self:center;padding:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .dz-ch,.dz-h1 em,.dz-h2 em,.dz-sign span{opacity:1;clip-path:none}
+ .dz-swash path,.dz-ico *,.dz-msg .dz-av path{stroke-dashoffset:0}
+ .dz-word text{stroke-dashoffset:0;fill:var(--g)}
+ .dz-steps::after,.dz-steps li::before{transform:none}
+ .dz-story{height:auto}.dz-story-pin{position:static;height:auto;padding:40px 0}
 }

@@ -67,7 +67,7 @@ const keep = () => { const r = pad.getBoundingClientRect(), rr = room.getBoundin
 
 function bubble(who, html) {
   const b = document.createElement('div'); b.className = 'dz-msg dz-' + who;
-  b.innerHTML = who === 'me' ? `<p>${html}</p>` : `<span class="dz-av" aria-hidden="true"><svg viewBox="0 0 42 43"><path d="M4 34V9l17 18L38 9v25"/></svg></span><p>${html}</p>`;
+  b.innerHTML = who === 'me' ? `<p>${html}</p>` : `<span class="dz-av" aria-hidden="true"><svg viewBox="0 0 42 43"><path pathLength="1" d="M4 34V9l17 18L38 9v25"/></svg></span><p>${html}</p>`;
   thread.append(b); return b;
 }
 async function say(html) {
@@ -182,4 +182,34 @@ function restart() { A = {}; stack = []; thread.innerHTML = ''; ask(0); }
 function start() { if (started) return; started = true; ask(0); }
 /* parte da sola quando la chiacchierata entra in vista */
 if ('IntersectionObserver' in window) { const so = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { so.disconnect(); start(); } }, { root: room, threshold: .25 }); so.observe(brief); } else start();
+})();
+
+/* ===== animazioni da studio: titolo, svolazzi, storia del marchio ===== */
+(() => {
+'use strict';
+const room = document.getElementById('moi-showroom-design'), dz = room && room.querySelector('.dz'); if (!dz) return;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* titolo: lettera per lettera (il testo resta leggibile per i lettori di schermo) */
+const h1 = dz.querySelector('.dz-h1'), first = h1 && h1.firstChild;
+if (h1 && first && first.nodeType === 3) {
+  h1.setAttribute('aria-label', h1.textContent.replace(/\s+/g, ' ').trim());
+  let i = 0; const frag = document.createElement('span'); frag.setAttribute('aria-hidden', 'true');
+  frag.innerHTML = first.textContent.trim().split(' ').map(w => `<span class="dz-w">${[...w].map(c => `<span class="dz-ch" style="--i:${i++}">${c}</span>`).join('')}</span>`).join(' ') + ' ';
+  h1.replaceChild(frag, first); h1.querySelector('em')?.setAttribute('aria-hidden', 'true');
+}
+/* svolazzo sotto ogni corsivo dei titoli */
+const SW = '<svg class="dz-swash" viewBox="0 0 300 22" aria-hidden="true"><path pathLength="1" d="M4 15C58 5 128 19 188 10s82-3 108 4"/></svg>';
+dz.querySelectorAll('.dz-h1 em, .dz-h2 em').forEach(em => em.insertAdjacentHTML('afterend', SW));
+/* «Come nasce un marchio»: avanza scorrendo la stanza */
+const st = dz.querySelector('.dz-story'); if (!st) return;
+const steps = [...st.querySelectorAll('.dz-story-steps li')], num = st.querySelector('.dz-story-n');
+const set = p => {
+  for (let k = 0; k < 5; k++) st.style.setProperty('--s' + k, Math.min(1, Math.max(0, (p - k * .19) / .17)).toFixed(3));
+  const on = Math.min(4, Math.floor(p * 5 + .02)); steps.forEach((li, k) => li.classList.toggle('is-on', k === on)); num.textContent = '0' + (on + 1);
+};
+if (reduce) { set(1); st.classList.add('is-in'); return; }
+let raf = 0;
+const tick = () => { raf = 0; const r = st.getBoundingClientRect(), vh = room.clientHeight, span = r.height - vh; set(span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 1); if (r.top < vh * .6) st.classList.add('is-in'); };
+room.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+addEventListener('resize', tick); set(0); tick();
 })();
