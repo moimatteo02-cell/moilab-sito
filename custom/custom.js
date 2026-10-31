@@ -194,6 +194,23 @@ const bagN = $('.ml-bag-n');
 const syncBag = () => { const n = window.MoiCart?.count?.() || 0; if (bagN) { bagN.hidden = !n; bagN.textContent = n; } };
 setInterval(() => { if (!document.hidden) syncBag(); }, 1200); syncBag();
 
+/* ---------- richieste particolari: finiscono nello stesso preventivo ---------- */
+const ask = $('[data-ask]');
+if (ask) {
+  const q = $('#ml-ask-q', ask), err = $('.ml-ask-err', ask), wa = $('[data-ask-wa]', ask);
+  const waURL = () => `https://wa.me/${WA}?text=${encodeURIComponent('Ciao MOI LAB, ho una richiesta particolare: ' + (q.value.trim() || ''))}`;
+  wa.href = waURL(); q.addEventListener('input', () => { wa.href = waURL(); err.textContent = ''; });
+  ask.addEventListener('submit', e => {
+    e.preventDefault(); const t = q.value.trim();
+    if (t.length < 4) { err.classList.remove('ok'); err.textContent = 'Scrivi in poche parole cosa ti serve.'; q.focus(); return; }
+    if (!window.MoiCart) return;
+    window.MoiCart.add({ service: 'custom', title: 'Richiesta particolare', details: [['Richiesta', t]] });
+    window.MoiCart.fly?.($('button[type=submit]', ask));
+    q.value = ''; wa.href = waURL(); err.classList.add('ok'); err.textContent = 'Aggiunta al preventivo.';
+    setTimeout(() => window.MoiCart.open?.(), reduce ? 0 : 600);
+  });
+}
+
 /* ---------- recensione: la prima vera, altrimenti un invito dichiarato ---------- */
 fetch('/data/recensioni.json?v=20261030-1').then(r => r.json()).then(d => {
   const items = (d.items || []).filter(x => x && x.testo), box = $('[data-review]'); if (!box || !items.length) return;

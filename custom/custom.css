@@ -129,6 +129,18 @@ main{overflow-x:clip}
 .ml-item:hover .ml-item-go{transform:translateX(3px);background:var(--wine2)}
 .ml-note{margin:24px auto 0;max-width:760px;font-size:13px;color:#7a7167;text-align:center}
 
+/* ---------- richieste particolari ---------- */
+.ml-ask{padding-bottom:96px}
+.ml-ask-in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:52px;border:1px solid var(--line);border-radius:26px;background:var(--paper)}
+.ml-ask-txt .ml-h2{font-size:clamp(40px,4.6vw,64px);color:var(--coal)}
+.ml-ask-txt>p:not(.ml-pill){margin:18px 0 0;max-width:460px;font-size:17px;color:#3b352f}
+.ml-ask-form label{display:block;margin-bottom:10px;font:700 15px/1.2 var(--sans)}
+.ml-ask-form textarea{width:100%;min-height:130px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;font:500 16px/1.45 var(--sans);color:var(--ink);resize:vertical}
+.ml-ask-form textarea:focus{outline:2px solid var(--wine);border-color:var(--wine)}
+.ml-ask-btns{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:16px}
+.ml-ask-wa{font-size:15px;font-weight:600;color:var(--wine);text-underline-offset:4px}
+.ml-ask-err{min-height:1.2em;margin:10px 0 0;font-size:14px;color:var(--wine)}
+.ml-ask-err.ok{color:#2f6b45}
 /* ---------- vantaggi ---------- */
 .ml-pros{background:var(--coal);color:#fff}
 .ml-pros-in{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 auto;padding-top:56px;padding-bottom:56px;list-style:none}
@@ -286,6 +298,7 @@ main{overflow-x:clip}
  .ml-q-txt{padding:56px 32px}
  .ml-q-list{grid-template-columns:1fr}
  .ml-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ml-ask-in{grid-template-columns:1fr;gap:28px;padding:40px 32px}
  .ml-pros-in{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}
  .ml-pros-in li:nth-child(3){border-left:0}
  .ml-rev{grid-template-columns:1fr 1fr;gap:36px}
@@ -345,6 +358,9 @@ main{overflow-x:clip}
  .ml-item p{font-size:13px;margin:6px 0 12px}
  .ml-item-f{flex-direction:column;align-items:stretch;gap:10px}
  .ml-item-go{width:100%;height:40px;border-radius:999px}
+ .ml-ask{padding-bottom:56px}
+ .ml-ask-in{grid-template-columns:1fr;gap:24px;padding:28px 20px}
+ .ml-ask-btns .ml-btn{width:100%}
  .ml-pros-in{grid-template-columns:1fr 1fr;padding-top:40px;padding-bottom:40px;row-gap:28px}
  .ml-pros-in li{padding:0 8px}
  .ml-pros-in b{font-size:15px}.ml-pros-in small{font-size:13px}
