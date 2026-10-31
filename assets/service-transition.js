@@ -86,6 +86,7 @@ const keyOf = url => {
 doc.addEventListener('click', e => {
   if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
   const a = e.target.closest?.('a[href]'); if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+  if (a.closest('#servizi.sa')) return;   // nella scelta dei servizi decide la fisarmonica: 1° tocco apre, 2° entra
   const url = new URL(a.href, location.href);
   const samePage = url.pathname === location.pathname;
   let key = keyOf(url);
