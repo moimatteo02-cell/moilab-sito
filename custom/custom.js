@@ -46,7 +46,7 @@ const CARDS = {
     .map(([k, d]) => ({ cfg: 'scatole', type: k, name: SCATOLE[k][0], desc: d, img: SCATOLE[k][2], pid: SCATOLE[k][1] }))
     .concat([{ cfg: 'scatole', type: 0, name: 'Tutti i formati', desc: 'Postali con stampa, per spedizioni, per prodotti: 7 formati.', img: '', label: '7 FORMATI', pid: null }])
 };
-const WORD = { sticker: 'STICKER', biglietti: 'BIGLIETTI', scatole: 'SCATOLA' };
+const WORD = { sticker: 'sticker', biglietti: 'biglietti da visita', scatole: 'scatola' };
 const FINISH = ['Opaca', 'Lucida', 'Consigliatemi voi'], USE = [['Interno', 'home'], ['Esterno', 'sun']];
 const ART = [['have', 'Ho già la grafica'], ['help', 'Mi serve aiuto'], ['idea', 'Ho solo un’idea']];
 let TIERS = {};
@@ -65,11 +65,14 @@ function cards() {
        <div class="ml-item-f"><span>${t ? `da <strong>${euro(t[1])}</strong><br>${t[0].toLocaleString('it-IT')} pz minimo` : c.pid ? 'Prezzo su richiesta' : 'Scegli il formato'}</span><button class="ml-item-go" type="button" ${at} aria-label="Configura ${esc(c.name)}"><svg><use href="#i-arrow"/></svg></button></div></div>
     </article>`;
   }).join('');
-  $$('.ml-tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === fam));
+  $$('.ml-fams [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === fam));
   const w = $('[data-cat-word]'); if (w) w.textContent = WORD[fam];
 }
 function setFam(f) { if (!CARDS[f] || f === fam) return; fam = f; const box = $('[data-cards]'); box.classList.remove('in'); cards(); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add('in'))); }
-document.addEventListener('click', e => { const t = e.target.closest('.ml-tabs [data-tab]'); if (t) setFam(t.dataset.tab); });
+document.addEventListener('click', e => {
+  const t = e.target.closest('.ml-fams [data-tab]'); if (t) { setFam(t.dataset.tab); return; }
+  const f = e.target.closest('[data-fam]'); if (f) { e.preventDefault(); setFam(f.dataset.fam); closeMenu?.(); $('#prodotti').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
+});
 
 /* ---------- scheda prodotto (configuratore) ---------- */
 const dlg = $('.pd'); let st = null;

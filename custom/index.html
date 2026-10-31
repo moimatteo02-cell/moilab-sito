@@ -10,7 +10,7 @@
 <meta name="description" content="Sticker, etichette, biglietti da visita e scatole personalizzati. Scegli il prodotto, configura e richiedi il preventivo a MOI LAB.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
-<link rel="stylesheet" href="/custom/custom.css?v=20261031-1">
+<link rel="stylesheet" href="/custom/custom.css?v=20261031-2">
 <link rel="stylesheet" href="/assets/quote-cart.css?v=20261027-5">
 <link rel="stylesheet" href="/assets/context-bar.css?v=20261031-2">
 </head>
@@ -35,7 +35,7 @@
  <div class="ml-wrap ml-top-in">
   <a class="ml-logo" href="/" aria-label="MOI LAB — home"><img src="/assets/moi-lab-wordmark.svg" alt="MOI LAB" width="300" height="43"></a>
   <nav class="ml-nav" id="ml-nav" aria-label="Menu principale">
-   <a href="#prodotti">Prodotti</a><a href="#configura" data-config="sagomati">Personalizza</a><a href="#progetto">Aziende</a><a href="https://wa.me/393278815148?text=Ciao%20MOI%20LAB%2C%20vorrei%20un%27informazione%3A%20" target="_blank" rel="noopener">Contatti</a>
+   <a href="#prodotti" data-fam="sticker">Sticker</a><a href="#prodotti" data-fam="biglietti">Biglietti da visita</a><a href="#prodotti" data-fam="scatole">Scatole</a><a href="#richieste">Richieste particolari</a><a href="https://wa.me/393278815148?text=Ciao%20MOI%20LAB%2C%20vorrei%20un%27informazione%3A%20" target="_blank" rel="noopener">Contatti</a>
   </nav>
   <div class="ml-tools">
    <button class="ml-ico" type="button" data-cart-open aria-label="Apri il preventivo"><svg><use href="#i-bag"/></svg><b class="ml-bag-n" hidden>0</b></button>
@@ -50,10 +50,10 @@
 <section class="ml-hero" aria-labelledby="ml-hero-t">
  <div class="ml-hero-l">
   <div class="ml-hero-copy">
-   <p class="ml-pill ml-pill-l">STICKER, BIGLIETTI &amp; SCATOLE SU MISURA</p>
-   <h1 id="ml-hero-t" class="ml-h1"><span>STICKER</span><span class="y">PERSONALIZZATI</span></h1>
-   <p class="ml-lead">Sticker, etichette, biglietti da visita e scatole su misura per brand, packaging, eventi e progetti creativi.</p>
-   <button class="ml-btn ml-btn-cream" type="button" data-config="sagomati">Crea i tuoi sticker <svg><use href="#i-arrow"/></svg></button>
+   <p class="ml-pill ml-pill-l">PERSONALIZZATI CON IL TUO MARCHIO</p>
+   <h1 id="ml-hero-t" class="ml-h1"><span>STICKER,</span><span>BIGLIETTI</span><span class="y">E SCATOLE</span></h1>
+   <p class="ml-lead">Scegli cosa creare: ti mostriamo prezzi chiari e ti prepariamo il preventivo.</p>
+   <div class="ml-pick" aria-label="Cosa vuoi creare?"><a href="#prodotti" data-fam="sticker"><b>Sticker</b><small>ed etichette</small></a><a href="#prodotti" data-fam="biglietti"><b>Biglietti</b><small>da visita</small></a><a href="#prodotti" data-fam="scatole"><b>Scatole</b><small>e packaging</small></a></div>
    <ul class="ml-facts">
     <li><svg><use href="#i-gem"/></svg>Prezzi chiari, IVA inclusa</li>
     <li><svg><use href="#i-layers"/></svg>Sagomati anche da 1 pezzo</li>
@@ -90,11 +90,11 @@
  <div class="ml-q-txt" data-r>
   <p class="ml-pill">QUALITÀ CHE SI VEDE</p>
   <h2 id="ml-q-t" class="ml-h2 ml-big"><span class="ml-wine">FATTI PER</span><br>DURARE</h2>
-  <p>Stampa a colori su ogni prodotto, tagli sulla forma che scegli e materiali adatti a dove li userai. Ti consigliamo noi la soluzione giusta per il tuo progetto.</p>
+  <p>Stampa a colori su ogni prodotto, carte e materiali adatti a come li userai. Ti consigliamo noi la soluzione giusta per il tuo progetto.</p>
   <ul class="ml-q-list">
-   <li><svg><use href="#i-layers"/></svg><b>Materiali</b><span>Standard, trasparente o impermeabile</span></li>
-   <li><svg><use href="#i-gem"/></svg><b>Finiture</b><span>Lucida o opaca, la scegliamo insieme</span></li>
-   <li><svg><use href="#i-drop"/></svg><b>Resistenza</b><span>Versione impermeabile per l’esterno</span></li>
+   <li><svg><use href="#i-layers"/></svg><b>Sticker</b><span>Standard, trasparenti o impermeabili</span></li>
+   <li><svg><use href="#i-gem"/></svg><b>Biglietti</b><span>Opaca, lucida, soft touch, kraft, extra spessi</span></li>
+   <li><svg><use href="#i-drop"/></svg><b>Scatole</b><span>Postali, regalo, astucci, anche con stampa</span></li>
    <li><svg><use href="#i-frame"/></svg><b>Personalizzazione</b><span>Forme e misure su richiesta</span></li>
   </ul>
   <a class="ml-btn ml-btn-wine" href="#prodotti">Scopri i prodotti <svg><use href="#i-arrow"/></svg></a>
@@ -104,11 +104,14 @@
 <!-- CATEGORIE -->
 <section class="ml-cats ml-wrap" id="prodotti" aria-labelledby="ml-cat-t">
  <div class="ml-cats-head" data-r>
-  <p class="ml-pill">LA NOSTRA COLLEZIONE</p>
-  <h2 id="ml-cat-t" class="ml-h2 ml-cat-t"><span class="ml-wine">SCEGLI IL TIPO DI</span> <span data-cat-word>STICKER</span></h2>
-  <div class="ml-tabs" role="tablist" aria-label="Famiglie di prodotti">
-   <button type="button" role="tab" aria-selected="true" data-tab="sticker">Sticker</button><button type="button" role="tab" aria-selected="false" data-tab="biglietti">Biglietti da visita</button><button type="button" role="tab" aria-selected="false" data-tab="scatole">Scatole</button>
+  <p class="ml-pill">I NOSTRI PRODOTTI</p>
+  <h2 id="ml-cat-t" class="ml-h2 ml-cat-t"><span class="ml-wine">COSA VUOI</span> CREARE?</h2>
+  <div class="ml-fams" role="tablist" aria-label="Famiglie di prodotti">
+   <button type="button" role="tab" aria-selected="true" data-tab="sticker"><img src="/assets/catalogo/custom/g3cf381-adesivi-sagomati-480.webp" alt="" width="480" height="384"><span><b>Sticker</b><small>Sagomati, fogli, etichette, rotoli</small></span></button>
+   <button type="button" role="tab" aria-selected="false" data-tab="biglietti"><img src="/assets/catalogo/design/ge9da2c-biglietti-da-visita-standard-480.webp" alt="" width="480" height="384"><span><b>Biglietti da visita</b><small>9 carte e formati</small></span></button>
+   <button type="button" role="tab" aria-selected="false" data-tab="scatole"><img src="/assets/catalogo/custom/ga9a0ef-scatole-postali-480.webp" alt="" width="480" height="384"><span><b>Scatole</b><small>7 formati, anche con stampa</small></span></button>
   </div>
+  <p class="ml-sub">Scegli il tipo di <b data-cat-word>sticker</b></p>
  </div>
  <div class="ml-grid" data-cards role="tabpanel" aria-live="polite"></div>
  <p class="ml-note">Prezzi IVA inclusa per il formato standard, con la quantità minima indicata. Misure, materiali e finiture diverse li confermiamo nel preventivo. Nessun pagamento online.</p>
@@ -156,7 +159,7 @@
    <p class="ml-pill ml-pill-l">REALIZZIAMO LE TUE IDEE</p>
    <h2 id="ml-end-t" class="ml-h2 ml-end-t">PARLIAMO<br><span class="y">DEL TUO PROGETTO</span></h2>
    <p>Per aziende, negozi ed eventi: raccontaci cosa ti serve e ti mandiamo un preventivo su misura.</p>
-   <div class="ml-end-btns"><button class="ml-btn ml-btn-cream" type="button" data-config="sagomati">Richiedi un preventivo <svg><use href="#i-arrow"/></svg></button><a class="ml-link" href="https://wa.me/393278815148?text=Ciao%20MOI%20LAB%2C%20vorrei%20parlarvi%20di%20un%20progetto%3A%20" target="_blank" rel="noopener">oppure scrivici su WhatsApp</a></div>
+   <div class="ml-end-btns"><a class="ml-btn ml-btn-cream" href="#prodotti">Richiedi un preventivo <svg><use href="#i-arrow"/></svg></a><a class="ml-link" href="https://wa.me/393278815148?text=Ciao%20MOI%20LAB%2C%20vorrei%20parlarvi%20di%20un%20progetto%3A%20" target="_blank" rel="noopener">oppure scrivici su WhatsApp</a></div>
   </div>
   <div class="ml-end-pic" aria-hidden="true" data-px="0.05">
    <span class="e1"><img src="/assets/catalogo/design/ge9da2c-biglietti-da-visita-standard-480.webp" alt="" width="480" height="384" loading="lazy"></span>
@@ -192,6 +195,6 @@
 <script src="/assets/quote-cart.js?v=20261030-2"></script>
 <script src="/assets/service-icons.js?v=20261031-2"></script><script src="/assets/service-transition.js?v=20261031-2"></script>
 <script defer src="/assets/context-bar.js?v=20261031-2" data-cb="custom"></script>
-<script src="/custom/custom.js?v=20261031-1"></script>
+<script src="/custom/custom.js?v=20261031-2"></script>
 </body>
 </html>

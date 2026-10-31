@@ -218,3 +218,9 @@ Configuratore = scheda prodotto (galleria a sinistra, opzioni a destra, consigli
 
 ### Automotive — derapata (31 ottobre 2026)
 Scena della tendina Automotive (`service-transition.js/.css`, `.sc-auto`): si anima l'icona originale dell'auto (vista frontale) con prospettiva 3D — entra da sinistra di traverso, derapa con un'inversione a U, si gira verso chi guarda e finisce esattamente nella posizione dell'icona. Le tracce sono due tracciati SVG disegnati progressivamente (`stroke-dashoffset`) e restano visibili. Stessa idea, in piccolo, nel pulsante del riquadro «Sei in…». Riduzione movimento: stato finale.
+
+### /custom/ — acquisto più chiaro per tutti i prodotti (31/10)
+- Hero: "Sticker, biglietti e scatole" con tre scorciatoie (Sticker · Biglietti · Scatole) che aprono la famiglia giusta.
+- Menu: Sticker, Biglietti da visita, Scatole, Richieste particolari, Contatti (`data-fam` cambia famiglia e scorre a #prodotti).
+- Sezione prodotti: "Cosa vuoi creare?" con tre riquadri con foto (`.ml-fams`) al posto delle pillole; sottotitolo dinamico.
+- Sezione qualità e CTA finale non più solo sticker.
