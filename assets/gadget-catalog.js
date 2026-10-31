@@ -59,7 +59,7 @@ const plural = n => `${n.toLocaleString('it-IT')} ${n === 1 ? 'prodotto' : 'prod
 
 function mount(key, cfg) {
   const room = document.getElementById(cfg.room); if (!room) return;
-  const anchor = room.querySelector('.mm-sign') || room.querySelector('.moi-room-content'); if (!anchor) return;
+  const anchor = room.querySelector('[data-gk-anchor]') || room.querySelector('.mm-sign') || room.querySelector('.moi-room-content'); if (!anchor) return;
   const sec = document.createElement('section'); sec.className = 'gk'; sec.id = 'gk-' + key; sec.setAttribute('aria-label', 'Catalogo');
   sec.innerHTML = `<header class="gk-head"><p class="gk-k">${cfg.k}</p><h2>${esc(cfg.h)} <em>${esc(cfg.em)}</em></h2><p class="gk-lead">${esc(cfg.lead)}</p></header>
     <label class="gk-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="gk-sr">Cerca nel catalogo</span><input type="search" placeholder="${esc(cfg.ph)}" autocomplete="off"><button type="button" class="gk-clear" hidden aria-label="Cancella la ricerca">×</button></label>

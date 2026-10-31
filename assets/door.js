@@ -43,9 +43,9 @@
   function syncRooms() {
     cards.forEach((card, key) => {
       const room = rooms.get(key), title = card.querySelector('h2'), subtitle = card.querySelector('.mlg-caption p');
-      if(!['automotive','digital'].includes(key))room.querySelector('.moi-room-title').textContent = title.textContent;
-      if(!['automotive','digital'].includes(key))room.querySelector('.moi-room-subtitle').textContent = subtitle.textContent;
-      if (!['automotive','digital'].includes(key) && card.dataset.moiIntro) room.querySelector('.moi-room-intro').textContent = card.dataset.moiIntro;
+      if(!['automotive','digital','design'].includes(key))room.querySelector('.moi-room-title').textContent = title.textContent;
+      if(!['automotive','digital','design'].includes(key))room.querySelector('.moi-room-subtitle').textContent = subtitle.textContent;
+      if (!['automotive','digital','design'].includes(key) && card.dataset.moiIntro) room.querySelector('.moi-room-intro').textContent = card.dataset.moiIntro;
       const source = card.querySelector('.mlg-photo'), photo = room.querySelector('.moi-room-image'), empty = room.querySelector('.moi-room-art');
       if (!photo || !empty) return;
       const stage = photo.closest('.moi-room-stage');
@@ -104,7 +104,7 @@
     });
     current = key; lock(true); room.scrollTop = 0;
     if (!homeFocus) homeFocus = cards.get(key);
-    document.title = room.querySelector('.moi-room-title').textContent + ' — MOI LAB';
+    { const t = room.querySelector('.moi-room-title'); document.title = (t.dataset.docTitle || t.textContent) + ' — MOI LAB'; }
     if (theme) theme.content = '#f6f5f2';
     if (focus) room.querySelector('.moi-room-title').focus({preventScroll: true});
   }

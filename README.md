@@ -224,3 +224,9 @@ Scena della tendina Automotive (`service-transition.js/.css`, `.sc-auto`): si an
 - Menu: Sticker, Biglietti da visita, Scatole, Richieste particolari, Contatti (`data-fam` cambia famiglia e scorre a #prodotti).
 - Sezione prodotti: "Cosa vuoi creare?" con tre riquadri con foto (`.ml-fams`) al posto delle pillole; sottotitolo dinamico.
 - Sezione qualità e CTA finale non più solo sticker.
+
+### Stanza DESIGN rifatta (31/10)
+- File: `design/design.css`, `design/design.js` (caricati da index.html). Markup dentro `#moi-showroom-design .dz`.
+- Sezioni: apertura con il marchio che si costruisce (griglia, guide, M, punto oro) · «La grafica è inclusa in tutto quello che facciamo» con link agli altri 5 servizi · Cosa facciamo (logo e identità, stampa e social, packaging, design di siti) · Come lavoriamo · **La chiacchierata** (brief guidato, 10–12 domande con salto, indietro, esempi di logo col nome del cliente; finisce su WhatsApp o nel carrello) · catalogo stampa (gadget-catalog, ancorato a `[data-gk-anchor]`).
+- Budget: risposta libera, nessuna fascia di prezzo. Niente interior design.
+- door.js non riscrive più titolo/sottotitolo della stanza design; il blocco «Ti serve la grafica?» di quick-request.js è tolto (sostituito dalla chiacchierata); l'effetto Variable Proximity sul titolo è disattivato qui.

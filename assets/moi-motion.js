@@ -210,7 +210,7 @@
 
   /* ============ 14 · Titolo che reagisce al mouse (Variable Proximity) — DESIGN ============ */
   onRoom('moi-showroom-design', room => {
-    const t = $('.moi-room-title', room); if (!t || t.dataset.mmVp || reduce) return;
+    const t = $('.moi-room-title', room); if (!t || t.dataset.mmVp || reduce || room.querySelector('.dz')) return;
     t.dataset.mmVp = '1';
     if (!doc.getElementById('mm-inter')) { const l = doc.createElement('link'); l.id = 'mm-inter'; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@200..900&display=swap'; doc.head.append(l); }
     t.classList.add('mm-vp');

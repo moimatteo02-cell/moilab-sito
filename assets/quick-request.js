@@ -1,5 +1,5 @@
 /* MOI LAB — «Cosa ti serve?»: richiesta veloce da mettere nel carrello del preventivo
-   (Custom, Insegne, Grafica: i servizi senza un configuratore completo). */
+   (Custom e Insegne: i servizi senza un configuratore completo). */
 (() => {
 const BLOCKS = {
   custom: { room: 'moi-showroom-custom', title: 'Richiesta speciale', k: 'Dicci cosa ti serve',
@@ -7,10 +7,7 @@ const BLOCKS = {
     chips: ['Sticker su misura', 'Biglietti speciali', 'Scatole su misura', 'Gadget', 'Stampa UV su oggetti', 'Altro'], qty: true },
   signage: { room: 'moi-showroom-signage', title: 'Insegne e pannelli', k: 'Non trovi quello che cerchi?',
     p: 'Insegne su misura, totem, vetrofanie: dicci cosa ti serve, misure e materiali li definiamo insieme.',
-    chips: ['Insegna per negozio', 'Insegna a bandiera', 'Pannelli e cartelli', 'Vetrofanie', 'Totem', 'Targhe', 'Roll-up', 'Altro'], qty: true },
-  design: { room: 'moi-showroom-design', title: 'Grafica e branding', k: 'Ti serve la grafica?',
-    p: 'Logo, biglietti, menu, social: scegli cosa progettiamo per te e aggiungilo al preventivo.',
-    chips: ['Logo', 'Biglietti da visita', 'Volantini e flyer', 'Menu', 'Grafiche per i social', 'Packaging ed etichette', 'Brand identity completa', 'Altro'], qty: false }
+    chips: ['Insegna per negozio', 'Insegna a bandiera', 'Pannelli e cartelli', 'Vetrofanie', 'Totem', 'Targhe', 'Roll-up', 'Altro'], qty: true }
 };
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 function mount(service, b) {
