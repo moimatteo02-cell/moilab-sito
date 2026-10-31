@@ -52,26 +52,32 @@ html.st-pre::after{content:'';position:fixed;inset:0;z-index:2147483601;backgrou
 .st.cover .sc-needle i{animation:sc-bob .1s ease-in-out .5s 10 alternate}
 @keyframes sc-sew{0%{opacity:1;offset-distance:0%}95%{opacity:1}100%{opacity:0;offset-distance:100%}}
 @keyframes sc-bob{to{transform:translateY(7px)}}
-/* automotive: l'auto arriva di fianco, sgomma, frena e si gira di fronte */
-.sc-auto{overflow:visible;perspective:500px}
-.sc-auto .car{position:absolute;left:75px;top:8px;width:110px;color:#fff;opacity:0}
+/* automotive: l'auto originale (icona frontale) entra veloce da sinistra, derapa con un'inversione a U,
+   si gira verso chi guarda e si ferma esattamente dov'era; le tracce si disegnano sotto e restano */
+.sc-auto{overflow:visible;perspective:520px}
+.sc-auto .trk{position:absolute;inset:0;width:260px;height:110px;overflow:visible}
+.sc-auto .tr{fill:none;stroke:#0000006b;stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.sc-auto .tr2{stroke:#00000052}
+.st.cover .sc-auto .tr{animation:sc-track 1.25s cubic-bezier(.3,.1,.25,1) .58s forwards}
+@keyframes sc-track{to{stroke-dashoffset:0}}
+.sc-auto .car{position:absolute;left:75px;top:8px;width:110px;color:#fff;opacity:0;transform-origin:50% 70%;transform-style:preserve-3d}
 .sc-auto .car svg{display:block;width:110px;height:auto}
-.sc-auto .car-front svg *{stroke-width:9}
-.st.cover .sc-auto .car-side{animation:sc-drive .62s cubic-bezier(.2,.7,.3,1) .5s forwards,sc-turn-out .22s ease-in 1.14s forwards}
-@keyframes sc-drive{0%{opacity:1;transform:translateX(-230px) rotate(0)}58%{transform:translateX(16px) rotate(-8deg)}78%{transform:translateX(-5px) rotate(3deg)}100%{opacity:1;transform:translateX(0) rotate(0)}}
-@keyframes sc-turn-out{from{opacity:1;transform:rotateY(0)}to{opacity:0;transform:rotateY(90deg)}}
-.sc-auto .car-front{transform:rotateY(-90deg)}
-.st.cover .sc-auto .car-front{animation:sc-turn-in .3s cubic-bezier(.2,.8,.3,1.2) 1.34s forwards}
-@keyframes sc-turn-in{from{opacity:1;transform:rotateY(-90deg)}to{opacity:1;transform:rotateY(0)}}
-.sk{position:absolute;left:20px;width:200px;height:6px;border-radius:4px;background:linear-gradient(90deg,#0000,#00000040 30%,#00000080);transform:scaleX(0);transform-origin:left}
-.sk1{top:82px}.sk2{top:94px;left:30px;width:180px}
-.st.cover .sk{animation:sc-skid .5s cubic-bezier(.3,0,.3,1) .72s forwards}
-@keyframes sc-skid{to{transform:scaleX(1) rotate(-1.2deg)}}
-.pf{position:absolute;left:150px;top:72px;width:24px;height:24px;border-radius:50%;background:#ffffffb3;opacity:0}
-.p2{left:176px;top:78px;width:18px;height:18px}.p3{left:130px;top:80px;width:16px;height:16px}
-.st.cover .pf{animation:sc-puff .9s ease-out .86s forwards}
-.st.cover .p2{animation-delay:.92s}.st.cover .p3{animation-delay:.98s}
-@keyframes sc-puff{0%{opacity:0;transform:scale(.3)}25%{opacity:.8}100%{opacity:0;transform:scale(2.4) translate(-10px,-6px)}}
+.sc-auto .car svg *{stroke-width:9}
+.st.cover .sc-auto .car{animation:sc-drift 1.3s cubic-bezier(.25,.1,.25,1) .5s forwards}
+@keyframes sc-drift{
+ 0%{opacity:0;transform:translate(-250px,-8px) rotateY(72deg) rotate(0) scale(.86)}
+ 6%{opacity:1}
+ 32%{transform:translate(48px,-4px) rotateY(64deg) rotate(-5deg) scale(.9)}
+ 50%{transform:translate(86px,10px) rotateY(28deg) rotate(-20deg) scale(.94)}
+ 68%{transform:translate(42px,14px) rotateY(-22deg) rotate(9deg) scale(.98)}
+ 84%{transform:translate(-4px,2px) rotateY(6deg) rotate(-2deg) scale(1.01)}
+ 100%{opacity:1;transform:none}}
+.pf{position:absolute;left:196px;top:66px;width:26px;height:26px;border-radius:50%;background:#ffffffa6;opacity:0}
+.p2{left:216px;top:76px;width:20px;height:20px}.p3{left:180px;top:80px;width:16px;height:16px}
+.st.cover .pf{animation:sc-puff .9s ease-out .9s forwards}
+.st.cover .p2{animation-delay:.98s}.st.cover .p3{animation-delay:1.06s}
+@keyframes sc-puff{0%{opacity:0;transform:scale(.3)}25%{opacity:.8}100%{opacity:0;transform:scale(2.4) translate(6px,-8px)}}
+@media (prefers-reduced-motion:reduce){.sc-auto .car{opacity:1;transform:none}.sc-auto .tr{stroke-dashoffset:0}}
 /* signage: l'insegna si accende */
 .sc-sign{display:grid;place-items:center;color:#ffb547}
 .sc-sign svg{width:96px;height:auto}

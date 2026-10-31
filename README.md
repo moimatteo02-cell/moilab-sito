@@ -215,3 +215,6 @@ Configuratore = scheda prodotto (galleria a sinistra, opzioni a destra, consigli
 - `assets/service-transition.js/.css` (`window.MoiST`): la tendina dei servizi (due strati da destra, icona, nome, sottotitolo) ora usa i colori e il carattere del servizio di arrivo; tornando ai servizi usa oro e nero. Vale per card dei servizi, «Torna ai servizi», riquadro «Sei in…», indietro del browser e cambio pagina (/custom/ ↔ home: la pagina d'arrivo nasce coperta e si apre).
 - `servizi-accordion.js` passa le sue tendine a MoiST (Chi siamo resta col sistema di prima).
 - Riquadro «Sei in…»: solo gli altri 5 servizi, ognuno coi suoi colori e il suo carattere, sopra lo sfondo sfocato.
+
+### Automotive — derapata (31 ottobre 2026)
+Scena della tendina Automotive (`service-transition.js/.css`, `.sc-auto`): si anima l'icona originale dell'auto (vista frontale) con prospettiva 3D — entra da sinistra di traverso, derapa con un'inversione a U, si gira verso chi guarda e finisce esattamente nella posizione dell'icona. Le tracce sono due tracciati SVG disegnati progressivamente (`stroke-dashoffset`) e restano visibili. Stessa idea, in piccolo, nel pulsante del riquadro «Sei in…». Riduzione movimento: stato finale.
