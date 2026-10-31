@@ -204,7 +204,7 @@ dz.querySelectorAll('.dz-h1 em, .dz-h2 em').forEach(em => em.insertAdjacentHTML(
 const st = dz.querySelector('.dz-story'); if (!st) return;
 const steps = [...st.querySelectorAll('.dz-story-steps li')], num = st.querySelector('.dz-story-n');
 const set = p => {
-  for (let k = 0; k < 5; k++) st.style.setProperty('--s' + k, Math.min(1, Math.max(0, (p - k * .19) / .17)).toFixed(3));
+  for (let k = 0; k < 5; k++) st.style.setProperty('--s' + k, Math.min(1, Math.max(0, k ? (p - (k / 5 - .07)) / .12 : p / .2)).toFixed(3));
   const on = Math.min(4, Math.floor(p * 5 + .02)); steps.forEach((li, k) => li.classList.toggle('is-on', k === on)); num.textContent = '0' + (on + 1);
 };
 if (reduce) { set(1); st.classList.add('is-in'); return; }
