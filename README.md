@@ -232,3 +232,10 @@ Scena della tendina Automotive (`service-transition.js/.css`, `.sc-auto`): si an
 - door.js non riscrive più titolo/sottotitolo della stanza design; il blocco «Ti serve la grafica?» di quick-request.js è tolto (sostituito dalla chiacchierata); l'effetto Variable Proximity sul titolo è disattivato qui.
 - 31/10 (2): tolto il catalogo stampa dalla stanza Design (gadget-catalog.js non ha più `design`). La chiacchierata è subito dopo l'apertura. Animazioni: lettere del titolo che si posano, corsivi che si «scrivono» (clip), svolazzi disegnati sotto i titoli, firma calligrafica col pennino, punti di ancoraggio sul marchio, parola «Design» disegnata a contorno e riempita d'oro, «Come nasce un marchio» (schizzo → costruzione → vettoriale → colore → marchio, avanza scorrendo, sezione sticky), icone dei servizi e linea del metodo che si tracciano.
 - 31/10 (3): «Come nasce un marchio» usa 5 fotogrammi veri (`assets/design-story/marchio-1..5.webp`, ritagliati dalla striscia dell'utente): Idea → Primi tratti → Costruzione → Vettoriale → Marchio, in dissolvenza mentre si scorre.
+
+### Stanza DESIGN v2, interattiva (01/11)
+- 1 «Scrivi il tuo nome»: input enorme, il nome si scrive da solo all'arrivo (demo), 6 card di stile (Geometrico, Editoriale, Firma, Audace, Monogramma, Timbro) aggiornate mentre scrivi, 4 palette, inclinazione 3D col mouse, scelta → barra «Parliamone» che avvia la chiacchierata con nome e stile già inseriti.
+- 2 Chiacchierata (stessa logica, pulsanti più grandi; `startWith()` e preselezione da «Chiedilo»).
+- 3 «Come nasce un marchio»: sezione scura a tutta larghezza, 520vh, i 5 fotogrammi in dissolvenza; parola gigante a contorno che scorre; griglia, punti di ancoraggio e punto oro sovrapposti; passi cliccabili; la tavola si trascina per andare avanti/indietro; finale «Il prossimo può essere il tuo».
+- 4 «Cosa creiamo»: 4 card grandi che scorrono di lato mentre si scende (sezione sticky), «Chiedilo» → chiacchierata con la voce già selezionata.
+- 5 «Già incluso»: 5 tessere grandi verso gli altri servizi.
