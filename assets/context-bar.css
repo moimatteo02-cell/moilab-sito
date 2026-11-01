@@ -48,7 +48,7 @@
  .cb-s-custom{background:#8a0d17;color:#ffd84f;font:400 22px/1 Anton,Impact,'Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.01em}
  .cb-s-automotive{background:#426b53;color:#fff;border-radius:16px;font:600 19px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
  .cb-s-signage{background:#0d0d0c;color:#ffb547;border:1px solid #2c2a25;border-radius:12px;font:700 17px/1 'Courier New',monospace;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 0 10px #ffaa3cbf}
- .cb-s-design{background:#1d3b33;color:#e9efe6;border:1px solid #2e5a4c;font:800 18px/1 Archivo,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em;text-transform:uppercase}
+ .cb-s-design{background:#fff;color:#181818;border:1px solid #e3ddd2;font:600 19px/1 Inter,'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:-.01em}
  /* ogni servizio ha il suo gesto quando il riquadro si apre */
  .cb-s{position:relative}
  .cb-s-t{position:relative;display:inline-block}
@@ -79,7 +79,7 @@
  .cb-sheet.is-open .cb-s-signage .cb-s-t,.cb-sheet.is-open .cb-s-signage .cb-s-ic{animation:cbx-neon .9s linear var(--fx) both}
  @keyframes cbx-neon{0%{opacity:.1;text-shadow:none}8%{opacity:1}10%{opacity:.15}20%{opacity:1}22%{opacity:.3}36%,100%{opacity:1;text-shadow:0 0 10px #ffaa3cbf}}
  /* design: il pennino traccia una linea dorata sotto il nome */
- .cb-s-design .cb-fx{left:52px;right:22px;bottom:10px;height:2px;border-radius:2px;background:#ff2d8a;transform:scaleX(0);transform-origin:left}
+ .cb-s-design .cb-fx{left:52px;right:22px;bottom:10px;height:2px;border-radius:2px;background:#b8923f;transform:scaleX(0);transform-origin:left}
  .cb-sheet.is-open .cb-s-design .cb-fx{animation:cbx-line .55s cubic-bezier(.5,0,.3,1) calc(var(--fx) + .1s) forwards}
  @keyframes cbx-line{to{transform:scaleX(1)}}
  .cb-sheet.is-open .cb-s-design .cb-s-ic{animation:cbx-pen .55s ease-in-out calc(var(--fx) + .1s) both}
@@ -95,7 +95,7 @@
  .cb-s-ic{display:grid;place-items:center;flex:none;height:30px}
  .cb-s-ic svg{display:block;width:auto;height:30px;max-width:34px}
  .cb-s-ic svg *{stroke-width:13}
- .cb-s-design .cb-s-ic{color:#e8cc5a}
+ .cb-s-design .cb-s-ic{color:#b8923f}
  .cb-s-custom .cb-s-ic{color:#ffd84f}
  .cb-s-digital{background:#0b1012;color:#49a58c;border:1px solid #263d43;border-radius:0;box-shadow:4px 4px 0 #263d43,0 14px 34px #0000003d;font:400 16px/1 'MOI Pixel','Courier New',monospace;text-transform:uppercase;letter-spacing:.06em}
 
@@ -105,7 +105,7 @@
  .cb[data-theme=automotive]{--bg:#fff;--fg:#181818;--mut:#426b53;--line:#dbe6dc;--btn:#e8f0e9;--btnfg:#426b53;--acc:#426b53;--accfg:#fff;--r:20px;--rin:13px;--sh:0 12px 30px #14281924;--font:600 17px/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif}
  .cb[data-theme=signage]{--bg:#0d0d0c;--fg:#ffb547;--mut:#c99a52;--line:#2c2a25;--btn:#171614;--acc:#ffb547;--accfg:#0d0d0c;--r:15px;--rin:10px;--sh:0 12px 30px #00000073;--font:700 16px/1 'Courier New',monospace;--tt:uppercase;--ls:.14em;--glow:0 0 9px #ffaa3cbf}
  .cb[data-theme=signage] .cb-back{border:1px solid #2c2a25}
- .cb[data-theme=design]{--bg:#1d3b33;--fg:#e9efe6;--mut:#e8cc5a;--line:#2e5a4c;--btn:#25483e;--acc:#ff2d8a;--accfg:#fff;--font:800 16px/1.1 Archivo,'Helvetica Neue',Helvetica,Arial,sans-serif}
+ .cb[data-theme=design]{--bg:#fff;--fg:#181818;--mut:#7a6229;--line:#e3ddd2;--btn:#f1eee8;--acc:#181818;--accfg:#e9cf8f;--font:600 17px/1.1 Inter,'Helvetica Neue',Helvetica,Arial,sans-serif}
  .cb[data-theme=digital]{--bg:#121a1c;--fg:#c5bda6;--mut:#49a58c;--line:#263d43;--btn:#0b1012;--btnfg:#49a58c;--acc:#df6650;--accfg:#0b1012;--r:0;--rin:0;--sh:4px 4px 0 #263d43;--font:400 14px/1.1 'MOI Pixel','Courier New',monospace;--tt:uppercase;--ls:.04em}
  .cb[data-theme=digital] .cb-back{border:1px solid #263d43}
  .cb[data-theme=digital] .cb-quote{box-shadow:3px 3px 0 #839c91}
@@ -115,7 +115,7 @@
  .cb-sheet[data-theme=digital]{--pbg:#0b1012f0;--pcard:#ffffff0a;--pline:#263d43;--pacc:#49a58c}
  .cb-sheet[data-theme=apparel]{--pbg:#f6f5f2f0;--pcard:#ffffffb3;--pline:#e3ddd2;--pacc:#181818}
  .cb-sheet[data-theme=automotive]{--pbg:#f5f6f2f0;--pcard:#ffffffb3;--pline:#dbe6dc;--pacc:#426b53}
- .cb-sheet[data-theme=design]{--pbg:#f4f2eaf2;--pcard:#ffffffb3;--pline:#d8d4c7;--pacc:#c0186a}
+ .cb-sheet[data-theme=design]{--pbg:#f6f5f2f0;--pcard:#ffffffb3;--pline:#e3ddd2;--pacc:#8f7434}
  .cb-sheet[data-theme=custom]{--pacc:#8f0d17}
 }
 @media (max-width:760px) and (prefers-reduced-motion:reduce){.cb,.cb-pop,.cb-veil{transition:none}}
@@ -125,7 +125,7 @@ html[data-svc=custom]{--qbg:#faf4e8;--qbg2:#fffdf8;--qin:#fff;--qfg:#1d1a17;--qm
 html[data-svc=apparel]{--qbg:#f6f5f2;--qbg2:#fff;--qin:#fff;--qfg:#181818;--qmut:#6f6a62;--qline:#e3ddd2;--qacc:#8a7a5c;--qcta:#181818;--qctafg:#fff}
 html[data-svc=automotive]{--qbg:#f5f6f2;--qbg2:#fff;--qin:#fff;--qfg:#181818;--qmut:#5d6b60;--qline:#dbe6dc;--qacc:#426b53;--qcta:#426b53;--qctafg:#fff}
 html[data-svc=signage]{--qbg:#0d0d0c;--qbg2:#171614;--qin:#171614;--qfg:#f3efe6;--qmut:#b9ad98;--qline:#2c2a25;--qacc:#ffb547;--qcta:#ffb547;--qctafg:#0d0d0c}
-html[data-svc=design]{--qbg:#f4f2ea;--qbg2:#fff;--qin:#fff;--qfg:#14201b;--qmut:#5c6862;--qline:#d8d4c7;--qacc:#c0186a;--qcta:#1d3b33;--qctafg:#e8cc5a}
+html[data-svc=design]{--qbg:#f6f5f2;--qbg2:#fff;--qin:#fff;--qfg:#181818;--qmut:#6f6a62;--qline:#e3ddd2;--qacc:#7a6229;--qcta:#181818;--qctafg:#e9cf8f}
 html[data-svc=digital]{--qbg:#0b1012;--qbg2:#121a1c;--qin:#0b1012;--qfg:#e8e4da;--qmut:#9fb2ad;--qline:#263d43;--qacc:#49a58c;--qcta:#df6650;--qctafg:#0b1012}
 html[data-svc] .qc-veil{background:#14090a40;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 html[data-svc] .qc-panel{background:var(--qbg);color:var(--qfg)}

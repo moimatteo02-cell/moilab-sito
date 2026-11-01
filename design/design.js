@@ -1,12 +1,9 @@
-/* MOI LAB — stanza DESIGN «Tavolo da taglio», interattiva.
-   1 apertura: titolo che si allarga sotto il dito (Text Pressure), frase da completare «Mi serve … per …» (da Pentagram),
-     sticker MOI da staccare (Sticker Peel), pulsante magnetico (Magnet)
-   2 chiacchierata (brief guidato) → WhatsApp o carrello del preventivo; parte già compilata dalla frase o dalla prova del nome
-   3 prova: scrivi il nome e guardalo in sei stili (colori a scelta)
-   4 come nasce un marchio: si guida scorrendo, toccando i passi o trascinando la tavola
-   5 cosa creiamo: elenco grande, al passaggio entra una fascia che scorre (Flowing Menu)
-   6 grafica già inclusa negli altri servizi: nastro che scorre (Logo Loop)
-   Effetti ispirati a React Bits (reactbits.dev, David Haz, MIT + Commons Clause), riscritti in JavaScript semplice. */
+/* MOI LAB — stanza DESIGN, interattiva.
+   1 prova: scrivi il nome e guardalo in sei stili (colori a scelta) → «Parliamone» apre la chiacchierata già avviata
+   2 chiacchierata (brief guidato) → WhatsApp o carrello del preventivo
+   3 come nasce un marchio: si guida scorrendo, toccando i passi o trascinando la tavola
+   4 cosa creiamo: le card scorrono di lato mentre scendi; «Chiedilo» porta alla chiacchierata con la voce già scelta
+   5 grafica già inclusa negli altri servizi */
 (() => {
 'use strict';
 const room = document.getElementById('moi-showroom-design');
@@ -22,67 +19,9 @@ const toEl = (el, block = 'start') => el?.scrollIntoView({ behavior: reduce ? 'a
 
 /* entrata nella stanza */
 const draw = () => { if (!dz.classList.contains('is-drawn')) requestAnimationFrame(() => requestAnimationFrame(() => dz.classList.add('is-drawn'))); };
-new MutationObserver(() => { if (room.classList.contains('is-active')) { if (!dz.classList.contains('is-drawn')) setTimeout(wave, 700); draw(); demo(); } else dz.classList.remove('is-drawn'); }).observe(room, { attributes: true, attributeFilter: ['class'] });
+new MutationObserver(() => { if (room.classList.contains('is-active')) { draw(); demo(); } else dz.classList.remove('is-drawn'); }).observe(room, { attributes: true, attributeFilter: ['class'] });
 
-/* ================= 1 · APERTURA ================= */
-const hero = $('.dz-hero');
-/* righello in centimetri (1 cm = 80 px del tappetino) */
-const ruler = $('.dz-ruler', hero); ruler.innerHTML = Array.from({ length: 40 }, (_, i) => `<span>${i}</span>`).join('');
-/* ora italiana in testata */
-const clock = $('[data-clock]', hero);
-const tickClock = () => { try { clock.textContent = new Intl.DateTimeFormat('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' }).format(new Date()); } catch { clock.textContent = ''; } };
-tickClock(); setInterval(tickClock, 20000);
-/* Text Pressure: ogni lettera si allarga e si appesantisce vicino al dito o al mouse */
-const h1 = $('.dz-h1', hero);
-$$('.dz-press', h1).forEach(l => { l.innerHTML = [...l.textContent].map(c => c === ' ' ? ' ' : `<span class="ch">${esc(c)}</span>`).join(''); });
-const chars = $$('.ch', h1);
-let wmax = 25; const readW = () => { wmax = parseFloat(getComputedStyle(h1).getPropertyValue('--wmax')) || 25; }; readW(); addEventListener('resize', readW);
-let pr = 0, px = 0, py = 0;
-function pressAt(x, y) {
-  chars.forEach(c => { const b = c.getBoundingClientRect(), d = Math.hypot(x - (b.left + b.width / 2), y - (b.top + b.height / 2)), k = Math.max(0, 1 - d / Math.max(150, b.height * 1.6));
-    c.style.setProperty('--w', Math.round(100 + k * wmax)); c.style.setProperty('--h', Math.round(700 + k * 200)); });
-}
-function pressRest() { chars.forEach(c => { c.style.removeProperty('--w'); c.style.removeProperty('--h'); }); }
-if (!reduce) {
-  h1.addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; if (!pr) pr = requestAnimationFrame(() => { pr = 0; pressAt(px, py); }); });
-  h1.addEventListener('pointerleave', pressRest); h1.addEventListener('pointerup', () => { if (!fine) setTimeout(pressRest, 400); });
-}
-/* all'entrata un'onda attraversa il titolo: si capisce subito che è vivo, anche sul telefono */
-async function wave() {
-  if (reduce) return; const r = h1.getBoundingClientRect();
-  for (let t = 0; t <= 1; t += .04) { pressAt(r.left - 100 + t * (r.width + 200), r.top + r.height * (t < .5 ? .3 : .75)); await wait(28); }
-  pressRest();
-}
-/* frase da completare → la chiacchierata parte già compilata */
-const ml = $('[data-ml]', hero), mlSel = $('[data-ml-what]', ml);
-/* la tendina larga quanto la scelta, così la frase si legge di fila */
-const fitSel = () => { const m = document.createElement('span'), cs = getComputedStyle(mlSel); m.style.cssText = `position:absolute;visibility:hidden;white-space:nowrap;font-family:${cs.fontFamily};font-size:${cs.fontSize};font-weight:${cs.fontWeight};font-stretch:${cs.fontStretch};font-variation-settings:${cs.fontVariationSettings};letter-spacing:${cs.letterSpacing}`; m.textContent = mlSel.selectedOptions[0]?.text || ''; document.body.append(m); mlSel.style.width = `calc(${m.offsetWidth}px + 1.25em)`; m.remove(); };
-mlSel.addEventListener('change', fitSel); fitSel(); (document.fonts?.ready || Promise.resolve()).then(fitSel); addEventListener('resize', fitSel);
-ml.addEventListener('submit', e => {
-  e.preventDefault();
-  const what = $('[data-ml-what]', ml).value, who = $('[data-ml-name]', ml).value.trim();
-  begin({ ...(who ? { nome: who } : {}), serve: [what] }); toEl($('#dz-brief'));
-});
-/* sticker MOI da staccare: si trascina l'angolo; oltre metà si stacca, vola e torna al suo posto */
-const peel = $('[data-peel]', hero);
-const REST = 18; let pd = null, pSize = 1;
-const setD = v => peel.style.setProperty('--d', v.toFixed(1) + '%');
-function peelOff() { peel.classList.remove('is-idle'); peel.classList.add('is-off'); setD(0); setTimeout(() => { peel.classList.remove('is-off'); peel.classList.add('is-idle'); setD(REST); }, reduce ? 0 : 1500); }
-peel.classList.add('is-idle');
-peel.addEventListener('pointerdown', e => { const r = peel.getBoundingClientRect(); pSize = r.width; pd = r; peel.classList.remove('is-idle'); peel.classList.add('is-touched'); peel.setPointerCapture(e.pointerId); e.preventDefault(); });
-peel.addEventListener('pointermove', e => { if (!pd) return; const d = ((pd.right - e.clientX) + (pd.bottom - e.clientY)) / 2 / pSize * 100; setD(clamp(d, REST, 95)); });
-const peelUp = () => { if (!pd) return; pd = null; const d = parseFloat(peel.style.getPropertyValue('--d')) || REST; peel.classList.add('is-idle'); if (d > 55) peelOff(); else setD(REST); };
-peel.addEventListener('pointerup', peelUp); peel.addEventListener('pointercancel', peelUp);
-peel.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); peel.classList.add('is-touched'); peelOff(); } });
-/* pulsanti magnetici: con il mouse il pulsante si sposta un poco verso il puntatore */
-if (fine && !reduce) $$('.dz-mag').forEach(b => {
-  const zone = b.parentElement;
-  zone.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-    if (Math.hypot(dx, dy) > 160) { b.style.transform = ''; return; } b.style.transform = `translate(${(dx * .22).toFixed(1)}px,${(dy * .3).toFixed(1)}px)`; });
-  zone.addEventListener('pointerleave', () => { b.style.transform = ''; });
-});
-
-/* ================= 3 · PROVA DEL NOME ================= */
+/* ================= 1 · PROVA SUBITO ================= */
 const play = $('.dz-play'), name = $('[data-name]'), cards = $$('.dz-card'), pick = $('.dz-pick');
 const FIT = { geo: [300, 46], edi: [420, 64], fir: [440, 70], aud: [380, 66], mono: [0, 44], tim: [0, 0] };
 let shown = '', chosen = null, demoed = false, touched = false;
@@ -133,7 +72,7 @@ $$('[data-pal]', play).forEach(b => b.addEventListener('click', () => { play.dat
 $('[data-play-go]').addEventListener('click', () => {
   const N = name.dataset.demo ? '' : name.value.trim();
   toEl($('#dz-brief'));
-  if (N) begin({ nome: N, ...(chosen ? { stile: chosen.dataset.label } : {}) }); else { if (chosen) A.stile = chosen.dataset.label; start(); }
+  if (N) startWith({ nome: N, stile: chosen?.dataset.label }); else { if (chosen) A.stile = chosen.dataset.label; start(); }
 });
 paint();
 
@@ -162,7 +101,7 @@ const Q = [
 ];
 const brief = $('#dz-brief'); if (!brief) return;
 const thread = $('.dz-thread', brief), pad = $('.dz-pad', brief), bar = $('.dz-bar i', brief), count = $('.dz-count', brief);
-let A = {}, stack = [], started = false, busy = false, preset = new Set(); const P = {};
+let A = {}, stack = [], started = false, busy = false; const P = {};
 
 const active = () => Q.filter(q => !q.when || q.when(A));
 function progress(i) {
@@ -240,9 +179,7 @@ function controls(q) {
 }
 
 async function ask(i) {
-  const list = active(), q = list[i];
-  if (q && preset.has(q.id)) return ask(i + 1);
-  progress(i);
+  const list = active(), q = list[i]; progress(i);
   if (!q) return finish();
   busy = true; pad.innerHTML = '';
   const node = await say(esc(typeof q.ask === 'function' ? q.ask(A) : q.ask) + (q.hint ? `<small>${esc(q.hint)}</small>` : ''));
@@ -288,14 +225,12 @@ async function finish() {
   pad.querySelector('[data-again]').addEventListener('click', restart);
   pad.querySelector('[data-back]').addEventListener('click', () => { if (busy) return; stack.pop().nodes.forEach(n => n.remove()); const prev = stack[stack.length - 1]; prev.nodes.splice(1).forEach(n => n.remove()); delete A[prev.q.id]; progress(active().indexOf(prev.q)); controls(prev.q); });
 }
-function restart() { A = {}; stack = []; preset = new Set(); thread.innerHTML = ''; ask(0); }
-/* partenza già compilata (dalla frase in apertura, dalla prova del nome o da un servizio): quelle domande si saltano */
-function begin(pre) {
-  if (busy) return;
-  started = true; A = { ...pre }; preset = new Set(Object.keys(pre).filter(k => k !== 'stile')); stack = []; thread.innerHTML = ''; pad.innerHTML = '';
-  const bits = [A.nome && `Mi chiamo ${A.nome}`, A.serve && `mi serve: ${A.serve.join(', ').toLowerCase()}`, A.stile && `mi piace lo stile ${A.stile}`].filter(Boolean);
-  if (bits.length) bubble('me', esc(bits.join(' · ').replace(/^./, c => c.toUpperCase())));
-  ask(0);
+function restart() { A = {}; stack = []; thread.innerHTML = ''; ask(0); }
+/* partenza dalla prova del nome: il nome e lo stile ci sono già */
+async function startWith(pre) {
+  started = true; A = { ...pre }; stack = []; thread.innerHTML = ''; pad.innerHTML = '';
+  bubble('me', esc(`Mi chiamo ${A.nome}` + (A.stile ? ` · mi piace lo stile ${A.stile}` : '')));
+  ask(active().findIndex(q => q.id === 'attivita'));
 }
 function start() { if (started) return; started = true; ask(0); }
 
@@ -327,22 +262,11 @@ stage.addEventListener('pointerdown', e => { dx0 = e.clientX; top0 = room.scroll
 stage.addEventListener('pointermove', e => { if (dx0 == null) return; const d = (dx0 - e.clientX) / Math.max(240, stage.offsetWidth) * .5; room.scrollTop = top0 + d * span(st); });
 ['pointerup', 'pointercancel'].forEach(t => stage.addEventListener(t, () => { dx0 = null; }));
 
-/* ================= 5 · COSA CREIAMO: elenco con fascia che entra dal lato del puntatore ================= */
-const svs = $('.dz-svs');
-$$('[data-ask]', svs).forEach(b => b.addEventListener('click', () => {
-  begin({ ...(A.nome ? { nome: A.nome } : {}), serve: [b.dataset.ask] });
-  toEl(brief);
-}));
-$$('.dz-fm-it', svs).forEach(it => {
-  const band = $('.dz-fm-band', it), btn = $('.dz-fm-b', it);
-  const edge = e => { const r = it.getBoundingClientRect(); return e.clientY - r.top < r.height / 2 ? '-101%' : '101%'; };
-  if (fine && !reduce) {
-    it.addEventListener('pointerenter', e => { band.style.transition = 'none'; band.style.setProperty('--from', edge(e)); void band.offsetWidth; band.style.transition = ''; it.classList.add('is-on'); });
-    it.addEventListener('pointerleave', e => { band.style.setProperty('--from', edge(e)); it.classList.remove('is-on'); });
-  }
-  btn.addEventListener('focus', () => { if (!fine) return; it.classList.add('is-on'); });
-  btn.addEventListener('blur', () => it.classList.remove('is-on'));
-});
+/* ================= 4 · COSA CREIAMO: scorre di lato ================= */
+const svs = $('.dz-svs'), rail = $('.dz-rail', svs), pin = $('.dz-svs-pin', svs);
+let over = 0;
+function sizeSvs() { over = Math.max(0, rail.scrollWidth - pin.clientWidth); svs.style.height = (room.clientHeight + over) + 'px'; }
+$$('[data-ask]', svs).forEach(b => b.addEventListener('click', () => { P.serve = [b.dataset.ask]; toEl(brief); start(); }));
 
 /* ================= 5 · già incluso ================= */
 const fillIcons = () => $$('[data-dz-ic]').forEach(s => { if (!s.innerHTML) s.innerHTML = window.MOI_SERVICE_ICONS?.[s.dataset.dzIc] || ''; });
@@ -353,13 +277,14 @@ let raf = 0;
 function tick() {
   raf = 0; const vh = room.clientHeight;
   const r = st.getBoundingClientRect(), s = span(st); story(s > 0 ? clamp(-r.top / s) : 1);
+  const q = svs.getBoundingClientRect(); svs.style.setProperty('--q', (clamp(-q.top / Math.max(1, over)) * over).toFixed(1)); if (q.top < vh * .7) svs.classList.add('is-in');
   [brief, $('.dz-inc')].forEach(el => { if (el.getBoundingClientRect().top < vh * .75) el.classList.add('is-in'); });
 }
-if (reduce) { story(1); $$('.dz-brief, .dz-inc').forEach(el => el.classList.add('is-in')); }
+if (reduce) { story(1); $$('.dz-brief, .dz-inc, .dz-svs').forEach(el => el.classList.add('is-in')); }
 else {
   room.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
-  const fit = () => { gw(); tick(); }; addEventListener('resize', fit); fit(); setTimeout(fit, 600);
+  const fit = () => { sizeSvs(); gw(); tick(); }; addEventListener('resize', fit); fit(); setTimeout(fit, 600);
   (document.fonts?.ready || Promise.resolve()).then(() => { fit(); shown = ''; paint(); });
 }
-if (room.classList.contains('is-active')) { draw(); demo(); setTimeout(wave, 700); }
+if (room.classList.contains('is-active')) { draw(); demo(); }
 })();
