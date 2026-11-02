@@ -77,3 +77,9 @@
 @media(max-width:800px){.dz-brief{grid-template-columns:1fr}.dz-brief-side{max-width:600px}.dz-rail{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.dz-play{padding:55px 22px 54px}.dz-name{margin-top:28px}.dz-cards{grid-template-columns:1fr 1fr}.dz-story-pin,.dz-svs-pin{padding:65px 22px}.dz-steps{overflow:auto}.dz-steps button{min-width:66px}.dz-sv{min-height:230px;padding:18px}.dz-sv h3{font-size:20px}.dz-brief{padding:68px 20px;gap:30px}.dz-thread{max-height:300px;padding:14px}.dz-pad{padding:8px 14px 14px}.dz-footer{display:grid;gap:8px}}
 @media(prefers-reduced-motion:reduce){.dz *, .dz *::before,.dz *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.dz-process-list article{opacity:.45;transform:translateY(8px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.dz-process.is-revealed .dz-process-list article{opacity:1;transform:none}
+.dz-process.is-revealed .dz-process-list article:nth-child(2){transition-delay:.1s}
+.dz-process.is-revealed .dz-process-list article:nth-child(3){transition-delay:.2s}
+.dz-process.is-revealed .dz-process-list article:nth-child(4){transition-delay:.3s}
