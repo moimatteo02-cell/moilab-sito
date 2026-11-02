@@ -48,6 +48,8 @@ let A = {}, stack = [], started = false, busy = false; const P = {};
 
 const active = () => Q.filter(q => !q.when || q.when(A));
 function progress(i) {
+  const board = $('[data-live-art]');
+  if (board) { const kind = (A.tipo || []).includes('Monogramma') ? 'monogramma' : (A.tipo || []).includes('Simbolo + scritta') ? 'simbolo' : 'logotipo'; board.innerHTML = sample(kind, A.nome || 'La tua idea'); $('[data-live-caption]').textContent = A.valori?.length ? A.valori.join(' · ') : A.attivita || 'Il tuo nome è il primo tratto.'; }
   const n = active().length, k = Math.min(i, n);
   bar.style.width = (k / n * 100).toFixed(1) + '%';
   count.textContent = i >= n ? 'Fatto' : `Domanda ${i + 1} di ${n}`;
@@ -170,55 +172,23 @@ async function finish() {
 }
 function restart() { A = {}; stack = []; thread.innerHTML = ''; ask(0); }
 /* partenza dalla prova del nome: il nome e lo stile ci sono già */
-function start() { if (started) return; started = true; ask(0); }
+function start() { if (started) return; started = true; thread.innerHTML = ''; pad.innerHTML = ''; ask(0); }
 
-const so = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { so.disconnect(); start(); } }, { root: room, threshold: .25 }); so.observe(brief);
+bubble('st', 'Ciao! Ti aiutiamo a mettere a fuoco la tua idea. Cominciamo dal nome del progetto?');
+pad.innerHTML = '<button type="button" class="dz-btn dz-btn-ink" data-begin>Iniziamo la chiacchierata →</button>';
+pad.querySelector('[data-begin]').addEventListener('click', start);
 
-/* ================= 3 · COME NASCE UN MARCHIO ================= */
-const SUBS = ['Un foglio bianco e la tua storia.', 'Le prime forme, a matita.', 'Griglia e misure, con il righello.', 'Linee pulite, perfette a ogni misura.', 'Pronto per insegna, social, stampa.'];
-const st = $('.dz-story'), frames = $$('.dz-f', st), stepB = $$('.dz-steps button', st), words = $$('.dz-giant span', st), sub = $('.dz-story-sub', st), num = $('.dz-story-n', st), end = $('.dz-story-end', st), giant = $('.dz-giant-in', st);
-let sp = 0, son = -1;
-const span = el => el.offsetHeight - room.clientHeight;
-const topOf = el => el.getBoundingClientRect().top - room.getBoundingClientRect().top + room.scrollTop;
-function story(p) {
-  sp = p; st.style.setProperty('--p', p.toFixed(4));
-  frames.forEach((f, k) => { if (!k) return; const o = clamp((p - (k / 5 - .06)) / .12); f.style.opacity = o; f.style.transform = `scale(${(1.05 - o * .05).toFixed(4)})`; });
-  const hump = (a, b) => clamp(Math.min((p - a) / .05, (b - p) / .05));
-  st.style.setProperty('--g2', hump(.4, .62).toFixed(3)); st.style.setProperty('--s3', clamp((p - .55) / .1).toFixed(3));
-  st.style.setProperty('--g3', hump(.6, .8).toFixed(3)); st.style.setProperty('--g4', clamp((p - .84) / .06).toFixed(3));
-  const e = clamp((p - .9) / .07); st.style.setProperty('--e', e.toFixed(3)); end.classList.toggle('is-on', e > .6);
-  const on = Math.min(4, Math.floor(p * 5)); if (on !== son) { son = on;
-    stepB.forEach((b, k) => b.classList.toggle('is-on', k === on)); words.forEach((w, k) => w.classList.toggle('is-on', k === on));
-    sub.textContent = SUBS[on]; num.textContent = '0' + (on + 1); }
-}
-const gw = () => giant && st.style.setProperty('--gw', Math.max(0, giant.scrollWidth - innerWidth * .6) + 'px');
-stepB.forEach((b, k) => b.addEventListener('click', () => room.scrollTo({ top: topOf(st) + (k / 5 + .1) * span(st), behavior: reduce ? 'auto' : 'smooth' })));
-$('[data-to-brief]', st).addEventListener('click', () => { toEl(brief); start(); });
-/* trascinare la tavola fa avanzare o tornare indietro la storia */
-const stage = $('.dz-stage', st); let dx0 = null, top0 = 0;
-stage.addEventListener('pointerdown', e => { dx0 = e.clientX; top0 = room.scrollTop; stage.setPointerCapture(e.pointerId); });
-stage.addEventListener('pointermove', e => { if (dx0 == null) return; const d = (dx0 - e.clientX) / Math.max(240, stage.offsetWidth) * .5; room.scrollTop = top0 + d * span(st); });
-['pointerup', 'pointercancel'].forEach(t => stage.addEventListener(t, () => { dx0 = null; }));
 
-/* ================= 4 · COSA CREIAMO: scorre di lato ================= */
-const svs = $('.dz-svs'), rail = $('.dz-rail', svs), pin = $('.dz-svs-pin', svs);
-let over = 0;
-function sizeSvs() { over = Math.max(0, rail.scrollWidth - pin.clientWidth); svs.style.height = (room.clientHeight + over) + 'px'; }
-$$('[data-ask]', svs).forEach(b => b.addEventListener('click', () => { P.serve = [b.dataset.ask]; toEl(brief); start(); }));
 
-/* un solo ciclo per tutto ciò che si muove scorrendo */
-let raf = 0;
-function tick() {
-  raf = 0; const vh = room.clientHeight;
-  const r = st.getBoundingClientRect(), s = span(st); story(s > 0 ? clamp(-r.top / s) : 1);
-  const q = svs.getBoundingClientRect(); svs.style.setProperty('--q', (clamp(-q.top / Math.max(1, over)) * over).toFixed(1)); if (q.top < vh * .7) svs.classList.add('is-in');
-  if (brief.getBoundingClientRect().top < vh * .75) brief.classList.add('is-in');
-}
-if (reduce) { story(1); $$('.dz-brief, .dz-svs').forEach(el => el.classList.add('is-in')); }
-else {
-  room.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
-  const fit = () => { sizeSvs(); gw(); tick(); }; addEventListener('resize', fit); fit(); setTimeout(fit, 600);
-  (document.fonts?.ready || Promise.resolve()).then(fit);
-}
-if (room.classList.contains('is-active')) draw();
+/* Process gallery: keyboard-accessible steps, no forced scroll or autoplay. */
+const frames=$$('.dz-f'), steps=$$('.dz-steps button');
+const descriptions=['Un foglio bianco e la tua storia.','Le prime forme, a matita.','Proporzioni, griglie e dettagli.','Dal disegno al segno digitale.','Un’identità pronta a incontrare il mondo.'];
+function showStep(n){frames.forEach((f,i)=>{f.style.opacity=i===n?'1':'0';f.style.transform='none';});steps.forEach((b,i)=>{b.classList.toggle('is-on',i===n);b.setAttribute('aria-pressed',String(i===n));});$('.dz-story-sub').textContent=descriptions[n];$('.dz-story-n').textContent=String(n+1).padStart(2,'0');}
+steps.forEach((b,i)=>b.addEventListener('click',()=>showStep(i)));showStep(0);
+$$('[data-start-brief], [data-to-brief]').forEach(b=>b.addEventListener('click',()=>{toEl(brief);start();}));
+$$('[data-ask]').forEach(b=>b.addEventListener('click',()=>{P.serve=[b.dataset.ask];toEl(brief);start();}));
+$('.dz-svs').classList.add('is-in');brief.classList.add('is-in');
+// Show an illustrative board before the first answer as well.
+$('[data-live-art]').innerHTML=sample('logotipo','La tua idea');
+if(room.classList.contains('is-active'))draw();
 })();
