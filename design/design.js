@@ -1,9 +1,7 @@
 /* MOI LAB — stanza DESIGN, interattiva.
-   1 prova: scrivi il nome e guardalo in sei stili (colori a scelta) → «Parliamone» apre la chiacchierata già avviata
    2 chiacchierata (brief guidato) → WhatsApp o carrello del preventivo
    3 come nasce un marchio: si guida scorrendo, toccando i passi o trascinando la tavola
-   4 cosa creiamo: le card scorrono di lato mentre scendi; «Chiedilo» porta alla chiacchierata con la voce già scelta
-   5 grafica già inclusa negli altri servizi */
+   4 cosa creiamo: le card scorrono di lato mentre scendi; «Chiedilo» porta alla chiacchierata con la voce già scelta */
 (() => {
 'use strict';
 const room = document.getElementById('moi-showroom-design');
@@ -19,62 +17,7 @@ const toEl = (el, block = 'start') => el?.scrollIntoView({ behavior: reduce ? 'a
 
 /* entrata nella stanza */
 const draw = () => { if (!dz.classList.contains('is-drawn')) requestAnimationFrame(() => requestAnimationFrame(() => dz.classList.add('is-drawn'))); };
-new MutationObserver(() => { if (room.classList.contains('is-active')) { draw(); demo(); } else dz.classList.remove('is-drawn'); }).observe(room, { attributes: true, attributeFilter: ['class'] });
-
-/* ================= 1 · PROVA SUBITO ================= */
-const play = $('.dz-play'), name = $('[data-name]'), cards = $$('.dz-card'), pick = $('.dz-pick');
-const FIT = { geo: [300, 46], edi: [420, 64], fir: [440, 70], aud: [380, 66], mono: [0, 44], tim: [0, 0] };
-let shown = '', chosen = null, demoed = false, touched = false;
-const letters = (t, grew) => [...t].map((c, i) => `<span class="c${grew && i === t.length - 1 ? ' nw' : ''}">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('');
-function art(k, N, grew) {
-  const W = N.split(/\s+/).filter(Boolean), I = (W.length > 1 ? W[0][0] + W[1][0] : N.slice(0, 2)).toUpperCase(), n = Math.max(N.length, 3);
-  const [base, max] = FIT[k], fs = base ? Math.min(max, base / n) : max;
-  switch (k) {
-    case 'geo': return `<span class="a-geo" style="font-size:${fs}px">${letters(N.toUpperCase(), grew)}</span>`;
-    case 'edi': return `<span class="a-edi" style="font-size:${fs}px">${letters(N, grew)}</span><span class="a-rule"></span>`;
-    case 'fir': return `<span class="a-fir" style="font-size:${fs}px">${letters(N, grew)}</span>`;
-    case 'aud': return `<span class="a-aud" style="font-size:${fs}px">${letters(N.toUpperCase(), grew)}</span>`;
-    case 'mono': return `<span class="a-mono" style="font-size:${max}px"><b>${esc(I)}</b><small>${esc(N.toUpperCase().slice(0, 18))}</small></span>`;
-    case 'tim': { const T = esc((N.toUpperCase() + ' · ').repeat(Math.max(1, Math.ceil(26 / (N.length + 3)))).slice(0, 42));
-      return `<span class="a-tim"><svg viewBox="0 0 160 160"><defs><path id="dz-tim" d="M80 80m-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0"/></defs><circle cx="80" cy="80" r="72"/><circle cx="80" cy="80" r="44"/><text><textPath href="#dz-tim">${T}</textPath></text><text class="in" x="80" y="92" text-anchor="middle">${esc(I)}</text></svg></span>`; }
-  }
-}
-function paint(grew = false) {
-  const N = (name.value.trim() || 'MOI LAB').slice(0, 22);
-  if (N === shown && !grew) return; shown = N;
-  cards.forEach((c, i) => { c.style.setProperty('--i', i); c.querySelector('.dz-card-art').innerHTML = art(c.dataset.style, N, grew); });
-}
-let prevLen = 0;
-name.addEventListener('input', () => { touched = true; const g = name.value.length > prevLen; prevLen = name.value.length; paint(g); });
-name.addEventListener('focus', () => { if (name.dataset.demo) { name.value = ''; delete name.dataset.demo; prevLen = 0; } });
-name.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); name.blur(); toEl(cards[0], 'center'); } });
-/* demo: il nome si scrive da solo, poi le card fanno cenno di essere toccabili */
-async function demo() {
-  if (demoed || reduce || touched || name.value) return; demoed = true;
-  await wait(900); const T = 'MOI LAB'; name.dataset.demo = '1';
-  for (let i = 1; i <= T.length; i++) { if (touched || !name.dataset.demo) return; name.value = T.slice(0, i); prevLen = i; paint(true); await wait(120); }
-  await wait(500); for (const c of cards) { if (touched) return; c.classList.remove('is-hint'); void c.offsetWidth; c.classList.add('is-hint'); await wait(140); }
-}
-cards.forEach(c => {
-  c.addEventListener('click', () => {
-    chosen = c.getAttribute('aria-pressed') === 'true' ? null : c;
-    cards.forEach(x => x.setAttribute('aria-pressed', String(x === chosen)));
-    pick.hidden = !chosen; if (chosen) $('[data-pick-l]').textContent = chosen.dataset.label;
-  });
-  if (fine && !reduce) {
-    c.addEventListener('pointermove', e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      c.style.setProperty('--ry', ((x - .5) * 12).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((.5 - y) * 10).toFixed(2) + 'deg');
-      c.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); c.style.setProperty('--my', (y * 100).toFixed(1) + '%'); });
-    c.addEventListener('pointerleave', () => { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
-  }
-});
-$$('[data-pal]', play).forEach(b => b.addEventListener('click', () => { play.dataset.pal = b.dataset.pal; $$('.dz-sw', play).forEach(x => x.setAttribute('aria-pressed', String(x === b))); }));
-$('[data-play-go]').addEventListener('click', () => {
-  const N = name.dataset.demo ? '' : name.value.trim();
-  toEl($('#dz-brief'));
-  if (N) startWith({ nome: N, stile: chosen?.dataset.label }); else { if (chosen) A.stile = chosen.dataset.label; start(); }
-});
-paint();
+new MutationObserver(() => { if (room.classList.contains('is-active')) draw(); else dz.classList.remove('is-drawn'); }).observe(room, { attributes: true, attributeFilter: ['class'] });
 
 /* ---------- la chiacchierata ---------- */
 const LOGO_NO = 'Sì, e va bene così';
@@ -227,11 +170,6 @@ async function finish() {
 }
 function restart() { A = {}; stack = []; thread.innerHTML = ''; ask(0); }
 /* partenza dalla prova del nome: il nome e lo stile ci sono già */
-async function startWith(pre) {
-  started = true; A = { ...pre }; stack = []; thread.innerHTML = ''; pad.innerHTML = '';
-  bubble('me', esc(`Mi chiamo ${A.nome}` + (A.stile ? ` · mi piace lo stile ${A.stile}` : '')));
-  ask(active().findIndex(q => q.id === 'attivita'));
-}
 function start() { if (started) return; started = true; ask(0); }
 
 const so = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { so.disconnect(); start(); } }, { root: room, threshold: .25 }); so.observe(brief);
@@ -255,7 +193,7 @@ function story(p) {
 }
 const gw = () => giant && st.style.setProperty('--gw', Math.max(0, giant.scrollWidth - innerWidth * .6) + 'px');
 stepB.forEach((b, k) => b.addEventListener('click', () => room.scrollTo({ top: topOf(st) + (k / 5 + .1) * span(st), behavior: reduce ? 'auto' : 'smooth' })));
-$('[data-to-play]', st).addEventListener('click', () => { toEl(play); setTimeout(() => name.focus({ preventScroll: true }), reduce ? 0 : 700); });
+$('[data-to-brief]', st).addEventListener('click', () => { toEl(brief); start(); });
 /* trascinare la tavola fa avanzare o tornare indietro la storia */
 const stage = $('.dz-stage', st); let dx0 = null, top0 = 0;
 stage.addEventListener('pointerdown', e => { dx0 = e.clientX; top0 = room.scrollTop; stage.setPointerCapture(e.pointerId); });
@@ -268,23 +206,19 @@ let over = 0;
 function sizeSvs() { over = Math.max(0, rail.scrollWidth - pin.clientWidth); svs.style.height = (room.clientHeight + over) + 'px'; }
 $$('[data-ask]', svs).forEach(b => b.addEventListener('click', () => { P.serve = [b.dataset.ask]; toEl(brief); start(); }));
 
-/* ================= 5 · già incluso ================= */
-const fillIcons = () => $$('[data-dz-ic]').forEach(s => { if (!s.innerHTML) s.innerHTML = window.MOI_SERVICE_ICONS?.[s.dataset.dzIc] || ''; });
-fillIcons(); setTimeout(fillIcons, 800);
-
 /* un solo ciclo per tutto ciò che si muove scorrendo */
 let raf = 0;
 function tick() {
   raf = 0; const vh = room.clientHeight;
   const r = st.getBoundingClientRect(), s = span(st); story(s > 0 ? clamp(-r.top / s) : 1);
   const q = svs.getBoundingClientRect(); svs.style.setProperty('--q', (clamp(-q.top / Math.max(1, over)) * over).toFixed(1)); if (q.top < vh * .7) svs.classList.add('is-in');
-  [brief, $('.dz-inc')].forEach(el => { if (el.getBoundingClientRect().top < vh * .75) el.classList.add('is-in'); });
+  if (brief.getBoundingClientRect().top < vh * .75) brief.classList.add('is-in');
 }
-if (reduce) { story(1); $$('.dz-brief, .dz-inc, .dz-svs').forEach(el => el.classList.add('is-in')); }
+if (reduce) { story(1); $$('.dz-brief, .dz-svs').forEach(el => el.classList.add('is-in')); }
 else {
   room.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
   const fit = () => { sizeSvs(); gw(); tick(); }; addEventListener('resize', fit); fit(); setTimeout(fit, 600);
-  (document.fonts?.ready || Promise.resolve()).then(() => { fit(); shown = ''; paint(); });
+  (document.fonts?.ready || Promise.resolve()).then(fit);
 }
-if (room.classList.contains('is-active')) { draw(); demo(); }
+if (room.classList.contains('is-active')) draw();
 })();
