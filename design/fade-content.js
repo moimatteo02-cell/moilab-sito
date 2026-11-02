@@ -12,7 +12,7 @@
 'use strict';
 const room = document.getElementById('moi-showroom-design');
 if (!room || !('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-const SEL = '.dz-brief-side, .dz-chat, .dz-story, .dz-svs-head, .dz-sv, .moi-room-nav';
+const SEL = '.dz-brief-side, .dz-chat, .dz-story, .dz-svs-head, .dz-sv, .dz-faq, .dz-end';
 const items = [...room.querySelectorAll(SEL)];
 items.forEach(el => el.classList.add('fc'));
 const io = new IntersectionObserver(es => es.forEach(e => {

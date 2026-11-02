@@ -236,9 +236,9 @@ const link = gl => {
 const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
 /* impostazioni predefinite di React Bits; sul telefono risoluzione 1x per restare veloce */
 const settings = {
-  stops: ['#5227FF', '#7cff67', '#5227FF'], amplitude: 1, blend: 0.5, speed: 1, time: undefined,
+  stops: ['#6d6641', '#bca775', '#303b30'], amplitude: 1, blend: 0.5, speed: 0.25, time: undefined,
   height: 0.45, scale: 1, glow: 0.6, brightness: 1, layers: 1, flip: 0,
-  mouseInteraction: true, intro: true, opacity: 1, lightMode: false, paused: false, dpr: fine ? undefined : 1
+  mouseInteraction: false, intro: true, opacity: 1, lightMode: false, paused: matchMedia('(prefers-reduced-motion: reduce)').matches, dpr: fine ? undefined : 1
 };
 const settingsRef = { current: settings };
     
@@ -413,11 +413,5 @@ const settingsRef = { current: settings };
     resize();
 
 
-/* MOI LAB: il fondo scuro dell'aurora arriva fino alla fine della chiacchierata */
-const room = document.getElementById('moi-showroom-design'), brief = room && room.querySelector('.dz-brief');
-if (brief) {
-  const fit = () => { const h = brief.getBoundingClientRect().bottom - room.getBoundingClientRect().top + room.scrollTop; if (h > 0) container.style.height = Math.ceil(h) + 'px'; };
-  new ResizeObserver(fit).observe(brief); addEventListener('resize', fit); fit();
-  new MutationObserver(() => { if (room.classList.contains('is-active')) requestAnimationFrame(fit); }).observe(room, { attributes: true, attributeFilter: ['class'] });
-}
+
 })();

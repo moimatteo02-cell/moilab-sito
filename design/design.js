@@ -49,7 +49,7 @@ let A = {}, stack = [], started = false, busy = false; const P = {};
 const active = () => Q.filter(q => !q.when || q.when(A));
 function progress(i) {
   const board = $('[data-live-art]');
-  if (board) { const kind = (A.tipo || []).includes('Monogramma') ? 'monogramma' : (A.tipo || []).includes('Simbolo + scritta') ? 'simbolo' : 'logotipo'; board.innerHTML = sample(kind, A.nome || 'La tua idea'); $('[data-live-caption]').textContent = A.valori?.length ? A.valori.join(' · ') : A.attivita || 'Il tuo nome è il primo tratto.'; }
+  if (board) { const kind = LOGOS.find(([,label]) => (A.tipo || []).includes(label))?.[0] || 'logotipo'; board.innerHTML = sample(kind, A.nome || 'La tua idea'); $('[data-live-caption]').textContent = A.valori?.length ? A.valori.join(' · ') : A.attivita || 'Il tuo nome è il primo tratto.'; }
   const n = active().length, k = Math.min(i, n);
   bar.style.width = (k / n * 100).toFixed(1) + '%';
   count.textContent = i >= n ? 'Fatto' : `Domanda ${i + 1} di ${n}`;
@@ -59,15 +59,17 @@ const keep = () => { const r = pad.getBoundingClientRect(), rr = room.getBoundin
 function bubble(who, html) {
   const b = document.createElement('div'); b.className = 'dz-msg dz-' + who;
   b.innerHTML = who === 'me' ? `<p>${html}</p>` : `<span class="dz-av" aria-hidden="true"><svg viewBox="0 0 42 43"><path pathLength="1" d="M4 34V9l17 18L38 9v25"/></svg></span><p>${html}</p>`;
-  thread.append(b); return b;
+  thread.append(b); thread.scrollTop = thread.scrollHeight; return b;
 }
 async function say(html) {
   const b = bubble('st', '<span class="dz-dots"><i></i><i></i><i></i></span>');
-  await wait(520); b.querySelector('p').innerHTML = html; return b;
+  await wait(520); b.querySelector('p').innerHTML = html; thread.scrollTop = thread.scrollHeight; return b;
 }
 
 /* esempi di logo disegnati col nome del cliente (solo per capirsi, non sono proposte) */
+let sampleId = 0;
 function sample(kind, name) {
+  const arcId = `dz-arc-${++sampleId}`;
   const N = (name || 'Il tuo nome').trim().slice(0, 18), W = N.split(/\s+/).filter(Boolean);
   const I = (W.length > 1 ? W[0][0] + W[1][0] : N.slice(0, 2)).toUpperCase();
   const fs = Math.max(13, Math.min(26, 230 / Math.max(N.length, 4)));
@@ -76,7 +78,7 @@ function sample(kind, name) {
     logotipo: `${t(100, 68, fs + 2, 'font-weight="700" letter-spacing="-.5"')}<path d="M70 80h60" class="gs" stroke-width="2"/>`,
     simbolo: `<g transform="translate(100 40)"><circle r="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M-9 8V-8l9 9 9-9V8" fill="none" class="gs" stroke-width="3" stroke-linejoin="round"/></g>${t(100, 90, fs * .8, 'font-weight="600"')}`,
     monogramma: `<rect x="72" y="20" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="100" y="60" text-anchor="middle" font-size="30" class="ed gf">${esc(I)}</text><text x="100" y="98" text-anchor="middle" font-size="9" letter-spacing="3">${esc(N.toUpperCase().slice(0, 16))}</text>`,
-    emblema: `<circle cx="100" cy="58" r="44" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="100" cy="58" r="37" fill="none" stroke="currentColor" stroke-width=".8"/><path id="dz-arc-${kind}" d="M70 58a30 30 0 0 1 60 0" fill="none"/><text font-size="7" letter-spacing="1.4"><textPath href="#dz-arc-${kind}" startOffset="50%" text-anchor="middle">${esc(N.toUpperCase().slice(0, 14))}</textPath></text><text x="100" y="76" text-anchor="middle" font-size="22" font-weight="700" class="gf">${esc(I)}</text>`,
+    emblema: `<circle cx="100" cy="58" r="44" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="100" cy="58" r="37" fill="none" stroke="currentColor" stroke-width=".8"/><path id="${arcId}" d="M70 58a30 30 0 0 1 60 0" fill="none"/><text font-size="7" letter-spacing="1.4"><textPath href="#${arcId}" startOffset="50%" text-anchor="middle">${esc(N.toUpperCase().slice(0, 14))}</textPath></text><text x="100" y="76" text-anchor="middle" font-size="22" font-weight="700" class="gf">${esc(I)}</text>`,
     consiglio: `<text x="100" y="66" text-anchor="middle" font-size="40" class="ed gf">?</text><text x="100" y="94" text-anchor="middle" font-size="9" letter-spacing="2">LO SCEGLIAMO INSIEME</text>`
   };
   return `<svg viewBox="0 0 200 116" aria-hidden="true">${G[kind]}</svg>`;
@@ -96,7 +98,7 @@ function controls(q) {
   } else {
     f.innerHTML = `<div class="dz-chips">${q.opts.map(v => `<button type="button" class="dz-chip" aria-pressed="false" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>
       ${q.note ? `<input class="dz-in dz-in-note" type="text" maxlength="200" placeholder="${esc(q.note)}" aria-label="${esc(q.note)}">` : ''}
-      ${q.type === 'multi' ? '<div class="dz-row dz-row-end"><button class="dz-next" type="submit" disabled>Avanti</button></div>' : ''}`;
+      ${q.type === 'multi' || q.note ? '<div class="dz-row dz-row-end"><button class="dz-next" type="submit" disabled>Avanti</button></div>' : ''}`;
   }
   const foot = document.createElement('div'); foot.className = 'dz-foot';
   foot.innerHTML = `${stack.length > 1 ? '<button type="button" class="dz-link" data-back>← Indietro</button>' : '<span></span>'}${q.req ? '' : '<button type="button" class="dz-link" data-skip>Salta</button>'}`;
@@ -106,7 +108,7 @@ function controls(q) {
   f.addEventListener('click', e => {
     const c = e.target.closest('[aria-pressed]');
     if (c) {
-      if (q.type === 'one') { if (q.note) { $$('[aria-pressed]', f).forEach(x => x.setAttribute('aria-pressed', String(x === c))); const n = $('.dz-in-note', f); answer(q, c.dataset.v + (n.value.trim() ? ` (${n.value.trim()})` : '')); } else answer(q, c.dataset.v); return; }
+      if (q.type === 'one') { if (q.note) { $$('[aria-pressed]', f).forEach(x => x.setAttribute('aria-pressed', String(x === c))); if (next) next.disabled = false; } else answer(q, c.dataset.v); return; }
       const on = c.getAttribute('aria-pressed') !== 'true';
       if (on && q.max && pick().length >= q.max) { c.animate?.([{ transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'none' }], 220); return; }
       c.setAttribute('aria-pressed', String(on)); if (next) next.disabled = !pick().length; return;
@@ -118,7 +120,7 @@ function controls(q) {
   f.addEventListener('submit', e => {
     e.preventDefault();
     if (q.type === 'text') { const v = inp.value.trim(); if (!v) { if (q.req) { inp.focus(); inp.classList.add('is-err'); } return; } answer(q, v); }
-    else { const v = pick(); if (v.length) answer(q, v); }
+    else { const v = pick(); if (v.length) { const note = $('.dz-in-note', f)?.value.trim(); answer(q, q.note ? v[0] + (note ? ` (${note})` : '') : v); } }
   });
   if (inp && matchMedia('(pointer:fine)').matches) inp.focus({ preventScroll: true });
 }
@@ -187,7 +189,12 @@ function showStep(n){frames.forEach((f,i)=>{f.style.opacity=i===n?'1':'0';f.styl
 steps.forEach((b,i)=>b.addEventListener('click',()=>showStep(i)));showStep(0);
 $$('[data-start-brief], [data-to-brief]').forEach(b=>b.addEventListener('click',()=>{toEl(brief);start();}));
 $$('[data-ask]').forEach(b=>b.addEventListener('click',()=>{P.serve=[b.dataset.ask];toEl(brief);start();}));
-$('.dz-svs').classList.add('is-in');brief.classList.add('is-in');
+brief.classList.add('is-in');
+$('[data-process-link]').addEventListener('click', e => { e.preventDefault(); toEl($('#dz-process')); });
+// Reuse the site's native SpotlightCard pointer-coordinate pattern, scoped to Design.
+if (fine && !reduce) $$('.dz-sv').forEach(card => card.addEventListener('pointermove', e => {
+ const r=card.getBoundingClientRect();card.style.setProperty('--mx',`${e.clientX-r.left}px`);card.style.setProperty('--my',`${e.clientY-r.top}px`);
+}));
 // Show an illustrative board before the first answer as well.
 $('[data-live-art]').innerHTML=sample('logotipo','La tua idea');
 if(room.classList.contains('is-active'))draw();
