@@ -356,8 +356,8 @@ const settingsRef = { current: settings };
 
     const resize = () => {
       const s = settingsRef.current;
-      const width = Math.max(1, container.clientWidth);
-      const height = Math.max(1, container.clientHeight);
+      const width = Math.max(1, canvas.clientWidth);
+      const height = Math.max(1, canvas.clientHeight);
       const ratio = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
       view.width = width;
       view.height = height;
@@ -368,7 +368,7 @@ const settingsRef = { current: settings };
     };
 
     const onPointerMove = event => {
-      const rect = container.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       pointer.x = event.clientX - rect.left;
       pointer.y = event.clientY - rect.top;
       const wasInside = pointer.inside;
@@ -395,7 +395,7 @@ const settingsRef = { current: settings };
     };
 
     const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
+    resizeObserver.observe(canvas);
     const intersection = new IntersectionObserver(entries => {
       visible = entries.some(entry => entry.isIntersecting);
       if (visible) {
@@ -403,7 +403,7 @@ const settingsRef = { current: settings };
         wake();
       }
     });
-    intersection.observe(container);
+    intersection.observe(canvas);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerdown', onPointerMove, { passive: true });
     window.addEventListener('pointerup', onPointerUp, { passive: true });
@@ -412,4 +412,12 @@ const settingsRef = { current: settings };
     document.addEventListener('visibilitychange', onVisibility);
     resize();
 
+
+/* MOI LAB: il fondo scuro dell'aurora arriva fino alla fine della chiacchierata */
+const room = document.getElementById('moi-showroom-design'), brief = room && room.querySelector('.dz-brief');
+if (brief) {
+  const fit = () => { const h = brief.getBoundingClientRect().bottom - room.getBoundingClientRect().top + room.scrollTop; if (h > 0) container.style.height = Math.ceil(h) + 'px'; };
+  new ResizeObserver(fit).observe(brief); addEventListener('resize', fit); fit();
+  new MutationObserver(() => { if (room.classList.contains('is-active')) requestAnimationFrame(fit); }).observe(room, { attributes: true, attributeFilter: ['class'] });
+}
 })();

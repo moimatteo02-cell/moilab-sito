@@ -1,8 +1,19 @@
 /* MOI LAB — stanza DESIGN (index.html #moi-showroom-design). Interattiva: si prova, si tocca, si scorre. */
 #moi-showroom-design{overflow-x:hidden}
-/* sfondo Aurora (React Bits): solo in cima alla pagina, poi sfuma e scorre via */
-#moi-showroom-design .dz-aurora{position:absolute;top:0;left:0;right:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
-#moi-showroom-design .dz-aurora canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+/* sfondo Aurora (React Bits) su fondo scuro, solo in cima: arriva fino alla fine della chiacchierata */
+#moi-showroom-design .dz-aurora{position:absolute;top:0;left:0;right:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none;z-index:0;background:#060010}
+#moi-showroom-design .dz-aurora canvas{position:absolute;top:0;left:0;display:block;width:100%;height:100vh;height:100svh}
+#moi-showroom-design .moi-room-header{border-bottom-color:#ffffff1a}
+#moi-showroom-design .moi-room-brand img{filter:brightness(0) invert(1)}
+.dz .dz-brief{color:#f3efe6}
+.dz .dz-brief em{color:var(--gl)}
+.dz .dz-brief .dz-k,.dz .dz-brief .dz-count{color:var(--gl)}
+.dz .dz-brief .dz-bar{background:#ffffff24}
+.dz .dz-brief .dz-chat{color:var(--ink)}
+.dz .dz-brief .dz-chat em{color:var(--gd)}
+/* Fade Content (React Bits): dissolvenza quando il blocco arriva sullo schermo */
+#moi-showroom-design .fc{opacity:0;visibility:hidden;transition:opacity 1s cubic-bezier(.215,.61,.355,1),visibility 0s 1s}
+#moi-showroom-design .fc.fc-in{opacity:1;visibility:visible;transition:opacity 1s cubic-bezier(.215,.61,.355,1),visibility 0s}
 #moi-showroom-design>.moi-room-shell{position:relative;z-index:1}
 .dz{--ink:#181818;--paper:#f6f5f2;--card:#fffdf8;--g:#b8923f;--gd:#7a6229;--gl:#d8b56a;--line:#ddd6c8;--mut:#6c675e;--sans:"Helvetica Neue",Helvetica,Arial,sans-serif;--ed:'Moi Editorial',Georgia,'Times New Roman',serif;color:var(--ink);font-family:var(--sans)}
 .dz-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
